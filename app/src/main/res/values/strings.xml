@@ -169,8 +169,13 @@
     <string name="filters">Фильтры и сортировка</string>
     <string name="products_count">%1$s товара(ов)</string>
     <string name="product">Товар</string>
-    <string name="size">Размер</string>
-
+    <string name="size_product">Размер</string>
+    <string name="quality_product">Качество</string>
+    <string name="series_product">Серия</string>
+    <string name="id_style_product">ID Стиля</string>
+    <string name="release_date_product">Дата выхода</string>
+    <string name="color_product">Цвет</string>
+    
     <!-- Cart -->
     <string name="cart">Корзина</string>
     <string name="select_all">Выбрать все</string>
