@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun OrderSheet(){
@@ -203,7 +204,7 @@ private fun ButtonBuy(
         modifier = Modifier
             .width(294.dp)
             .height(44.dp)
-            .background(color = colorScheme.primary, shape = shapes.medium),
+            .background(color = colorScheme.primary, shape = MegahandShapes.medium),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -224,7 +225,7 @@ private fun ButtonSave() {
             .border(
                 width = 1.dp,
                 color = colorScheme.secondary.copy(0.1f),
-                shape = shapes.medium
+                shape = MegahandShapes.medium
             ),
         contentAlignment = Alignment.Center
     ) {

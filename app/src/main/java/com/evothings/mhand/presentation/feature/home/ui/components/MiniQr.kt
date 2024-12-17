@@ -23,6 +23,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 
 @Composable
@@ -44,12 +45,12 @@ fun QrCode() {
             model = R.drawable.demo_qr_code,
             contentDescription = "QrCode",
             modifier = Modifier
-                .clip(shape = shapes.large)
+                .clip(shape = MegahandShapes.large)
                 .size(136.dp)
                 .border(
                     width = 1.dp,
                     color = colorScheme.inverseSurface,
-                    shape = shapes.large
+                    shape = MegahandShapes.large
                 )
         )
         Box(
@@ -74,9 +75,9 @@ fun QrCode() {
         ) {
             Box(
                 modifier = Modifier
-                    .background(color =  Color.White, shape = shapes.large)
+                    .background(color =  Color.White, shape = MegahandShapes.large)
                     .size(32.dp)
-                    .border(width = 1.dp, color = colorScheme.inverseSurface, shape = shapes.large),
+                    .border(width = 1.dp, color = colorScheme.inverseSurface, shape = MegahandShapes.large),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(

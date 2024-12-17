@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun Logo(
@@ -30,7 +31,7 @@ fun Logo(
                 .height(42.dp)
                 .background(
                     color = Color(0xFF46423E),
-                    shape = shapes.extraSmall
+                    shape = MegahandShapes.small
                 ),
             contentAlignment = Alignment.Center
         ) {

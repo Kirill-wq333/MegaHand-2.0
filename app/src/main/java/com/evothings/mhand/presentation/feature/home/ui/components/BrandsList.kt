@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.evothings.mhand.presentation.theme.paddings
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun BrandsItem(
@@ -26,13 +27,13 @@ fun BrandsItem(
     Box(
         modifier = Modifier
             .width(100.dp)
-            .background(color = colorScheme.onPrimary, shape = shapes.medium)
+            .background(color = colorScheme.onPrimary, shape = MegahandShapes.medium)
             .padding(start = MaterialTheme.paddings.extraGiant)
             .height(60.dp)
             .border(
                 width = 1.dp,
                 color = colorScheme.secondary.copy(0.05f),
-                shape = shapes.medium
+                shape = MegahandShapes.medium
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -41,7 +42,6 @@ fun BrandsItem(
             contentDescription = "brands",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
-                .clip(shape = shapes.medium)
                 .width(50.dp)
                 .height(30.dp)
         )

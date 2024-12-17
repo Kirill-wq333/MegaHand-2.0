@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.evothings.mhand.presentation.theme.paddings
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun BrandProduct(
@@ -32,7 +33,7 @@ fun BrandProduct(
             .border(
                 width = 1.dp,
                 color = colorScheme.secondary.copy(0.05f),
-                shape = shapes.medium
+                shape = MegahandShapes.medium
             ),
         contentAlignment = Alignment.Center
     ) {

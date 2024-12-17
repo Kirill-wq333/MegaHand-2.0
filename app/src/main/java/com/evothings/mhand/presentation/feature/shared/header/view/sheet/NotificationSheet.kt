@@ -35,8 +35,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 data class Notification(
     val icon: ImageVector,
@@ -204,7 +206,7 @@ fun NotificationItem(
                     modifier = Modifier
                         .background(
                             color = colorScheme.primary,
-                            shape = shapes.small
+                            shape = MegahandShapes.small
                         )
                 ) {
                     Text(
@@ -253,7 +255,9 @@ private fun TextItem(
 @Preview
 @Composable
 fun PreviewNotification() {
-    Notification(
-        textBottom = "Обновить",
-    )
+    MegahandTheme {
+        Notification(
+            textBottom = "Обновить",
+        )
+    }
 }

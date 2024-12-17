@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun PrizeAndMoney(
@@ -33,8 +34,8 @@ fun PrizeAndMoney(
             modifier = Modifier
                 .border(
                     width = 1.dp,
-                    color = MaterialTheme.colorScheme.onBackground.copy(0.05f),
-                    shape = MaterialTheme.shapes.small
+                    color = colorScheme.onBackground.copy(0.05f),
+                    shape = MegahandShapes.small
                 )
         ) {
             Row(
@@ -49,7 +50,7 @@ fun PrizeAndMoney(
                 Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
                 Text(
                     text = "$money₽",
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = colorScheme.onBackground,
                     fontSize = 16.sp,
                     fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
                     fontWeight = FontWeight.W500

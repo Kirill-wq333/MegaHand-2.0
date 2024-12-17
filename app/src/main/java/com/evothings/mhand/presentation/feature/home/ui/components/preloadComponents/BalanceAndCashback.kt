@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun Price(
@@ -60,7 +61,7 @@ private fun Cashback(
         modifier = Modifier
             .background(
                 color = colorScheme.inverseSurface.copy(0.1f),
-                shape = shapes.large
+                shape = MegahandShapes.large
             ),
         contentAlignment = Alignment.Center
     ) {

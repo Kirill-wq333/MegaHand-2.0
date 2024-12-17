@@ -1,6 +1,5 @@
 package com.evothings.mhand.presentation.feature.home.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -14,9 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -25,7 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 
 @Composable
@@ -36,7 +35,7 @@ fun StoriesItem(
     Box(
         modifier = Modifier
             .size(96.dp)
-            .border(width = 1.dp, color = colorScheme.primary, shape = shapes.medium),
+            .border(width = 1.dp, color = colorScheme.primary, shape = MegahandShapes.medium),
         contentAlignment = Alignment.Center
     ){
         AsyncImage(
@@ -45,8 +44,8 @@ fun StoriesItem(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(92.dp)
-                .clip(shape = shapes.medium)
-                .border(width = 1.dp, color = Color.White.copy(0.4f), shape = shapes.medium)
+                .clip(shape = MegahandShapes.medium)
+                .border(width = 1.dp, color = Color.White.copy(0.4f), shape = MegahandShapes.medium)
             )
         Text(
             modifier = Modifier
@@ -64,9 +63,11 @@ fun StoriesItem(
 @Preview
 @Composable
 fun PreviewStoriesItem(){
-    StoriesItem(
-        storiesImage = R.drawable.onboarding_story_1,
-        textStories = "О магазинах Волгограда"
-    )
+    MegahandTheme {
+        StoriesItem(
+            storiesImage = R.drawable.onboarding_story_1,
+            textStories = "О магазинах Волгограда"
+        )
+    }
 }
 

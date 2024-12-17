@@ -1,5 +1,6 @@
 package com.evothings.mhand.presentation.feature.coupon
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,32 +24,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.coupon.components.TextFieldNumber
 import com.evothings.mhand.presentation.feature.shared.text.MTextField
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun Coupon(){
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.White)
-            .clip(shape = RoundedCornerShape(
-                topStart = 12.dp,
-                topEnd = 12.dp
-            ))
+            .clip(
+                shape = RoundedCornerShape(
+                    topStart = 12.dp,
+                    topEnd = 12.dp)
+            )
+            .background(color = colorScheme.onSecondary)
     ){
         Content(
             heading = "Получить 300 ₽",
@@ -91,13 +96,34 @@ private fun Content(
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         TrailingButtonTextField(
             value = fieldValue.value,
-            label = "Test label",
-            buttonLabel = "Test",
+            label = stringResource(R.string.city),
+            buttonLabel = "Выбрать",
             onValueChange = { fieldValue.value = it },
             onClickTrailingButton = {}
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         Button()
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = colorScheme.secondary.copy(0.4f))) {
+                        append(text = "Нажимая кнопку «Получить купон», ты даешь согласие на обработку персональных данных, а также подтверждаешь, что согласен с")
+                    }
+                    withStyle(style = SpanStyle(color = colorScheme.secondary)) {
+                        append(text = " Политикой конфиденциальности")
+                    }
+                },
+                textAlign = TextAlign.Center,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.W400,
+                fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+            )
+        }
+
     }
 }
 
@@ -110,33 +136,73 @@ fun NameAndSurnameTextField(){
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        MTextField(
-            modifier = Modifier
-                .width(166.dp),
-            value = value.value,
-            errorState = true,
-            errorText = "Like a leafs",
-            placeholder = "Some text",
-            onValueChange = { value.value = it }
-        )
-        MTextField(
-            modifier = Modifier
-                .width(166.dp),
-            value = value.value,
-            errorState = true,
-            errorText = "Like a leafs",
-            placeholder = "Some text",
-            onValueChange = { value.value = it }
-        )
+        Column(
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = stringResource(R.string.name),
+                color = colorScheme.secondary.copy(0.6f),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W400,
+                fontFamily = FontFamily(listOf(Font(R.font.golos_400)))
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
+            MTextField(
+                modifier = Modifier
+                    .width(166.dp),
+                value = value.value,
+                errorState = false,
+                errorText = "Like a leafs",
+                placeholder = "",
+                onValueChange = { value.value = it }
+            )
+        }
+        Column(
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = stringResource(R.string.surname),
+                color = colorScheme.secondary.copy(0.6f),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W400,
+                fontFamily = FontFamily(listOf(Font(R.font.golos_400)))
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
+            MTextField(
+                modifier = Modifier
+                    .width(166.dp),
+                value = value.value,
+                errorState = false,
+                errorText = "Like a leafs",
+                placeholder = "",
+                onValueChange = { value.value = it }
+            )
+        }
     }
 }
 
 @Composable
 fun NumberPhoneTextField(){
-    TextFieldNumber(
-        phone = stringResource(R.string.phone_number),
-        placeholder = "+7 (___) ___-__-__",
-    )
+
+    val value = remember { mutableStateOf("") }
+
+    Column {
+        Text(
+            text = stringResource(R.string.phone_number),
+            color = colorScheme.secondary.copy(0.6f),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.W400,
+            fontFamily = FontFamily(listOf(Font(R.font.golos_400)))
+        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
+        MTextField(
+            value = value.value,
+            errorState = false,
+            errorText = "Like a leafs",
+            placeholder = "",
+            onValueChange = { value.value = it }
+        )
+    }
 }
 
 
@@ -147,7 +213,7 @@ private fun Button(){
             .fillMaxWidth()
             .background(
                 color = colorScheme.primary,
-                shape = shapes.small
+                shape = MegahandShapes.medium
             ),
         contentAlignment = Alignment.Center
     ){
@@ -185,7 +251,7 @@ private fun TextItem(
 @Preview
 @Composable
 fun PreviewCoupon(){
-    MegahandTheme {
+    MegahandTheme(true) {
         Coupon()
     }
 }

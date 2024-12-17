@@ -6,11 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.evothings.mhand.presentation.theme.paddings
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun BackButton(
@@ -21,7 +21,7 @@ fun BackButton(
         modifier = Modifier
             .background(
                 color = colorScheme.secondary.copy(0.05f),
-                shape = shapes.medium
+                shape = MegahandShapes.medium
             )
     ) {
         Icon(
