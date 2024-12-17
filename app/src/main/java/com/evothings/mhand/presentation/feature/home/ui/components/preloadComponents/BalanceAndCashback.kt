@@ -52,7 +52,7 @@ fun Price(
 }
 
 @Composable
-fun Cashback(
+private fun Cashback(
     cashback: String
 ) {
 

@@ -51,7 +51,7 @@ fun Buttons(){
 }
 
 @Composable
-fun ButtonBuy(
+private fun ButtonBuy(
     text: String
 ){
     Box(
@@ -72,7 +72,7 @@ fun ButtonBuy(
 }
 
 @Composable
-fun ButtonSave() {
+private fun ButtonSave() {
     Box(
         modifier = Modifier
             .size(42.dp)
