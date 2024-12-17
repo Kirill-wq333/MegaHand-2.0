@@ -1,0 +1,290 @@
+<resources>
+    <string name="app_name">Мегахенд</string>
+
+    <!-- Auth -->
+    <string name="login">Вход</string>
+    <string name="ref_link_help">Что такое пригласительный код?</string>
+    <string name="auth_phone_number_label">Номер телефона:</string>
+    <string name="invite_link_field_title">Пригласительная ссылка (при наличии)</string>
+    <string name="captcha_confirmation_failure">Капча не пройдена успешно</string>
+    <string name="create_secure_code_title">Код авторизации</string>
+    <string name="secure_code_input_blocked">Ввести код можно через %1$s</string>
+    <string name="secure_code_input_locked">Ты ввел неверный код 3 раза подряд \n Вход был временно заблокирован</string>
+    <string name="invite_code_hint_text">Пригласительный код - код из пяти букв и цифр, который можно получить от другого пользователя приложения, и стать его рефералом</string>
+    <string name="auth_privacy_policy_text">"Нажимая кнопку «%1$s», ты даешь согласие на обработку персональных данных, а также подтверждаешь, что согласен с "</string>
+    <string name="onboarding_next">Понятно</string>
+    <string name="privacy_policy">Политикой конфиденциальности</string>
+    <string name="auth_code_title">Ожидай звонка от бота, который продиктует 4-х значный код подтверждения</string>
+    <string name="resend_code_timer">Сейчас вам придет СМС-сообщение с 4-х значным кодом, введите его в поле ниже.</string>
+    <string name="incorrect_code">Код введен неверно</string>
+    <string name="request_again">Запросить повторно</string>
+    <string name="confirmation_code">Код подтверждения</string>
+    <string name="confirm_code_timer">Запросить повторно через:</string>
+    <string name="request_sms_action">Запросить повторно</string>
+    <string name="secure_code_create">Придумай код авторизации для входа в свой аккаунт</string>
+    <string name="enter_code_one_more_time">Введи придуманный код еще раз</string>
+    <string name="enter_secure_code">Введи код авторизации в аккаунт</string>
+    <string name="forgot_secure_code">Я забыл(а) код авториации</string>
+    <string name="auth_code">Код авторизации</string>
+
+    <!-- Profile -->
+    <string name="profile_screen_title">Аккаунт</string>
+    <string name="gained_bonuses">Накоплено баллов</string>
+    <string name="cashback">Кешбек</string>
+    <string name="loyality_card_hint">Заполни профиль, чтобы увеличить процент</string>
+    <string name="maximum_cashback_reached">Ты заработал максимальный процент кэшбека</string>
+    <string name="referal_instruction">Используя код, ты получишь 350 бонусных рублей на свой баланс за каждого приведенного друга, который в свою очередь также получит 150 бонусных рублей</string>
+    <string name="referal_assets">Реферальные накопления:</string>
+    <string name="ref_cashback">Кэшбек: </string>
+    <string name="delete_account">Удалить аккаунт</string>
+    <string name="profile_my_cashback">Мой кешбэк:</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="profile_city">Город:</string>
+    <string name="profile_phone_number">Номер телефона:</string>
+    <string name="profile_email">E-mail</string>
+    <string name="profile_cashback_label">Кешбек</string>
+    <string name="profile_ref_system">Реферальная система</string>
+    <string name="day">День</string>
+    <string name="month">Месяц</string>
+    <string name="year">Год</string>
+    <string name="profile_edit_label">Редактировать профиль</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="phone_change_code_warning">Для изменения номера телефона потребуется подтверждение по коду</string>
+    <string name="user_data_chip">Данные</string>
+    <string name="orders_history_chip">История заказов</string>
+    <string name="cashback_level_0">Ты еще не заполнил личные данные, поэтому кэшбек на нуле.</string>
+    <string name="cashback_level_1">Отлично! Ты сделал первый шаг на пути к получению бонусов с покупок</string>
+    <string name="cashback_level_2">Осталось заполнить всего три поля, и кэшбек будет еще больше</string>
+    <string name="cashback_level_3">Ты заполнил уже большую часть данных, осталось совсем немного</string>
+    <string name="cashback_level_4">Финишная прямая на пути к получению маскимальной выгоды с покупок!</string>
+    <string name="cashback_level_5">Ура! Ты заполнил все данные и теперь кэшбек с ваших покупок максимальный</string>
+    <string name="fill_profile_title">Заполни данные</string>
+    <string name="fill_profile_subtitle">И получи процент кешбека за каждое поле с иконкой подарка. Обязательные поля отмечены красной иконкой.</string>
+    <string name="referal_code_card_heading">Реферальный код</string>
+    <string name="referal_cashback">Кэшбек: %1$s%</string>
+    <string name="referals_count">Мои рефералы (%1$s)</string>
+    <string name="referal_profit">"Реферальные накопления: "</string>
+    <string name="delete_account_title">Удаление аккаунта</string>
+    <string name="delete_account_notice">Как только твой аккаунт будет удален, ты автоматически выйдешь из системы и больше не сможешь войти в этот аккаунт</string>
+    <string name="delete_account_confirmation">Уверен(а), что хочешь удалить его?</string>
+
+    <!-- Order item -->
+    <string name="order_items">Позиции в заказе</string>
+    <string name="order_date">Дата заказа</string>
+    <string name="order_cost">Стоимость</string>
+    <string name="order_track">Трек-номер</string>
+    <string name="order_no_track_status">Еще не присвоен</string>
+    <string name="order_search_placeholder">Поиск заказа по товару</string>
+    <string name="order_date_search_placeholder">По дате</string>
+    <string name="order_track_copy_success">Трек номер скопирован</string>
+    <string name="empty_order_history">Ты еще не заказывал(а) ни одного товара</string>
+    <string name="make_refund_button">Оформить возврат</string>
+
+    <!-- Actions -->
+    <string name="clear_all">Очистить все</string>
+    <string name="next">Далее</string>
+    <string name="choose">Выбрать</string>
+    <string name="apply">Применить</string>
+    <string name="send">Отправить</string>
+    <string name="increase">Увеличить</string>
+    <string name="hide">Скрыть</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
+    <string name="logout">Выйти</string>
+    <string name="get_details">Подробнее</string>
+    <string name="confirm_delete">Да, удалить</string>
+    <string name="proceed">Продолжить</string>
+    <string name="decline_delete">Отменить</string>
+    <string name="user_login">Войти</string>
+    <string name="exit">Выйти</string>
+    <string name="buy">Купить</string>
+
+    <!-- About Service -->
+    <string name="about_service_headline">Мегахенд – это сеть секонд-хендов по всей России</string>
+    <string name="preference_paragraph_1">Уникальная система скидок - до 90%!</string>
+    <string name="preference_paragraph_2">Европейские бренды – по доступным ценам!</string>
+    <string name="preference_paragraph_3">Бесконечное разнообразие одежды для женщин, мужчин и детей – от 8 000 моделей в торговом зале!</string>
+    <string name="preference_paragraph_4">Огромный выбор обуви, аксессуаров и товаров для дома!</string>
+    <string name="preference_paragraph_5">Комфортные торговые залы площадью до 1000 кв.м.!</string>
+    <string name="preference_paragraph_6">Обновление товара каждую неделю!</string>
+    <string name="preference_paragraph_7">И, конечно, приятная атмосфера для неспешного шопинга!</string>
+
+    <!-- Update Available -->
+    <string name="update_available_modal_title">Доступно обновление!</string>
+    <string name="update_available_subtitle">Более интерактивная, удобная, безопасная версия вашего любимого приложения</string>
+    <string name="update_available_dismiss_button">Не сейчас</string>
+    <string name="update_available_proceed_button">Обновить</string>
+
+    <!-- Card -->
+    <string name="card_screen_title">Моя карта</string>
+    <string name="loyality_not_available_in_your_city">В твоем городе не работает система лояльности</string>
+    <string name="loyality_description">Мы работаем над тем, чтобы она появилась как можно скорее</string>
+    <string name="notify_loyality">Оповестить об открытии</string>
+    <string name="no_internet_connection">У вас нет подключения к интернету</string>
+    <string name="card_burn_bonuses_text">%1$s₽ сгорят %2$s</string>
+    <string name="no_internet_subtitle">В оффлайн режиме приложения работает только карта покупателя</string>
+    <string name="reload_page">Обновить страницу</string>
+    <string name="transactions_history">История</string>
+    <string name="card_offline_mode_title">Ты в оффлайн-режиме</string>
+    <string name="loyality_snackbar_message">Пришлем пуш\nКак только в твоем городе заработает система лояльности</string>
+    <string name="card_offline_mode_subtitle">История транзакций по карте недоступна</string>
+    <string name="transactions_list_is_empty">У вас пока нет транзакций</string>
+    <string name="transactions_list_empty_subtitle">Списания и начисления бонусов будут появлятся тут</string>
+    <string name="not_authorized_title">Необходима авторизация</string>
+    <string name="not_authorized_subtitle">Чтобы получить доступ к карте пользователя</string>
+
+    <!-- Onboarding -->
+    <string name="tutorial_welcome">Добро пожаловать в Мегахенд!</string>
+    <string name="onboarding_description">Мы хотим помочь тебе быстрее освоиться в приложении, поэтому проведем небольшой экскурс.</string>
+    <string name="onboarding_intro_decline_button">Не нужно</string>
+    <string name="onboarding_intro_start_button">Начать</string>
+
+    <!-- Shops -->
+    <string name="shops">Магазины</string>
+    <string name="discount_calendar">Календарь скидок</string>
+    <string name="shop_contact_mail_text">Корреспондентская служба</string>
+    <string name="shop_contact_phone_text">Телефон горячей линии</string>
+    <string name="discount_calendar_bottomsheet_title">%1$s, %2$s неделя</string>
+    <string name="discount_addition">Добавление</string>
+    <string name="discount_new">Завоз</string>
+    <string name="discount_black_friday">ЧП</string>
+    <string name="discount_ticket">Билет</string>
+
+    <!-- Coupon -->
+    <string name="gather_coupon_title">Получить %1$s ₽</string>
+    <string name="coupon_success_message">Купон успешно получен!\nОжидай СМС-сообщение</string>
+    <string name="coupon_banner_title">Скидка на первую покупку в Мегахенд</string>
+    <string name="coupon_banner_subtitle">Получи бесплатные %1$s ₽, работает только один раз</string>
+    <string name="coupon_was_sent">Отлично!\nКупон отправлен вам в СМС</string>
+    <string name="coupon_error">Ошибка получения купона\nНа этот номер телефона уже поступал купон</string>
+    <string name="coupon_form_subtitle">Еще не совершал покупку в Мегахенд? Заполни форму ниже соверши первую покупку с выгодой!</string>
+    <string name="coupon_form_button">Получить купон</string>
+
+    <!-- Catalog -->
+    <string name="search_bar_placeholder">Искать в Мегахенд</string>
+    <string name="filters">Фильтры и сортировка</string>
+    <string name="products_count">%1$s товара(ов)</string>
+    <string name="product">Товар</string>
+    <string name="size">Размер</string>
+
+    <!-- Cart -->
+    <string name="cart">Корзина</string>
+    <string name="select_all">Выбрать все</string>
+    <string name="clear_selection">Очистить выбранное</string>
+    <string name="checkout_summary">Итого</string>
+    <string name="proceed_checkout_button">К оформлению</string>
+    <string name="empty_cart_text">Ты еще не добавил ни одного товара в корзину</string>
+    <string name="open_catalog_button">В каталог</string>
+    <string name="checkout_title">Оформление заказа</string>
+    <string name="make_order_button">Оформить заказ</string>
+
+    <!-- Favourites -->
+    <string name="clear_favourites_list">Очистить список</string>
+    <string name="favourites_screen_title">Избранное</string>
+    <string name="favourites_list_empty">Ты еще не добавил ни одного товара в избранное</string>
+
+    <!-- Checkout -->
+    <string name="add_new_button">Добавить новый</string>
+    <string name="shipping_address">Адрес</string>
+    <string name="payment_method">Способ оплаты</string>
+    <string name="receiver_info_title">Данные получателя</string>
+    <string name="address_first_line_placeholder">Город, улица, дом</string>
+    <string name="flat_placeholder">Квартира</string>
+    <string name="save_in_profile_checkbox">Сохранить данные в профиле</string>
+    <string name="postal_code_placeholder">Индекс</string>
+    <string name="discount">Скидка</string>
+    <string name="save_address_checkbox">Добавить адрес в адресную книгу</string>
+    <string name="incorrect_withdraw_amount_error_text">Сумма недоступна для списания</string>
+    <string name="first_payment_sbp">Через СБП</string>
+    <string name="first_payment_card">Через банковскую карту</string>
+    <string name="bonus_withdraw_notice">Списать можно не более 50% от суммы заказа</string>
+    <string name="checkout_loyality_system">Система лояльности</string>
+    <string name="withdraw_radio">Списать баллы</string>
+    <string name="not_withdraw_radio">Не списывать баллы</string>
+    <string name="amount">Количество</string>
+    <string name="withdraw_all">Списать все</string>
+    <string name="payment_method_type_title">Новый способ оплаты</string>
+    <string name="card_details_modal_title">Добавление карты</string>
+    <string name="card_photo_recognize">Распознать по фото</string>
+    <string name="scan_card_nfc_button">Привязать по NFC</string>
+    <string name="add">Добавить</string>
+    <string name="card_number_placeholder">Номер карты</string>
+    <string name="card_expiration_date_placeholder">ММ/ГГ</string>
+    <string name="card_security_code_placeholder">CVC/CVV</string>
+    <string name="pickup_points_list_empty_warning">В выбранном городе нет пунктов выдачи СДЭК. Попробуйте выбрать другой город или изменить способ доставки</string>
+    <string name="security_code_animated_hint">Три цифры на обороте карты</string>
+    <string name="recognize_card_modal">Распознать карту</string>
+    <string name="card_recognize_tutorial">Наведи камеру смартфона на карту так, чтобы она появилась в окне снизу</string>
+    <string name="manual_enter_button">Вписать данные вручную</string>
+    <string name="card_recognize_error">Ошибка распознавания карты. Введите данные вручную</string>
+    <string name="sbp_bank_modal_title">Выберите банк</string>
+    <string name="sbp_bank_instruction">Откроется приложение выбранного банка, где ты сможешь привязать счет СБП. \nДля проверки счета мы спишем и сразу вернем 1 ₽</string>
+    <string name="sbp_banks_search_placeholder">Найти банк</string>
+    <string name="previously_used_banks">Уже оплачивали</string>
+    <string name="other_banks">Другие банки</string>
+    <string name="authorization_required_heading">Необходима авторизация</string>
+    <string name="auth_required_text">Войди в аккаунт, чтобы перейти к оформлению заказа</string>
+    <string name="pickup_point_notice">Доставка в пункт выдачи обычно составляет от 3–6 дней</string>
+    <string name="delivery_method_heading">Доставка</string>
+    <string name="delivery_option">Способ</string>
+    <string name="option_pickup_point">Пункт выдачи СДЭК</string>
+    <string name="option_courier">До двери</string>
+    <string name="date">Дата</string>
+    <string name="checkout_date_placeholder">Когда</string>
+    <string name="time">Время</string>
+    <string name="checkout_time_placeholder">Во сколько</string>
+    <string name="checkout_delivery_notice">"Важно! Доставка невозможна в течение следующих 3-х дней "</string>
+    <string name="receiver_data">Данные получателя</string>
+    <string name="street_placeholder">Улица</string>
+    <string name="house_placeholder">Дом</string>
+    <string name="nothing_found">Ничего не найдено</string>
+    <string name="address_map_heading">Добавить адрес</string>
+    <string name="make_primary">Сделать основным</string>
+
+    <!-- Misc -->
+    <string name="city">Город</string>
+    <string name="no_notifications_yet">Нет уведомлений</string>
+    <string name="notifications">Уведомления</string>
+    <string name="search_by_name">Поиск по названию</string>
+    <string name="confirm_city_title">Это город в котором Вы находитесь?</string>
+    <string name="confirm_city_correct">Да, все верно</string>
+    <string name="confirm_city_choose_another">Нет, выбрать другой</string>
+    <string name="city_choose_screen_label">Выбор города</string>
+    <string name="where_from_you_know_us">Откуда вы о нас узнали?</string>
+    <string name="can_choose_several_answers">Можно выбрать несколько вариантов</string>
+    <string name="news_screen_title">Новости</string>
+    <string name="vacancies">Вакансии</string>
+    <string name="other">Другое</string>
+    <string name="server_tech_works">Тех. обслуживание</string>
+    <string name="app_unavailable">Ведутся работы по приложению, заходите позже</string>
+    <string name="finish_onboarding">Завершить</string>
+    <string name="unable_to_open_link">Не удалось открыть ссылку</string>
+    <string name="widget_description">Бонусный баланс</string>
+    <string name="light_theme_name">Светлая</string>
+    <string name="dark_theme_name">Темная</string>
+    <string name="theme_switch">%1$s тема</string>
+    <string name="help">Помощь</string>
+    <string name="about_service">О сервисе</string>
+    <string name="collections">Коллекции</string>
+    <string name="in_cart">В корзине</string>
+    <string name="out_of_stock">Нет в наличии</string>
+    <string name="novelties">Новинки</string>
+    <string name="choose_city_title">Выбрать город</string>
+    <string name="server_error_title">Что-то пошло не так</string>
+    <string name="server_error_subtitle">В работе сервера произошел сбой, попробуй обновить страницу</string>
+    <string name="empty_screen_title">Тут пусто</string>
+    <string name="turn_back">Назад</string>
+    <string name="cancel_nfc_scan_button">Ввести данные вручную</string>
+    <string name="scan_card_nfc_description">Приложите пластиковую карту к задней верхней части своего смартфона</string>
+    <string name="phone_change_success_toast">Номер телефона успешно изменен</string>
+    <string name="payment_link_receive_failure">Не получена ссылка на оплату</string>
+    <string name="continue_checkout_button">Продолжить оформление</string>
+    <string name="pay_expired_order_button">Оплатить</string>
+    <string name="without_discount">Без скидки</string>
+    <string name="new_discount_system">Новая система</string>
+
+</resources>

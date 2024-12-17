@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.MegaHandNew" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.SplashScreenTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/grey_main</item>
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+    </style>
+
+    <style name="Theme.AppCompatTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/grey_main</item>
+        <item name="android:statusBarColor">@color/grey_main</item>
+    </style>
+
+</resources>

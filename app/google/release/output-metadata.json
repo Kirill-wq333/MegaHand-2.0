@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.evothings.mhand",
+  "variantName": "googleRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 20240522,
+      "versionName": "2.1.3",
+      "outputFile": "app-google-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.evothings.mhand.huawei",
+  "variantName": "huaweiRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 20240222,
+      "versionName": "2.0.3",
+      "outputFile": "app-huawei-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

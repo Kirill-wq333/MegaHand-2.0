@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "381997741794",
+    "project_id": "mhand-super-new",
+    "storage_bucket": "mhand-super-new.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381997741794:android:1a6d9f282d0fc73d14d0bb",
+        "android_client_info": {
+          "package_name": "com.evothings.mhand.huawei"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2Qv9Jfl5h7_kUDU0z0L96e57QKDbxEn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
