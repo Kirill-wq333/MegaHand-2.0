@@ -35,6 +35,7 @@ import com.evothings.mhand.presentation.feature.home.ui.components.preloadCompon
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.Discount
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.Price
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.SizeAndStars
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -66,6 +67,8 @@ fun PreloadItem(
                 AsyncImage(
                     model = product,
                     contentDescription = contentDescription,
+                    modifier = Modifier
+                        .clip(shape = shapes.large)
                 )
             }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
@@ -96,8 +99,8 @@ fun PreloadItem(
 
 @Preview
 @Composable
-fun PreviewPreload(){
-    Surface(color = Color.White) {
+fun PreviewPreload() {
+    MegahandTheme {
         PreloadItem(
             cashback = "172",
             contentDescription = null,

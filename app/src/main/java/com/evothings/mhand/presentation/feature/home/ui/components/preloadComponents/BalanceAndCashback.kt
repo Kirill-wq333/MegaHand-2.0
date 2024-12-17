@@ -59,7 +59,7 @@ private fun Cashback(
     Box(
         modifier = Modifier
             .background(
-                color = Color(0xFF0BD20B).copy(0.1f),
+                color = colorScheme.inverseSurface.copy(0.1f),
                 shape = shapes.large
             ),
         contentAlignment = Alignment.Center
@@ -73,7 +73,7 @@ private fun Cashback(
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_prize),
                 contentDescription = null,
-                tint = Color(0xFF0BD20B)
+                tint = colorScheme.inverseSurface
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacers.tiny))
             TextItem(

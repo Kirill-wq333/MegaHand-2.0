@@ -28,6 +28,7 @@ import com.evothings.mhand.presentation.feature.product.ui.components.OrderSheet
 import com.evothings.mhand.presentation.feature.product.ui.components.ParametersProduct
 import com.evothings.mhand.presentation.feature.product.ui.components.SliderPhoto
 import com.evothings.mhand.presentation.feature.shared.header.Header
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -128,5 +129,7 @@ private fun Content(
 @Preview
 @Composable
 fun PreviewProductInfoScreen(){
-    ProductInfoScreen()
+    MegahandTheme{
+        ProductInfoScreen()
+    }
 }

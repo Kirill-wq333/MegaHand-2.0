@@ -95,7 +95,7 @@ fun Items(
         Icon(
             imageVector = icon,
             contentDescription = contentDescription,
-            tint = Color(0xFF0BD20B)
+            tint = colorScheme.inverseSurface
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
         Text(

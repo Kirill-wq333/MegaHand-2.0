@@ -32,7 +32,7 @@ fun QrCode() {
             .width(185.dp)
             .height(208.dp)
             .background(
-                color = Color(0xFF0BD20B).copy(0.1f),
+                color = colorScheme.inverseSurface.copy(0.1f),
                 shape = RoundedCornerShape(
                     topEnd = 9.dp,
                     bottomEnd = 9.dp
@@ -48,7 +48,7 @@ fun QrCode() {
                 .size(136.dp)
                 .border(
                     width = 1.dp,
-                    color = Color(0xFF0BD20B),
+                    color = colorScheme.inverseSurface,
                     shape = shapes.large
                 )
         )
@@ -76,7 +76,7 @@ fun QrCode() {
                 modifier = Modifier
                     .background(color =  Color.White, shape = shapes.large)
                     .size(32.dp)
-                    .border(width = 1.dp, color = Color(0xFF0BD20B), shape = shapes.large),
+                    .border(width = 1.dp, color = colorScheme.inverseSurface, shape = shapes.large),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(

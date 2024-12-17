@@ -58,7 +58,7 @@ fun Notification(
         Notification(
             icon = ImageVector.vectorResource(R.drawable.ic_sparkles),
             heading = "Новая версия приложения!",
-            colorCircleShape = Color(0xFFFFE600),
+            colorCircleShape = colorScheme.primary,
             underTheHeading = "2.1.10 Уже в App Store и Google Play",
             gettingDate = "3м. назад",
             selected = true,
@@ -203,7 +203,7 @@ fun NotificationItem(
                 Box(
                     modifier = Modifier
                         .background(
-                            color = Color(0xFFFFE600),
+                            color = colorScheme.primary,
                             shape = shapes.small
                         )
                 ) {

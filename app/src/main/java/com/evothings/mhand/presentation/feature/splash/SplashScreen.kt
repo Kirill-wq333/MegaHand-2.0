@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTheme
 
 @Composable
 fun LoadingScreen(
@@ -45,12 +46,12 @@ fun LoadingScreen(
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.logo),
                 contentDescription = "Logo",
-                tint = Color(0xFFFFE600),
+                tint = colorScheme.primary,
             )
             Spacer(modifier = Modifier.height(192.dp))
             CircularProgressIndicator(
                 modifier = Modifier.size(28.dp),
-                color = Color(0xFFFFE600),
+                color = colorScheme.primary,
                 strokeWidth = 2.dp,
                 trackColor = colorScheme.secondary.copy(0.6f)
             )
@@ -80,14 +81,14 @@ fun LoadingTechnicalServiceScreen() {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_setting),
                 contentDescription = "Logo",
-                tint = Color(0xFFFFE600),
+                tint = colorScheme.primary,
                 modifier = Modifier
                     .size(128.dp)
             )
             Spacer(modifier = Modifier.height(192.dp))
             CircularProgressIndicator(
                 modifier = Modifier.size(28.dp),
-                color = Color(0xFFFFE600),
+                color = colorScheme.primary,
                 strokeWidth = 2.dp,
                 trackColor = colorScheme.secondary.copy(0.6f)
             )
@@ -118,23 +119,25 @@ fun LoadingTechnicalServiceScreen() {
 
 @Preview
 @Composable
-fun PreviewLaunch(){
-    LoadingScreen(
-        long = ""
-    )
+fun PreviewLaunch() {
+    MegahandTheme {
+        LoadingScreen(long = "")
+    }
 }
 
 
 @Preview
 @Composable
 fun PreviewLongLaunch(){
-    LoadingScreen(
-        long = "Еще немного…"
-    )
+    MegahandTheme {
+        LoadingScreen(long = "Еще немного…")
+    }
 }
 
 @Preview
 @Composable
 fun PreviewTechnicalService() {
-    LoadingTechnicalServiceScreen()
+    MegahandTheme {
+        LoadingTechnicalServiceScreen()
+    }
 }

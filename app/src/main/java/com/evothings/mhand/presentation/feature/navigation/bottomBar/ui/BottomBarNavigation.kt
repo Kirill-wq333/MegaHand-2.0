@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 
 
@@ -87,7 +89,7 @@ private fun BottomItem(
             .clickable { onClick() }
             .border(
                 width = 1.dp,
-                color = if (selected) Color(0xFFFFE600) else Color.White,
+                color = if (selected) colorScheme.primary else Color.White,
                 shape = shapes.extraSmall
             )
     ) {
@@ -104,6 +106,7 @@ private fun BottomItem(
 @Composable
 fun PreviewBottomBarNavigation(){
     val navController = rememberNavController()
-
-    BottomBarNavigation()
+    MegahandTheme {
+        BottomBarNavigation()
+    }
 }

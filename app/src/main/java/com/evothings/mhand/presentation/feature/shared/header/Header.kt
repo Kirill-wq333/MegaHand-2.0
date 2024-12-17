@@ -119,7 +119,7 @@ fun IconNavigation(
             modifier = Modifier
                 .border(
                     width = 1.dp,
-                    color = Color(0xFFFFE600),
+                    color = colorScheme.primary,
                     shape = MaterialTheme.shapes.medium
                 )
         ) {

@@ -43,6 +43,7 @@ import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItem
 import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.BottomBarNavigation
 import com.evothings.mhand.presentation.feature.shared.header.Header
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.BalanceAndCashback
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -100,7 +101,8 @@ fun BrandsList(){
     )
     LazyRow(
         modifier = Modifier
-            .padding(MaterialTheme.paddings.extraLarge)
+            .padding(MaterialTheme.paddings.extraLarge),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
     ) {
         items(brands) { it ->
             BrandsItem(brands = it)
@@ -215,6 +217,8 @@ fun NewProduct() {
 
 @Preview
 @Composable
-fun PreviewContent(){
-    Content()
+fun PreviewContent() {
+    MegahandTheme {
+        Content()
+    }
 }

@@ -36,7 +36,7 @@ fun StoriesItem(
     Box(
         modifier = Modifier
             .size(96.dp)
-            .border(width = 1.dp, color = Color(0xFFFFE600), shape = shapes.medium),
+            .border(width = 1.dp, color = colorScheme.primary, shape = shapes.medium),
         contentAlignment = Alignment.Center
     ){
         AsyncImage(

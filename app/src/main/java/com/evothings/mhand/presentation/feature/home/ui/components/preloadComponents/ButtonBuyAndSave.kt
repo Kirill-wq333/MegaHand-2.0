@@ -58,7 +58,7 @@ private fun ButtonBuy(
         modifier = Modifier
             .width(110.dp)
             .height(45.dp)
-            .background(color = Color(0xFFFFE600), shape = shapes.medium),
+            .background(color = colorScheme.primary, shape = shapes.medium),
         contentAlignment = Alignment.Center
     ) {
         Text(
