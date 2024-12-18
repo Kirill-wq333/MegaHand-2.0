@@ -175,6 +175,16 @@
     <string name="id_style_product">ID Стиля</string>
     <string name="release_date_product">Дата выхода</string>
     <string name="color_product">Цвет</string>
+    <string name="all_clothes">Вся одежда</string>
+    <string name="new_items">Новинки</string>
+    <string name="t_shirts">Футболки</string>
+    <string name="shirts">Рубашки</string>
+    <string name="pants">Штаны</string>
+    <string name="trousers">Брюки</string>
+    <string name="jeans">Джинсы</string>
+    <string name="turtlenecks">Водолазки</string>
+    <string name="jackets">Пиджаки</string>
+    <string name="coast">Пальто</string>
     
     <!-- Cart -->
     <string name="cart">Корзина</string>
