@@ -174,7 +174,7 @@ private fun MTextFieldDecorationBox(
                 if (enablePlaceholder) {
                     Text(
                         text = placeholderText,
-                        color = colorScheme.secondary.copy(0.2f),
+                        color = colorScheme.secondary.copy(0.4f),
                         style = typography.labelLarge
                     )
                 }
