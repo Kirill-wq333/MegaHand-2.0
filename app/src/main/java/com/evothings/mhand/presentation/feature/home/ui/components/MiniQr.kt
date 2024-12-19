@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 
@@ -41,9 +43,7 @@ fun QrCode() {
             ),
         contentAlignment = Alignment.Center
     ) {
-        AsyncImage(
-            model = R.drawable.demo_qr_code,
-            contentDescription = "QrCode",
+        Box(
             modifier = Modifier
                 .clip(shape = MegahandShapes.large)
                 .size(136.dp)
@@ -52,7 +52,12 @@ fun QrCode() {
                     color = colorScheme.inverseSurface,
                     shape = MegahandShapes.large
                 )
-        )
+        ) {
+            AsyncImage(
+                model = R.drawable.demo_qr_code,
+                contentDescription = "QrCode",
+            )
+        }
         Box(
             modifier = Modifier
             .background(color = Color.White)
@@ -70,19 +75,21 @@ fun QrCode() {
         }
         Box(
             modifier = Modifier
-                .size(152.dp),
+                .size(170.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
             Box(
                 modifier = Modifier
-                    .background(color =  Color.White, shape = MegahandShapes.large)
-                    .size(32.dp)
-                    .border(width = 1.dp, color = colorScheme.inverseSurface, shape = MegahandShapes.large),
+                    .background(color =  colorScheme.secondary, shape = CircleShape)
+                    .border(width = 1.dp, color = colorScheme.inverseSurface, shape = CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_magnifying_glass),
                     contentDescription = "",
+                    tint = colorScheme.onSecondary,
+                    modifier = Modifier
+                        .padding(MaterialTheme.paddings.medium)
                 )
             }
         }

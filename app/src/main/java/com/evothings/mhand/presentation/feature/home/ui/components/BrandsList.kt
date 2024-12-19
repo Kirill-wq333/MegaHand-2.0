@@ -37,14 +37,17 @@ fun BrandsItem(
             ),
         contentAlignment = Alignment.Center
     ) {
-        AsyncImage(
-            model = brands,
-            contentDescription = "brands",
-            contentScale = ContentScale.FillBounds,
+        Box(
             modifier = Modifier
                 .width(50.dp)
                 .height(30.dp)
-        )
+        ) {
+            AsyncImage(
+                model = brands,
+                contentDescription = "brands",
+                contentScale = ContentScale.FillBounds,
+            )
+        }
     }
 
 }
