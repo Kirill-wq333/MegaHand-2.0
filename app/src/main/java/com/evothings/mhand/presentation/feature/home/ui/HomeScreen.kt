@@ -194,7 +194,7 @@ fun NewProduct() {
                 )
 
             }
-            items(product.map { it.painter }) { item ->
+            items(product) { item ->
                 PreloadItem(
                     contentDescription = null,
                     cashback = "172",
@@ -204,7 +204,7 @@ fun NewProduct() {
                     information = "Футболка A Shock, черно-розовая",
                     size = "M",
                     estimation = "Высокое",
-                    product = item
+                    product = item.painter
                 )
             }
         }
