@@ -33,7 +33,7 @@ import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
-fun Searcbar(){
+fun SearchBar(){
 
     val value = remember { mutableStateOf("") }
 
@@ -68,6 +68,7 @@ private fun IconItem(){
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_left),
             contentDescription = "chevron_left",
+            tint = colorScheme.secondary,
             modifier = Modifier
                 .padding(MaterialTheme.paddings.large)
         )

@@ -42,95 +42,63 @@ fun SubCategory(){
             modifier = Modifier
             .padding(MaterialTheme.paddings.extraLarge)
         ) {
-            Searcbar()
+            SearchBar()
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-            SubItem(text = stringResource(R.string.all_clothes))
+            HintsList(text = stringResource(R.string.all_clothes))
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorScheme.secondary.copy(0.05f))
             )
-            SubItem(text = stringResource(R.string.new_items))
+            HintsList(text = stringResource(R.string.new_items))
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-            SubItem(text = stringResource(R.string.t_shirts))
+            HintsList(text = stringResource(R.string.t_shirts))
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorScheme.secondary.copy(0.05f))
             )
-            SubItem(text = stringResource(R.string.shirts))
+            HintsList(text = stringResource(R.string.shirts))
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorScheme.secondary.copy(0.05f))
             )
-            SubItem(text = stringResource(R.string.pants))
+            HintsList(text = stringResource(R.string.pants))
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorScheme.secondary.copy(0.05f))
             )
-            SubItem(text = stringResource(R.string.trousers))
+            HintsList(text = stringResource(R.string.trousers))
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorScheme.secondary.copy(0.05f))
             )
-            SubItem(text = stringResource(R.string.jeans))
+            HintsList(text = stringResource(R.string.jeans))
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorScheme.secondary.copy(0.05f))
             )
-            SubItem(text = stringResource(R.string.turtlenecks))
+            HintsList(text = stringResource(R.string.turtlenecks))
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorScheme.secondary.copy(0.05f))
             )
-            SubItem(text = stringResource(R.string.jackets))
+            HintsList(text = stringResource(R.string.jackets))
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorScheme.secondary.copy(0.05f))
             )
-            SubItem(text = stringResource(R.string.coast))
+            HintsList(text = stringResource(R.string.coast))
         }
     }
 }
 
-
-@Composable
-fun SubItem(
-    text: String,
-
-){
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-
-        Text(
-            text = text,
-            color = colorScheme.secondary,
-            fontSize = 16.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-            fontWeight = FontWeight.W400,
-            modifier = Modifier
-                .padding(MaterialTheme.paddings.extraLarge)
-        )
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_right),
-            contentDescription = null,
-            modifier = Modifier
-                .padding(MaterialTheme.paddings.extraLarge)
-        )
-    }
-
-}
 
 @Preview
 @Composable
