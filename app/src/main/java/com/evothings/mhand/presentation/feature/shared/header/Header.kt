@@ -39,7 +39,7 @@ import com.evothings.mhand.presentation.theme.spacers
 fun Header(
     modifier: Modifier = Modifier,
     nameCategory: String,
-    money: String,
+    money: String = "0",
     logo: ImageVector = ImageVector.vectorResource(R.drawable.logo),
     location: ImageVector = ImageVector.vectorResource(R.drawable.ic_location),
     notification: ImageVector = ImageVector.vectorResource(R.drawable.ic_notifications),

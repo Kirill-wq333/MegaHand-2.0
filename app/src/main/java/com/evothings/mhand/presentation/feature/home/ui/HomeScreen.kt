@@ -148,26 +148,28 @@ fun LoyalityCard(
 }
 
 data class Painter(
-    val painter: String
+    val image: String
 )
 
 @Composable
 fun NewProduct() {
 
-    Box() {
-        val product = listOf(
-            Painter(painter = "https://s3-alpha-sig.figma.com/img/bbc9/b4f4/3bcb0ac3ea5a25f8bff886fa37da5c5d?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AQyMhZk8IhlCmT-0PnG5aoBYVuy~QU7XpvBX-zmheXo2yABCgT18nTSVlhQl3CkzxGcYl76a2mNMvFZI4-r6lHfd65DnBkRiCRkEACHRekl7AlIEHN6u2NftRCb53RWgs1sEYVQPw72e4mjR5PYQGMFroWxnhQ2cqYuERt7DlbEAh73hw2GWau5fx5m~6eDPs2h7MR5z3x07un84o7AIJ~Jwo6p-EwD9OmrGLCj4su1zIi3oZNzOKwJX0bbfZx571gxUejCZLRkw0vxL~AMa7EAL2ywi-UpROw0zbEM8xWrE~MzQhriBATrIAU1tEbjx9iP2tWq2V6FzS1zy9UTRqw__"),
-            Painter(painter = "https://s3-alpha-sig.figma.com/img/df49/6794/1fb70577a140768d7de1141121f7e2d8?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=lLRFCZT-R9FBFqIjaxZQLFGgfvZ21AoHqtZ0uu6N2q2BDPK5JEvaC~xWk~NzdLWx6miP~GfxlbnNKvLPEU2yFLWGQuJQUTzc1h79X83hBVQ-2~z3f34owe4Ka~q8FnNr2qDi8cPpjqTH40DrvDT-YTIDci~icESQaXz434m~uWMihTT1H26JHyl8fyaJhGj1bP-UfcLeNa1qsSG7fzHKD121MV1Esce7YBZCiyGd8~JsRfwjy9-mH~eiX-Xg3FW5sEhP~KLjltDFC8klEdbGtn1zDxAmifhrJT6YfN1-AutpDY5bLjuLmZD60cG79cvIKdCvLds--CYhU9r~zKatng__"),
-            Painter(painter = "https://s3-alpha-sig.figma.com/img/05c6/2dfc/c09c9213bdfb064bfc272aeecc6448a3?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VJLLThkEga3Jy3n~zPrdsJsypf7mUTz~dIzH7zYHPz7y~3OD~lY8cpsL4JJ5OLFo-w8TmP5QIiHb1XmEEMKFBq1VF5ZPrGnubOZexulCnJMsXv2OCmlZm6z-vt4GDIHPjGo8C2~-74Vo~sIWtGv7Tb8kIFgu67MCBA4F3VGL6pjrajGLxKeVQaAoQJ~ErwgTBxLKw0bGs3Veri4Vqx3cwyMZsRjoOfcivEGwhBspOK0WRJf9UCqvSGnanc9LX8jNLplqsS8IaNIPeY7iFL5W2FsNJrL6Od7c6D1QmIMjl5z2soVrtt0~zKa~ubOWB1l9wwnbGoNL15eQIQkWxUvEig__"),
-            Painter(painter = "https://s3-alpha-sig.figma.com/img/d953/57ed/9052a8b6d203d5563212b12d8f3b23f7?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PtCKKGjjhEuq8pqdUaUx1fY995HzhwA-3saEMiuNnrDadv0K-LLrWH~w7nRa9CGzQQtDscbPN~XFrMpFOTMzJUGMVN3kVtdQteC3Igbpn79FM11IXuBd26lhIUMPxyR6mgv7dOTMKtiwgIXp9yIF-aO770KCfOHPK40ppGF6Wp7UKjwJe4LYgDupMU1oiXmPtc~Xo5HS3KW8kTgrKHT0pexywey84-tgnI41PP0PSbwmDpWNjil-KcSNbjrz8v-9AfFjQ8SHnhFDsoP8KU~GSYMuWBVmcMTd6xW-nd5A5fCoy2pIRx~KjgUxI1mQwu~UBDYttbOBiOxKE~trbtnAGQ__"),
-        )
-        val gridHeight = remember {
-            val verticalPadding = 18 * 2
-            val spacing = 9 * 2
-            val productCardHeight = 400
+    val product = listOf(
+        Painter("https://s3-alpha-sig.figma.com/img/bbc9/b4f4/3bcb0ac3ea5a25f8bff886fa37da5c5d?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AQyMhZk8IhlCmT-0PnG5aoBYVuy~QU7XpvBX-zmheXo2yABCgT18nTSVlhQl3CkzxGcYl76a2mNMvFZI4-r6lHfd65DnBkRiCRkEACHRekl7AlIEHN6u2NftRCb53RWgs1sEYVQPw72e4mjR5PYQGMFroWxnhQ2cqYuERt7DlbEAh73hw2GWau5fx5m~6eDPs2h7MR5z3x07un84o7AIJ~Jwo6p-EwD9OmrGLCj4su1zIi3oZNzOKwJX0bbfZx571gxUejCZLRkw0vxL~AMa7EAL2ywi-UpROw0zbEM8xWrE~MzQhriBATrIAU1tEbjx9iP2tWq2V6FzS1zy9UTRqw__"),
+        Painter("https://s3-alpha-sig.figma.com/img/df49/6794/1fb70577a140768d7de1141121f7e2d8?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=lLRFCZT-R9FBFqIjaxZQLFGgfvZ21AoHqtZ0uu6N2q2BDPK5JEvaC~xWk~NzdLWx6miP~GfxlbnNKvLPEU2yFLWGQuJQUTzc1h79X83hBVQ-2~z3f34owe4Ka~q8FnNr2qDi8cPpjqTH40DrvDT-YTIDci~icESQaXz434m~uWMihTT1H26JHyl8fyaJhGj1bP-UfcLeNa1qsSG7fzHKD121MV1Esce7YBZCiyGd8~JsRfwjy9-mH~eiX-Xg3FW5sEhP~KLjltDFC8klEdbGtn1zDxAmifhrJT6YfN1-AutpDY5bLjuLmZD60cG79cvIKdCvLds--CYhU9r~zKatng__"),
+        Painter("https://s3-alpha-sig.figma.com/img/05c6/2dfc/c09c9213bdfb064bfc272aeecc6448a3?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VJLLThkEga3Jy3n~zPrdsJsypf7mUTz~dIzH7zYHPz7y~3OD~lY8cpsL4JJ5OLFo-w8TmP5QIiHb1XmEEMKFBq1VF5ZPrGnubOZexulCnJMsXv2OCmlZm6z-vt4GDIHPjGo8C2~-74Vo~sIWtGv7Tb8kIFgu67MCBA4F3VGL6pjrajGLxKeVQaAoQJ~ErwgTBxLKw0bGs3Veri4Vqx3cwyMZsRjoOfcivEGwhBspOK0WRJf9UCqvSGnanc9LX8jNLplqsS8IaNIPeY7iFL5W2FsNJrL6Od7c6D1QmIMjl5z2soVrtt0~zKa~ubOWB1l9wwnbGoNL15eQIQkWxUvEig__"),
+        Painter("https://s3-alpha-sig.figma.com/img/d953/57ed/9052a8b6d203d5563212b12d8f3b23f7?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PtCKKGjjhEuq8pqdUaUx1fY995HzhwA-3saEMiuNnrDadv0K-LLrWH~w7nRa9CGzQQtDscbPN~XFrMpFOTMzJUGMVN3kVtdQteC3Igbpn79FM11IXuBd26lhIUMPxyR6mgv7dOTMKtiwgIXp9yIF-aO770KCfOHPK40ppGF6Wp7UKjwJe4LYgDupMU1oiXmPtc~Xo5HS3KW8kTgrKHT0pexywey84-tgnI41PP0PSbwmDpWNjil-KcSNbjrz8v-9AfFjQ8SHnhFDsoP8KU~GSYMuWBVmcMTd6xW-nd5A5fCoy2pIRx~KjgUxI1mQwu~UBDYttbOBiOxKE~trbtnAGQ__"),
+    )
 
-            (verticalPadding + spacing + productCardHeight * 2).dp
-        }
+    val gridHeight = remember {
+        val verticalPadding = 18 * 2
+        val spacing = 9 * 2
+        val productCardHeight = 400
+
+        (verticalPadding + spacing + productCardHeight * 2).dp
+    }
+
+    Box() {
         LazyVerticalGrid(
             modifier = Modifier
                 .height(gridHeight),
@@ -204,7 +206,7 @@ fun NewProduct() {
                     information = "Футболка A Shock, черно-розовая",
                     size = "M",
                     estimation = "Высокое",
-                    product = item.painter
+                    product = item.image
                 )
             }
         }
