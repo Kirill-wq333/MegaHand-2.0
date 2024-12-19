@@ -32,7 +32,7 @@ import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
-fun SubCatagory(){
+fun SubCategory(){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -134,8 +134,8 @@ fun SubItem(
 
 @Preview
 @Composable
-fun PreviewSubCatagory(){
+fun PreviewSubCategory(){
     MegahandTheme {
-        SubCatagory()
+        SubCategory()
     }
 }

@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.catalog.components.categories
+package com.evothings.mhand.presentation.feature.Category.components.categories
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -55,7 +55,7 @@ fun CategoryScreen() {
     }
 }
 
-data class CatalogItems(
+data class CategoryItems(
     val painter: Painter,
     val contentDescription: String?,
     val text: String
@@ -66,12 +66,12 @@ data class CatalogItems(
 @Composable
 fun LazyVerticalGrid(){
 
-    val catalogItem = listOf(
-        CatalogItems(painterResource(R.drawable.category_clothes),"clothes","Одежда"),
-        CatalogItems(painterResource(R.drawable.category_shoes),"shoes","Обувь"),
-        CatalogItems(painterResource(R.drawable.category_accessories),"accessories","Аксессуары"),
-        CatalogItems(painterResource(R.drawable.category_bags),"bags","Сумки"),
-        CatalogItems(painterResource(R.drawable.category_other),"other","Другое"),
+    val CategoryItem = listOf(
+        CategoryItems(painterResource(R.drawable.category_clothes),"clothes","Одежда"),
+        CategoryItems(painterResource(R.drawable.category_shoes),"shoes","Обувь"),
+        CategoryItems(painterResource(R.drawable.category_accessories),"accessories","Аксессуары"),
+        CategoryItems(painterResource(R.drawable.category_bags),"bags","Сумки"),
+        CategoryItems(painterResource(R.drawable.category_other),"other","Другое"),
     )
     val gridHeight = remember {
         val verticalPadding = 10 * 2
@@ -90,11 +90,11 @@ fun LazyVerticalGrid(){
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.tiny)
     ){
 
-        items(catalogItem) { catalogItem ->
-            CatalogItem(
-                contentDescription = catalogItem.contentDescription,
-                text = catalogItem.text,
-                painter = catalogItem.painter
+        items(CategoryItem) { CategoryItem ->
+            CategoryItem(
+                contentDescription = CategoryItem.contentDescription,
+                text = CategoryItem.text,
+                painter = CategoryItem.painter
             )
         }
 
@@ -103,7 +103,7 @@ fun LazyVerticalGrid(){
 
 @Preview
 @Composable
-fun PreviewCatalogScreen(){
+fun PreviewCategoryScreen(){
     MegahandTheme {
         CategoryScreen()
     }

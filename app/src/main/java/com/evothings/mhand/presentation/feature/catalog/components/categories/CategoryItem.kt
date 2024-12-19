@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.catalog.components.categories
+package com.evothings.mhand.presentation.feature.Category.components.categories
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
-fun CatalogItem(
+fun CategoryItem(
     contentDescription: String?,
     painter: Painter,
     text: String,
@@ -67,9 +67,9 @@ fun CatalogItem(
 
 @Preview
 @Composable
-fun PreviewCatalogItem() {
+fun PreviewCategoryItem() {
     MegahandTheme {
-        CatalogItem(
+        CategoryItem(
             contentDescription = null,
             painter = painterResource(R.drawable.category_bags),
             text = "Bag"
