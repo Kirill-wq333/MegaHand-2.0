@@ -57,6 +57,7 @@ fun BalanceAndCashback(
     Box(
         modifier = Modifier
             .width(200.dp)
+            .height(200.dp)
             .border(
                 width = 1.dp,
                 color = colorScheme.primary.copy(.05f),
@@ -77,7 +78,7 @@ fun BalanceAndCashback(
                 fontWeight = FontWeight.W500,
                 fontFamily = FontFamily(listOf(Font(R.font.golos_500)))
             )
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
             Items(
                 icon = ImageVector.vectorResource(R.drawable.ic_back),
                 text = "$cashback%",

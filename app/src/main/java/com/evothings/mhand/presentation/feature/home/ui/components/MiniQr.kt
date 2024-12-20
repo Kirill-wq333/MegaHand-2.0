@@ -44,24 +44,18 @@ fun QrCode() {
             ),
         contentAlignment = Alignment.Center
     ) {
-        Box(
+        AsyncImage(
+            model = R.drawable.demo_qr_code,
+            contentDescription = "QrCode",
             modifier = Modifier
-                .background(color = colorScheme.onSecondary, shape = MegahandShapes.large)
+                .clip(shape = MegahandShapes.large)
+                .padding(16.dp)
                 .border(
                     width = 1.dp,
                     color = colorScheme.inverseSurface,
                     shape = MegahandShapes.large
                 ),
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.qrcode),
-                contentDescription = "QrCode",
-                tint = colorScheme.onSecondary,
-                modifier = Modifier
-                    .clip(shape = MegahandShapes.large)
-                    .padding(16.dp)
-            )
-        }
+        )
         Box(
             modifier = Modifier
                 .background(color = Color.White)
@@ -70,7 +64,7 @@ fun QrCode() {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.logo),
                 contentDescription = "logo",
-                tint = colorScheme.secondary,
+                tint = colorScheme.onSecondary,
                 modifier = Modifier
                     .width(24.dp)
                     .height(14.dp)
@@ -84,7 +78,7 @@ fun QrCode() {
         ) {
             Box(
                 modifier = Modifier
-                    .background(color =  colorScheme.secondary, shape = CircleShape)
+                    .background(color = colorScheme.secondary, shape = CircleShape)
                     .border(width = 1.dp, color = colorScheme.inverseSurface, shape = CircleShape),
                 contentAlignment = Alignment.Center
             ) {

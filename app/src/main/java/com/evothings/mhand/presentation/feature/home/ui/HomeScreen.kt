@@ -122,6 +122,7 @@ fun StoriesLists(){
     )
     LazyRow(
         modifier = Modifier
+            .height(200.dp)
             .padding(MaterialTheme.paddings.extraLarge),
         horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {
