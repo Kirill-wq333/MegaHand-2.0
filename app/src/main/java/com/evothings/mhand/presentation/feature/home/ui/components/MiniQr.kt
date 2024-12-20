@@ -49,7 +49,7 @@ fun QrCode() {
             contentDescription = "QrCode",
             modifier = Modifier
                 .clip(shape = MegahandShapes.large)
-                .padding(16.dp)
+                .padding(MaterialTheme.paddings.extraGiant)
                 .border(
                     width = 1.dp,
                     color = colorScheme.inverseSurface,
@@ -58,7 +58,7 @@ fun QrCode() {
         )
         Box(
             modifier = Modifier
-                .background(color = Color.White)
+                .background(color = colorScheme.secondary)
                 .size(27.dp)
         ) {
             Icon(
@@ -73,7 +73,7 @@ fun QrCode() {
         }
         Box(
             modifier = Modifier
-                .size(170.dp),
+                .size(180.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
             Box(

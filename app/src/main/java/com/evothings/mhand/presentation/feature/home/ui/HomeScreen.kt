@@ -122,7 +122,6 @@ fun StoriesLists(){
     )
     LazyRow(
         modifier = Modifier
-            .height(200.dp)
             .padding(MaterialTheme.paddings.extraLarge),
         horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {
@@ -173,7 +172,7 @@ fun NewProduct() {
 
     val gridHeight = remember {
         val verticalPadding = 18 * 2
-        val spacing = 9 * 2
+        val spacing = 12 * 2
         val productCardHeight = 400
 
         (verticalPadding + spacing + productCardHeight * 2).dp

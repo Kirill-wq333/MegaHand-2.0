@@ -54,6 +54,7 @@ fun StoriesItem(
             text = textStories,
             color = Color.White,
             lineHeight = 15.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.W400,
             fontFamily = FontFamily(listOf(Font(R.font.golos_400)))
         )
