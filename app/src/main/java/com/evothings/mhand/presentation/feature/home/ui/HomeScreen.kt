@@ -81,10 +81,10 @@ private fun Content() {
                     visible = false
                     )
                 Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
-                CouponBanner(banner = R.drawable.loyality_onboarding_banner, selected = true)
+                CouponBanner(banner = R.drawable.loyality_onboarding_banner, selected = false)
                 NewProduct()
                 Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
-                CouponBanner(banner = R.drawable.profile_onboarding_banner, selected = true)
+                CouponBanner(banner = R.drawable.profile_onboarding_banner, selected = false)
                 Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
                 BrandsList()
             }

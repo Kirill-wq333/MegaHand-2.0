@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -34,7 +35,6 @@ fun QrCode() {
     Box(
         modifier = Modifier
             .width(200.dp)
-            .height(200.dp)
             .background(
                 color = colorScheme.inverseSurface.copy(0.1f),
                 shape = RoundedCornerShape(
@@ -47,14 +47,15 @@ fun QrCode() {
         AsyncImage(
             model = R.drawable.demo_qr_code,
             contentDescription = "QrCode",
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
-                .clip(shape = MegahandShapes.large)
                 .padding(MaterialTheme.paddings.extraGiant)
                 .border(
                     width = 1.dp,
                     color = colorScheme.inverseSurface,
                     shape = MegahandShapes.large
-                ),
+                )
+                 .clip(shape = MegahandShapes.large)
         )
         Box(
             modifier = Modifier
