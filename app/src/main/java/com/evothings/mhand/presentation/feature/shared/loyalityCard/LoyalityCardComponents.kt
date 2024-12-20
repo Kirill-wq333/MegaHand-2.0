@@ -1,7 +1,9 @@
 package com.evothings.mhand.presentation.feature.shared.loyalityCard
 
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +21,11 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,26 +41,34 @@ import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 import com.evothings.mhand.presentation.theme.values.paddings.LocalPaddings
 
 
 @Composable
 fun BalanceAndCashback(
     money: String,
-    cashback: String
-){
+    button: Boolean,
+    visible: Boolean
+) {
+    var cashback by remember { mutableIntStateOf(3) }
+    var visibleButton by remember { mutableStateOf(true) }
+
     Box(
         modifier = Modifier
             .width(200.dp)
-            .fillMaxHeight()
             .border(
                 width = 1.dp,
-                color = colorScheme.primary.copy(0.05f),
+                color = colorScheme.primary.copy(.05f),
                 shape = RoundedCornerShape(topStart = 9.dp, bottomStart = 9.dp)
-            )
-    ){
+            ),
+        contentAlignment = Alignment.Center
+    ) {
 
-        Column {
+        Column(
+            modifier = Modifier
+                .padding(MaterialTheme.paddings.giant)
+        ) {
             Items(
                 icon = ImageVector.vectorResource(R.drawable.ic_prize),
                 text = "$money₽",
@@ -62,7 +77,7 @@ fun BalanceAndCashback(
                 fontWeight = FontWeight.W500,
                 fontFamily = FontFamily(listOf(Font(R.font.golos_500)))
             )
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
+            Spacer(modifier = Modifier.height(50.dp))
             Items(
                 icon = ImageVector.vectorResource(R.drawable.ic_back),
                 text = "$cashback%",
@@ -73,6 +88,35 @@ fun BalanceAndCashback(
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
             TextCashBack()
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
+            if (visible) {
+                if (visibleButton) {
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = colorScheme.secondary.copy(.05f),
+                                shape = MegahandShapes.small
+                            )
+                            .clickable {
+                                visibleButton = button
+                                cashback = if (cashback == 0) 3 else 5
+                            }
+                    ) {
+                        Text(
+                            text = stringResource(R.string.increase),
+                            color = colorScheme.secondary,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.W400,
+                            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+                            modifier = Modifier
+                                .padding(
+                                    vertical = MaterialTheme.paddings.medium,
+                                    horizontal = MaterialTheme.paddings.large
+                                )
+                        )
+                    }
+                }
+            }
         }
 
     }
@@ -88,8 +132,6 @@ fun Items(
     fontFamily: FontFamily
 ){
     Row(
-        modifier = Modifier
-            .padding(LocalPaddings.current.giant),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -117,12 +159,6 @@ fun TextCashBack(){
         lineHeight = 15.sp,
         fontWeight = FontWeight.W400,
         fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-        modifier = Modifier
-            .padding(
-                start = MaterialTheme.paddings.giant,
-                bottom = MaterialTheme.paddings.giant,
-                end = MaterialTheme.paddings.giant
-            )
     )
 }
 

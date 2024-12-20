@@ -78,7 +78,7 @@ fun Header(
                 }
                 Text(
                     text = nameCategory,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.secondary,
                     fontSize = 20.sp,
                     fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
                     fontWeight = FontWeight.W500

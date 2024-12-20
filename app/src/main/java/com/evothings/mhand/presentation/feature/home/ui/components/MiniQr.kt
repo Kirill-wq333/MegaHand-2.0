@@ -1,5 +1,6 @@
 package com.evothings.mhand.presentation.feature.home.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -32,8 +33,8 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 fun QrCode() {
     Box(
         modifier = Modifier
-            .width(185.dp)
-            .height(208.dp)
+            .width(200.dp)
+            .height(200.dp)
             .background(
                 color = colorScheme.inverseSurface.copy(0.1f),
                 shape = RoundedCornerShape(
@@ -45,28 +46,31 @@ fun QrCode() {
     ) {
         Box(
             modifier = Modifier
-                .clip(shape = MegahandShapes.large)
-                .size(136.dp)
+                .background(color = colorScheme.onSecondary, shape = MegahandShapes.large)
                 .border(
                     width = 1.dp,
                     color = colorScheme.inverseSurface,
                     shape = MegahandShapes.large
-                )
+                ),
         ) {
-            AsyncImage(
-                model = R.drawable.demo_qr_code,
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.qrcode),
                 contentDescription = "QrCode",
+                tint = colorScheme.onSecondary,
+                modifier = Modifier
+                    .clip(shape = MegahandShapes.large)
+                    .padding(16.dp)
             )
         }
         Box(
             modifier = Modifier
-            .background(color = Color.White)
+                .background(color = Color.White)
                 .size(27.dp)
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.logo),
                 contentDescription = "logo",
-                tint = Color.Black,
+                tint = colorScheme.secondary,
                 modifier = Modifier
                     .width(24.dp)
                     .height(14.dp)

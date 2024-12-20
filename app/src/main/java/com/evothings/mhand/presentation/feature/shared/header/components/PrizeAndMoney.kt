@@ -50,7 +50,7 @@ fun PrizeAndMoney(
                 Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
                 Text(
                     text = "$money₽",
-                    color = colorScheme.onBackground,
+                    color = colorScheme.secondary,
                     fontSize = 16.sp,
                     fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
                     fontWeight = FontWeight.W500

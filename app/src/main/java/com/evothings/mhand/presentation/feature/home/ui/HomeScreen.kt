@@ -75,7 +75,11 @@ private fun Content() {
             Column(Modifier.verticalScroll(scrollState)) {
                 StoriesLists()
                 Spacer(modifier = Modifier.height(MaterialTheme.paddings.extraLarge))
-                LoyalityCard(money = "7180", cashback = "5")
+                LoyalityCard(
+                    money = "0",
+                    visibleCashback = false,
+                    visible = false
+                    )
                 Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
                 CouponBanner(banner = R.drawable.loyality_onboarding_banner, selected = true)
                 NewProduct()
@@ -133,16 +137,21 @@ fun StoriesLists(){
 @Composable
 fun LoyalityCard(
     money: String,
-    cashback: String
-){
+    visibleCashback: Boolean,
+    visible: Boolean
+    ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = MaterialTheme.paddings.extraLarge),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
-    ){
-        BalanceAndCashback(money = money, cashback = cashback)
+    ) {
+        BalanceAndCashback(
+            money = money,
+            button = visibleCashback,
+            visible = visible
+        )
         QrCode()
     }
 }

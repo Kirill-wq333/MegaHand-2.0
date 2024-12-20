@@ -20,21 +20,21 @@ import com.evothings.mhand.presentation.theme.paddings
 fun CouponBanner(
     banner: Int,
     selected: Boolean
-){
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = MaterialTheme.paddings.extraLarge
-            ),
-        contentAlignment = Alignment.TopEnd
-    ) {
+) {
+    if (selected) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = MaterialTheme.paddings.extraLarge
+                ),
+            contentAlignment = Alignment.TopEnd
+        ) {
 
-        AsyncImage(
-            model = banner,
-            contentDescription = null,
-        )
-        if (selected) {
+            AsyncImage(
+                model = banner,
+                contentDescription = null,
+            )
             Box(
                 modifier = Modifier
                     .padding(MaterialTheme.paddings.extraLarge),
