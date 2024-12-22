@@ -31,7 +31,7 @@ import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTheme
 
 @Composable
-fun LoadingScreen(
+fun SplashScreen(
     long: String,
 ) {
     Box(
@@ -121,7 +121,7 @@ fun LoadingTechnicalServiceScreen() {
 @Composable
 fun PreviewLaunch() {
     MegahandTheme {
-        LoadingScreen(long = "")
+        SplashScreen(long = "")
     }
 }
 
@@ -130,7 +130,7 @@ fun PreviewLaunch() {
 @Composable
 fun PreviewLongLaunch(){
     MegahandTheme {
-        LoadingScreen(long = "Еще немного…")
+        SplashScreen(long = "Еще немного…")
     }
 }
 
