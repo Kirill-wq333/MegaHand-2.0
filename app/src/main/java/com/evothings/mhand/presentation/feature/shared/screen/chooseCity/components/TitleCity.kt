@@ -34,7 +34,6 @@ fun TitleCity(
     title: String,
 ){
 
-
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
@@ -62,7 +61,7 @@ fun TitleCity(
             )
             HorizontalDivider(modifier = Modifier.fillMaxWidth().background(color = colorScheme.secondary.copy(0.05f)))
         }
-
     }
+
 }
 
