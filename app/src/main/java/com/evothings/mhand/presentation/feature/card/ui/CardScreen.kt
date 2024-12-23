@@ -12,14 +12,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.evothings.domain.feature.card.model.Card
+import com.evothings.domain.feature.card.model.Transaction
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.card.ui.components.CreditingAndDebiting
 import com.evothings.mhand.presentation.feature.card.ui.components.HistoryBar
+import com.evothings.mhand.presentation.feature.card.viewmodel.enumeration.CardFilterType
 import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
 import com.evothings.mhand.presentation.feature.home.ui.components.CouponBanner
 import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.BottomBarNavigation
@@ -27,6 +31,24 @@ import com.evothings.mhand.presentation.feature.shared.header.Header
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+
+data class CardUiState(
+    val card: Card = Card(),
+    val cashback: Int = 0,
+    val currentFilter: CardFilterType = CardFilterType.ALL,
+    val transactions: Map<String, List<Transaction>> = mapOf(),
+    val offlineMode: Boolean = false,
+)
+
+private interface CardScreenCallback {
+    fun chooseFilter(filterIndex: Int) {}
+    fun notifyLoyalitySystem() {}
+    fun refresh() {}
+    fun openProfileScreen() {}
+}
+
+@Stable
+private object EmptyCardScreenCallback : CardScreenCallback
 
 @Composable
 fun CardScreen(){

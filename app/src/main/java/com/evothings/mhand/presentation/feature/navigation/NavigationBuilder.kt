@@ -1,20 +1,15 @@
 package com.evothings.mhand.presentation.feature.navigation
 
 import androidx.compose.runtime.compositionLocalOf
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.evothings.mhand.presentation.feature.card.ui.CardScreen
-import com.evothings.mhand.presentation.feature.catalog.CatalogScreen
+import com.evothings.mhand.presentation.feature.catalog.ui.CatalogScreen
 import com.evothings.mhand.presentation.feature.home.ui.HomeScreen
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
-import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
-import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.ChooseCityScreen
-import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.viewmodel.ChooseCityViewModel
-import com.evothings.mhand.presentation.feature.splash.LoadingTechnicalServiceScreen
-import com.evothings.mhand.presentation.feature.splash.SplashScreen
+import com.evothings.mhand.presentation.feature.splash.ui.LoadingTechnicalServiceScreen
+import com.evothings.mhand.presentation.feature.splash.ui.SplashScreen
 
 val localNavController = compositionLocalOf<NavHostController>{
     error("LocalNavController not provided")

@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.catalog.components
+package com.evothings.mhand.presentation.feature.catalog.ui.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement

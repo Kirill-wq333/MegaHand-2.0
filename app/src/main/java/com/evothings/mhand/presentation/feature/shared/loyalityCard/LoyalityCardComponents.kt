@@ -90,32 +90,30 @@ fun BalanceAndCashback(
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
             TextCashBack()
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-            if (visible) {
-                if (visibleButton) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = colorScheme.secondary.copy(.05f),
-                                shape = MegahandShapes.small
-                            )
-                            .clickable {
-                                visibleButton = button
-                                cashback = if (cashback == 0) 3 else 5
-                            }
-                    ) {
-                        Text(
-                            text = stringResource(R.string.increase),
-                            color = colorScheme.secondary,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.W400,
-                            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-                            modifier = Modifier
-                                .padding(
-                                    vertical = MaterialTheme.paddings.medium,
-                                    horizontal = MaterialTheme.paddings.large
-                                )
+            if (visible && visibleButton) {
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = colorScheme.secondary.copy(.05f),
+                            shape = MegahandShapes.small
                         )
-                    }
+                        .clickable {
+                            visibleButton = button
+                            cashback = if (cashback == 0) 3 else 5
+                        }
+                ) {
+                    Text(
+                        text = stringResource(R.string.increase),
+                        color = colorScheme.secondary,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W400,
+                        fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+                        modifier = Modifier
+                            .padding(
+                                vertical = MaterialTheme.paddings.medium,
+                                horizontal = MaterialTheme.paddings.large
+                            )
+                    )
                 }
             }
         }

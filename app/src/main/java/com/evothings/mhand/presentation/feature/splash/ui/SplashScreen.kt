@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.splash
+package com.evothings.mhand.presentation.feature.splash.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
