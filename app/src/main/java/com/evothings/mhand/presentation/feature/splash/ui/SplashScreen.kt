@@ -44,7 +44,7 @@ fun SplashScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.logo),
+                imageVector = ImageVector.vectorResource(R.drawable.splash),
                 contentDescription = "Logo",
                 tint = colorScheme.primary,
             )
