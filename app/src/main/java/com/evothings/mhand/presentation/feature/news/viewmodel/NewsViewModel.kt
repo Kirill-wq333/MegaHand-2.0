@@ -1,2 +1,2 @@
-package com.evothings.mhand.presentation.feature.card.viewmodel
+package com.evothings.mhand.presentation.feature.news.viewmodel
 

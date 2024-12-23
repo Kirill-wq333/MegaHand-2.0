@@ -1,2 +1,2 @@
-package com.evothings.mhand.presentation.feature.checkout.viewmodel
+package com.evothings.mhand.presentation.feature.onboarding.viewmodel
 

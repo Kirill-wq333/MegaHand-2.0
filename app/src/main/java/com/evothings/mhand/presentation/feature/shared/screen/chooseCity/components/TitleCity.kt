@@ -13,12 +13,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.evothings.domain.feature.home.model.City
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -26,8 +32,8 @@ import com.evothings.mhand.presentation.theme.spacers
 @Composable
 fun TitleCity(
     title: String,
-    nameCity: String
 ){
+
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -41,11 +47,12 @@ fun TitleCity(
             fontFamily = FontFamily(listOf(Font(R.font.golos_500)))
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = nameCity,
+                text = "item",
                 color = colorScheme.secondary,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W400,

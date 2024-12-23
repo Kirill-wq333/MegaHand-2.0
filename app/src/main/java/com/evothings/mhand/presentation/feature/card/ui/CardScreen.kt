@@ -43,8 +43,7 @@ fun CardScreen(){
                 notificationVisible = true
             )
 
-        },
-        bottomBar = { BottomBarNavigation() }
+        }
     ) {
 
         Box(modifier = Modifier.padding(it)) {

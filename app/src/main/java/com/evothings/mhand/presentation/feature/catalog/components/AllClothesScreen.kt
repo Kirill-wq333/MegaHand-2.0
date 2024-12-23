@@ -57,7 +57,6 @@ fun AllClothesScreen(){
                 locationVisible = false,
             )
         },
-        bottomBar = { BottomBarNavigation() }
     ) {
         Box(modifier = Modifier.padding(it)){
             Content()

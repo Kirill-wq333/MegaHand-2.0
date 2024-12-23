@@ -6,10 +6,17 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.evothings.domain.feature.notification.repository.NotificationRepository
+import com.evothings.mhand.presentation.NavigationHost
+import com.evothings.mhand.presentation.feature.snackbar.host.SnackbarItemHost
+import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.viewmodel.ThemeViewModel
 import com.evothings.mhand.presentation.utils.analytics.trackAnalyticsEvent
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
@@ -24,6 +31,8 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var notificationRepository: NotificationRepository
 
+    @Inject
+    lateinit var snackbarItemHost: SnackbarItemHost
 
     private var navController: NavHostController? = null
     
@@ -36,7 +45,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             navController = rememberNavController()
 
+            val themeVm = hiltViewModel<ThemeViewModel>()
 
+            val isDarkThemeEnabled by themeVm.isDarkThemeEnabled.collectAsState(initial = false)
+            val snackbarItem by snackbarItemHost.currentSnackbarItem.collectAsState()
+
+            MegahandTheme(isDarkThemeEnabled) {
+                NavigationHost(
+                    navController = navController
+                )
+            }
 
         }
 

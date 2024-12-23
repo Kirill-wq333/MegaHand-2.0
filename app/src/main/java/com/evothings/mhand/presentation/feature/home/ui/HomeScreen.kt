@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -45,6 +46,12 @@ import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
+@Composable
+fun HomeScreen(){
+    Content()
+}
+
+
 
 @Composable
 private fun Content() {
@@ -63,16 +70,13 @@ private fun Content() {
             )
 
         },
-        bottomBar = {
-            BottomBarNavigation()
-        }
     ) {
 
         Box(
             modifier = Modifier
                 .padding(it)
         ) {
-            Column(Modifier.verticalScroll(scrollState)) {
+            Column(Modifier.fillMaxSize().verticalScroll(scrollState)) {
                 StoriesLists()
                 Spacer(modifier = Modifier.height(MaterialTheme.paddings.extraLarge))
                 LoyalityCard(
@@ -228,6 +232,6 @@ fun NewProduct() {
 @Composable
 fun PreviewContent() {
     MegahandTheme {
-        Content()
+        HomeScreen()
     }
 }
