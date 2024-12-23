@@ -65,7 +65,7 @@ fun BottomBarNavigation(
 }
 
 @Composable
-private fun BottomItem(
+internal fun BottomItem(
     selected: Boolean,
     onClick: () -> Unit,
     icon: Int
