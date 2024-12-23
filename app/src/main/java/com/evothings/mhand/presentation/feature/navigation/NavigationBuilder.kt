@@ -6,6 +6,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.evothings.mhand.presentation.feature.card.ui.CardScreen
+import com.evothings.mhand.presentation.feature.catalog.CatalogScreen
 import com.evothings.mhand.presentation.feature.home.ui.HomeScreen
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
@@ -26,7 +28,18 @@ fun NavGraphBuilder.buildNavigation(
         SplashScreen(long = "")
     }
 
-    composable<NavGraph.StartScreens.OnboardingIntro>{}
+    composable<NavGraph.StartScreens.OnboardingIntro>{
+
+    }
+
+    // Auth
+    composable<NavGraph.Auth.SecureCode> {
+
+    }
+
+    composable<NavGraph.Auth.AuthenticationScreen> {
+
+    }
 
     // AppStatus
     composable<NavGraph.AppStatus.TechnicalWorks>{
@@ -42,4 +55,76 @@ fun NavGraphBuilder.buildNavigation(
 
     }
 
+    composable<NavGraph.BottomNav.Card> {
+        CardScreen()
+    }
+
+    composable<NavGraph.BottomNav.Other> {
+
+    }
+
+    composable<NavGraph.BottomNav.Profile> {
+
+    }
+
+    composable<NavGraph.BottomNav.ShoppingCart> {
+
+    }
+
+    composable<NavGraph.BottomNav.ShoppingCart.Checkout> {
+
+    }
+
+    composable<NavGraph.BottomNav.Catalog> {
+        CatalogScreen()
+    }
+
+    // Other
+    composable<NavGraph.Other.News> {
+
+    }
+
+    composable<NavGraph.Other.Shops> {
+
+    }
+
+    composable<NavGraph.Other.Favourites> {
+
+    }
+
+    composable<NavGraph.Other.AboutService> {
+
+    }
+
+    composable<NavGraph.Other.Help> {
+
+    }
+
+    composable<NavGraph.Other.Vacancies> {
+
+    }
+
+    composable<NavGraph.Other.NewsArticle> {
+
+    }
+
+    // ProductInfo
+    composable<NavGraph.ProductInfo> {
+
+    }
+
+    // AddressMap
+    composable<NavGraph.AddressMap> {
+
+    }
+
+    // ConfirmationCode
+    composable<NavGraph.ConfirmationCode> {
+
+    }
+
+    // ImageView
+    composable<NavGraph.ImageView> {
+
+    }
 }
