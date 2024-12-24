@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,6 +40,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.button.SmallButton
+import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
+import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -47,12 +52,16 @@ import com.evothings.mhand.presentation.theme.values.paddings.LocalPaddings
 
 @Composable
 fun BalanceAndCashback(
-    money: String,
-    button: Boolean,
-    visible: Boolean
+    money: Int = -1,
+    cashback: Int,
+    enableBalance: Boolean,
+    isOffline: Boolean = false,
+    burnAmount: Double = -1.0,
+    burnDate: String = "",
+    onClickIncrease: () -> Unit
 ) {
-    var cashback by remember { mutableIntStateOf(3) }
-    var visibleButton by remember { mutableStateOf(true) }
+    val maximumCashbackIsReached = remember { cashback == 5 }
+    val showIncreaseButton = remember(isOffline) { !maximumCashbackIsReached && !isOffline }
 
     Box(
         modifier = Modifier
@@ -70,53 +79,41 @@ fun BalanceAndCashback(
             modifier = Modifier
                 .padding(MaterialTheme.paddings.giant)
         ) {
-            Items(
-                icon = ImageVector.vectorResource(R.drawable.ic_prize),
-                text = "$money₽",
-                contentDescription = "prize",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W500,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_500)))
-            )
+            if (enableBalance) {
+                Balance(
+                    isOffline = isOffline,
+                    balance = money,
+                )
+            }
+            if (burnAmount > 0) {
+                var fontSize by remember { mutableStateOf(12.sp) }
+
+                Text(
+                    text = stringResource(R.string.card_burn_bonuses_text, burnAmount, burnDate),
+                    style = typography.bodyMedium,
+                    fontSize = fontSize,
+                    onTextLayout = { if (it.hasVisualOverflow) fontSize = 10.sp },
+                    maxLines = 1,
+                    color = colorScheme.error
+                )
+            }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-            Items(
-                icon = ImageVector.vectorResource(R.drawable.ic_back),
-                text = "$cashback%",
-                contentDescription = "back",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400)))
+            Cashback(
+                isOffline = isOffline,
+                isSmallSize = enableBalance,
+                cashback = cashback
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
-            TextCashBack()
+            TextCashBack(
+                cashback = cashback
+            )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-            if (visible) {
-                if (visibleButton) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = colorScheme.secondary.copy(.05f),
-                                shape = MegahandShapes.small
-                            )
-                            .clickable {
-                                visibleButton = button
-                                cashback = if (cashback == 0) 3 else 5
-                            }
-                    ) {
-                        Text(
-                            text = stringResource(R.string.increase),
-                            color = colorScheme.secondary,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.W400,
-                            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-                            modifier = Modifier
-                                .padding(
-                                    vertical = MaterialTheme.paddings.medium,
-                                    horizontal = MaterialTheme.paddings.large
-                                )
-                        )
-                    }
-                }
+            if (showIncreaseButton) {
+                SmallButton(
+                    text = stringResource(id = R.string.increase),
+                    backgroundColor = colorScheme.secondary.copy(0.05f),
+                    onClick = onClickIncrease
+                )
             }
         }
 
@@ -124,42 +121,81 @@ fun BalanceAndCashback(
 }
 
 @Composable
-fun Items(
-    icon: ImageVector,
-    text: String,
-    contentDescription: String?,
-    fontSize: TextUnit,
-    fontWeight: FontWeight,
-    fontFamily: FontFamily
+fun Balance(
+    isOffline: Boolean,
+    balance: Int
 ){
+
+    val balanceFormatted = remember {
+        if (!isOffline) {
+            val balanceSplit = balance.splitHundreds(NumberSeparator.SPACE)
+            "$balanceSplit ₽"
+        } else "??? ₽"
+    }
+
+    val tint =
+        if (isOffline) colorScheme.secondary.copy(0.4f) else colorScheme.inverseSurface
+
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = icon,
-            contentDescription = contentDescription,
-            tint = colorScheme.inverseSurface
+            imageVector = ImageVector.vectorResource(R.drawable.ic_back),
+            contentDescription = null,
+            tint = tint
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
         Text(
-            text = text,
+            text = balanceFormatted,
             color = colorScheme.secondary,
-            fontSize = fontSize,
-            fontWeight = fontWeight,
-            fontFamily = fontFamily
+            style = MegahandTypography.bodyLarge
+        )
+    }
+}
+@Composable
+fun Cashback(
+    cashback: Int,
+    isOffline: Boolean,
+    isSmallSize: Boolean
+){
+    val turnIconTint =
+        if (!isOffline) colorScheme.inverseSurface else colorScheme.secondary.copy(0.4f)
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.ic_prize),
+            contentDescription = null,
+            tint = turnIconTint
+        )
+        Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
+        Text(
+            text = if (!isOffline) "$cashback%" else "?%",
+            color = colorScheme.secondary,
+            style = if (isSmallSize) typography.bodyMedium else typography.headlineMedium
         )
     }
 }
 
 @Composable
-fun TextCashBack(){
-    Text(
-        text = stringResource(R.string.maximum_cashback_reached),
-        color = colorScheme.secondary.copy(0.4f),
-        fontSize = 12.sp,
-        lineHeight = 15.sp,
-        fontWeight = FontWeight.W400,
-        fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-    )
+fun TextCashBack(
+    cashback: Int,
+    isOffline: Boolean = false
+){
+    val maximumCashbackIsReached = remember { cashback == 5 }
+
+    if (!isOffline) {
+        Text(
+            text = stringResource(
+                id = if (!maximumCashbackIsReached)
+                    R.string.loyality_card_hint
+                else
+                    R.string.maximum_cashback_reached
+            ),
+            style = typography.bodyMedium,
+            color = colorScheme.secondary.copy(0.4f)
+        )
+    }
 }
 

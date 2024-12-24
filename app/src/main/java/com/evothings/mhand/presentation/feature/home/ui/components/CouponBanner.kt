@@ -24,41 +24,41 @@ import com.evothings.mhand.presentation.theme.paddings
 @Composable
 fun CouponBanner(
     banner: Int,
-    selected: Boolean
+    onClick: () -> Unit,
+    onClose: () -> Unit
 ) {
-    var visibleCoupon by remember { mutableStateOf(true) }
 
-    if (visibleCoupon) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = MaterialTheme.paddings.extraLarge
+            ),
+        contentAlignment = Alignment.TopEnd
+    ) {
+
+        AsyncImage(
+            model = banner,
+            contentDescription = null,
+            modifier = Modifier
+                .clickable { onClick() }
+        )
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = MaterialTheme.paddings.extraLarge
-                ),
-            contentAlignment = Alignment.TopEnd
+                .padding(MaterialTheme.paddings.extraLarge),
+            contentAlignment = Alignment.Center
         ) {
-
-            AsyncImage(
-                model = banner,
-                contentDescription = null,
-            )
-            Box(
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_close),
+                contentDescription = "Close",
                 modifier = Modifier
-                    .padding(MaterialTheme.paddings.extraLarge),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_close),
-                    contentDescription = "Close",
-                    modifier = Modifier
-                        .clickable { visibleCoupon = selected }
-                        .padding(MaterialTheme.paddings.medium)
-                )
+                    .clickable { onClose() }
+                    .padding(MaterialTheme.paddings.medium)
+            )
 
-            }
         }
-
     }
+
 }
 
 
@@ -67,6 +67,7 @@ fun CouponBanner(
 fun PreviewBanners(){
     CouponBanner(
         banner = R.drawable.loyality_onboarding_banner,
-        selected = true
+        onClose = {},
+        onClick = {}
     )
 }
