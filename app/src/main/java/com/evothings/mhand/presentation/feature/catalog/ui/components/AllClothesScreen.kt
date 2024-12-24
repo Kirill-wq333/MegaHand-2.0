@@ -1,10 +1,10 @@
 package com.evothings.mhand.presentation.feature.catalog.ui.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,66 +13,70 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
+import com.evothings.domain.feature.catalog.model.ProductCategory
+import com.evothings.domain.feature.product.model.Product
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.home.ui.Painter
+import com.evothings.mhand.presentation.feature.catalog.ui.CatalogCallback
+import com.evothings.mhand.presentation.feature.catalog.ui.CatalogUiState
 import com.evothings.mhand.presentation.feature.home.ui.components.PreloadItem
-import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.BottomBarNavigation
-import com.evothings.mhand.presentation.feature.shared.header.Header
-import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
-fun AllClothesScreen(){
-    Scaffold(
-        topBar = {
-            Header(
-                nameCategory = stringResource(R.string.all_clothes),
-                balanceVisible = true,
-                notificationVisible = true,
-                logoVisible = false,
-                chevronLeftVisible = true,
-                locationVisible = false,
-            )
-        },
-    ) {
-        Box(modifier = Modifier.padding(it)){
-            Content()
-        }
-    }
+fun AllClothesScreen(
+    uiState: CatalogUiState,
+    callback: CatalogCallback
+) {
+    var filterBottomSheetExpanded by remember { mutableStateOf(false) }
+
+    Content(
+        subcategories = uiState.categories,
+        products = uiState.products,
+        gridScrollPosition = uiState.gridScrollPosition,
+        prodCount = uiState.productsTotal,
+        onClickFilter = {filterBottomSheetExpanded = true},
+        callback = callback
+    )
 }
 
 @Composable
-private fun Content() {
-    val textList = listOf(
-        stringResource(R.string.t_shirts),
-        stringResource(R.string.shirts),
-        stringResource(R.string.pants),
-        stringResource(R.string.trousers),
-    )
-    val number = 123
+private fun Content(
+    products: LazyPagingItems<Product>,
+    subcategories: List<ProductCategory>?,
+    gridScrollPosition: Int,
+    callback: CatalogCallback,
+    prodCount: Int,
+    onClickFilter: () -> Unit
+) {
 
     Column(
         modifier = Modifier
@@ -81,14 +85,16 @@ private fun Content() {
             .padding(horizontal = MaterialTheme.paddings.extraLarge),
         horizontalAlignment = Alignment.Start,
     ) {
-
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.small)
-        ) {
-            items(textList) { item ->
-                Button(
-                    text = item
-                )
+        if (!subcategories.isNullOrEmpty()) {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.small)
+            ) {
+                items(subcategories) { item ->
+                    Button(
+                        text = item.title
+                    )
+                }
             }
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
@@ -108,12 +114,13 @@ private fun Content() {
                     .padding(MaterialTheme.paddings.medium)
             )
             Text(
-                text = "$number товара(ов)",
+                text = stringResource(R.string.products_count, prodCount),
                 color = colorScheme.secondary.copy(0.4f),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W400,
                 fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
                 modifier = Modifier
+                    .clickable { onClickFilter() }
                     .padding(
                         horizontal = MaterialTheme.paddings.extraLarge,
                         vertical = MaterialTheme.paddings.medium
@@ -121,19 +128,39 @@ private fun Content() {
             )
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
-        Products()
+        Products(
+            products = products,
+            callback = callback,
+            initialScrollPosition = gridScrollPosition,
+            onChangeScrollPosition = callback::updatePagingGridScrollPosition
+        )
     }
 }
 
 @Composable
-fun Products() {
+fun Products(
+    products: LazyPagingItems<Product>,
+    initialScrollPosition: Int,
+    callback: ProductCardCallback,
+    onChangeScrollPosition: (Int) -> Unit
+) {
 
-    val product = listOf(
-        Painter("https://s3-alpha-sig.figma.com/img/bbc9/b4f4/3bcb0ac3ea5a25f8bff886fa37da5c5d?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AQyMhZk8IhlCmT-0PnG5aoBYVuy~QU7XpvBX-zmheXo2yABCgT18nTSVlhQl3CkzxGcYl76a2mNMvFZI4-r6lHfd65DnBkRiCRkEACHRekl7AlIEHN6u2NftRCb53RWgs1sEYVQPw72e4mjR5PYQGMFroWxnhQ2cqYuERt7DlbEAh73hw2GWau5fx5m~6eDPs2h7MR5z3x07un84o7AIJ~Jwo6p-EwD9OmrGLCj4su1zIi3oZNzOKwJX0bbfZx571gxUejCZLRkw0vxL~AMa7EAL2ywi-UpROw0zbEM8xWrE~MzQhriBATrIAU1tEbjx9iP2tWq2V6FzS1zy9UTRqw__"),
-        Painter("https://s3-alpha-sig.figma.com/img/df49/6794/1fb70577a140768d7de1141121f7e2d8?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=lLRFCZT-R9FBFqIjaxZQLFGgfvZ21AoHqtZ0uu6N2q2BDPK5JEvaC~xWk~NzdLWx6miP~GfxlbnNKvLPEU2yFLWGQuJQUTzc1h79X83hBVQ-2~z3f34owe4Ka~q8FnNr2qDi8cPpjqTH40DrvDT-YTIDci~icESQaXz434m~uWMihTT1H26JHyl8fyaJhGj1bP-UfcLeNa1qsSG7fzHKD121MV1Esce7YBZCiyGd8~JsRfwjy9-mH~eiX-Xg3FW5sEhP~KLjltDFC8klEdbGtn1zDxAmifhrJT6YfN1-AutpDY5bLjuLmZD60cG79cvIKdCvLds--CYhU9r~zKatng__"),
-        Painter("https://s3-alpha-sig.figma.com/img/05c6/2dfc/c09c9213bdfb064bfc272aeecc6448a3?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VJLLThkEga3Jy3n~zPrdsJsypf7mUTz~dIzH7zYHPz7y~3OD~lY8cpsL4JJ5OLFo-w8TmP5QIiHb1XmEEMKFBq1VF5ZPrGnubOZexulCnJMsXv2OCmlZm6z-vt4GDIHPjGo8C2~-74Vo~sIWtGv7Tb8kIFgu67MCBA4F3VGL6pjrajGLxKeVQaAoQJ~ErwgTBxLKw0bGs3Veri4Vqx3cwyMZsRjoOfcivEGwhBspOK0WRJf9UCqvSGnanc9LX8jNLplqsS8IaNIPeY7iFL5W2FsNJrL6Od7c6D1QmIMjl5z2soVrtt0~zKa~ubOWB1l9wwnbGoNL15eQIQkWxUvEig__"),
-        Painter("https://s3-alpha-sig.figma.com/img/d953/57ed/9052a8b6d203d5563212b12d8f3b23f7?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PtCKKGjjhEuq8pqdUaUx1fY995HzhwA-3saEMiuNnrDadv0K-LLrWH~w7nRa9CGzQQtDscbPN~XFrMpFOTMzJUGMVN3kVtdQteC3Igbpn79FM11IXuBd26lhIUMPxyR6mgv7dOTMKtiwgIXp9yIF-aO770KCfOHPK40ppGF6Wp7UKjwJe4LYgDupMU1oiXmPtc~Xo5HS3KW8kTgrKHT0pexywey84-tgnI41PP0PSbwmDpWNjil-KcSNbjrz8v-9AfFjQ8SHnhFDsoP8KU~GSYMuWBVmcMTd6xW-nd5A5fCoy2pIRx~KjgUxI1mQwu~UBDYttbOBiOxKE~trbtnAGQ__"),
+    val isLoading = remember {
+        derivedStateOf {
+            products.loadState.append is LoadState.Loading
+                    || products.loadState.refresh is LoadState.Loading
+        }
+    }
+
+    val gridState = rememberLazyGridState(
+        initialFirstVisibleItemIndex = initialScrollPosition
     )
+
+    LaunchedEffect(gridState.isScrollInProgress) {
+        if (!gridState.isScrollInProgress) {
+            onChangeScrollPosition(gridState.firstVisibleItemIndex)
+        }
+    }
 
     val gridHeight = remember {
         val verticalPadding = 18 * 2
@@ -152,18 +179,18 @@ fun Products() {
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.normal),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.extraLarge),
     ) {
-        items(product) { item ->
-            PreloadItem(
-                contentDescription = null,
-                cashback = "172",
-                price = "3592",
-                discount = "6990",
-                discountPercent = "49",
-                information = "Футболка A Shock, черно-розовая",
-                size = "M",
-                estimation = "Высокое",
-                product = item.image
-            )
+        items(
+            count = products.itemCount,
+            key = products.itemKey { product -> product.id },
+            contentType = products.itemContentType { product -> product::class.simpleName }
+        ) { index ->
+            val item = products.get(index)
+            item?.let { i ->
+                PreloadItem(
+                    model = i,
+                    callback = callback
+                )
+            }
         }
     }
 
@@ -192,10 +219,3 @@ fun Button(
     }
 }
 
-@Preview
-@Composable
-fun PreviewAllclothesScreen(){
-    MegahandTheme {
-        AllClothesScreen()
-    }
-}

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
 import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -45,9 +47,7 @@ fun Price(
     ) {
         TextItem(
             text = "${price.splitHundreds(NumberSeparator.SPACE)} ₽",
-            fontSize = 18.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-            fontWeight = FontWeight.W500
+            style = MegahandTypography.headlineSmall
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
         if (cashback > 0) {
@@ -82,10 +82,8 @@ private fun Cashback(
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacers.tiny))
             TextItem(
-                text = "${cashback.toInt().splitHundreds(NumberSeparator.SPACE)} ₽",,
-                fontSize = 12.sp,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-                fontWeight = FontWeight.W400
+                text = "${cashback.toInt().splitHundreds(NumberSeparator.SPACE)} ₽",
+                style = MegahandTypography.bodyMedium
             )
         }
     }
@@ -95,15 +93,11 @@ private fun Cashback(
 @Composable
 private fun TextItem(
     text: String,
-    fontSize: TextUnit,
-    fontWeight: FontWeight,
-    fontFamily: FontFamily
+    style: TextStyle
 ){
     Text(
         text = text,
         color = colorScheme.secondary,
-        fontSize = fontSize,
-        fontWeight = fontWeight,
-        fontFamily = fontFamily
+        style = style
     )
 }
