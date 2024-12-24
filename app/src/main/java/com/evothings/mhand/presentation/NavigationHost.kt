@@ -23,13 +23,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.evothings.mhand.presentation.feature.navigation.DestinationResolver
 import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.BottomBarNavigation
+import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.model.WebPageScreen
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.navigation.buildNavigation
 import com.evothings.mhand.presentation.feature.navigation.graph.shouldShowNavBar
+import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.model.ConfirmCodeUseCase
+import com.evothings.mhand.presentation.feature.snackbar.model.SnackbarItem
+import com.evothings.mhand.presentation.utils.sdkutil.tryOpenWebPage
 
 @Composable
 fun NavigationHost(
-//    snackbarItem: SnackbarItem?,
+    snackbarItem: SnackbarItem?,
     navController: NavHostController?
 ) {
 
@@ -41,7 +45,7 @@ fun NavigationHost(
     }
 
     HostScaffold(
-//        snackbarItem = snackbarItem,
+        snackbarItem = snackbarItem,
         bottomBar = {
             val context = LocalContext.current
             val showNavBar = remember(currentRoute) { currentRoute.shouldShowNavBar() }
@@ -49,13 +53,13 @@ fun NavigationHost(
             if (showNavBar) {
                 BottomBarNavigation(
                     currentRoute = currentRoute,
-//                    openScreen = { route -> navController.navigate(route) },
-//                    openWebPageScreen = { openWebPageScreen(context, it) },
-//                    openPhoneConfirmationScreen = { phone ->
-//                        navController.navigate(
-//                            NavGraph.ConfirmationCode(phone, ConfirmCodeUseCase.COUPON.ordinal)
-//                        )
-//                    }
+                    openScreen = { route -> navController.navigate(route) },
+                    openWebPageScreen = { openWebPageScreen(context, it) },
+                    openPhoneConfirmationScreen = { phone ->
+                        navController.navigate(
+                            NavGraph.ConfirmationCode(phone, ConfirmCodeUseCase.COUPON.ordinal)
+                        )
+                    }
                 )
             }
         }
@@ -75,20 +79,20 @@ fun NavigationHost(
 
 @Composable
 private fun HostScaffold(
-//    snackbarItem: SnackbarItem?,
+    snackbarItem: SnackbarItem?,
     bottomBar: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-//    LaunchedEffect(snackbarItem) {
-//        if (snackbarItem != null) {
-//            snackbarHostState.showSnackbar(
-//                message = "${snackbarItem.title}\n${snackbarItem.subtitle}"
-//            )
-//        }
-//    }
+    LaunchedEffect(snackbarItem) {
+        if (snackbarItem != null) {
+            snackbarHostState.showSnackbar(
+                message = "${snackbarItem.title}\n${snackbarItem.subtitle}"
+            )
+        }
+    }
 
     Scaffold(
         snackbarHost = {
@@ -102,12 +106,12 @@ private fun HostScaffold(
                     hostState = snackbarHostState,
                     snackbar = { snackbarData ->
                         val messageParts = snackbarData.visuals.message.split("\n")
-//                        if (messageParts.size == 2) {
-////                            Snackbar(
-////                                messageTitle = messageParts[0],
-////                                messageBody = messageParts[1],
-////                            )
-//                        }
+                        if (messageParts.size == 2) {
+//                            Snackbar(
+//                                messageTitle = messageParts[0],
+//                                messageBody = messageParts[1],
+//                            )
+                        }
                     }
                 )
             }
@@ -118,10 +122,10 @@ private fun HostScaffold(
 
 }
 
-//private fun openWebPageScreen(context: Context, screen: WebPageScreen) {
-//    val host = StringBuilder("https://mhand.ru/")
-//    val path = if (screen == WebPageScreen.VACANCIES) "vacancy/" else "faq/"
-//    val url = host.append(path).toString()
-//
-//    tryOpenWebPage(context, url)
-//}
+private fun openWebPageScreen(context: Context, screen: WebPageScreen) {
+    val host = StringBuilder("https://mhand.ru/")
+    val path = if (screen == WebPageScreen.VACANCIES) "vacancy/" else "faq/"
+    val url = host.append(path).toString()
+
+    tryOpenWebPage(context, url)
+}

@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
 
             MegahandTheme(isDarkThemeEnabled) {
                 NavigationHost(
+                    snackbarItem = snackbarItem,
                     navController = navController
                 )
             }

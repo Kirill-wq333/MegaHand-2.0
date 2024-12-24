@@ -15,13 +15,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.catalog.ui.CatalogCallback
+import com.evothings.mhand.presentation.feature.catalog.ui.CatalogUiState
+import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogContract
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
-fun SearchScreen(){
+fun SearchScreen(
+    state: CatalogContract.State,
+    uiState: CatalogUiState,
+    callback: CatalogCallback
+){
     Box(
         modifier = Modifier
             .background(color = colorScheme.onSecondary)
@@ -32,7 +40,14 @@ fun SearchScreen(){
                 .fillMaxSize()
                 .padding(MaterialTheme.paddings.extraLarge)
         ) {
-            SearchBar()
+            SearchBar(
+                modifier = Modifier.padding(12.dp),
+                query = uiState.query,
+                enableBackButton = (state !is CatalogContract.State.Search),
+                onChangeQuery = callback::onChangeQuery,
+                onSearch = callback::search,
+                onBack = callback::resetState
+            )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
             HintsList(text = stringResource(R.string.pants))
             HorizontalDivider(
@@ -76,11 +91,3 @@ fun SearchScreen(){
     }
 }
 
-
-@Preview
-@Composable
-fun PreviewSearchScreen(){
-    MegahandTheme {
-        SearchScreen()
-    }
-}

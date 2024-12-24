@@ -48,6 +48,7 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun Buttons(
+    modifier: Modifier = Modifier,
     isInCart: Boolean,
     isFavourite: Boolean,
     isInStock: Boolean = true,
@@ -68,7 +69,7 @@ fun Buttons(
         }
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 horizontal = MaterialTheme.paddings.extraLarge
