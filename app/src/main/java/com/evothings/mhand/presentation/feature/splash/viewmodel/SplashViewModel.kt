@@ -11,6 +11,10 @@ import com.evothings.mhand.core.viewmodel.BaseViewModel
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,12 +28,25 @@ class SplashViewModel @Inject constructor(
     private val onboardingInteractor: OnboardingInteractor
 ) : BaseViewModel<SplashContract.Event, SplashContract.State, SplashContract.Effect>() {
 
-    override fun setInitialState(): SplashContract.State = SplashContract.State.Initial
+    private var timerCoroutine: Job? = null
+    private val _enableDelayText = MutableStateFlow(false)
+    val enableDelayText = _enableDelayText.asStateFlow()
 
+    override fun setInitialState(): SplashContract.State {
+        return SplashContract.State.Initial
+    }
+
+    private fun launchTimer() {
+        timerCoroutine = viewModelScope.launch {
+            delay(10000)
+            _enableDelayText.emit(true)
+        }
+    }
 
     override fun handleEvent(event: SplashContract.Event) {
         when(event) {
-            is SplashContract.Event.CheckApp -> {
+            is SplashContract.Event.DetermineNavRoute -> {
+                launchTimer()
                 subscribeToMainNotificationTopic()
                 checkUpdateAndDetermineNavRoute()
             }
@@ -62,17 +79,21 @@ class SplashViewModel @Inject constructor(
             val appStatus = splashInteractor.fetchAppStatus().getOrNull()
             val onboardingShown = onboardingInteractor.isIntroScreenShown()
 
+            if (appStatus?.technicalWorks == true) {
+                setState(SplashContract.State.TechWorks)
+                return@launch
+            }
             setEffect {
-                when {
-                    (appStatus?.technicalWorks == true) -> SplashContract.Effect.NavigateToTechWorks
-                    !onboardingShown -> {
-                        setDefaultCity()
-                        SplashContract.Effect.NavigateToOnboarding
-                    }
-                    else -> SplashContract.Effect.NavigateToMain
+                if (!onboardingShown) {
+                    setDefaultCity()
+                    SplashContract.Effect.NavigateToOnboarding
+                } else {
+                    SplashContract.Effect.NavigateToMain
                 }
             }
-        }
+        }.invokeOnCompletion {
+                timerCoroutine?.cancel()
+            }
     }
 
     private fun setDefaultCity() {

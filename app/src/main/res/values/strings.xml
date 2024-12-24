@@ -300,6 +300,7 @@
     <string name="continue_checkout_button">Продолжить оформление</string>
     <string name="pay_expired_order_button">Оплатить</string>
     <string name="without_discount">Без скидки</string>
+    <string name="splash_screen_delay_text">Еще немного…</string>
     <string name="new_discount_system">Новая система</string>
 
 </resources>

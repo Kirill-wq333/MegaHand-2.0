@@ -7,11 +7,13 @@ import com.evothings.mhand.core.viewmodel.ViewState
 object SplashContract {
 
     sealed interface Event : ViewEvent {
-        data object CheckApp : Event
+        data object DetermineNavRoute : Event
     }
 
     sealed interface State : ViewState {
         data object Initial : State
+        data object TechWorks: State
+
     }
 
     sealed interface Effect : ViewEffect {

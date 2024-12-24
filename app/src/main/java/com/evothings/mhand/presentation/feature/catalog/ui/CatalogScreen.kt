@@ -1,17 +1,10 @@
 package com.evothings.mhand.presentation.feature.catalog.ui
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -19,13 +12,9 @@ import com.evothings.domain.feature.catalog.model.FilterValue
 import com.evothings.domain.feature.catalog.model.ProductCategory
 import com.evothings.domain.feature.catalog.model.SearchHint
 import com.evothings.domain.feature.product.model.Product
-import com.evothings.mhand.presentation.feature.catalog.ui.components.SearchBar
 import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogContract
 import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogViewModel
-import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
-import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
-import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 
 data class CatalogUiState(
     val query: String,

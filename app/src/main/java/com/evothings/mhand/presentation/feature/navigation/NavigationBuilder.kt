@@ -2,6 +2,7 @@ package com.evothings.mhand.presentation.feature.navigation
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.compositionLocalOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
@@ -17,6 +18,7 @@ import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.model.ConfirmCodeUseCase
 import com.evothings.mhand.presentation.feature.splash.ui.LoadingTechnicalServiceScreen
 import com.evothings.mhand.presentation.feature.splash.ui.SplashScreen
+import com.evothings.mhand.presentation.feature.splash.viewmodel.SplashViewModel
 
 val localNavController = compositionLocalOf<NavHostController>{
     error("LocalNavController not provided")
@@ -26,8 +28,15 @@ fun NavGraphBuilder.buildNavigation(
     navController: NavHostController
 ){
     // StartScreen
-    composable<NavGraph.StartScreens.Splash>{
-        SplashScreen(long = "")
+    composable<NavGraph.StartScreens.Splash>(
+        exitTransition = { fadeOut(tween(500)) }
+    ){
+        val splashViewModel = hiltViewModel<SplashViewModel>()
+        SplashScreen(
+            vm = splashViewModel,
+            openMainScreen = { navController.navigate(NavGraph.BottomNav.Home) },
+            openOnboardingIntro = { navController.navigate(NavGraph.StartScreens.OnboardingIntro) },
+        )
     }
 
     composable<NavGraph.StartScreens.OnboardingIntro>{
