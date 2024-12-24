@@ -1,6 +1,8 @@
 package com.evothings.mhand.presentation.feature.coupon.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,61 +13,122 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.evothings.domain.feature.coupon.model.CouponForm
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.auth.ui.components.PrivacyPolicyText
+import com.evothings.mhand.presentation.feature.coupon.viewmodel.CouponContract
+import com.evothings.mhand.presentation.feature.coupon.viewmodel.CouponViewModel
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
+import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.text.MTextField
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
+import com.evothings.mhand.presentation.feature.shared.text.transform.TextMasks
+import com.evothings.mhand.presentation.feature.shared.text.transform.rememberMaskVisualTransformation
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
+import com.evothings.mhand.presentation.utils.sdkutil.openPrivacyPolicyPage
 
 @Composable
-fun Coupon(){
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(
-                shape = RoundedCornerShape(
-                    topStart = 12.dp,
-                    topEnd = 12.dp)
+fun Coupon(
+    vm: CouponViewModel = hiltViewModel(),
+    onDismiss: () -> Unit,
+    openConfirmationScreen: (String) -> Unit
+){
+    val context = LocalContext.current
+
+    val couponAmount by vm.bonusAmount.collectAsState()
+
+    LaunchedEffect(vm.effect) {
+        vm.effect.collect {
+            when(it) {
+                is CouponContract.Effect.OpenConfirmationScreen -> openConfirmationScreen(it.phone)
+                is CouponContract.Effect.ShowToast ->
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    MhandModalBottomSheet(
+        onDismissRequest = onDismiss
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(
+                    shape = RoundedCornerShape(
+                        topStart = 12.dp,
+                        topEnd = 12.dp
+                    )
+                )
+                .background(color = colorScheme.onSecondary)
+        ) {
+            Content(
+                bonusAmount = couponAmount,
+                onFill = { vm.handleEvent(CouponContract.Event.SendForm(it)) },
+                openPrivacyPolicy = { openPrivacyPolicyPage(context) }
             )
-            .background(color = colorScheme.onSecondary)
-    ){
-        Content(
-            heading = "Получить 300 ₽",
-            informationText = "Еще не совершал покупку в Мегахенд? Заполни форму ниже соверши первую покупку с выгодой!"
-        )
+        }
     }
 }
 
 @Composable
 private fun Content(
-    heading: String,
-    informationText: String
-){
-    val fieldValue = remember { mutableStateOf("") }
+    bonusAmount: Int,
+    onFill: (CouponForm) -> Unit,
+    openPrivacyPolicy: () -> Unit
+) {
+    val focusManager = LocalFocusManager.current
+
+    var selectCityBottomSheetVisible by remember { mutableStateOf(false) }
+
+    var name by remember { mutableStateOf("") }
+    var surname by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("") }
+
+    val isFilled by remember {
+        derivedStateOf {
+            name.isNotEmpty()
+                    && surname.isNotEmpty()
+                    && (phone.isNotEmpty() && phone.length == 11)
+                    && city.isNotEmpty()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -73,7 +136,7 @@ private fun Content(
         horizontalAlignment = Alignment.Start
     ) {
         TextItem(
-            text = heading,
+            text = stringResource(R.string.gather_coupon_title, bonusAmount),
             color = colorScheme.secondary,
             fontSize = 20.sp,
             fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
@@ -81,53 +144,68 @@ private fun Content(
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         TextItem(
-            text = informationText,
+            text = stringResource(R.string.coupon_form_subtitle),
             color = colorScheme.secondary.copy(0.4f),
             fontSize = 16.sp,
             fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
             fontWeight = FontWeight.W400
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        NameAndSurnameTextField()
+        NameAndSurnameTextField(
+            name = name,
+            surname = surname,
+            onChangeName = {name = it},
+            onChangeSurname = {surname = it}
+        )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        NumberPhoneTextField()
+        NumberPhoneTextField(
+            phone = phone,
+            onChangePhone = { phone = it}
+        )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         TrailingButtonTextField(
-            value = fieldValue.value,
+            value = city,
             label = stringResource(R.string.city),
-            buttonLabel = "Выбрать",
-            onValueChange = { fieldValue.value = it },
-            onClickTrailingButton = {}
+            buttonLabel = stringResource(R.string.choose),
+            onValueChange = {city = it},
+            onClickTrailingButton = {
+                selectCityBottomSheetVisible = true
+                focusManager.clearFocus()
+            }
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        Button()
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(R.string.coupon_form_button),
+            backgroundColor = MaterialTheme.colorScheme.primary,
+            textColor = ColorTokens.Graphite,
+            isEnabled = isFilled,
+            onClick = {
+                onFill(
+                    CouponForm(
+                        name = name,
+                        surname = surname,
+                        city = city,
+                        phone = phone
+                    )
+                )
+            }
+        )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(
-                buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = colorScheme.secondary.copy(0.4f))) {
-                        append(text = "Нажимая кнопку «Получить купон», ты даешь согласие на обработку персональных данных, а также подтверждаешь, что согласен с")
-                    }
-                    withStyle(style = SpanStyle(color = colorScheme.secondary)) {
-                        append(text = " Политикой конфиденциальности")
-                    }
-                },
-                textAlign = TextAlign.Center,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-            )
-        }
-
+        PrivacyPolicyText(
+            buttonLabel = stringResource(id = R.string.coupon_form_button),
+            onClick = openPrivacyPolicy
+        )
     }
 }
 
 @Composable
-fun NameAndSurnameTextField(){
-    val value = remember { mutableStateOf("") }
+fun NameAndSurnameTextField(
+    name: String,
+    surname: String,
+    onChangeName: (String) -> Unit,
+    onChangeSurname: (String) -> Unit,
+){
 
     Row(
         modifier = Modifier
@@ -148,11 +226,11 @@ fun NameAndSurnameTextField(){
             MTextField(
                 modifier = Modifier
                     .width(166.dp),
-                value = value.value,
+                value = name,
                 errorState = false,
                 errorText = "Like a leafs",
                 placeholder = "",
-                onValueChange = { value.value = it }
+                onValueChange = onChangeName
             )
         }
         Column(
@@ -169,20 +247,21 @@ fun NameAndSurnameTextField(){
             MTextField(
                 modifier = Modifier
                     .width(166.dp),
-                value = value.value,
+                value = surname,
                 errorState = false,
                 errorText = "Like a leafs",
                 placeholder = "",
-                onValueChange = { value.value = it }
+                onValueChange = onChangeSurname
             )
         }
     }
 }
 
 @Composable
-fun NumberPhoneTextField(){
-
-    val value = remember { mutableStateOf("") }
+fun NumberPhoneTextField(
+    phone: String,
+    onChangePhone: (String) -> Unit,
+){
 
     Column {
         Text(
@@ -194,38 +273,18 @@ fun NumberPhoneTextField(){
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
         MTextField(
-            value = value.value,
+            value = phone,
             errorState = false,
             errorText = "Like a leafs",
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
             placeholder = "",
-            onValueChange = { value.value = it }
+            maxLines = 11,
+            visualTransformation = rememberMaskVisualTransformation(mask = TextMasks.phone),
+            onValueChange = onChangePhone
         )
     }
 }
 
-
-@Composable
-private fun Button(){
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = colorScheme.primary,
-                shape = MegahandShapes.medium
-            ),
-        contentAlignment = Alignment.Center
-    ){
-        Text(
-            text = "Получить",
-            color = colorScheme.secondary,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.W500,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-            modifier = Modifier
-                .padding(MaterialTheme.paddings.extraLarge)
-        )
-    }
-}
 
 @Composable
 private fun TextItem(
@@ -246,10 +305,3 @@ private fun TextItem(
     )
 }
 
-@Preview
-@Composable
-fun PreviewCoupon(){
-    MegahandTheme(true) {
-        Coupon()
-    }
-}

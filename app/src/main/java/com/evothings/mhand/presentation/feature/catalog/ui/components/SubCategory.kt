@@ -42,8 +42,6 @@ fun SubCategory(){
             modifier = Modifier
             .padding(MaterialTheme.paddings.extraLarge)
         ) {
-            SearchBar()
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
             HintsList(text = stringResource(R.string.all_clothes))
             HorizontalDivider(
                 modifier = Modifier

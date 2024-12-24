@@ -32,6 +32,14 @@ fun NavGraphBuilder.buildNavigation(
 
     }
 
+    composable<NavGraph.Auth.SecureCode.Enter> {
+
+    }
+
+    composable<NavGraph.Auth.SecureCode.Create> {
+
+    }
+
     composable<NavGraph.Auth.AuthenticationScreen> {
 
     }
@@ -52,10 +60,6 @@ fun NavGraphBuilder.buildNavigation(
 
     composable<NavGraph.BottomNav.Card> {
         CardScreen()
-    }
-
-    composable<NavGraph.BottomNav.Other> {
-
     }
 
     composable<NavGraph.BottomNav.Profile> {

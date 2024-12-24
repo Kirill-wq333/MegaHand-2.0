@@ -12,7 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,7 +25,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.bottomsheet.OtherBottomSheet
+import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.model.WebPageScreen
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
+import com.evothings.mhand.presentation.feature.navigation.graph.Screen
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
@@ -32,35 +38,53 @@ import kotlin.reflect.KClass
 @Composable
 fun BottomBarNavigation(
     currentRoute: KClass<*>,
+    openScreen: (Screen) -> Unit,
+    openWebPageScreen: (WebPageScreen) -> Unit,
+    openPhoneConfirmationScreen: (String) -> Unit
 ) {
     val navEntries = remember { NavGraph.BottomNav.bottomNavigationEntries }
+    var otherBottomSheetVisible by remember { mutableStateOf(false) }
 
-    navEntries.forEach { item ->
-        val isSelected = remember(currentRoute) {
-            val isDestOther = NavGraph.otherDestinations.any { it::class == currentRoute }
-            val isItemOther = item == NavGraph.BottomNav.Other
 
-            (isDestOther && isItemOther) || currentRoute == item::class
-        }
-
-        Box(
+    Box(
+        modifier = Modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Row(
             modifier = Modifier
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
+                .padding(vertical = MaterialTheme.paddings.giant),
+            horizontalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .padding(vertical = MaterialTheme.paddings.giant),
-                horizontalArrangement = Arrangement.spacedBy(14.dp)
-            ) {
 
+            navEntries.forEach { item ->
+                val isSelected = remember(currentRoute) {
+                    val isDestOther = NavGraph.otherDestinations.any { it::class == currentRoute }
+                    val isItemOther = item == NavGraph.BottomNav.Other
+
+                    (isDestOther && isItemOther) || currentRoute == item::class
+                }
                 BottomItem(
                     selected = isSelected,
                     icon = item.iconResId,
-                    onClick = {}
+                    onClick = {
+                        if(item != NavGraph.BottomNav.Other){
+                            openScreen(item)
+                        } else {
+                            otherBottomSheetVisible = true
+                        }
+                    }
                 )
             }
         }
+    }
+    if (otherBottomSheetVisible) {
+        OtherBottomSheet(
+            onDismissBottomSheet = { otherBottomSheetVisible = false },
+            openAppScreen = openScreen,
+            openWebPageScreen = openWebPageScreen,
+            openPhoneConfirmationScreen = openPhoneConfirmationScreen,
+        )
     }
 }
 

@@ -27,14 +27,16 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
+import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun Price(
-    price: String,
-    cashback: String
+    price: Double,
+    cashback: Double
 ) {
     Row(
         modifier = Modifier
@@ -42,19 +44,21 @@ fun Price(
         verticalAlignment = Alignment.CenterVertically
     ) {
         TextItem(
-            text = "$price₽",
+            text = "${price.splitHundreds(NumberSeparator.SPACE)} ₽",
             fontSize = 18.sp,
             fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
             fontWeight = FontWeight.W500
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
-        Cashback(cashback = cashback)
+        if (cashback > 0) {
+            Cashback(cashback = cashback)
+        }
     }
 }
 
 @Composable
 private fun Cashback(
-    cashback: String
+    cashback: Double
 ) {
 
     Box(
@@ -78,7 +82,7 @@ private fun Cashback(
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacers.tiny))
             TextItem(
-                text = "$cashback₽",
+                text = "${cashback.toInt().splitHundreds(NumberSeparator.SPACE)} ₽",,
                 fontSize = 12.sp,
                 fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
                 fontWeight = FontWeight.W400

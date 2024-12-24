@@ -25,54 +25,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
 import androidx.compose.ui.graphics.painter.Painter
+import com.evothings.domain.feature.catalog.model.ProductCategory
 import com.evothings.mhand.presentation.feature.shared.text.SearchField
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
-fun CategoryScreen() {
+fun CategoriesGrid(
+    categories: List<ProductCategory>,
+    onClickCategory: (ProductCategory) -> Unit
+){
 
-    var value by remember { mutableStateOf("") }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorScheme.background)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(MaterialTheme.paddings.extraLarge)
-        ) {
-            SearchField(
-                placeholder = stringResource(R.string.search_bar_placeholder),
-                query = value,
-                onValueChange = { value = it },
-            )
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-            LazyVerticalGrid()
-        }
-    }
-}
-
-data class CategoryItems(
-    val painter: Painter,
-    val contentDescription: String?,
-    val text: String
-)
-
-
-
-@Composable
-fun LazyVerticalGrid(){
-
-    val CategoryItem = listOf(
-        CategoryItems(painterResource(R.drawable.category_clothes),"clothes","Одежда"),
-        CategoryItems(painterResource(R.drawable.category_shoes),"shoes","Обувь"),
-        CategoryItems(painterResource(R.drawable.category_accessories),"accessories","Аксессуары"),
-        CategoryItems(painterResource(R.drawable.category_bags),"bags","Сумки"),
-        CategoryItems(painterResource(R.drawable.category_other),"other","Другое"),
-    )
     val gridHeight = remember {
         val verticalPadding = 10 * 2
         val spacing = 12 * 2
@@ -90,21 +54,15 @@ fun LazyVerticalGrid(){
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.tiny)
     ){
 
-        items(CategoryItem) { CategoryItem ->
+        items(categories) { categoryItem ->
             CategoryItem(
-                contentDescription = CategoryItem.contentDescription,
-                text = CategoryItem.text,
-                painter = CategoryItem.painter
+                onClick = {onClickCategory(categoryItem)},
+                contentDescription = "",
+                text = categoryItem.title,
+                painter = categoryItem.photoLink.orEmpty()
             )
         }
 
     }
 }
 
-@Preview
-@Composable
-fun PreviewCategoryScreen(){
-    MegahandTheme {
-        CategoryScreen()
-    }
-}

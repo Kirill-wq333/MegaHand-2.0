@@ -23,7 +23,6 @@ import com.evothings.mhand.presentation.theme.paddings
 @Composable
 fun HintsList(
     text: String,
-
     ){
 
     Row(
