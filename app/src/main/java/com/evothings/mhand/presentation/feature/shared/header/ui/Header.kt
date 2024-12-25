@@ -17,7 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -55,18 +57,11 @@ fun Header(
     modifier: Modifier = Modifier,
     nameCategory: String,
     viewModel: BaseHeaderViewModel = createViewModel(),
-    money: String = "0",
-    logo: ImageVector = ImageVector.vectorResource(R.drawable.logo),
-    location: ImageVector = ImageVector.vectorResource(R.drawable.ic_location),
-    notification: ImageVector = ImageVector.vectorResource(R.drawable.ic_notifications),
-    prize: ImageVector = ImageVector.vectorResource(R.drawable.ic_prize),
-    back: ImageVector = ImageVector.vectorResource(R.drawable.ic_chevron_left),
-    logoVisible: Boolean,
-    enableCardBalance: Boolean = true,
-    balanceVisible: Boolean,
-    notificationVisible: Boolean,
-    locationVisible: Boolean,
-    chevronLeftVisible: Boolean
+    logoVisible: Boolean = false,
+    balanceVisible: Boolean = true,
+    notificationVisible: Boolean = true,
+    locationVisible: Boolean = true,
+    chevronLeftVisible: Boolean = false
 ) {
     val context = LocalContext.current
 
@@ -107,9 +102,49 @@ fun Header(
 
     }
 
-    val displayCardBalance = remember(cardBalance, enableCardBalance) {
-        (cardBalance >= 0 && enableCardBalance)
+    val displayCardBalance = remember(cardBalance,balanceVisible) {
+        (cardBalance >= 0 && balanceVisible)
     }
+
+   Content(
+       nameCategory = nameCategory,
+       money = cardBalance,
+       logoVisible = logoVisible,
+       notificationVisible = notificationVisible,
+       balanceVisible = displayCardBalance,
+       chevronLeftVisible = chevronLeftVisible,
+       locationVisible = locationVisible,
+   )
+}
+
+@Composable
+private fun Content(
+    money: Int,
+    nameCategory: String,
+    modifier: Modifier = Modifier,
+    logoVisible: Boolean,
+    balanceVisible: Boolean,
+    notificationVisible: Boolean,
+    locationVisible: Boolean,
+    chevronLeftVisible: Boolean,
+) {
+    val context = LocalContext.current
+
+    var notificationTrayVisible by remember { mutableStateOf(false) }
+    var chooseCityScreenVisible by remember { mutableStateOf(false) }
+
+    val formattedTitle = remember(notificationTrayVisible, chooseCityScreenVisible, nameCategory) {
+        when {
+            notificationTrayVisible -> context.getString(R.string.notifications)
+            chooseCityScreenVisible -> context.getString(R.string.city)
+            else -> nameCategory
+        }
+    }
+
+    val showLogo = remember(notificationTrayVisible, chooseCityScreenVisible) {
+        logoVisible && !(notificationTrayVisible || chooseCityScreenVisible)
+    }
+
 
     Box(
         modifier = modifier
@@ -124,20 +159,17 @@ fun Header(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Logo(
-                logo = logo,
-                visible = logoVisible
+                visible = showLogo
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (chevronLeftVisible) {
-                    BackButton(
-                        icon = back
-                    )
+                    BackButton()
                     Spacer(modifier = modifier.width(MaterialTheme.spacers.medium))
                 }
                 Text(
-                    text = nameCategory,
+                    text = formattedTitle,
                     color = MaterialTheme.colorScheme.secondary,
                     fontSize = 20.sp,
                     fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
@@ -146,18 +178,17 @@ fun Header(
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 PrizeAndMoney(
-                    prize = prize,
                     money = "$money ₽",
                     selected = balanceVisible
                 )
                 Spacer(modifier = modifier.width(MaterialTheme.spacers.normal))
                 IconNavigation(
-                    imageVector = location,
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_location),
                     contentDescription = "location",
                     visible = locationVisible
                 )
                 IconNavigation(
-                    imageVector = notification,
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_notifications),
                     contentDescription = "notification",
                     visible = notificationVisible
                 )
@@ -207,12 +238,6 @@ private fun createViewModel(): BaseHeaderViewModel =
 fun PreviewHeader(){
     Header(
         nameCategory = "Магазины",
-        money = "7 180",
-        back = ImageVector.vectorResource(R.drawable.ic_chevron_left),
-        notification = ImageVector.vectorResource(R.drawable.ic_notifications),
-        location = ImageVector.vectorResource(R.drawable.ic_location),
-        logo = ImageVector.vectorResource(R.drawable.logo),
-        prize = ImageVector.vectorResource(R.drawable.ic_prize),
         chevronLeftVisible = true,
         logoVisible = false,
         notificationVisible = true,

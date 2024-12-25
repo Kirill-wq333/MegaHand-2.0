@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -26,7 +27,6 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun PrizeAndMoney(
-    prize: ImageVector,
     money: String,
     selected: Boolean
 ) {
@@ -44,7 +44,7 @@ fun PrizeAndMoney(
                     .padding(MaterialTheme.paddings.large)
             ) {
                 Icon(
-                    imageVector = prize,
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_prize),
                     contentDescription = "prize",
                     tint = colorScheme.inverseSurface
                 )

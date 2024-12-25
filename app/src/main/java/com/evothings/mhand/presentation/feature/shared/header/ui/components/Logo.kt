@@ -21,7 +21,6 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun Logo(
-    logo: ImageVector,
     visible: Boolean
 ) {
     if (visible) {
@@ -36,7 +35,7 @@ fun Logo(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = logo,
+                imageVector = ImageVector.vectorResource(R.drawable.logo),
                 contentDescription = "logo",
                 tint = colorScheme.primary,
                 modifier = Modifier
@@ -52,7 +51,6 @@ fun Logo(
 fun PreviewLogo() {
     MegahandTheme {
         Logo(
-            logo = ImageVector.vectorResource(R.drawable.logo),
             visible = true
         )
     }
