@@ -138,7 +138,6 @@ fun Cashback(
         PrizeAndMoney(
             selected = selected,
             money = money,
-            prize = ImageVector.vectorResource(R.drawable.ic_prize)
         )
     }
 }
