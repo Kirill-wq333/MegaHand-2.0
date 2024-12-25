@@ -17,7 +17,6 @@ fun Information(
     price: Double,
     cashback: Double,
     discount: Double,
-    valueDiscount: Double,
     keepOldPrice: Boolean,
     discountPercent: Double,
     isDiscountPercent: Boolean,
@@ -31,7 +30,7 @@ fun Information(
     Spacer(modifier = Modifier.height(MaterialTheme.spacers.tiny))
     if (keepOldPrice || discount > 0) {
         Discount(
-            discount = valueDiscount,
+            discount = discount,
             discountPercent = discountPercent,
             isDiscountPercent = isDiscountPercent,
             enabled = (discount > 0)
