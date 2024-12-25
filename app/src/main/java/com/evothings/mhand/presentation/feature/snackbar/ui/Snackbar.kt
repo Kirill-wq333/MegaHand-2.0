@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -76,17 +77,13 @@ fun SnackCoupon(
                 Text(
                     text = messageHeading,
                     color = textColor,
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-                    fontWeight = FontWeight.W500
+                    style = MegahandTypography.labelLarge
                 )
                 Spacer(modifier = Modifier.height(MaterialTheme.spacers.tiny))
                 Text(
                     text = underTheMessageHeading,
                     color = textColor,
-                    fontSize = 12.sp,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-                    fontWeight = FontWeight.W400
+                    style = MegahandTypography.bodyMedium
                 )
                 Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
             }

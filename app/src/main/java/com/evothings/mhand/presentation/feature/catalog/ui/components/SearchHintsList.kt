@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 
 @Composable
@@ -35,9 +36,7 @@ fun HintsList(
         Text(
             text = text,
             color = colorScheme.secondary,
-            fontSize = 16.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-            fontWeight = FontWeight.W400,
+            style = MegahandTypography.bodyLarge,
             modifier = Modifier
                 .padding(MaterialTheme.paddings.extraLarge)
         )

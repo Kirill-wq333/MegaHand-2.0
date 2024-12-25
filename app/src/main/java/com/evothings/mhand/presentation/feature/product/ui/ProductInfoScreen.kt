@@ -29,6 +29,7 @@ import com.evothings.mhand.presentation.feature.product.ui.components.Parameters
 import com.evothings.mhand.presentation.feature.product.ui.components.SliderPhoto
 import com.evothings.mhand.presentation.feature.shared.header.Header
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -110,10 +111,7 @@ private fun Content(
         Text(
             text = information,
             textAlign = TextAlign.Start,
-            fontSize = 16.sp,
-            lineHeight = 20.sp,
-            fontWeight = FontWeight.W400,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+            style = MegahandTypography.bodyLarge,
             color = colorScheme.secondary.copy(0.6f),
             modifier = Modifier
                 .padding(horizontal = MaterialTheme.paddings.extraGiant)

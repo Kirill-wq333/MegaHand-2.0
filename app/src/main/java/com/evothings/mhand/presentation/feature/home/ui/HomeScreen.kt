@@ -65,6 +65,7 @@ import com.evothings.mhand.presentation.feature.shared.header.Header
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.BalanceAndCashback
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.Connectivity
@@ -183,7 +184,6 @@ fun HomeScreen(
         }
 
     }
-
 
     Content(
         uiState = uiState,
@@ -339,9 +339,7 @@ fun NewProduct(
                 Text(
                     text = stringResource(R.string.news_screen_title),
                     color = colorScheme.secondary,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.W500,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
+                    style = MegahandTypography.titleLarge,
                     modifier = Modifier
                         .padding(start = MaterialTheme.paddings.giant)
                 )

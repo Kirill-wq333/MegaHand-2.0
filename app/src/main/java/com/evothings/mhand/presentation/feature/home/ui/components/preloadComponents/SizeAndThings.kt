@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -38,16 +40,14 @@ fun SizeAndStars(
         IconAndTextItem(
             icon = ImageVector.vectorResource(R.drawable.ic_tag),
             text = textSize,
-            fontSize = 12.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+            style = MegahandTypography.bodyMedium,
             color = colorScheme.secondary.copy(0.6f)
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
         IconAndTextItem(
             icon = ImageVector.vectorResource(R.drawable.ic_star),
             text = estimation,
-            fontSize = 12.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+            style = MegahandTypography.bodyMedium,
             color = colorScheme.secondary.copy(0.6f)
         )
     }
@@ -56,12 +56,10 @@ fun SizeAndStars(
 
 @Composable
 private fun IconAndTextItem(
-    fontSize: TextUnit,
     text: String,
     color: Color,
     icon: ImageVector,
-    fontFamily: FontFamily,
-    fontWeight: FontWeight = FontWeight.W400
+    style: TextStyle,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -77,9 +75,7 @@ private fun IconAndTextItem(
         Text(
             text = text,
             color = color,
-            fontSize = fontSize,
-            fontWeight = fontWeight,
-            fontFamily = fontFamily
+            style = style
         )
     }
 }

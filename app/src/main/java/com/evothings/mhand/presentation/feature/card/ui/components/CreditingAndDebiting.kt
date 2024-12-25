@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -47,9 +48,7 @@ fun CreditingAndDebiting(
         Text(
             text = day,
             color = colorScheme.secondary.copy(.4f),
-            fontSize = 16.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-            fontWeight = FontWeight.W500
+            style = MegahandTypography.labelLarge
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         Row(
@@ -68,9 +67,7 @@ fun CreditingAndDebiting(
             Text(
                 text = date,
                 color = colorScheme.secondary.copy(.4f),
-                fontSize = 12.sp,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-                fontWeight = FontWeight.W400
+                style = MegahandTypography.bodyMedium
             )
         }
     }
@@ -106,9 +103,7 @@ fun PLusAndMinusItem(
         Text(
             text =  if (selected)"$money ₽" else "-$money ₽",
             color = colorScheme.secondary,
-            fontSize = 18.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-            fontWeight = FontWeight.W500
+            style = MegahandTypography.headlineSmall
         )
     }
 

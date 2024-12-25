@@ -29,6 +29,13 @@ val MegahandTypography: Typography
             fontWeight = FontWeight.Medium,
             letterSpacing = getLetterSpacing(36).sp
         ),
+        titleLarge = TextStyle(
+            fontSize = 24.sp,
+            lineHeight = 26.4.sp,
+            fontFamily = golos,
+            fontWeight = FontWeight.Medium,
+            letterSpacing = getLetterSpacing(24).sp
+        ),
         headlineMedium = TextStyle(
             fontSize = 20.sp,
             lineHeight = 20.sp,

@@ -29,6 +29,7 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
@@ -70,10 +71,7 @@ fun StoriesItem(
                 .padding(MaterialTheme.paddings.medium),
             text = textStories,
             color = Color.White,
-            lineHeight = 15.sp,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.W400,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400)))
+            style = MegahandTypography.bodyMedium
         )
     }
 }

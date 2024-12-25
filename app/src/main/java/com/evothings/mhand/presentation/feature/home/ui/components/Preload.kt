@@ -45,6 +45,7 @@ import com.evothings.mhand.presentation.feature.home.ui.components.preloadCompon
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
 import com.evothings.mhand.presentation.feature.shared.product.components.ProductTitle
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -108,10 +109,7 @@ fun InStockPreloadItem(
             Text(
                 text = model.title + "\n",
                 color = colorScheme.secondary.copy(0.6f),
-                fontSize = 16.sp,
-                lineHeight = 20.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+                style = MegahandTypography.bodyLarge,
                 modifier = Modifier
                     .padding(
                         horizontal = MaterialTheme.paddings.extraLarge
@@ -161,10 +159,7 @@ fun OutOfStockPreloadItem(
         Text(
             text = model.title + "\n",
             color = colorScheme.secondary.copy(0.6f),
-            fontSize = 16.sp,
-            lineHeight = 20.sp,
-            fontWeight = FontWeight.W400,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+            style = MegahandTypography.bodyLarge,
             modifier = Modifier
                 .padding(
                     horizontal = MaterialTheme.paddings.extraLarge

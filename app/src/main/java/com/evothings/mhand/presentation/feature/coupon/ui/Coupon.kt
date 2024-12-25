@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -57,6 +58,7 @@ import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextFi
 import com.evothings.mhand.presentation.feature.shared.text.transform.TextMasks
 import com.evothings.mhand.presentation.feature.shared.text.transform.rememberMaskVisualTransformation
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -138,17 +140,13 @@ private fun Content(
         TextItem(
             text = stringResource(R.string.gather_coupon_title, bonusAmount),
             color = colorScheme.secondary,
-            fontSize = 20.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-            fontWeight = FontWeight.W500
+            style = MegahandTypography.headlineMedium
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         TextItem(
             text = stringResource(R.string.coupon_form_subtitle),
             color = colorScheme.secondary.copy(0.4f),
-            fontSize = 16.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-            fontWeight = FontWeight.W400
+            style = MegahandTypography.bodyLarge
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         NameAndSurnameTextField(
@@ -218,9 +216,7 @@ fun NameAndSurnameTextField(
             Text(
                 text = stringResource(R.string.name),
                 color = colorScheme.secondary.copy(0.6f),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400)))
+                style = MegahandTypography.bodyLarge
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
             MTextField(
@@ -239,9 +235,7 @@ fun NameAndSurnameTextField(
             Text(
                 text = stringResource(R.string.surname),
                 color = colorScheme.secondary.copy(0.6f),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400)))
+                style = MegahandTypography.bodyLarge
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
             MTextField(
@@ -267,9 +261,7 @@ fun NumberPhoneTextField(
         Text(
             text = stringResource(R.string.phone_number),
             color = colorScheme.secondary.copy(0.6f),
-            fontSize = 16.sp,
-            fontWeight = FontWeight.W400,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400)))
+            style = MegahandTypography.bodyLarge
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
         MTextField(
@@ -290,18 +282,14 @@ fun NumberPhoneTextField(
 private fun TextItem(
     modifier: Modifier = Modifier,
     text: String,
+    style: TextStyle,
     color: Color,
-    fontSize: TextUnit,
-    fontWeight: FontWeight,
-    fontFamily: FontFamily
 ){
     Text(
         text = text,
         textAlign = TextAlign.Start,
         color = color,
-        fontSize = fontSize,
-        fontFamily = fontFamily,
-        fontWeight = fontWeight
+        style = style
     )
 }
 
