@@ -40,6 +40,7 @@ import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.text.saver.BooleanSaver
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -120,14 +121,12 @@ private fun RowScope.ButtonBuy(
         Text(
             text = text,
             color = colorScheme.secondary,
-            fontSize = 16.sp,
+            style = MegahandTypography.labelLarge,
             onTextLayout = {
                 if (it.hasVisualOverflow) {
                     labelFontSize *= 0.9f
                 }
             },
-            fontWeight = FontWeight.W500,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500)))
         )
     }
 }

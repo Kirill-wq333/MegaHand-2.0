@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.shared.header.components
+package com.evothings.mhand.presentation.feature.shared.header.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -9,12 +9,13 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun BackButton(
-    icon: ImageVector,
 ) {
 
     Box(
@@ -25,8 +26,9 @@ fun BackButton(
             )
     ) {
         Icon(
-            imageVector = icon,
+            imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_left),
             contentDescription = "chevronLeft",
+            tint = colorScheme.secondary,
             modifier = Modifier
                 .padding(MaterialTheme.paddings.large)
         )

@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -92,16 +93,11 @@ fun ParametersProductItem(
 private fun TextItem(
     text: String,
     color: Color,
-    fontWeight: FontWeight = FontWeight.W400,
-    fontFamily: FontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-    fontSize: TextUnit = 16.sp
 ) {
     Text(
         text = text,
         color = color,
-        fontSize = fontSize,
-        fontWeight = fontWeight,
-        fontFamily = fontFamily
+        style = MegahandTypography.bodyLarge
     )
 }
 

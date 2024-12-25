@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.shared.header.components
+package com.evothings.mhand.presentation.feature.shared.header.ui.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -13,19 +13,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun PrizeAndMoney(
-    prize: ImageVector,
     money: String,
     selected: Boolean
 ) {
@@ -43,17 +44,15 @@ fun PrizeAndMoney(
                     .padding(MaterialTheme.paddings.large)
             ) {
                 Icon(
-                    imageVector = prize,
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_prize),
                     contentDescription = "prize",
                     tint = colorScheme.inverseSurface
                 )
                 Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
                 Text(
-                    text = "$money₽",
+                    text = money,
                     color = colorScheme.secondary,
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-                    fontWeight = FontWeight.W500
+                    style = MegahandTypography.labelLarge
                 )
             }
         }

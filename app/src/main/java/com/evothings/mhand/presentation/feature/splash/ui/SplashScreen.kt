@@ -45,6 +45,7 @@ import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.splash.viewmodel.SplashContract
 import com.evothings.mhand.presentation.feature.splash.viewmodel.SplashViewModel
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -166,19 +167,14 @@ fun LoadingTechnicalServiceScreen() {
             Text(
                 text = stringResource(R.string.server_tech_works),
                 color = Color.White,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.W500,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_500)))
+                style = MegahandTypography.titleLarge
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = stringResource(R.string.app_unavailable),
-                fontSize = 16.sp,
-                lineHeight = 20.sp,
                 textAlign = TextAlign.Center,
                 color = Color.White,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+                style = MegahandTypography.bodyLarge,
                 modifier = Modifier
                     .padding(horizontal = 70.dp)
             )

@@ -27,8 +27,9 @@ import com.evothings.mhand.presentation.feature.product.ui.components.BrandProdu
 import com.evothings.mhand.presentation.feature.product.ui.components.OrderSheet
 import com.evothings.mhand.presentation.feature.product.ui.components.ParametersProduct
 import com.evothings.mhand.presentation.feature.product.ui.components.SliderPhoto
-import com.evothings.mhand.presentation.feature.shared.header.Header
+import com.evothings.mhand.presentation.feature.shared.header.ui.Header
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -43,7 +44,6 @@ fun ProductInfoScreen(){
                 balanceVisible = true,
                 logoVisible = false,
                 locationVisible = false,
-                money = "7 180"
             )
         },
         bottomBar = {
@@ -110,10 +110,7 @@ private fun Content(
         Text(
             text = information,
             textAlign = TextAlign.Start,
-            fontSize = 16.sp,
-            lineHeight = 20.sp,
-            fontWeight = FontWeight.W400,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+            style = MegahandTypography.bodyLarge,
             color = colorScheme.secondary.copy(0.6f),
             modifier = Modifier
                 .padding(horizontal = MaterialTheme.paddings.extraGiant)

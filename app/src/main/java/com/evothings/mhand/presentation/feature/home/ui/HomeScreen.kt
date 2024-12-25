@@ -19,13 +19,11 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,11 +40,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.home.model.Brand
 import com.evothings.domain.feature.home.model.Story
@@ -59,12 +53,11 @@ import com.evothings.mhand.presentation.feature.home.ui.components.QrCode
 import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItem
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeContract
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeViewModel
-import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.BottomBarNavigation
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
-import com.evothings.mhand.presentation.feature.shared.header.Header
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.BalanceAndCashback
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.Connectivity
@@ -183,7 +176,6 @@ fun HomeScreen(
         }
 
     }
-
 
     Content(
         uiState = uiState,
@@ -339,9 +331,7 @@ fun NewProduct(
                 Text(
                     text = stringResource(R.string.news_screen_title),
                     color = colorScheme.secondary,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.W500,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
+                    style = MegahandTypography.titleLarge,
                     modifier = Modifier
                         .padding(start = MaterialTheme.paddings.giant)
                 )

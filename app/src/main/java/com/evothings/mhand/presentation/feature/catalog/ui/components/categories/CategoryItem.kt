@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
@@ -60,9 +61,7 @@ fun CategoryItem(
         Text(
             text = text,
             color = colorScheme.secondary,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.W500,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
+            style = MegahandTypography.labelLarge,
             modifier = Modifier
                 .padding(
                     horizontal = MaterialTheme.paddings.large,

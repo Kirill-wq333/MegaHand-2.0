@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -35,9 +36,7 @@ fun HistoryBar(){
         Text(
             text = stringResource(R.string.transactions_history),
             color = colorScheme.secondary,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.W500,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
+            style = MegahandTypography.headlineMedium,
             modifier = Modifier
                 .padding(vertical = MaterialTheme.paddings.medium)
         )
@@ -47,9 +46,7 @@ fun HistoryBar(){
             Text(
                 text = "Этот год",
                 color = colorScheme.secondary,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.W500,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
+                style = MegahandTypography.labelLarge,
                 modifier = Modifier
                     .padding(vertical = MaterialTheme.paddings.medium)
             )

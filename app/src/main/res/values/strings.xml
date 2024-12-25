@@ -196,6 +196,7 @@
     <string name="open_catalog_button">В каталог</string>
     <string name="checkout_title">Оформление заказа</string>
     <string name="make_order_button">Оформить заказ</string>
+    <string name="total">Итого</string>
 
     <!-- Favourites -->
     <string name="clear_favourites_list">Очистить список</string>

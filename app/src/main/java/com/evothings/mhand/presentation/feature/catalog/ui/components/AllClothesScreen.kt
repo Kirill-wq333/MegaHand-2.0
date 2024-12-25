@@ -47,6 +47,7 @@ import com.evothings.mhand.presentation.feature.catalog.ui.CatalogCallback
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogUiState
 import com.evothings.mhand.presentation.feature.home.ui.components.PreloadItem
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -107,18 +108,14 @@ private fun Content(
             Text(
                 text = stringResource(R.string.filters),
                 color = colorScheme.secondary.copy(0.4f),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+                style = MegahandTypography.bodyLarge,
                 modifier = Modifier
                     .padding(MaterialTheme.paddings.medium)
             )
             Text(
                 text = stringResource(R.string.products_count, prodCount),
                 color = colorScheme.secondary.copy(0.4f),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+                style = MegahandTypography.bodyLarge,
                 modifier = Modifier
                     .clickable { onClickFilter() }
                     .padding(
@@ -207,9 +204,7 @@ fun Button(
         Text(
             text = text,
             color = colorScheme.secondary,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.W500,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
+            style = MegahandTypography.labelLarge,
             modifier = Modifier
                 .padding(
                     horizontal = MaterialTheme.paddings.giant,

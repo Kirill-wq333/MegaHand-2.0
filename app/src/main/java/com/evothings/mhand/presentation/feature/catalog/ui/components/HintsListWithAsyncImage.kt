@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -67,16 +68,12 @@ fun HintsListAsyncImage(
                 Text(
                     text = nameCategory,
                     color = colorScheme.secondary,
-                    fontSize = 18.sp,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-                    fontWeight = FontWeight.W500
+                    style = MegahandTypography.headlineSmall
                 )
                 Text(
                     text = descriptionCategory,
                     color = colorScheme.secondary.copy(0.6f),
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-                    fontWeight = FontWeight.W400
+                    style = MegahandTypography.bodyLarge
                 )
             }
         }
