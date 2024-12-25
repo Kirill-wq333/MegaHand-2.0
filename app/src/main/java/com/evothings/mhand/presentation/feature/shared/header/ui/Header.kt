@@ -236,7 +236,7 @@ private fun createViewModel(): BaseHeaderViewModel =
 @Composable
 fun PreviewHeader(){
     MegahandTheme {
-        Surface(color = colorScheme.secondary) {
+        Surface(color = colorScheme.onSecondary) {
             Header(
                 nameCategory = "Магазины",
                 chevronLeftVisible = true,
