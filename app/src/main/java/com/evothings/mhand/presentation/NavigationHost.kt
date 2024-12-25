@@ -29,6 +29,7 @@ import com.evothings.mhand.presentation.feature.navigation.buildNavigation
 import com.evothings.mhand.presentation.feature.navigation.graph.shouldShowNavBar
 import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.model.ConfirmCodeUseCase
 import com.evothings.mhand.presentation.feature.snackbar.model.SnackbarItem
+import com.evothings.mhand.presentation.feature.snackbar.ui.SnackCoupon
 import com.evothings.mhand.presentation.utils.sdkutil.tryOpenWebPage
 
 @Composable
@@ -107,10 +108,10 @@ private fun HostScaffold(
                     snackbar = { snackbarData ->
                         val messageParts = snackbarData.visuals.message.split("\n")
                         if (messageParts.size == 2) {
-//                            Snackbar(
-//                                messageTitle = messageParts[0],
-//                                messageBody = messageParts[1],
-//                            )
+                            SnackCoupon(
+                                messageHeading = messageParts[0],
+                                underTheMessageHeading = messageParts[1],
+                            )
                         }
                     }
                 )
