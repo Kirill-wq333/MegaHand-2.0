@@ -40,6 +40,7 @@ import com.evothings.domain.feature.product.model.Product
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.Buttons
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.Discount
+import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.Information
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.Price
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.SizeAndStars
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
@@ -95,30 +96,19 @@ fun InStockPreloadItem(
         Column() {
             PhotoSlider(product = model.photos)
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
-            Price(price = model.actualPrice, cashback = model.cashbackPoints)
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.tiny))
-            if (keepOldPrice || discount > 0) {
-                Discount(
-                    discount = model.oldPrice,
-                    discountPercent = model.discount,
-                    isDiscountPercent = model.isPercentDiscount,
-                    enabled = (discount > 0)
-                    )
-            }
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
-            Text(
-                text = model.title + "\n",
-                color = colorScheme.secondary.copy(0.6f),
-                style = MegahandTypography.bodyLarge,
-                modifier = Modifier
-                    .padding(
-                        horizontal = MaterialTheme.paddings.extraLarge
-                    )
+            Information(
+                discount = discount,
+                valueDiscount = model.oldPrice,
+                discountPercent = model.discount,
+                isDiscountPercent = model.isPercentDiscount,
+                showSizeAndCondition = showSizeAndCondition,
+                condition = model.condition,
+                keepOldPrice = keepOldPrice,
+                price = model.actualPrice,
+                cashback = model.cashbackPoints,
+                size = model.size,
+                title = model.title
             )
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
-            if (showSizeAndCondition) {
-                SizeAndStars(estimation = model.condition, textSize = model.size)
-            }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
             Buttons(
                 isInCart = model.isInCart,

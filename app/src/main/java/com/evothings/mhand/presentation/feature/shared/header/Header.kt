@@ -87,7 +87,7 @@ fun Header(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 PrizeAndMoney(
                     prize = prize,
-                    money = money,
+                    money = "$money ₽",
                     selected = balanceVisible
                 )
                 Spacer(modifier = modifier.width(MaterialTheme.spacers.normal))

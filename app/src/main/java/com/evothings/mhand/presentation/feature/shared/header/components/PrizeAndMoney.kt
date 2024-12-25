@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -49,11 +50,9 @@ fun PrizeAndMoney(
                 )
                 Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
                 Text(
-                    text = "$money₽",
+                    text = money,
                     color = colorScheme.secondary,
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-                    fontWeight = FontWeight.W500
+                    style = MegahandTypography.labelLarge
                 )
             }
         }
