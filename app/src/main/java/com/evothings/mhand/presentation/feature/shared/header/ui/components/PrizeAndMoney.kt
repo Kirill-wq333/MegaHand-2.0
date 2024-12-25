@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.shared.header.components
+package com.evothings.mhand.presentation.feature.shared.header.ui.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box

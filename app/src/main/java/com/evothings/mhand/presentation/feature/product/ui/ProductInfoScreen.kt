@@ -27,7 +27,7 @@ import com.evothings.mhand.presentation.feature.product.ui.components.BrandProdu
 import com.evothings.mhand.presentation.feature.product.ui.components.OrderSheet
 import com.evothings.mhand.presentation.feature.product.ui.components.ParametersProduct
 import com.evothings.mhand.presentation.feature.product.ui.components.SliderPhoto
-import com.evothings.mhand.presentation.feature.shared.header.Header
+import com.evothings.mhand.presentation.feature.shared.header.ui.Header
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings

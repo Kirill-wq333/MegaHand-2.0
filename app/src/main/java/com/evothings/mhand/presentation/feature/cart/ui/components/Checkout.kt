@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.shared.header.components.PrizeAndMoney
+import com.evothings.mhand.presentation.feature.shared.header.ui.components.PrizeAndMoney
 import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
 import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.MegahandTypography
