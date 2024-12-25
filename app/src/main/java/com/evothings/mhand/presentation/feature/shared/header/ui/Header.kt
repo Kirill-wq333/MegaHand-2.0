@@ -1,6 +1,7 @@
 package com.evothings.mhand.presentation.feature.shared.header.ui
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,6 +43,8 @@ import com.evothings.mhand.presentation.feature.shared.header.view.base.BaseHead
 import com.evothings.mhand.presentation.feature.shared.header.view.mock.MockHeaderViewModel
 import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderContract
 import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderViewModel
+import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.tryOpenWebPage
@@ -79,6 +83,7 @@ fun Header(
             when (it) {
                 is HeaderContract.Effect.ShowToast ->
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                else -> {}
             }
         }
     }
@@ -146,56 +151,49 @@ private fun Content(
     }
 
 
-    Box(
+
+    Row(
         modifier = modifier
             .fillMaxWidth()
+            .padding(MaterialTheme.paddings.extraLarge),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-
+        Logo(
+            visible = showLogo
+        )
         Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(MaterialTheme.paddings.extraLarge),
-            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Logo(
-                visible = showLogo
+            if (chevronLeftVisible) {
+                BackButton()
+                Spacer(modifier = modifier.width(MaterialTheme.spacers.medium))
+            }
+            Text(
+                text = formattedTitle,
+                color = colorScheme.secondary,
+                style = MegahandTypography.headlineMedium
             )
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (chevronLeftVisible) {
-                    BackButton()
-                    Spacer(modifier = modifier.width(MaterialTheme.spacers.medium))
-                }
-                Text(
-                    text = formattedTitle,
-                    color = MaterialTheme.colorScheme.secondary,
-                    fontSize = 20.sp,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-                    fontWeight = FontWeight.W500
-                )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                PrizeAndMoney(
-                    money = "$money ₽",
-                    selected = balanceVisible
-                )
-                Spacer(modifier = modifier.width(MaterialTheme.spacers.normal))
-                IconNavigation(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_location),
-                    contentDescription = "location",
-                    visible = locationVisible
-                )
-                IconNavigation(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_notifications),
-                    contentDescription = "notification",
-                    visible = notificationVisible
-                )
-            }
         }
-
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            PrizeAndMoney(
+                money = "$money ₽",
+                selected = balanceVisible
+            )
+            Spacer(modifier = modifier.width(MaterialTheme.spacers.normal))
+            IconNavigation(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_location),
+                contentDescription = "location",
+                visible = locationVisible
+            )
+            IconNavigation(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_notifications),
+                contentDescription = "notification",
+                visible = notificationVisible
+            )
+        }
     }
+
 }
 
 
@@ -217,6 +215,7 @@ fun IconNavigation(
             Icon(
                 imageVector = imageVector,
                 contentDescription = contentDescription,
+                tint = colorScheme.secondary,
                 modifier = Modifier
                     .padding(MaterialTheme.paddings.large)
             )
@@ -236,12 +235,16 @@ private fun createViewModel(): BaseHeaderViewModel =
 @Preview
 @Composable
 fun PreviewHeader(){
-    Header(
-        nameCategory = "Магазины",
-        chevronLeftVisible = true,
-        logoVisible = false,
-        notificationVisible = true,
-        locationVisible = true,
-        balanceVisible = true
-    )
+    MegahandTheme {
+        Surface(color = colorScheme.secondary) {
+            Header(
+                nameCategory = "Магазины",
+                chevronLeftVisible = true,
+                logoVisible = false,
+                notificationVisible = true,
+                locationVisible = true,
+                balanceVisible = false
+            )
+        }
+    }
 }

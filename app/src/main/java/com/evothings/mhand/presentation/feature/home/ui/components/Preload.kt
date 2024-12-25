@@ -98,7 +98,6 @@ fun InStockPreloadItem(
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
             Information(
                 discount = discount,
-                valueDiscount = model.oldPrice,
                 discountPercent = model.discount,
                 isDiscountPercent = model.isPercentDiscount,
                 showSizeAndCondition = showSizeAndCondition,

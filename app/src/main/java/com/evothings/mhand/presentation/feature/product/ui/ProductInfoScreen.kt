@@ -44,7 +44,6 @@ fun ProductInfoScreen(){
                 balanceVisible = true,
                 logoVisible = false,
                 locationVisible = false,
-                money = "7 180"
             )
         },
         bottomBar = {

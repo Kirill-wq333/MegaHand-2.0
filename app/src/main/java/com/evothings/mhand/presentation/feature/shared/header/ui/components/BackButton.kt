@@ -28,6 +28,7 @@ fun BackButton(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_left),
             contentDescription = "chevronLeft",
+            tint = colorScheme.secondary,
             modifier = Modifier
                 .padding(MaterialTheme.paddings.large)
         )
