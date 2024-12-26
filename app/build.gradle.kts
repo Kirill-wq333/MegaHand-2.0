@@ -100,6 +100,7 @@ dependencies {
     implementation(platform(libs.compose.bom))
     
     implementation(libs.androidx.core.ktx)
+    implementation(libs.kotlinx.serialization.json.v162)
     implementation(libs.kotlinx.immutableCollections)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.appcompat)

@@ -1,6 +1,7 @@
 [versions]
 agp = "8.7.3"
 kotlin = "1.9.21"
+kotlinxSerializationJson = "1.6.3"
 ktx = "1.15.0"
 lifecycle = "2.8.7"
 composeBom = "2024.12.01"
@@ -51,6 +52,7 @@ accompanist-permissions = { group = "com.google.accompanist", name = "accompanis
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltCompiler" }
 
+kotlinx-serialization-json-v162 = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 osmdroid = { group = "org.osmdroid", name = "osmdroid-android", version = "6.1.20" }
 
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
