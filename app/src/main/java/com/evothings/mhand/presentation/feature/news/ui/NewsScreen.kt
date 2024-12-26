@@ -110,10 +110,7 @@ private fun NewsContent(
     callback: NewsCallback = EmptyNewsCallback,
 ) {
 
-    Box(
-        modifier = Modifier
-            .background(color = colorScheme.onSecondary)
-    ) {
+    Box() {
         Content(
             articles = uiState.news,
             categories = uiState.categories,
@@ -137,6 +134,7 @@ private fun Content(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
+            .background(color = colorScheme.onSecondary)
             .padding(horizontal = MaterialTheme.paddings.extraLarge)
     ) {
         item {

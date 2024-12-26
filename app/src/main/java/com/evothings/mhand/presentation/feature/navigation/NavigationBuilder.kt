@@ -15,6 +15,8 @@ import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogViewMod
 import com.evothings.mhand.presentation.feature.home.ui.HomeScreen
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeViewModel
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
+import com.evothings.mhand.presentation.feature.news.ui.NewsScreen
+import com.evothings.mhand.presentation.feature.news.viewmodel.NewsViewModel
 import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.model.ConfirmCodeUseCase
 import com.evothings.mhand.presentation.feature.splash.ui.LoadingTechnicalServiceScreen
 import com.evothings.mhand.presentation.feature.splash.ui.SplashScreen
@@ -121,7 +123,13 @@ fun NavGraphBuilder.buildNavigation(
 
     // Other
     composable<NavGraph.Other.News> {
+        val newsVm = hiltViewModel<NewsViewModel>()
 
+        NewsScreen(
+            vm = newsVm,
+            openArticle = { id -> navController.navigate(NavGraph.Other.NewsArticle(id)) },
+            openMainScreen = { navController.navigate(NavGraph.BottomNav.Home) }
+        )
     }
 
     composable<NavGraph.Other.Shops> {
