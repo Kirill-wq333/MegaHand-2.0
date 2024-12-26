@@ -1,6 +1,7 @@
 package com.evothings.mhand.presentation.feature.shared.screen.chooseCity.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +34,8 @@ import com.evothings.mhand.presentation.theme.spacers
 @Composable
 fun TitleCity(
     title: String,
+    cities: List<City>,
+    onChoose: (String) -> Unit,
 ){
 
     Column(
@@ -47,21 +51,46 @@ fun TitleCity(
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
 
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "item",
-                color = colorScheme.secondary,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
-                modifier = Modifier
-                    .padding(MaterialTheme.paddings.extraLarge)
+        repeat(cities.size) { i ->
+
+            val city = remember(cities) {cities[i]}
+
+            CityItem(
+                city = city.name,
+                isSelected = city.chosen,
+                onChoose = { onChoose(city.name) }
             )
-            HorizontalDivider(modifier = Modifier.fillMaxWidth().background(color = colorScheme.secondary.copy(0.05f)))
         }
     }
 
 }
 
+@Composable
+fun CityItem(
+    modifier: Modifier = Modifier,
+    city: String,
+    isSelected: Boolean,
+    onChoose: () -> Unit,
+) {
+    val backgroundColor =
+        if (isSelected) colorScheme.secondary.copy(.05f) else Color.Transparent
+
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = city,
+            color = colorScheme.secondary,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.W400,
+            fontFamily = FontFamily(listOf(Font(R.font.golos_400))),
+            modifier = Modifier
+                .clickable { onChoose() }
+                .padding(MaterialTheme.paddings.extraLarge)
+        )
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth()
+                .background(color = colorScheme.secondary.copy(0.05f))
+        )
+    }
+}

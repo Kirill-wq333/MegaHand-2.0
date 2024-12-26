@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -43,6 +44,8 @@ import com.evothings.mhand.presentation.feature.shared.header.view.base.BaseHead
 import com.evothings.mhand.presentation.feature.shared.header.view.mock.MockHeaderViewModel
 import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderContract
 import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderViewModel
+import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.ChooseCityScreen
+import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.EmptyChooseCityCallback.onChooseCity
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
@@ -196,6 +199,15 @@ private fun Content(
                 visible = notificationVisible
             )
         }
+    }
+
+    if (chooseCityScreenVisible && !notificationTrayVisible) {
+        ChooseCityScreen(
+            onChoose = {
+                onChooseCity(it)
+                chooseCityScreenVisible = false
+            }
+        )
     }
 
 }
