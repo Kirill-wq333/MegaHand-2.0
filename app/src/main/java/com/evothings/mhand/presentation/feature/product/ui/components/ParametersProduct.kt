@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -106,8 +107,10 @@ private fun TextItem(
 @Preview
 @Composable
 fun PreviewParameterProductItem(){
-    ParametersProductItem(
-        text = stringResource(R.string.id_style_product),
-        secondText = stringResource(R.string.quality_product)
-    )
+    MegahandTheme {
+        ParametersProductItem(
+            text = stringResource(R.string.id_style_product),
+            secondText = stringResource(R.string.quality_product)
+        )
+    }
 }

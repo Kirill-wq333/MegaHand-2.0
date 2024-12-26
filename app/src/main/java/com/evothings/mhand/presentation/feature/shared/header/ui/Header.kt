@@ -49,6 +49,7 @@ import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.tryOpenWebPage
 
+
 interface HeaderCallback {
     fun toggleDevMode()
     fun clearNotifications()
@@ -119,6 +120,7 @@ fun Header(
        balanceVisible = displayCardBalance,
        chevronLeftVisible = chevronLeftVisible,
        locationVisible = locationVisible,
+       toggleDevMode = callback::toggleDevMode
    )
 }
 
@@ -127,6 +129,7 @@ private fun Content(
     money: Int,
     nameCategory: String,
     modifier: Modifier = Modifier,
+    toggleDevMode: () -> Unit,
     logoVisible: Boolean,
     balanceVisible: Boolean,
     notificationVisible: Boolean,
@@ -160,7 +163,8 @@ private fun Content(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Logo(
-            visible = showLogo
+            visible = showLogo,
+            onLongClick = toggleDevMode
         )
         Row(
             verticalAlignment = Alignment.CenterVertically

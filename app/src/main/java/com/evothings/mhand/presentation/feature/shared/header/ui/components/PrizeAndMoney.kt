@@ -51,7 +51,6 @@ fun PrizeAndMoney(
                 Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
                 Text(
                     text = money,
-                    color = colorScheme.secondary,
                     style = MegahandTypography.labelLarge
                 )
             }

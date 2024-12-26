@@ -5,6 +5,7 @@ import com.evothings.domain.feature.news.interactor.NewsInteractor
 import com.evothings.domain.feature.news.model.NewsArticle
 import com.evothings.domain.feature.news.model.NewsCategory
 import com.evothings.mhand.core.viewmodel.BaseViewModel
+import com.evothings.mhand.presentation.feature.news.ui.NewsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -25,12 +26,12 @@ class NewsViewModel @Inject constructor(
 
     internal val uiState =
         combine(latestArticle, news, selectedCategoryIndex, categories) { mainNewsItem, news, chosenIndex, categories ->
-//            NewsUiState(
-//                primaryArticle = mainNewsItem,
-//                categories = categories,
-//                selectedCategoryIndex = chosenIndex,
-//                news = news,
-//            )
+            NewsUiState(
+                primaryArticle = mainNewsItem,
+                categories = categories,
+                selectedCategoryIndex = chosenIndex,
+                news = news,
+            )
         }
 
     override fun setInitialState(): NewsContract.State = NewsContract.State.Loading

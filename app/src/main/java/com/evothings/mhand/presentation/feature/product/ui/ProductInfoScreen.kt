@@ -89,10 +89,7 @@ private fun Content(
         Text(
             text = heading,
             textAlign = TextAlign.Start,
-            color = colorScheme.secondary,
-            fontSize = 24.sp,
-            fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-            fontWeight = FontWeight.W500,
+            style = MegahandTypography.titleLarge,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
