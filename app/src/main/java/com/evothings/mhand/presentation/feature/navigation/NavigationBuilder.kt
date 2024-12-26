@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.evothings.mhand.presentation.feature.card.ui.CardScreen
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardViewModel
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogScreen
@@ -15,8 +16,11 @@ import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogViewMod
 import com.evothings.mhand.presentation.feature.home.ui.HomeScreen
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeViewModel
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
+import com.evothings.mhand.presentation.feature.news.ui.ArticleScreen
 import com.evothings.mhand.presentation.feature.news.ui.NewsScreen
 import com.evothings.mhand.presentation.feature.news.viewmodel.NewsViewModel
+import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleViewModel
+import com.evothings.mhand.presentation.feature.product.ui.ProductInfoScreen
 import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.model.ConfirmCodeUseCase
 import com.evothings.mhand.presentation.feature.splash.ui.LoadingTechnicalServiceScreen
 import com.evothings.mhand.presentation.feature.splash.ui.SplashScreen
@@ -153,12 +157,19 @@ fun NavGraphBuilder.buildNavigation(
     }
 
     composable<NavGraph.Other.NewsArticle> {
-
+        val articleId = it.toRoute<NavGraph.Other.NewsArticle>().articleId
+        val articleVm = hiltViewModel<ArticleViewModel>()
+        ArticleScreen(
+            vm = articleVm,
+            id = articleId,
+            onBack = { navController.popBackStack() },
+            openAnotherArticle = { id -> navController.navigate(NavGraph.Other.NewsArticle(id)) }
+        )
     }
 
     // ProductInfo
     composable<NavGraph.ProductInfo> {
-
+        ProductInfoScreen()
     }
 
     // AddressMap
