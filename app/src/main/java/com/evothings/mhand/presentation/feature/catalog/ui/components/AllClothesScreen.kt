@@ -194,7 +194,7 @@ fun Products(
 }
 
 @Composable
-fun Button(
+private fun Button(
     text: String
 ){
     Box(
