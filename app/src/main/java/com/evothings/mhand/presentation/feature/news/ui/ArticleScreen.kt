@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -16,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -23,6 +28,8 @@ import com.evothings.domain.feature.news.model.NewsArticle
 import com.evothings.mhand.presentation.feature.news.ui.articleComponents.InformationArticle
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleContract
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleViewModel
+import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -80,6 +87,13 @@ fun ArticleScreen(
 
     }
 
+//    Content(
+//        mainImage = news.previewImageLink,
+//        title = news.title,
+//        publicationDate = news.publishingDate,
+//        informationNews = news.content
+//    )
+
 }
 
 @Composable
@@ -90,6 +104,12 @@ private fun Content(
     publicationDate: String,
     informationNews: String,
 ) {
+    val text = listOf(
+        "Вступление",
+        "Сдержанный шик",
+        "Аристократия"
+    )
+
     LazyColumn {
 
         item {
@@ -114,16 +134,53 @@ private fun Content(
                 onClick = { }
             )
         }
+        item {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        }
+
+        item{
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = MaterialTheme.paddings.giant)
+            ) {
+                items(text) { item ->
+                    Button(
+                        text = item,
+                        selected = true
+                    )
+                }
+            }
+        }
 
     }
 }
 
 
+@Composable
+private fun Button(
+    modifier: Modifier = Modifier,
+    selected: Boolean,
+    text: String
+) {
+    val color =
+        if (selected) colorScheme.secondary.copy(.4f) else colorScheme.secondary
+
+    Box(){
+        Text(
+            text = text,
+            color = color,
+            style = MegahandTypography.bodyLarge
+        )
+    }
+
+}
+
 
 @Composable
 fun ImageNews(
     modifier: Modifier = Modifier,
-    mainImage: String
+    mainImage: String,
 ) {
     Box(
         modifier = modifier
@@ -131,9 +188,16 @@ fun ImageNews(
         AsyncImage(
             model = mainImage,
             contentDescription = null,
-            contentScale = ContentScale.FillBounds,
             modifier = Modifier
+                .matchParentSize()
                 .clip(shape = MegahandShapes.extraLarge)
         )
     }
+}
+
+
+@Preview
+@Composable
+private fun ArticleScreenPreview() {
+    MegahandTheme {  }
 }

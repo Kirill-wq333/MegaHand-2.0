@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
+import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
@@ -31,7 +33,8 @@ fun InformationArticle(
     onClick: () -> Unit
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .padding(horizontal = MaterialTheme.paddings.extraGiant),
         horizontalAlignment = Alignment.Start
     ) {
 
@@ -41,13 +44,13 @@ fun InformationArticle(
             Text(
                 text = title,
                 color = colorScheme.secondary.copy(.4f),
-                style = MegahandTypography.bodyMedium
+                style = MegahandTypography.bodyLarge
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacers.small))
             Text(
                 text = publicationDate,
                 color = colorScheme.secondary.copy(.4f),
-                style = MegahandTypography.bodyMedium
+                style = MegahandTypography.bodyLarge
             )
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
@@ -62,7 +65,7 @@ fun InformationArticle(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 softWrap = false,
-                style = MegahandTypography.headlineMedium,
+                style = MegahandTypography.titleLarge,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacers.extraLarge))
