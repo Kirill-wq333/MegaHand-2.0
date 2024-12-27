@@ -1,23 +1,34 @@
 package com.evothings.mhand.presentation.feature.news.ui
 
 import android.content.Intent
+import android.text.Html
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,9 +36,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.evothings.domain.feature.news.model.NewsArticle
+import com.evothings.mhand.presentation.feature.home.ui.components.CouponBanner
 import com.evothings.mhand.presentation.feature.news.ui.articleComponents.InformationArticle
+import com.evothings.mhand.presentation.feature.news.ui.components.NewsItem
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleContract
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleViewModel
+import com.evothings.mhand.presentation.feature.shared.text.util.toAnnotateString
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
@@ -36,7 +50,9 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 data class ArticleUiState(
     val newsModel: NewsArticle?,
-    val similarArticles: List<NewsArticle>
+    val similarArticles: List<NewsArticle>,
+    val couponAmount: Int = 0,
+    val showCouponBanner: Boolean = false,
 )
 
 private interface ArticleCallback {
@@ -87,69 +103,89 @@ fun ArticleScreen(
 
     }
 
-//    Content(
-//        mainImage = news.previewImageLink,
-//        title = news.title,
-//        publicationDate = news.publishingDate,
-//        informationNews = news.content
-//    )
+}
 
+@Composable
+private fun ArticleContent(
+    uiState: ArticleUiState,
+    state: ArticleContract.State,
+    callback: ArticleCallback,
+){
+    Content(
+        uiState = uiState,
+        callback = callback
+    )
 }
 
 @Composable
 private fun Content(
     modifier: Modifier = Modifier,
-    mainImage: String,
-    title: String,
-    publicationDate: String,
-    informationNews: String,
+    uiState: ArticleUiState,
+    callback: ArticleCallback
 ) {
-    val text = listOf(
-        "Вступление",
-        "Сдержанный шик",
-        "Аристократия"
-    )
+    var couponBannerVisible by remember(uiState.showCouponBanner) {
+        mutableStateOf(uiState.showCouponBanner)
+    }
+    var couponBottomSheetEnabled by remember { mutableStateOf(false) }
 
-    LazyColumn {
+    if (uiState.newsModel == null) return
 
-        item {
-            ImageNews(
-                mainImage = mainImage,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(214.dp)
-                    .padding(horizontal = MaterialTheme.paddings.extraLarge)
-            )
-        }
 
-        item {
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        }
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
+            .background(colorScheme.onSecondary)
+    ) {
 
-        item {
+        ImageNews(
+            mainImage = uiState.newsModel.previewImageLink,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(214.dp)
+                .padding(horizontal = MaterialTheme.paddings.extraLarge)
+        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        with(uiState.newsModel) {
             InformationArticle(
                 title = title,
-                publicationDate = publicationDate,
-                informationNews = informationNews,
-                onClick = { }
+                publicationDate = publishingDate,
+                informationNews = content,
+                onClick = { callback.shareArticle(articleLink)}
             )
         }
-        item {
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        ArticleTitle(
+            content = uiState.newsModel.content,
+            modifier = Modifier
+                .padding(horizontal = MaterialTheme.paddings.extraLarge)
+        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        if (couponBannerVisible) {
+            CouponBanner(
+                banner = uiState.couponAmount,
+                onClose = { couponBannerVisible = false },
+                onClick = {
+                    couponBottomSheetEnabled = true
+                    couponBannerVisible = false
+                },
+            )
         }
-
-        item{
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = MaterialTheme.paddings.giant)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = MaterialTheme.paddings.extraLarge)
+        ) {
+            items(
+                items = uiState.similarArticles,
+                key = { it.id }
             ) {
-                items(text) { item ->
-                    Button(
-                        text = item,
-                        selected = true
-                    )
-                }
+                NewsItem(
+                    imageLink = uiState.newsModel.previewImageLink,
+                    publicationDate = uiState.newsModel.publishingDate,
+                    information = uiState.newsModel.title,
+                    category = uiState.newsModel.categories
+                )
             }
         }
 
@@ -158,24 +194,29 @@ private fun Content(
 
 
 @Composable
-private fun Button(
+fun ArticleTitle(
     modifier: Modifier = Modifier,
-    selected: Boolean,
-    text: String
+    content: String
 ) {
-    val color =
-        if (selected) colorScheme.secondary.copy(.4f) else colorScheme.secondary
-
-    Box(){
-        Text(
-            text = text,
-            color = color,
-            style = MegahandTypography.bodyLarge
+    val formattedText = remember {
+        Html.fromHtml(
+            content.replace("\\r\\n", "<br>"),
+            Html.FROM_HTML_MODE_COMPACT
+        )
+    }
+    val annotatedString = remember {
+        formattedText.toAnnotateString(
+            linkColor = Color.Blue,
+            baseSpanStyle = null
         )
     }
 
+    Text(
+        modifier = modifier,
+        text = annotatedString,
+        style = typography.bodyLarge,
+    )
 }
-
 
 @Composable
 fun ImageNews(
