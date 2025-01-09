@@ -36,18 +36,27 @@ import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun ProductInfoScreen() {
-
-    Box(modifier = Modifier.background(color = colorScheme.onSecondary)) {
-        Content(
-            heading = "Кроссовки QUESTAR 2 M, черные, 43",
-            sizeProduct = "43 (11 US)",
-            qualityProduct = "Высокое",
-            seriesProduct = "Air Force 1",
-            styleProduct = "CW2288-111",
-            releaseDateProduct = "01.01.2018",
-            colorProduct = "Тройной белый",
-            information = "Это не просто обувь, а настоящая икона стиля, которая с момента своего появления в 1982 году завоевала сердца миллионов. Разработанные дизайнером Брюсом Килгором, они были первыми баскетбольными кроссовками, в которых использовалась революционная технология амортизации Nike Air, обеспечивающая непревзойденный комфорт и поддержку."
-        )
+    Scaffold(
+        bottomBar = {
+            OrderSheet()
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(it)
+            .background(color = colorScheme.onSecondary)
+        ) {
+            Content(
+                heading = "Кроссовки QUESTAR 2 M, черные, 43",
+                sizeProduct = "43 (11 US)",
+                qualityProduct = "Высокое",
+                seriesProduct = "Air Force 1",
+                styleProduct = "CW2288-111",
+                releaseDateProduct = "01.01.2018",
+                colorProduct = "Тройной белый",
+                information = "Это не просто обувь, а настоящая икона стиля, которая с момента своего появления в 1982 году завоевала сердца миллионов. Разработанные дизайнером Брюсом Килгором, они были первыми баскетбольными кроссовками, в которых использовалась революционная технология амортизации Nike Air, обеспечивающая непревзойденный комфорт и поддержку."
+            )
+        }
     }
 
 }

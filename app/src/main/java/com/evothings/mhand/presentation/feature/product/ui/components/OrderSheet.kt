@@ -188,7 +188,7 @@ private fun OrderSheetButton(){
         modifier = Modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         ButtonBuy(text = "Купить")
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
