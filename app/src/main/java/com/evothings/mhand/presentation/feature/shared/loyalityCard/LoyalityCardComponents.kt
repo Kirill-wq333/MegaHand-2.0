@@ -44,6 +44,7 @@ import com.evothings.mhand.presentation.feature.shared.button.SmallButton
 import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
 import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.MegahandTypography
+import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -111,6 +112,7 @@ fun BalanceAndCashback(
             if (showIncreaseButton) {
                 SmallButton(
                     text = stringResource(id = R.string.increase),
+                    textColor = ColorTokens.White,
                     backgroundColor = colorScheme.secondary.copy(0.05f),
                     onClick = onClickIncrease
                 )

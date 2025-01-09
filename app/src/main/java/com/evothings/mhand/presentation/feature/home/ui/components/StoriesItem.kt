@@ -62,11 +62,13 @@ fun StoriesItem(
             },
             modifier = Modifier
                 .size(92.dp)
+                .gradient()
                 .clip(shape = MegahandShapes.medium)
                 .border(width = 1.dp, color = Color.White.copy(0.4f), shape = MegahandShapes.medium)
             )
         Text(
             modifier = Modifier
+                .gradient()
                 .align(Alignment.BottomStart)
                 .padding(MaterialTheme.paddings.medium),
             text = textStories,
