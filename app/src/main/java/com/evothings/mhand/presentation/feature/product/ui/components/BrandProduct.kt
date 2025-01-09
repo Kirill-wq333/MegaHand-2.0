@@ -14,8 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
@@ -39,6 +41,7 @@ fun BrandProduct(
     ) {
         AsyncImage(
             model = brand,
+            placeholder = painterResource(id = R.drawable.no_photo_placeholder),
             contentDescription = "brands",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier

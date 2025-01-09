@@ -71,7 +71,7 @@ private fun Content(
         horizontalAlignment = Alignment.Start
     ) {
 
-        SliderPhoto(model = "https://s3-alpha-sig.figma.com/img/bbc9/b4f4/3bcb0ac3ea5a25f8bff886fa37da5c5d?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AQyMhZk8IhlCmT-0PnG5aoBYVuy~QU7XpvBX-zmheXo2yABCgT18nTSVlhQl3CkzxGcYl76a2mNMvFZI4-r6lHfd65DnBkRiCRkEACHRekl7AlIEHN6u2NftRCb53RWgs1sEYVQPw72e4mjR5PYQGMFroWxnhQ2cqYuERt7DlbEAh73hw2GWau5fx5m~6eDPs2h7MR5z3x07un84o7AIJ~Jwo6p-EwD9OmrGLCj4su1zIi3oZNzOKwJX0bbfZx571gxUejCZLRkw0vxL~AMa7EAL2ywi-UpROw0zbEM8xWrE~MzQhriBATrIAU1tEbjx9iP2tWq2V6FzS1zy9UTRqw__")
+        SliderPhoto(model = "https://s3-alpha-sig.figma.com/img/bbc9/b4f4/3bcb0ac3ea5a25f8bff886fa37da5c5d?Expires=1737331200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UOaJOsLzPywgg4rKqi8N4dF57FqYGapd9W8zk8Clogx7zMrAPSMIfzGOQa-FxmvLr892~0kf0fBkh7dSc10hE~TqDCbIBfLqfvD9XpPuZVMjh6tV9VrsNZNvxjLSmLMFxvIQhlFtOe4RpmWkwwKt5kxXA3nCd9SLjtdhcrNKIXLRhiMLPse14ODJ-HeaefTfAmg1gvnunQhpRruCr29BCJQLupgrZ91shl-zyvToBaNYAhzE6M49Wq6BeaE2xcHswbYXrb4EIgPdWlg99GoquFpvvXLNTkrGE6Kg0MN5uP5qmmlGnvbdwCn76wTfVQfz4nMCmEyjVBv-fAiHoZnZMw__")
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         Text(
             text = heading,
@@ -103,7 +103,7 @@ private fun Content(
         BrandProduct(
             modifier = Modifier
             .padding(start = MaterialTheme.paddings.extraGiant),
-            brand = "https://s3-alpha-sig.figma.com/img/997c/f6cf/1ca7984783573f3aa9869d9638c2aeef?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Un3~jchfSI8T3u6yQ8fwcCbR22m9t8fg5APYvIWZcOv87SJbCNzGl7OYhaZiFxMGJNzX2PHFlQciNzrWT5ca3dWS~I9L2sz~mS-DcU8domm524bAqOKe4nxU~ZlIGdOTp-9PQsN7qkjRcJK9FnYstCPlEjezA2Fv7OIP-P7wV9AvpavBX-ZDXkyfw24aIKitPBMCPk-rNj8py4sePEcpg190dY2EkXu4TOexkpYbzTDUYTMp~VhEWT3bB7PFQO5Oj-sCSAcV9JtHlcZaar2K8JZJKEWEuz5qlYTI0LGZLh1Itu2QlbZOxVvQHsf~8WJM~opblTzIZGDVHanL8gOvvA__"
+            brand = "https://s3-alpha-sig.figma.com/img/997c/f6cf/1ca7984783573f3aa9869d9638c2aeef?Expires=1737331200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UO~tqmhTxGO5NmiQbKeNZVHi1tl~YR4X1EevQZDX4jLkrRtBgggr91p5eAnLDVsjer-J3Qt~ASPcQNgel~rGgTc8WfCCWr9DuAAwjJmbDYJdMzpwG-NPkPTHgmzWX9~aYOW47QtvasQre5328BGe74pL2fEJPRNNRsl6-taMakIuWcokkpyBibI9aBydQwXfhCfk9eLMJLvIKFZDJjeaMuXXWjJ6vbqBRxjAWJDci8TUEfGWpaoH-d8rSmkQ~EkVWVjqV8A2vfR~YMmQsGDGMPtouSjIoaLRmE3tOd4wkYi1jnPL4YXm6g4tzKD1gMs1tG2wzSmmiIbaA9Ju~GG8LA__"
         )
 
     }
