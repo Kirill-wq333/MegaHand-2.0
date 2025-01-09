@@ -8,8 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -26,6 +28,7 @@ fun SliderPhoto(
         items(4) {
             AsyncImage(
                 model = model,
+                placeholder = painterResource(id = R.drawable.no_photo_placeholder),
                 contentDescription = null,
                 modifier = Modifier
                     .clip(shape = MegahandShapes.medium)

@@ -21,14 +21,14 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun BrandProduct(
+    modifier: Modifier = Modifier,
     brand: String
 ){
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(100.dp)
             .background(color = colorScheme.onPrimary, shape = shapes.medium)
-            .padding(start = MaterialTheme.paddings.extraGiant)
             .height(60.dp)
             .border(
                 width = 1.dp,

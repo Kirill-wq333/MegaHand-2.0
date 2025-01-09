@@ -1,5 +1,6 @@
 package com.evothings.mhand.presentation.feature.product.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,35 +35,21 @@ import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
-fun ProductInfoScreen(){
-    Scaffold(
-        topBar = {
-            Header(
-                nameCategory = "Товар",
-                chevronLeftVisible = true,
-                notificationVisible = true,
-                balanceVisible = true,
-                logoVisible = false,
-                locationVisible = false,
-            )
-        },
-        bottomBar = {
-            OrderSheet()
-        }
-    ) {
-        Box(modifier = Modifier.padding(it)) {
-            Content(
-                heading = "Кроссовки QUESTAR 2 M, черные, 43",
-                sizeProduct = "43 (11 US)",
-                qualityProduct = "Высокое",
-                seriesProduct = "Air Force 1",
-                styleProduct = "CW2288-111",
-                releaseDateProduct = "01.01.2018",
-                colorProduct = "Тройной белый",
-                information = "Это не просто обувь, а настоящая икона стиля, которая с момента своего появления в 1982 году завоевала сердца миллионов. Разработанные дизайнером Брюсом Килгором, они были первыми баскетбольными кроссовками, в которых использовалась революционная технология амортизации Nike Air, обеспечивающая непревзойденный комфорт и поддержку."
-            )
-        }
+fun ProductInfoScreen() {
+
+    Box(modifier = Modifier.background(color = colorScheme.onSecondary)) {
+        Content(
+            heading = "Кроссовки QUESTAR 2 M, черные, 43",
+            sizeProduct = "43 (11 US)",
+            qualityProduct = "Высокое",
+            seriesProduct = "Air Force 1",
+            styleProduct = "CW2288-111",
+            releaseDateProduct = "01.01.2018",
+            colorProduct = "Тройной белый",
+            information = "Это не просто обувь, а настоящая икона стиля, которая с момента своего появления в 1982 году завоевала сердца миллионов. Разработанные дизайнером Брюсом Килгором, они были первыми баскетбольными кроссовками, в которых использовалась революционная технология амортизации Nike Air, обеспечивающая непревзойденный комфорт и поддержку."
+        )
     }
+
 }
 
 
@@ -114,6 +101,8 @@ private fun Content(
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
         BrandProduct(
+            modifier = Modifier
+            .padding(start = MaterialTheme.paddings.extraGiant),
             brand = "https://s3-alpha-sig.figma.com/img/997c/f6cf/1ca7984783573f3aa9869d9638c2aeef?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Un3~jchfSI8T3u6yQ8fwcCbR22m9t8fg5APYvIWZcOv87SJbCNzGl7OYhaZiFxMGJNzX2PHFlQciNzrWT5ca3dWS~I9L2sz~mS-DcU8domm524bAqOKe4nxU~ZlIGdOTp-9PQsN7qkjRcJK9FnYstCPlEjezA2Fv7OIP-P7wV9AvpavBX-ZDXkyfw24aIKitPBMCPk-rNj8py4sePEcpg190dY2EkXu4TOexkpYbzTDUYTMp~VhEWT3bB7PFQO5Oj-sCSAcV9JtHlcZaar2K8JZJKEWEuz5qlYTI0LGZLh1Itu2QlbZOxVvQHsf~8WJM~opblTzIZGDVHanL8gOvvA__"
         )
 
@@ -123,7 +112,7 @@ private fun Content(
 @Preview
 @Composable
 fun PreviewProductInfoScreen(){
-    MegahandTheme{
+    MegahandTheme(false){
         ProductInfoScreen()
     }
 }
