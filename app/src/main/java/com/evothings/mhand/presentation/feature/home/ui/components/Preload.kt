@@ -170,6 +170,7 @@ fun PhotoSlider(
     ) {
         AsyncImage(
             model = product,
+            placeholder = painterResource(R.drawable.no_photo_placeholder),
             contentDescription = null,
             modifier = Modifier
                 .clip(shape = shapes.large)
