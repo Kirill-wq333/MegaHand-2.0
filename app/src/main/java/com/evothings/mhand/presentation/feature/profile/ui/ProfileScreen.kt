@@ -1,2 +1,2 @@
-package com.evothings.mhand.presentation.feature.card.ui
+package com.evothings.mhand.presentation.feature.profile.ui
 
