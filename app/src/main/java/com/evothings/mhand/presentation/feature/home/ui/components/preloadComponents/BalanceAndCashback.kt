@@ -37,14 +37,17 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun Price(
+    modifier: Modifier = Modifier,
     price: Double,
-    cashback: Double
+    cashback: Double,
+    verticalAlignment: Alignment.Vertical,
+    horizontalArrangement: Arrangement.Horizontal
 ) {
     Row(
-        modifier = Modifier
-            .padding(horizontal = MaterialTheme.paddings.extraLarge),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+        modifier = modifier,
+        verticalAlignment = verticalAlignment,
+        horizontalArrangement = horizontalArrangement
+        ) {
         TextItem(
             text = "${price.splitHundreds(NumberSeparator.SPACE)} ₽",
             style = MegahandTypography.headlineSmall

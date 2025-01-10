@@ -124,6 +124,7 @@ fun BalanceAndCashback(
 
 @Composable
 fun Balance(
+    modifier: Modifier = Modifier,
     isOffline: Boolean,
     balance: Int
 ){
@@ -142,15 +143,16 @@ fun Balance(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_back),
+            imageVector = ImageVector.vectorResource(R.drawable.ic_prize),
             contentDescription = null,
-            tint = tint
+            tint = tint,
+            modifier = modifier
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
         Text(
             text = balanceFormatted,
             color = colorScheme.secondary,
-            style = MegahandTypography.bodyLarge
+            style = MegahandTypography.headlineMedium
         )
     }
 }
@@ -167,7 +169,7 @@ fun Cashback(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_prize),
+            imageVector = ImageVector.vectorResource(R.drawable.ic_back),
             contentDescription = null,
             tint = turnIconTint
         )
@@ -175,7 +177,7 @@ fun Cashback(
         Text(
             text = if (!isOffline) "$cashback%" else "?%",
             color = colorScheme.secondary,
-            style = if (isSmallSize) typography.bodyMedium else typography.headlineMedium
+            style = if (isSmallSize) typography.bodyLarge else typography.headlineMedium
         )
     }
 }
