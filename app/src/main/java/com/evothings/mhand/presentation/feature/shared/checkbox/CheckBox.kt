@@ -67,6 +67,7 @@ fun Checkbox(
         )
         Text(
             text = title,
+            color = colorScheme.secondary,
             style = typography.bodyLarge
         )
     }

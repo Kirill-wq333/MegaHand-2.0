@@ -26,7 +26,7 @@ import com.evothings.mhand.presentation.theme.spacers
 @Preview
 @Composable
 private fun MakingAndOrderScreenPreview() {
-    MegahandTheme(false) {
+    MegahandTheme(true) {
         MakingAnOrderScreen()
     }
 }
