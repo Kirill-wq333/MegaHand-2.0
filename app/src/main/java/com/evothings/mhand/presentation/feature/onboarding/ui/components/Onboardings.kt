@@ -35,7 +35,7 @@ import com.evothings.mhand.presentation.theme.spacers
 @Composable
 fun Onboarding(
     modifiers: Modifier = Modifier,
-    icon: ImageVector,
+    icon: Int,
     heading: String,
     underHeading: String,
     pageNumber: String,
@@ -73,7 +73,7 @@ fun Onboarding(
                         )
                 ) {
                     Icon(
-                        imageVector = icon,
+                        imageVector = ImageVector.vectorResource(icon),
                         contentDescription = null,
                         tint = colorScheme.secondary.copy(.4f),
                         modifier = Modifier
@@ -167,7 +167,7 @@ private fun OnboardingPreview() {
             heading = "Heading",
             underHeading = "Under heading",
             pageNumber = "1/4",
-            icon = ImageVector.vectorResource(R.drawable.ic_home),
+            icon = R.drawable.ic_home,
             onFinish = false,
             visibleButtonTurnBack = true
         )

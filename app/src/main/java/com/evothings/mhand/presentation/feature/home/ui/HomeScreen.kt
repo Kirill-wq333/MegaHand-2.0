@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,6 +52,7 @@ import com.evothings.mhand.presentation.feature.home.ui.components.CouponBanner
 import com.evothings.mhand.presentation.feature.home.ui.components.PreloadItem
 import com.evothings.mhand.presentation.feature.home.ui.components.QrCode
 import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItem
+import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItems
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeContract
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeViewModel
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
@@ -62,13 +64,12 @@ import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.Connectivity
 import com.evothings.mhand.presentation.utils.sdkutil.openPrivacyPolicyPage
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 
 data class HomeUiState(
     val stories: List<Story> = listOf(),
-    val brands: ImmutableList<Brand> = persistentListOf(),
+    val brands: List<Brand> = persistentListOf(),
     val newProducts: List<Product> = listOf(),
     val showCard: Boolean = true,
     val cardQRLink: String = "",
@@ -262,7 +263,7 @@ fun StoriesLists(
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         itemsIndexed(list) { index, storiesItem ->
-            StoriesItem(
+            StoriesItems(
                 storiesImage = storiesItem.imageLink,
                 textStories = storiesItem.title,
                 onClickStory = { onClick(index) },
@@ -273,28 +274,31 @@ fun StoriesLists(
 
 @Composable
 fun LoyalityCard(
+    modifier: Modifier = Modifier,
     cashback: Int,
     openProfile: () -> Unit,
 ) {
-    Row(
-        modifier =
-            Modifier
+    Box(modifier = modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.paddings.extraLarge),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
-    ) {
-        BalanceAndCashback(
-            enableBalance = false,
-            cashback = cashback,
-            onClickIncrease = openProfile,
-        )
-        QrCode()
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+        ) {
+            BalanceAndCashback(
+                enableBalance = false,
+                cashback = cashback,
+                onClickIncrease = openProfile,
+            )
+            QrCode()
+        }
     }
 }
 
 @Composable
 fun NewProduct(
+    modifier: Modifier = Modifier,
     products: List<Product>,
     callback: ProductCardCallback,
 ) {
@@ -307,7 +311,7 @@ fun NewProduct(
             (verticalPadding + spacing + productCardHeight * 2).dp
         }
 
-    Box {
+    Box(modifier = modifier.fillMaxWidth()) {
         LazyVerticalGrid(
             modifier =
                 Modifier
@@ -348,12 +352,19 @@ fun NewProduct(
 @Preview
 @Composable
 fun PreviewContent() {
-    MegahandTheme {
-        Content(
-            uiState =
+    MegahandTheme(true) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorScheme.onSecondary)
+        ) {
+            Content(
+                uiState =
                 HomeUiState(
                     stories = Mock.demoStoriesList,
+                    brands = Mock.denoBrand,
+                    newProducts = Mock.demoProductsList,
                 ),
-        )
+            )
+        }
     }
 }

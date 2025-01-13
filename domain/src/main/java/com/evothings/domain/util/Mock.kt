@@ -11,6 +11,7 @@ import com.evothings.domain.feature.catalog.model.TextHint
 import com.evothings.domain.feature.checkout.model.MapPoint
 import com.evothings.domain.feature.checkout.model.PaymentMethod
 import com.evothings.domain.feature.checkout.model.PickupPoint
+import com.evothings.domain.feature.home.model.Brand
 import com.evothings.domain.feature.home.model.Story
 import com.evothings.domain.feature.news.model.NewsArticle
 import com.evothings.domain.feature.news.model.NewsCategory
@@ -24,6 +25,24 @@ import com.evothings.domain.feature.product.model.Product
 import com.evothings.domain.feature.profile.model.OrderHistoryProduct
 
 object Mock {
+
+    val denoBrand = listOf<Brand>(
+        Brand(
+            id = 0,
+            photoLink = "https://s3-alpha-sig.figma.com/img/997c/f6cf/1ca7984783573f3aa9869d9638c2aeef?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Qh7sOf~C-36uqICgJIBIx0Q23EiMjQrtnHjUshq8NNBVDaFHvbsElHTnVy2PcACw-3-kpi1A40W9FehECtyh6OnbosIzJ1YYtRSvrub39aPrq7GLHXDkzp5EiAPcA-21BDiuMYaAMsASha53ib4qPPPVJBNjsviJ-MvCzF9UUhFBmdiJBYxq54pPnWWC51dRhlFUohb2Zp2f6RkBn4SNZVR2RI2SiaIKGN8sisVdfbSn7-j7cdMgoUkxR-zafpGf6zGuZBCCs~N91xaF5KkS8gtDyg7WkKegq7kdYLSDFAd230mKvEyVgpXkR4tEBk72q-LKENWAN7lrl-hR0sjNGA__",
+            name = "Deno"
+        ),
+        Brand(
+            id = 1,
+            photoLink = "https://s3-alpha-sig.figma.com/img/f93f/5333/a438da1ee09e4f1370f4972e654728ed?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=N-79zHtx-p0UjdqYUOQYebjfvKPPWgyb9ZrvZr--u053ugR~65Yr52C5tj9doD~2Mjy-zevrkPIM~zfBUkoRiA0Adk3X~XMh8vtZPEPLb9-PfCouZ7JFSV5z7YMvTOZqV5SegAFocUfiLdQhEf0sIRjZzUx96bUVKgZ7wyF683VBMCGI0gSxX5XGd-YTR-hA4iQzv8-4EkLLnUwHnyr6gbo5hgP8BNIW2lSIi-jGwMU3UKeRvNuFSu4fpMA4Ahp3OqHsYlgov50Q3ddq3XezVxABFcfGBdK2hZTgMmyTlmlPdd9PXbhxvCZVn74aE349MJdT~ZKHvXZHaav-h3DYiw__",
+            name = "Nike"
+        ),
+        Brand(
+            id = 2,
+            photoLink = "https://s3-alpha-sig.figma.com/img/1a62/a16a/c23a0fc1d87bc79175a0181924ff6b92?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=aguViyvNojzyuUzgTEvLd8-18sKk7JrfNjor69~X60n1IccXFTUnZ0hnd9SSVlUX3dtQvlbeNrSHaU40MzbRKNlDWcGuUpFdxHqbyGxclcmwEG3V-qqL020y9S5QKOJUm1dEMjBJU7gS-UdrNsMZlgi2KFumjpE-taqPLpZBq0-1N7TVrMn3skuTeRRr1rbV7eI85N8e56hMWXD8RT2FjiwaEjZ38YWt8o24NLONceuFNg9pmpqdNsOTkp44Umj-~l6r0Hkp0ORn3Twi0oOqQsY3F4gOEOL1nfUcQUUD1ZIEzZSBsSs5WPYAEgi6DqZXUAuIeUQTeipv85WhhDKy5g__",
+            name = "Adidas"
+        )
+    )
 
     val demoStoriesList = listOf<Story>(
         Story(

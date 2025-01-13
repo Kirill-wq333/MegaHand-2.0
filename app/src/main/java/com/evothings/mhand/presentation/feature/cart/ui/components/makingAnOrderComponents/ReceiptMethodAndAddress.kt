@@ -49,7 +49,7 @@ fun ReceiptMethodAndAddress(
         ReceiptMethod()
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         Address(
-            address = "Тольятти, ул. Революционная 52",
+            address = address,
             visibleAddress = true,
             addedNewAddress = {}
         )

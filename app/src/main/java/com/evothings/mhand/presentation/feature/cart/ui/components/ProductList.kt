@@ -24,8 +24,7 @@ import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
-@Composable
-fun LazyListScope.ProductsList(
+fun LazyListScope.productsList(
     products: List<Product>,
     selectionList: List<Int>,
     isSelectAll: Boolean,

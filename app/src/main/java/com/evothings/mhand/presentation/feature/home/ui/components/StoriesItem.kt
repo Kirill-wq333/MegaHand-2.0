@@ -1,5 +1,6 @@
 package com.evothings.mhand.presentation.feature.home.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
@@ -36,7 +39,47 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun StoriesItem(
+    modifier: Modifier = Modifier,
+    storiesImage: Int,
+    textStories: String
+) {
+    Content(
+        storiesImage = painterResource(id = storiesImage),
+        textStories = textStories,
+        onClickStory = {}
+    )
+}
+
+@Composable
+fun StoriesItems(
     storiesImage: String,
+    textStories: String,
+    onClickStory: () -> Unit
+){
+
+    val placeholder = painterResource(id = R.drawable.image_placeholder)
+
+    val painter =
+        rememberAsyncImagePainter(
+            model = storiesImage,
+            transform = { state ->
+                when(state) {
+                    is AsyncImagePainter.State.Error -> state.copy(painter = placeholder)
+                    is AsyncImagePainter.State.Loading -> state.copy(painter = placeholder)
+                    else -> state
+                }
+            }
+        )
+    Content(
+        storiesImage = painter,
+        textStories = textStories,
+        onClickStory = onClickStory
+    )
+}
+
+@Composable
+fun Content(
+    storiesImage: Painter,
     textStories: String,
     onClickStory: () -> Unit
 ){
@@ -49,17 +92,10 @@ fun StoriesItem(
             .clickable { onClickStory() },
         contentAlignment = Alignment.Center
     ){
-        AsyncImage(
-            model = storiesImage,
+        Image(
+            painter = storiesImage,
             contentDescription = "Stories",
             contentScale = ContentScale.Crop,
-            transform = { state ->
-                when(state) {
-                    is AsyncImagePainter.State.Error -> state.copy(painter = placeholder)
-                    is AsyncImagePainter.State.Loading -> state.copy(painter = placeholder)
-                    else -> state
-                }
-            },
             modifier = Modifier
                 .size(92.dp)
                 .gradient()
@@ -97,9 +133,8 @@ private fun Modifier.gradient(): Modifier = this then
 fun PreviewStoriesItem(){
     MegahandTheme {
         StoriesItem(
-            storiesImage = "",
+            storiesImage =R.drawable.onboarding_story_1,
             textStories = "О магазинах Волгограда",
-            onClickStory = {}
         )
     }
 }

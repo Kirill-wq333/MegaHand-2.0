@@ -2,26 +2,37 @@ package com.evothings.mhand.presentation.feature.cart.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.product.model.Product
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.cart.ui.components.Checkout
+import com.evothings.mhand.presentation.feature.cart.ui.components.productsList
 import com.evothings.mhand.presentation.feature.cart.viewmodel.CartContract
 import com.evothings.mhand.presentation.feature.cart.viewmodel.CartViewModel
 import com.evothings.mhand.presentation.feature.shared.button.Button
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.utils.list.toggleItem
 
 private data class CartUiState(
     val products: List<Product>,
@@ -108,6 +119,73 @@ fun CartScreen(
     }
 }
 
+@Composable
+private fun Content(
+    modifier: Modifier = Modifier,
+    products: List<Product>,
+    total: Double,
+    discount: Double,
+    cashbackPoints: Double,
+    summary: Double,
+    isAuthorized: Boolean,
+    callback: CartCallback
+) {
+
+    val availableProductIds = remember(products) {
+        val inStockProducts = products.filter { it.availability == Product.Availability.IN_STOCK }
+        inStockProducts.map { it.id }
+    }
+
+    val selectionList = remember {
+        mutableStateListOf(*availableProductIds.toTypedArray())
+    }
+
+    val isSelectAll by rememberUpdatedState(
+        newValue = selectionList.size == products.size
+    )
+
+    LaunchedEffect(selectionList.size) {
+        callback.calculateCheckout(selectionList)
+    }
+
+    LazyColumn(
+        contentPadding = PaddingValues(horizontal = 12.dp),
+    ) {
+
+        productsList(
+            products = products,
+            selectionList = selectionList,
+            isSelectAll = isSelectAll,
+            callback = callback,
+            onSelect = { selectionList.toggleItem(it) },
+            onSelectAll = {
+                selectionList.clear()
+                if (isSelectAll) return@productsList
+                selectionList.addAll(availableProductIds)
+            },
+            onClearSelection = { selectionList.clear() }
+        )
+
+        item {
+            Spacer(
+                modifier = Modifier
+                    .height(MaterialTheme.spacers.extraLarge)
+            )
+        }
+
+        item {
+            CartCheckout(
+                productsCount = 0,
+                total = 0.0,
+                discount = 0.0,
+                cashbackPoints = 0.0,
+                summary = 0.0,
+                enableCheckoutButton = false,
+                onClickCheckout = {}
+            )
+        }
+    }
+}
 
 @Composable
 fun CartCheckout(
@@ -137,4 +215,70 @@ fun CartCheckout(
             onClick = onClickCheckout
         )
     }
+}
+
+@Preview
+@Composable
+private fun CartContentPreview() {
+
+    val vm = hiltViewModel<CartViewModel>()
+
+    MegahandTheme {
+        CartContent(
+            vm = vm,
+            openProductInfoScreen = {},
+            openCheckoutScreen = {},
+            openCatalogScreen = {},
+            openAuthScreen = {}
+        )
+    }
+
+}
+
+@Composable
+private fun CartContent(
+    vm: CartViewModel,
+    openProductInfoScreen: (Int) -> Unit,
+    openCheckoutScreen: (String) -> Unit,
+    openCatalogScreen: () -> Unit,
+    openAuthScreen: () -> Unit
+) {
+
+    val callback = object : CartCallback {
+
+        override fun onClickProduct(id: Int) =
+            openProductInfoScreen(id)
+
+        override fun removeFromCart(id: Int) =
+            vm.handleEvent(CartContract.Event.DeleteFromCart(id))
+
+        override fun proceedToCheckout(selection: List<Int>) =
+            vm.handleEvent(CartContract.Event.CreateOrder(selection))
+
+        override fun openCatalog() = openCatalogScreen()
+
+        override fun openAuthScreen() = openAuthScreen()
+
+        override fun refreshScreen() =
+            vm.handleEvent(CartContract.Event.Refresh)
+
+        override fun toggleFavourite(id: Int) =
+            vm.handleEvent(CartContract.Event.ToggleFavourite(id))
+
+        override fun calculateCheckout(selection: List<Int>) =
+            vm.handleEvent(CartContract.Event.CalculateCheckout(selection))
+
+        override fun finishOnboarding() =
+            vm.handleEvent(CartContract.Event.FinishOnboarding)
+    }
+
+    Content(
+        products = listOf(),
+        total = 0.0,
+        discount = 0.0,
+        cashbackPoints = 0.0,
+        summary = 0.0,
+        isAuthorized = false,
+        callback = callback
+    )
 }

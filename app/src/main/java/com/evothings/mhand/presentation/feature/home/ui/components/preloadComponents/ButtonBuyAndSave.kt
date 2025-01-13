@@ -71,10 +71,7 @@ fun Buttons(
 
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = MaterialTheme.paddings.extraLarge
-            ),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
@@ -88,8 +85,12 @@ fun Buttons(
                 onClick = { inCartLocal = !inCartLocal; onClickBuy() }
             )
         } else {
-            ButtonBuy(
-                text = stringResource(R.string.in_cart),
+            Button(
+                modifier = Modifier.weight(0.8f),
+                text = stringResource(id = R.string.in_cart),
+                textColor = ColorTokens.Graphite,
+                isEnabled = isInStock,
+                backgroundColor = MaterialTheme.colorScheme.primary,
                 onClick = { inCartLocal = !inCartLocal; onClickBuy() }
             )
         }
@@ -105,29 +106,4 @@ fun Buttons(
     }
 }
 
-@Composable
-private fun RowScope.ButtonBuy(
-    text: String,
-    onClick: () -> Unit
-){
-    var labelFontSize by remember { mutableStateOf(16.sp) }
-    Box(
-        modifier = Modifier
-            .width(110.dp)
-            .height(45.dp)
-            .background(color = colorScheme.primary, shape = MegahandShapes.medium),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            color = colorScheme.secondary,
-            style = MegahandTypography.labelLarge,
-            onTextLayout = {
-                if (it.hasVisualOverflow) {
-                    labelFontSize *= 0.9f
-                }
-            },
-        )
-    }
-}
 
