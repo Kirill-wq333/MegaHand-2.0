@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.cart.ui.components.makingAnOrderComponents
+package com.evothings.mhand.presentation.feature.checkout.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

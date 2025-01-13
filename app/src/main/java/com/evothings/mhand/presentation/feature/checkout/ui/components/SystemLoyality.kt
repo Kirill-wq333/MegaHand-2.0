@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.cart.ui.components.makingAnOrderComponents
+package com.evothings.mhand.presentation.feature.checkout.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.Price
 import com.evothings.mhand.presentation.feature.shared.checkbox.Checkbox
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.Balance
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.Cashback

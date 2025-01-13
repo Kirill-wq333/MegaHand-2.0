@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -136,6 +137,8 @@ fun OutOfStockCart(
             .clickable { onClick() }
     ) {
         PhotoProducts(
+            modifier = Modifier
+                .size(177.dp),
             photo = model.photos,
             isChecked = isChecked,
             onCheck = onCheck
@@ -194,6 +197,7 @@ fun Action(
 
 @Composable
 fun PhotoProducts(
+    modifier: Modifier = Modifier,
     photo: List<String>,
     isChecked: Boolean,
     onCheck: () -> Unit
@@ -202,8 +206,7 @@ fun PhotoProducts(
     var isCheckedLocal by remember(isChecked) { mutableStateOf(isChecked) }
 
     Box(
-        modifier = Modifier
-            .size(177.dp)
+        modifier = modifier
     ){
         AsyncImage(
             model = photo,
@@ -214,7 +217,11 @@ fun PhotoProducts(
                 .clickable { isCheckedLocal = !isCheckedLocal; onCheck() }
         )
         CheckboxChecker(
+            modifier = Modifier
+                .padding(MaterialTheme.paddings.large)
+                .align(Alignment.TopStart),
             isChecked = isCheckedLocal,
         )
     }
+
 }

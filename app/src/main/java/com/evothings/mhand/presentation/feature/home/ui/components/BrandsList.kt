@@ -46,6 +46,8 @@ fun BrandsItem(
                 model = brands,
                 contentDescription = "brands",
                 contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .matchParentSize()
             )
         }
     }

@@ -138,6 +138,7 @@
     <string name="transactions_list_empty_subtitle">Списания и начисления бонусов будут появлятся тут</string>
     <string name="not_authorized_title">Необходима авторизация</string>
     <string name="not_authorized_subtitle">Чтобы получить доступ к карте пользователя</string>
+    <string name="deduction_of_points">Списание баллов</string>
 
     <!-- Onboarding -->
     <string name="tutorial_welcome">Добро пожаловать в Мегахенд!</string>
