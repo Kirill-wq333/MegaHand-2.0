@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.evothings.domain.feature.news.model.NewsArticle
+import com.evothings.domain.util.Mock
 import com.evothings.mhand.presentation.feature.home.ui.components.CouponBanner
 import com.evothings.mhand.presentation.feature.news.ui.articleComponents.InformationArticle
 import com.evothings.mhand.presentation.feature.news.ui.components.NewsItem
@@ -240,5 +241,6 @@ fun ImageNews(
 @Preview
 @Composable
 private fun ArticleScreenPreview() {
-    MegahandTheme {  }
+    MegahandTheme {
+    }
 }

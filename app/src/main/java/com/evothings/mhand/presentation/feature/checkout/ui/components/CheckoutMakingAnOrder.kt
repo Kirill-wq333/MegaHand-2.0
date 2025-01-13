@@ -30,6 +30,7 @@ import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
 import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.MegahandTypography
+import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
@@ -76,7 +77,7 @@ fun CheckoutMakingAnOrder(
              CheckoutItem(
                  text = stringResource(R.string.deduction_of_points, deductionOfPoints),
                  value = "${total.splitHundreds(NumberSeparator.SPACE)} ₽",
-                 color = colorScheme.secondary
+                 color = colorScheme.inverseSurface
              )
 
              Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
@@ -119,9 +120,12 @@ fun CheckoutMakingAnOrder(
              Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
 
              Button(
+                 modifier = Modifier
+                     .fillMaxWidth(),
                  onClick = {},
                  text = stringResource(R.string.make_order_button),
-                 textColor = colorScheme.onSecondary
+                 textColor = colorScheme.onSecondary,
+                 backgroundColor = colorScheme.secondary.copy(.1f)
              )
 
              Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))

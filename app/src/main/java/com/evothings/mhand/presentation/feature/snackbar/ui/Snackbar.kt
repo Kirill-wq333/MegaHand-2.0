@@ -66,7 +66,8 @@ fun SnackCoupon(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
             Column(
                 modifier = Modifier
@@ -106,7 +107,7 @@ fun SnackCoupon(
 @Preview
 @Composable
 fun PreviewConditionCoupon() {
-    MegahandTheme {
+    MegahandTheme(true) {
         Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
             SnackCoupon(
                 messageHeading = "Купон успешно отправлен!",

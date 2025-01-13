@@ -46,7 +46,7 @@ private interface CheckoutCallback {
 @Preview
 @Composable
 private fun MakingAndOrderScreenPreview() {
-    MegahandTheme(true) {
+    MegahandTheme(false) {
         MakingAnOrderScreen()
     }
 }
@@ -135,6 +135,9 @@ private fun Content(
                 CProduct()
                 CProduct()
             }
+        }
+        item {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         }
         item {
             CheckoutMakingAnOrder(

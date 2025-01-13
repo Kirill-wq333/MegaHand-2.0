@@ -293,3 +293,14 @@ private fun TextItem(
     )
 }
 
+@Preview
+@Composable
+fun PreviewC(){
+    MegahandTheme {
+        Content(
+            bonusAmount = 1,
+            onFill = {},
+            openPrivacyPolicy = {}
+        )
+    }
+}
