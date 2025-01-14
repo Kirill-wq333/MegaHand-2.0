@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -41,47 +42,53 @@ fun HintsListAsyncImage(
     nameCategory: String,
     descriptionCategory: String
 ) {
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(colorScheme.onSecondary)
-            .padding(MaterialTheme.paddings.extraLarge),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
+    Column {
         Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colorScheme.onSecondary)
+                .padding(MaterialTheme.paddings.extraLarge),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            AsyncImage(
-                model = model,
-                contentDescription = contentDescription,
-                modifier = Modifier
-                    .clip(shape = MegahandShapes.extraLarge)
-                    .size(54.dp)
-            )
-            Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
-            Column(
-                horizontalAlignment = Alignment.Start
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
             ) {
-                Text(
-                    text = nameCategory,
-                    color = colorScheme.secondary,
-                    style = MegahandTypography.headlineSmall
+                AsyncImage(
+                    model = model,
+                    contentDescription = contentDescription,
+                    modifier = Modifier
+                        .clip(shape = MegahandShapes.extraLarge)
+                        .size(54.dp)
                 )
-                Text(
-                    text = descriptionCategory,
-                    color = colorScheme.secondary.copy(0.6f),
-                    style = MegahandTypography.bodyLarge
-                )
+                Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
+                Column(
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = nameCategory,
+                        color = colorScheme.secondary,
+                        style = MegahandTypography.headlineSmall
+                    )
+                    Text(
+                        text = descriptionCategory,
+                        color = colorScheme.secondary.copy(0.6f),
+                        style = MegahandTypography.bodyLarge
+                    )
+                }
             }
-        }
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_right),
-            contentDescription = null,
-            tint = colorScheme.secondary
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_right),
+                contentDescription = null,
+                tint = colorScheme.secondary
             )
+        }
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = colorScheme.secondary.copy(0.05f))
+        )
     }
 
 }

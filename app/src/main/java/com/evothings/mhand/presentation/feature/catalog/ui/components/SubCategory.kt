@@ -32,66 +32,34 @@ import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
-fun SubCategory(){
+fun SubCategory() {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorScheme.onSecondary)
-    ){
+    ) {
         Column(
             modifier = Modifier
-            .padding(MaterialTheme.paddings.extraLarge)
+                .padding(MaterialTheme.paddings.extraLarge)
         ) {
-            HintsList(text = stringResource(R.string.all_clothes))
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = colorScheme.secondary.copy(0.05f))
+            SearchBar(
+                query = "",
+                enableBackButton = true,
+                onSearch = {},
+                onChangeQuery = {},
+                onBack = {}
             )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+            HintsList(text = stringResource(R.string.all_clothes))
             HintsList(text = stringResource(R.string.new_items))
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
             HintsList(text = stringResource(R.string.t_shirts))
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = colorScheme.secondary.copy(0.05f))
-            )
             HintsList(text = stringResource(R.string.shirts))
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = colorScheme.secondary.copy(0.05f))
-            )
             HintsList(text = stringResource(R.string.pants))
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = colorScheme.secondary.copy(0.05f))
-            )
             HintsList(text = stringResource(R.string.trousers))
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = colorScheme.secondary.copy(0.05f))
-            )
             HintsList(text = stringResource(R.string.jeans))
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = colorScheme.secondary.copy(0.05f))
-            )
             HintsList(text = stringResource(R.string.turtlenecks))
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = colorScheme.secondary.copy(0.05f))
-            )
             HintsList(text = stringResource(R.string.jackets))
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = colorScheme.secondary.copy(0.05f))
-            )
             HintsList(text = stringResource(R.string.coast))
         }
     }

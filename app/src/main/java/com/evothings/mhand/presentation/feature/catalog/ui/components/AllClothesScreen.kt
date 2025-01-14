@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
@@ -47,6 +48,7 @@ import com.evothings.mhand.presentation.feature.catalog.ui.CatalogCallback
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogUiState
 import com.evothings.mhand.presentation.feature.home.ui.components.PreloadItem
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -213,4 +215,3 @@ private fun Button(
         )
     }
 }
-

@@ -39,7 +39,7 @@ import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun SearchBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     query: String,
     enableBackButton: Boolean,
     onChangeQuery: (String) -> Unit,

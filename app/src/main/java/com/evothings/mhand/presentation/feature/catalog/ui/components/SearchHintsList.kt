@@ -1,9 +1,12 @@
 package com.evothings.mhand.presentation.feature.catalog.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -24,28 +27,34 @@ import com.evothings.mhand.presentation.theme.paddings
 @Composable
 fun HintsList(
     text: String,
-    ){
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
     ) {
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
 
-        Text(
-            text = text,
-            color = colorScheme.secondary,
-            style = MegahandTypography.bodyLarge,
+            Text(
+                text = text,
+                color = colorScheme.secondary,
+                style = MegahandTypography.bodyLarge,
+                modifier = Modifier
+                    .padding(MaterialTheme.paddings.extraLarge)
+            )
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_right),
+                contentDescription = null,
+                tint = colorScheme.secondary,
+                modifier = Modifier
+                    .padding(MaterialTheme.paddings.extraLarge)
+            )
+        }
+        HorizontalDivider(
             modifier = Modifier
-                .padding(MaterialTheme.paddings.extraLarge)
-        )
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_right),
-            contentDescription = null,
-            tint = colorScheme.secondary,
-            modifier = Modifier
-                .padding(MaterialTheme.paddings.extraLarge)
+                .fillMaxWidth()
+                .background(color = colorScheme.secondary.copy(0.05f))
         )
     }
 

@@ -96,6 +96,30 @@ fun OtherBottomSheet(
 }
 
 @Composable
+fun Other(
+    modifier: Modifier = Modifier,
+    openAppScreen: (Screen) -> Unit,
+    openHelpPage: () -> Unit,
+    openVacanciesPage: () -> Unit,
+    onChangeTheme: () -> Unit,
+    openCouponPhoneConfirmationScreen: (String) -> Unit,
+    couponAmount: Int,
+    enableCouponButton: Boolean,
+    darkMode: Boolean
+) {
+    Content(
+        darkMode = darkMode,
+        enableCouponButton = enableCouponButton,
+        couponAmount = couponAmount,
+        openHelpPage = openHelpPage,
+        openAppScreen = openAppScreen,
+        onChangeTheme = onChangeTheme,
+        openVacanciesPage = openVacanciesPage,
+        openCouponPhoneConfirmationScreen = openCouponPhoneConfirmationScreen
+    )
+}
+
+@Composable
 private fun Content(
     darkMode: Boolean,
     enableCouponButton: Boolean,
@@ -130,7 +154,7 @@ private fun Content(
                     topStart = 12.dp,
                     topEnd = 12.dp
                 )
-                )
+            )
     ) {
         Column(
             modifier = Modifier
