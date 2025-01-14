@@ -42,7 +42,8 @@ fun CreditingAndDebiting(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(MaterialTheme.paddings.extraLarge),
         horizontalAlignment = Alignment.Start
     ){
         Text(

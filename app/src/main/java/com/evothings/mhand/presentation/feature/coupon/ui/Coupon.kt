@@ -296,11 +296,19 @@ private fun TextItem(
 @Preview
 @Composable
 fun PreviewC(){
-    MegahandTheme {
-        Content(
-            bonusAmount = 1,
-            onFill = {},
-            openPrivacyPolicy = {}
-        )
+    MegahandTheme(true) {
+        Box(
+            modifier = Modifier
+                .background(
+                    color = colorScheme.onSecondary,
+                    shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+                    )
+        ) {
+            Content(
+                bonusAmount = 1,
+                onFill = {},
+                openPrivacyPolicy = {}
+            )
+        }
     }
 }

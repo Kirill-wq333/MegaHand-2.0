@@ -25,6 +25,7 @@ import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.checkbox.Checkbox
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.Balance
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.Cashback
+import com.evothings.mhand.presentation.feature.shared.radio.RadioButton
 import com.evothings.mhand.presentation.feature.shared.text.MTextField
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
@@ -92,10 +93,10 @@ fun AmountAndSelectAll(
             onValueChange = {}
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
-        Checkbox(
+        RadioButton(
             title = stringResource(R.string.select_all),
-            onCheck = {},
-            isChecked = false,
+            onSelect = {},
+            isSelected = false,
             modifier = Modifier
                 .padding(
                     start = MaterialTheme.paddings.medium,
@@ -134,16 +135,16 @@ fun Points(
     Column(
         horizontalAlignment = Alignment.Start,
     ) {
-        Checkbox(
+        RadioButton(
             title = stringResource(R.string.withdraw_radio),
-            onCheck = {},
-            isChecked = false
+            onSelect = {},
+            isSelected = false
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
-        Checkbox(
+        RadioButton(
             title = stringResource(R.string.not_withdraw_radio),
-            onCheck = {},
-            isChecked = false
+            onSelect = {},
+            isSelected = false
         )
     }
 }

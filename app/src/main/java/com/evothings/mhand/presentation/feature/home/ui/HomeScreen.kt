@@ -278,11 +278,11 @@ fun LoyalityCard(
     cashback: Int,
     openProfile: () -> Unit,
 ) {
-    Box(modifier = modifier.fillMaxWidth()) {
+    Box(modifier = Modifier.fillMaxWidth()) {
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.paddings.extraLarge),
+                .padding(MaterialTheme.paddings.extraLarge),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
         ) {

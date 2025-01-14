@@ -1,8 +1,11 @@
 package com.evothings.mhand.presentation.feature.card.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.card.model.Card
 import com.evothings.domain.feature.card.model.Transaction
@@ -33,6 +37,7 @@ import com.evothings.mhand.presentation.feature.card.viewmodel.CardContract
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardViewModel
 import com.evothings.mhand.presentation.feature.card.viewmodel.enumeration.CardFilterType
 import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.Connectivity
@@ -107,12 +112,17 @@ private fun CardContent(
     uiState: CardUiState,
     callback: CardScreenCallback
 ) {
-
-    Content(
-        uiState = uiState,
-        callback = callback,
-        offlineMode = uiState.offlineMode
-    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorScheme.onSecondary)
+    ) {
+        Content(
+            uiState = uiState,
+            callback = callback,
+            offlineMode = uiState.offlineMode
+        )
+    }
 }
 
 
@@ -158,7 +168,7 @@ private fun Content(
 
     Column(
         modifier = Modifier
-            .padding(MaterialTheme.paddings.extraLarge)
+            .fillMaxSize()
     ) {
         LoyalityCard(
             cashback = uiState.cashback,
@@ -197,3 +207,21 @@ data class CreditingAndDebitingClass(
     val selected: Boolean
 )
 
+@Preview
+@Composable
+private fun CardPreview() {
+    MegahandTheme(false) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorScheme.onSecondary)
+        ) {
+            Content(
+                offlineMode = true,
+                uiState = CardUiState(
+                    cashback = 3
+                )
+            )
+        }
+    }
+}

@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.button.icon.SmallIconButton
 import com.evothings.mhand.presentation.feature.shared.checkbox.Checkbox
+import com.evothings.mhand.presentation.feature.shared.radio.RadioButton
+import com.evothings.mhand.presentation.feature.shared.radio.RadioChecker
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -70,16 +72,16 @@ fun ReceiptMethod(
             style = MegahandTypography.headlineSmall
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        Checkbox(
+        RadioButton(
             title = stringResource(R.string.option_pickup_point),
-            onCheck = {},
-            isChecked = false
+            onSelect = {},
+            isSelected = false
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        Checkbox(
+        RadioButton(
             title = stringResource(R.string.option_courier),
-            onCheck = {},
-            isChecked = false
+            onSelect = {},
+            isSelected = false
         )
     }
 }
@@ -119,10 +121,10 @@ fun Address(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Checkbox(
+                    RadioButton(
                         title = address,
-                        onCheck = {},
-                        isChecked = false
+                        onSelect = {},
+                        isSelected = false
                     )
 
                     SmallIconButton(

@@ -29,7 +29,8 @@ import com.evothings.mhand.presentation.theme.spacers
 fun HistoryBar(){
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(MaterialTheme.paddings.extraLarge),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

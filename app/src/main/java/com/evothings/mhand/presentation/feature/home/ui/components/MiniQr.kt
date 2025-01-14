@@ -35,6 +35,7 @@ fun QrCode() {
     Box(
         modifier = Modifier
             .width(200.dp)
+            .height(200.dp)
             .background(
                 color = colorScheme.inverseSurface.copy(0.1f),
                 shape = RoundedCornerShape(
@@ -55,7 +56,7 @@ fun QrCode() {
                     color = colorScheme.inverseSurface,
                     shape = MegahandShapes.large
                 )
-                 .clip(shape = MegahandShapes.large)
+                .clip(shape = MegahandShapes.large)
         )
         Box(
             modifier = Modifier
@@ -72,26 +73,18 @@ fun QrCode() {
                     .align(Alignment.Center)
             )
         }
-        Box(
+
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.ic_magnifying_glass),
+            contentDescription = "",
+            tint = colorScheme.onSecondary,
             modifier = Modifier
-                .size(180.dp),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            Box(
-                modifier = Modifier
-                    .background(color = colorScheme.secondary, shape = CircleShape)
-                    .border(width = 1.dp, color = colorScheme.inverseSurface, shape = CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_magnifying_glass),
-                    contentDescription = "",
-                    tint = colorScheme.onSecondary,
-                    modifier = Modifier
-                        .padding(MaterialTheme.paddings.medium)
-                )
-            }
-        }
+                .align(Alignment.BottomEnd)
+                .padding(MaterialTheme.paddings.medium)
+                .background(color = colorScheme.secondary, shape = CircleShape)
+                .border(width = 1.dp, color = colorScheme.inverseSurface, shape = CircleShape)
+                .padding(MaterialTheme.paddings.medium)
+        )
 
     }
 }
