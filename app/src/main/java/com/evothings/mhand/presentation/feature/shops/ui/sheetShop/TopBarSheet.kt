@@ -22,16 +22,18 @@ import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun TopBarSheet(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    email: String,
+    phone: String
 ) {
     Row {
         Info(
-            textHeading = "Delivery",
+            textHeading = email,
             textUnderHeading = "Free delivery on all orders"
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
         Info(
-            textHeading = "Payment",
+            textHeading = phone,
             textUnderHeading = "Visa, MasterCard"
         )
     }
@@ -77,6 +79,9 @@ fun Info(
 @Composable
 private fun PreviewTopBarSheet() {
     MegahandTheme(false) {
-        TopBarSheet()
+        TopBarSheet(
+            email = "some@gamil.com",
+            phone = "+7 (999) 000-44-67"
+        )
     }
 }

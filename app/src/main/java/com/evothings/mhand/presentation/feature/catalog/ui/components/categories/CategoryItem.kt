@@ -32,9 +32,39 @@ import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
+fun CategoryItemOnboarding(
+    modifier: Modifier = Modifier,
+    title: String,
+    image: Int,
+    onClick: () -> Unit
+) {
+    Item(
+        painter = painterResource(image),
+        contentDescription = null,
+        text = title,
+        onClick = onClick
+    )
+}
+
+@Composable
 fun CategoryItem(
+    modifier: Modifier = Modifier,
+    image: String,
+    title: String,
+    onClick: () -> Unit
+) {
+   Item(
+       painter = rememberAsyncImagePainter(image),
+       contentDescription = null,
+       text = title,
+       onClick = onClick
+   )
+}
+
+@Composable
+fun Item(
     contentDescription: String?,
-    painter: String,
+    painter: Painter,
     text: String,
     onClick: () -> Unit
 ) {
@@ -52,7 +82,7 @@ fun CategoryItem(
     ) {
 
         Image(
-            painter = rememberAsyncImagePainter(model = painter),
+            painter = painter,
             contentDescription = contentDescription,
             contentScale = ContentScale.Crop,
             modifier = Modifier

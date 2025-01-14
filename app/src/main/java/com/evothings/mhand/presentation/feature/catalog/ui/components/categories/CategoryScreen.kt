@@ -57,9 +57,8 @@ fun CategoriesGrid(
         items(categories) { categoryItem ->
             CategoryItem(
                 onClick = {onClickCategory(categoryItem)},
-                contentDescription = "",
-                text = categoryItem.title,
-                painter = categoryItem.photoLink.orEmpty()
+                title = categoryItem.title,
+                image = categoryItem.photoLink.orEmpty()
             )
         }
 

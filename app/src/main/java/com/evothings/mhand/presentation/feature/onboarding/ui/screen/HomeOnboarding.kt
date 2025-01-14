@@ -24,6 +24,7 @@ import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
 import com.evothings.mhand.presentation.feature.home.ui.NewProduct
 import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItem
+import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItem
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItemOffset
@@ -213,7 +214,8 @@ fun HomeOnboarding(
             underHeading = currentItem.itemsCounter,
             visibleButtonTurnBack = (currentIndex != 0),
             onFinish = isLastElement.value,
-            pageNumber = currentItem.description
+            pageNumber = currentItem.description,
+            alignment = CardAlignment.BOTTOM
         )
     }
 }

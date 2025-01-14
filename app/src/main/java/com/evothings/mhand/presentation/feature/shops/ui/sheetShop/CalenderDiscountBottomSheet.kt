@@ -10,146 +10,72 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.evothings.domain.feature.shops.model.DiscountDay
+import com.evothings.domain.feature.shops.model.enumeration.DiscountType
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
-import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
+import com.google.common.collect.ImmutableList
+import kotlinx.collections.immutable.toPersistentList
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 
-data class DiscountDay(
-    val number: String,
-    val dayWeek: String,
-    val visible: Boolean,
-    val title: String,
-    val discount: String,
-    val colorDiscount: Color,
-    val colorDiscountDay: Color,
-    val colorNumber: Color,
-    val colorDayWeek: Color
-)
 
 
 @Composable
 fun CalendarDiscountBottomSheet(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    days: ImmutableList<DiscountDay>,
+    onDismissRequest: () -> Unit
 ) {
-    val discountDays = listOf(
-        DiscountDay(
-            number = "1",
-            dayWeek = "Пн",
-            visible = false,
-            title = "Добавление",
-            discount = "10%",
-            colorDiscount = colorScheme.secondary.copy(.2f),
-            colorDiscountDay = colorScheme.secondary.copy(.02f),
-            colorNumber = colorScheme.secondary.copy(.2f),
-            colorDayWeek = colorScheme.secondary.copy(.2f)
-        ),
-        DiscountDay(
-            number = "2",
-            dayWeek = "Вт",
-            visible = false,
-            title = "Добавление",
-            discount = "20%",
-            colorDiscount = colorScheme.secondary.copy(.2f),
-            colorDiscountDay = colorScheme.secondary.copy(.02f),
-            colorNumber = colorScheme.secondary.copy(.2f),
-            colorDayWeek = colorScheme.secondary.copy(.2f)
-        ),
-        DiscountDay(
-            number = "3",
-            dayWeek = "Ср",
-            visible = true,
-            title = "Добавление",
-            discount = "30%",
-            colorDiscount = colorScheme.primary,
-            colorDiscountDay = colorScheme.secondary,
-            colorNumber = colorScheme.onSecondary,
-            colorDayWeek = colorScheme.secondary
-        ),
-        DiscountDay(
-            number = "4",
-            dayWeek = "Чт",
-            visible = false,
-            title = "Добавление",
-            discount = "40%",
-            colorDiscount = colorScheme.secondary,
-            colorDiscountDay = colorScheme.secondary.copy(.05f),
-            colorNumber = colorScheme.secondary,
-            colorDayWeek = colorScheme.secondary.copy(.4f)
-        ),
-        DiscountDay(
-            number = "5",
-            dayWeek = "Пт",
-            visible = false,
-            title = "Добавление",
-            discount = "50%",
-            colorDiscount = colorScheme.secondary,
-            colorDiscountDay = colorScheme.secondary.copy(.05f),
-            colorNumber = colorScheme.secondary,
-            colorDayWeek = colorScheme.secondary.copy(.4f)
-        ),
-        DiscountDay(
-            number = "6",
-            dayWeek = "Сб",
-            visible = false,
-            title = "Добавление",
-            discount = "60%",
-            colorDiscount = colorScheme.secondary,
-            colorDiscountDay = colorScheme.secondary.copy(.05f),
-            colorNumber = colorScheme.secondary,
-            colorDayWeek = colorScheme.secondary.copy(.4f)
-        ),
-        DiscountDay(
-            number = "7",
-            dayWeek = "Вс",
-            visible = false,
-            title = "Добавление",
-            discount = "70%",
-            colorDiscount = colorScheme.secondary,
-            colorDiscountDay = colorScheme.secondary.copy(.05f),
-            colorNumber = colorScheme.secondary,
-            colorDayWeek = colorScheme.secondary.copy(.4f)
-        ),
-        DiscountDay(
-            number = "8",
-            dayWeek = "Пн",
-            visible = false,
-            title = "Добавление",
-            discount = "80%",
-            colorDiscount = colorScheme.secondary,
-            colorDiscountDay = colorScheme.secondary.copy(.05f),
-            colorNumber = colorScheme.secondary,
-            colorDayWeek = colorScheme.secondary.copy(.4f)
-        ),
-        DiscountDay(
-            number = "9",
-            dayWeek = "Вт",
-            visible = false,
-            title = "Добавление",
-            discount = "90%",
-            colorDiscount = colorScheme.secondary,
-            colorDiscountDay = colorScheme.secondary.copy(.05f),
-            colorNumber = colorScheme.secondary,
-            colorDayWeek = colorScheme.secondary.copy(.4f)
-        ),
-    )
+    MhandModalBottomSheet(
+        onDismissRequest = onDismissRequest
+    ) {
+        CalendarDiscount(
+            days = days
+        )
+    }
+}
+
+@Composable
+private fun CalendarDiscount(
+    modifier: Modifier = Modifier,
+    days: ImmutableList<DiscountDay>,
+) {
+    val monthName = remember {
+        val currentDate = LocalDate.now()
+        val monthLowercase = currentDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+
+        monthLowercase.replaceFirstChar { it.uppercase() }
+    }
+
+    val weeks = remember(days) { days.chunked(7) }
+
+    var currentWeek by remember { mutableIntStateOf(0) }
+
+    val weekDays = remember(currentWeek) {
+        weeks[currentWeek].toPersistentList()
+    }
 
     Box(
         modifier = modifier
@@ -169,28 +95,26 @@ fun CalendarDiscountBottomSheet(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "Calendar discount",
+                text = stringResource(
+                    id = R.string.discount_calendar_bottomsheet_title,
+                    monthName,
+                    currentWeek + 1
+                ),
                 color = colorScheme.secondary,
                 style = MegahandTypography.titleLarge,
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.small)
-            ){
-                items(discountDays) { item ->
+                weekDays.forEach{ item ->
                     DiscountWeek(
-                        number = item.number,
-                        dayWeek = item.dayWeek,
-                        visible = item.visible,
+                        number = item.dayOfMonth,
                         discount = item.discount,
-                        addendum = item.title,
-                        colorDiscount = item.colorDiscount,
-                        colorDiscountDay = item.colorDiscountDay,
-                        colorNumber = item.colorNumber,
-                        colorDayWeek = item.colorDayWeek
+                        dayWeek = item.dayOfWeek,
+                        isToday = item.isToday,
+                        hasAddition = item.hasAddition,
+                        isActive = item.isActive,
+                        type = item.type
                     )
                 }
-            }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -222,16 +146,27 @@ fun CalendarDiscountBottomSheet(
 @Composable
 fun DiscountWeek(
     modifier: Modifier = Modifier,
-    number: String,
+    number: Int,
     dayWeek: String,
-    visible : Boolean,
+    isToday: Boolean,
     discount: String,
-    addendum: String,
-    colorDiscount: Color,
-    colorDiscountDay: Color,
-    colorNumber: Color,
-    colorDayWeek: Color
+    isActive: Boolean,
+    type: DiscountType,
+    hasAddition: Boolean
+
 ) {
+
+    val isDarkTheme = (colorScheme.secondary != ColorTokens.Graphite)
+
+    val backgroundAlpha = remember(isToday, isDarkTheme) {
+        when {
+            isToday && isDarkTheme -> 0.2f
+            isToday -> 1.0f
+            else -> 0.05f
+        }
+    }
+
+    val dayOfWeekAlpha = remember(isToday) { if (isToday) 1.0f else 0.4f }
 
     Row(
         modifier = modifier
@@ -241,18 +176,17 @@ fun DiscountWeek(
     ) {
         Text(
             text = dayWeek,
-            color = colorDayWeek,
+            color = colorScheme.secondary.copy(dayOfWeekAlpha),
             style = MegahandTypography.bodyLarge,
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.extraMedium))
-        DiscountDay(
+        DiscountDays(
             number = number,
-            visible = visible,
             discount = discount,
-            addendum = addendum,
-            colorDiscount = colorDiscount,
-            colorDiscountDay = colorDiscountDay,
-            colorNumber = colorNumber,
+            type = type,
+            hasAddition = hasAddition,
+            isToday = isToday,
+            isActive = isActive
         )
 
     }
@@ -260,24 +194,46 @@ fun DiscountWeek(
 }
 
 @Composable
-fun DiscountDay(
+fun DiscountDays(
     modifier: Modifier = Modifier,
-    number: String,
+    number: Int,
     discount: String,
-    visible : Boolean,
-    addendum: String,
-    colorDiscount: Color,
-    colorDiscountDay: Color,
-    colorNumber: Color,
+    type: DiscountType,
+    hasAddition: Boolean,
+    isToday: Boolean,
+    isActive: Boolean
 ) {
+
+
+    val isDarkTheme = (colorScheme.secondary != ColorTokens.Graphite)
+    val backgroundAlpha = remember(isToday, isDarkTheme) {
+        when {
+            isToday && isDarkTheme -> 0.2f
+            isToday -> 1.0f
+            else -> 0.05f
+        }
+    }
+    val componentAlpha = remember(isActive) { if (isActive) 1.0f else 0.3f }
+    val discountTextColor =
+        if (isToday) colorScheme.primary else colorScheme.secondary
+
+    val additionTextColor =
+        if (isToday && !isDarkTheme) colorScheme.primary else colorScheme.error
+
+    val dayOfMonthColor =
+        when {
+            isToday && !isDarkTheme -> colorScheme.onSecondary
+            else -> colorScheme.secondary
+        }
 
     Box(
         modifier = modifier
             .width(303.dp)
             .background(
-                color = colorDiscountDay,
+                color = colorScheme.secondary.copy(backgroundAlpha),
                 shape = MegahandShapes.medium
             )
+            .alpha(componentAlpha)
     ) {
         Row(
             modifier = modifier
@@ -287,38 +243,76 @@ fun DiscountDay(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = number,
-                color = colorNumber,
+                text = number.toString(),
+                color = dayOfMonthColor,
                 style = MegahandTypography.bodyLarge,
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
             ) {
-                if (visible) {
+                if (hasAddition && type != DiscountType.NEW) {
                     Text(
-                        text = addendum,
+                        text = stringResource(R.string.discount_addition),
                         color = ColorTokens.Red,
                         style = MegahandTypography.bodyLarge,
                     )
 
                     Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
                 }
-                Text(
-                    text = discount,
-                    color = colorDiscount,
-                    style = MegahandTypography.titleLarge,
-                )
+                when(type) {
+                    DiscountType.NEW -> {
+                        Text(
+                            text = stringResource(R.string.discount_new),
+                            color = additionTextColor,
+                            style = MegahandTypography.titleLarge,
+                        )
+                    }
+                    DiscountType.BY_PERCENTS -> {
+                        Text(
+                            text = "$discount%",
+                            color = discountTextColor,
+                            style = MegahandTypography.titleLarge,
+                        )
+                    }
+                    DiscountType.ROUBLES -> {
+                        Text(
+                            text = "$discount ₽",
+                            color = discountTextColor,
+                            style = MegahandTypography.titleLarge,
+                        )
+                    }
+                    DiscountType.BLACK_FRIDAY -> {
+                        Text(
+                            text = stringResource(R.string.discount_black_friday),
+                            color = discountTextColor,
+                            style = MegahandTypography.titleLarge,
+                        )
+                    }
+                    DiscountType.TICKET -> {
+                        Text(
+                            text = stringResource(R.string.discount_ticket),
+                            color = discountTextColor,
+                            style = MegahandTypography.titleLarge,
+                        )
+                    }
+                    DiscountType.WITHOUT_DISCOUNT -> {
+                        Text(
+                            text = stringResource(R.string.without_discount),
+                            color = discountTextColor,
+                            style = MegahandTypography.titleLarge,
+                        )
+                    }
+                    DiscountType.NEW_DISCOUNT_SYSTEM -> {
+                        Text(
+                            text = stringResource(R.string.new_discount_system),
+                            color = discountTextColor,
+                            style = MegahandTypography.titleLarge,
+                        )
+                    }
+                }
             }
         }
     }
 
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun CalendarDiscountBottomSheetPreview() {
-    MegahandTheme(false) {
-        CalendarDiscountBottomSheet()
-    }
 }

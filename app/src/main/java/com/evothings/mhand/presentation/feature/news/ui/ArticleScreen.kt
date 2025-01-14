@@ -132,62 +132,64 @@ private fun Content(
     if (uiState.newsModel == null) return
 
 
-    Column(
+    LazyColumn(
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
             .fillMaxSize()
             .background(colorScheme.onSecondary)
     ) {
-
-        ImageNews(
-            mainImage = uiState.newsModel.previewImageLink,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(214.dp)
-                .padding(horizontal = MaterialTheme.paddings.extraLarge)
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        with(uiState.newsModel) {
-            InformationArticle(
-                title = title,
-                publicationDate = publishingDate,
-                informationNews = content,
-                onClick = { callback.shareArticle(articleLink)}
+        item {
+            ImageNews(
+                mainImage = uiState.newsModel.previewImageLink,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(214.dp)
+                    .padding(horizontal = MaterialTheme.paddings.extraLarge)
             )
         }
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        ArticleTitle(
-            content = uiState.newsModel.content,
-            modifier = Modifier
-                .padding(horizontal = MaterialTheme.paddings.extraLarge)
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        if (couponBannerVisible) {
-            CouponBanner(
-                banner = uiState.couponAmount,
-                onClose = { couponBannerVisible = false },
-                onClick = {
-                    couponBottomSheetEnabled = true
-                    couponBannerVisible = false
-                },
-            )
-        }
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.paddings.extraLarge)
-        ) {
-            items(
-                items = uiState.similarArticles,
-                key = { it.id }
-            ) {
-                NewsItem(
-                    imageLink = uiState.newsModel.previewImageLink,
-                    publicationDate = uiState.newsModel.publishingDate,
-                    information = uiState.newsModel.title,
-                    category = uiState.newsModel.categories
+        item {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+            with(uiState.newsModel) {
+                InformationArticle(
+                    title = title,
+                    publicationDate = publishingDate,
+                    informationNews = content,
+                    onClick = { callback.shareArticle(articleLink) }
                 )
             }
+        }
+        item {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        }
+        item {
+            ArticleTitle(
+                content = uiState.newsModel.content,
+                modifier = Modifier
+                    .padding(horizontal = MaterialTheme.paddings.extraLarge)
+            )
+        }
+        item {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+            if (couponBannerVisible) {
+                CouponBanner(
+                    banner = uiState.couponAmount,
+                    onClose = { couponBannerVisible = false },
+                    onClick = {
+                        couponBottomSheetEnabled = true
+                        couponBannerVisible = false
+                    },
+                )
+            }
+        }
+        items(
+            items = uiState.similarArticles,
+            key = { it.id }
+        ) {
+            NewsItem(
+                imageLink = uiState.newsModel.previewImageLink,
+                publicationDate = uiState.newsModel.publishingDate,
+                information = uiState.newsModel.title,
+                category = uiState.newsModel.categories
+            )
         }
 
     }
@@ -241,6 +243,26 @@ fun ImageNews(
 @Preview
 @Composable
 private fun ArticleScreenPreview() {
-    MegahandTheme {
+    MegahandTheme(false) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorScheme.onSecondary)
+        ) {
+            Content(
+                uiState = ArticleUiState(
+                    newsModel = Mock.demoNews,
+                    similarArticles = Mock.demoNewsList,
+                    couponAmount = 1,
+                    showCouponBanner = false
+                ),
+                callback = object : ArticleCallback {
+                    override fun openSimilarArticle(id: String) {}
+                    override fun reload() {}
+                    override fun shareArticle(link: String) {}
+                    override fun onBack() {}
+                }
+            )
+        }
     }
 }
