@@ -172,7 +172,8 @@ private fun Content(
     ) {
         LoyalityCard(
             cashback = uiState.cashback,
-            openProfile = callback::openProfileScreen
+            openProfile = callback::openProfileScreen,
+            enableBalance = true
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.mega))
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))

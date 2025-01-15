@@ -43,6 +43,7 @@ import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
+import com.evothings.mhand.presentation.utils.sdkutil.tryOpenWebPage
 
 @Composable
 fun StoriesScreen(
@@ -59,7 +60,12 @@ fun StoriesScreen(
         vm.handleEvent(StoriesContract.Event.LoadStories)
     }
 
-
+    Content(
+        storyIndex = storyIndex,
+        storiesList = storiesList,
+        onClickButton = { link -> tryOpenWebPage(context, link) },
+        onFinish = openMainScreen
+    )
 }
 
 @Composable

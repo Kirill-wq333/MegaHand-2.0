@@ -106,6 +106,10 @@ fun AuthScreen(
                 vm.handleEvent(AuthContract.Event.SendAuthData(phone, refCode))
 
         }
+    Content(
+        state = state,
+        callback = callback
+    )
 
 }
 

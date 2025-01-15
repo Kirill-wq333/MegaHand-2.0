@@ -207,6 +207,7 @@ private fun Content(
             LoyalityCard(
                 cashback = uiState.cashback,
                 openProfile = { NavGraph.BottomNav.Profile },
+                enableBalance = true
             )
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
@@ -277,6 +278,7 @@ fun LoyalityCard(
     modifier: Modifier = Modifier,
     cashback: Int,
     openProfile: () -> Unit,
+    enableBalance: Boolean
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -287,7 +289,7 @@ fun LoyalityCard(
             horizontalArrangement = Arrangement.Start,
         ) {
             BalanceAndCashback(
-                enableBalance = false,
+                enableBalance = enableBalance,
                 cashback = cashback,
                 onClickIncrease = openProfile,
             )

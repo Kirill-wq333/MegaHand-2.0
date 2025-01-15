@@ -127,6 +127,7 @@ fun HomeOnboarding(
                     ),
                 cashback = 3,
                 openProfile = {},
+                enableBalance = true
             )
 
             NewProduct(
@@ -191,6 +192,7 @@ fun HomeOnboarding(
                         ),
                     cashback = 3,
                     openProfile = {},
+                    enableBalance = true
                 )
 
             Onboarding.Home.NewProducts -> {
@@ -215,7 +217,7 @@ fun HomeOnboarding(
             visibleButtonTurnBack = (currentIndex != 0),
             onFinish = isLastElement.value,
             pageNumber = currentItem.description,
-            alignment = CardAlignment.BOTTOM
+            alignment = currentItem.cardAlignment
         )
     }
 }

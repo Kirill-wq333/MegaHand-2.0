@@ -105,14 +105,22 @@ fun BalanceAndCashback(
                 cashback = cashback
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
-            TextCashBack(
-                cashback = cashback
-            )
+            if (!isOffline) {
+                Text(
+                    text = stringResource(
+                        id = if (!maximumCashbackIsReached)
+                            R.string.loyality_card_hint
+                        else
+                            R.string.maximum_cashback_reached
+                    ),
+                    style = typography.bodyMedium,
+                    color = colorScheme.secondary.copy(0.4f)
+                )
+            }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
             if (showIncreaseButton) {
                 SmallButton(
                     text = stringResource(id = R.string.increase),
-                    textColor = ColorTokens.White,
                     backgroundColor = colorScheme.secondary.copy(0.05f),
                     onClick = onClickIncrease
                 )
@@ -182,24 +190,4 @@ fun Cashback(
     }
 }
 
-@Composable
-fun TextCashBack(
-    cashback: Int,
-    isOffline: Boolean = false
-){
-    val maximumCashbackIsReached = remember { cashback == 5 }
-
-    if (!isOffline) {
-        Text(
-            text = stringResource(
-                id = if (!maximumCashbackIsReached)
-                    R.string.loyality_card_hint
-                else
-                    R.string.maximum_cashback_reached
-            ),
-            style = typography.bodyMedium,
-            color = colorScheme.secondary.copy(0.4f)
-        )
-    }
-}
 
