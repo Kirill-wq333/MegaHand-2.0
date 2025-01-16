@@ -34,14 +34,16 @@ fun OtherOnboardingScreen(onFinish: () -> Unit) {
         OnboardingScrim(onClick = onFinish)
 
         with(Onboarding.Other.BottomSheet) {
-            com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboarding(
+            Onboarding(
                 icon = iconRes,
                 heading = title,
                 underHeading = description,
                 onFinish = true,
                 alignment = CardAlignment.TOP,
                 visibleButtonTurnBack = false,
-                pageNumber = itemsCounter
+                pageNumber = itemsCounter,
+                onClickNext = onFinish,
+                onClickTurnBack = {}
             )
         }
 

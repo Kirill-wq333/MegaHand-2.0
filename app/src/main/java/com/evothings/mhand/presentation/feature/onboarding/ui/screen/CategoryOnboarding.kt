@@ -96,7 +96,9 @@ fun CatalogOnboarding(
             icon = item.iconRes,
             onFinish = true,
             visibleButtonTurnBack = false,
-            alignment = item.cardAlignment
+            alignment = item.cardAlignment,
+            onClickTurnBack = {},
+            onClickNext = onFinish
         )
 
     }

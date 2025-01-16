@@ -213,11 +213,15 @@ fun HomeOnboarding(
         Onboarding(
             heading = currentItem.title,
             icon = currentItem.iconRes,
-            underHeading = currentItem.itemsCounter,
+            underHeading = currentItem.description,
             visibleButtonTurnBack = (currentIndex != 0),
             onFinish = isLastElement.value,
-            pageNumber = currentItem.description,
-            alignment = currentItem.cardAlignment
+            pageNumber = currentItem.itemsCounter,
+            alignment = currentItem.cardAlignment,
+            onClickTurnBack = { currentIndex-- },
+            onClickNext = {
+                if (!isLastElement.value) currentIndex++ else onFinish()
+            }
         )
     }
 }

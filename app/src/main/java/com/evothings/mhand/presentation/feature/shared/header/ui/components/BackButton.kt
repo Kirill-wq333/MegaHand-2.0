@@ -1,6 +1,7 @@
 package com.evothings.mhand.presentation.feature.shared.header.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -16,6 +17,7 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun BackButton(
+    onClick: () -> Unit
 ) {
 
     Box(
@@ -24,6 +26,7 @@ fun BackButton(
                 color = colorScheme.secondary.copy(0.05f),
                 shape = MegahandShapes.medium
             )
+            .clickable { onClick }
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_left),

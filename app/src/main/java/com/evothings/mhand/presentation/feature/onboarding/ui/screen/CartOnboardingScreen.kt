@@ -106,7 +106,9 @@ fun CartOnboardingScreen(
                 underHeading = description,
                 pageNumber = itemsCounter,
                 onFinish = true,
-                alignment = CardAlignment.BOTTOM
+                alignment = CardAlignment.BOTTOM,
+                onClickNext = onFinish,
+                onClickTurnBack = {}
             )
         }
 

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
@@ -39,7 +41,7 @@ import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 
-@Composable
+@Composable 
 fun Onboarding(
     modifiers: Modifier = Modifier,
     icon: Int,
@@ -48,6 +50,8 @@ fun Onboarding(
     pageNumber: String,
     onFinish: Boolean,
     alignment: CardAlignment,
+    onClickTurnBack: () -> Unit,
+    onClickNext: () -> Unit,
     visibleButtonTurnBack: Boolean = false
 ) {
     val align = remember(alignment) {
@@ -81,7 +85,7 @@ fun Onboarding(
 
     Box(
         modifier = Modifier
-            .background(color = colorScheme.onSecondary),
+            .fillMaxSize(),
         contentAlignment = align
     ) {
         Box(
@@ -98,68 +102,93 @@ fun Onboarding(
                 modifier = Modifier.align(indicatorAlign)
             )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(MaterialTheme.paddings.extraGiant)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = colorScheme.secondary.copy(.1f),
-                                shape = CircleShape
-                            )
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(icon),
-                            contentDescription = null,
-                            tint = colorScheme.secondary.copy(.4f),
-                            modifier = Modifier
-                                .padding(MaterialTheme.paddings.medium)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(MaterialTheme.spacers.large))
-                    HeadingAndUnderHeading(
-                        heading = heading,
-                        underHeading = underHeading,
-                        pageNumber = pageNumber
-                    )
-                }
-                Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    if (visibleButtonTurnBack) {
-                        Button(
-                            modifier = Modifier
-                                .width(167.dp)
-                                .height(44.dp),
-                            text = stringResource(R.string.turn_back),
-                            textColor = colorScheme.secondary,
-                            borderColor = colorScheme.secondary.copy(.1f),
-                            onClick = {}
-                        )
-                    }
-                    Button(
-                        modifier = modifier,
-                        text = stringResource(if (onFinish) R.string.finish_onboarding else R.string.next),
-                        textColor = colorScheme.secondary,
-                        backgroundColor = ColorTokens.Sunflower,
-                        onClick = {}
-                    )
-                }
-            }
+            Content(
+                modifier = modifier,
+                icon = icon,
+                heading = heading,
+                underHeading = underHeading,
+                pageNumber = pageNumber,
+                onFinish = onFinish,
+                visibleButtonTurnBack = visibleButtonTurnBack,
+                onClickNext = onClickNext,
+                onClickTurnBack = onClickTurnBack
+            )
         }
     }
 
+}
+
+@Composable
+private fun Content(
+    modifier: Modifier = Modifier,
+    icon: Int,
+    heading: String,
+    underHeading: String,
+    pageNumber: String,
+    onFinish: Boolean,
+    visibleButtonTurnBack: Boolean = false,
+    onClickNext: () -> Unit,
+    onClickTurnBack: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(MaterialTheme.paddings.extraGiant)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Box(
+                modifier = Modifier
+                    .background(
+                        color = colorScheme.secondary.copy(.1f),
+                        shape = CircleShape
+                    )
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(icon),
+                    contentDescription = null,
+                    tint = colorScheme.secondary.copy(.4f),
+                    modifier = Modifier
+                        .padding(MaterialTheme.paddings.medium)
+                )
+            }
+            Spacer(modifier = Modifier.width(MaterialTheme.spacers.large))
+            HeadingAndUnderHeading(
+                heading = heading,
+                underHeading = underHeading,
+                pageNumber = pageNumber
+            )
+        }
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            if (visibleButtonTurnBack) {
+                Button(
+                    modifier = Modifier
+                        .width(167.dp)
+                        .height(44.dp),
+                    text = stringResource(R.string.turn_back),
+                    textColor = colorScheme.secondary,
+                    borderColor = colorScheme.secondary.copy(.1f),
+                    onClick = onClickTurnBack
+                )
+            }
+            Button(
+                modifier = modifier,
+                text = stringResource(if (onFinish) R.string.finish_onboarding else R.string.next),
+                textColor = colorScheme.secondary,
+                backgroundColor = ColorTokens.Sunflower,
+                onClick = onClickNext
+            )
+        }
+    }
 }
 
 @Composable
@@ -234,7 +263,9 @@ private fun OnboardingPreview() {
             icon = R.drawable.ic_home,
             onFinish = false,
             visibleButtonTurnBack = true,
-            alignment = CardAlignment.BOTTOM
+            alignment = CardAlignment.BOTTOM,
+            onClickTurnBack = {},
+            onClickNext = {}
         )
     }
 }

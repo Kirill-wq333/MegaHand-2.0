@@ -208,7 +208,7 @@
 
     <!-- Checkout -->
     <string name="add_new_button">Добавить новый</string>
-    <string name="shipping_address">Адрес</string>
+    <string name="shipping_address">Адреса отправки</string>
     <string name="payment_method">Способ оплаты</string>
     <string name="receiver_info_title">Данные получателя</string>
     <string name="address_first_line_placeholder">Город, улица, дом</string>

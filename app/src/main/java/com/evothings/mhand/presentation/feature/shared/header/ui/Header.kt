@@ -3,6 +3,7 @@ package com.evothings.mhand.presentation.feature.shared.header.ui
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -69,8 +70,11 @@ fun Header(
     balanceVisible: Boolean = true,
     notificationVisible: Boolean = true,
     locationVisible: Boolean = true,
-    chevronLeftVisible: Boolean = false
+    chevronLeftVisible: Boolean = false,
+    onBack: () -> Unit,
+    onChooseCity: () -> Unit,
 ) {
+
     val context = LocalContext.current
 
     val cardBalance by viewModel.cardBalance.collectAsState()
@@ -115,16 +119,86 @@ fun Header(
         (cardBalance >= 0 && balanceVisible)
     }
 
+    HeaderContent(
+        modifier = modifier,
+        nameCategory = nameCategory,
+        viewModel = viewModel,
+        logoVisible = logoVisible,
+        balanceVisible = displayCardBalance,
+        notificationVisible = notificationVisible,
+        locationVisible = locationVisible,
+        chevronLeftVisible = chevronLeftVisible,
+        onBack = onBack,
+        onChooseCity = onChooseCity,
+        readNotifications = {
+
+        },
+        toggleDevMode = callback::toggleDevMode,
+        cardBalance = cardBalance
+    )
+}
+
+
+@Composable
+private fun HeaderContent(
+    modifier: Modifier = Modifier,
+    nameCategory: String,
+    viewModel: BaseHeaderViewModel = createViewModel(),
+    logoVisible: Boolean = false,
+    balanceVisible: Boolean = true,
+    notificationVisible: Boolean = true,
+    locationVisible: Boolean = true,
+    chevronLeftVisible: Boolean = false,
+    onBack: () -> Unit,
+    onChooseCity: () -> Unit,
+    readNotifications: () -> Unit,
+    toggleDevMode: () -> Unit,
+    cardBalance: Int
+) {
+    val context = LocalContext.current
+
+    var notificationTrayVisible by remember { mutableStateOf(false) }
+    var chooseCityScreenVisible by remember { mutableStateOf(false) }
+
+    val showLogo = remember(notificationTrayVisible, chooseCityScreenVisible) {
+        logoVisible && !(notificationTrayVisible || chooseCityScreenVisible)
+    }
+
+    val formattedTitle = remember(notificationTrayVisible, chooseCityScreenVisible, nameCategory) {
+        when {
+            notificationTrayVisible -> context.getString(R.string.notifications)
+            chooseCityScreenVisible -> context.getString(R.string.city)
+            else -> nameCategory
+        }
+    }
+
+
    Content(
-       nameCategory = nameCategory,
+       modifier = modifier,
+       nameCategory = formattedTitle,
        money = cardBalance,
-       logoVisible = logoVisible,
+       logoVisible = showLogo,
        notificationVisible = notificationVisible,
-       balanceVisible = displayCardBalance,
+       balanceVisible = balanceVisible,
        chevronLeftVisible = chevronLeftVisible,
        locationVisible = locationVisible,
-       toggleDevMode = callback::toggleDevMode
+       toggleDevMode = toggleDevMode,
+       onBack = onBack,
+       onChooseCity = {
+           viewModel.handleEvent(HeaderContract.Event.ChooseCity(it))
+           onChooseCity()
+       },
+       onClickLocation = {
+           notificationTrayVisible = false
+           chooseCityScreenVisible = !chooseCityScreenVisible
+       },
+       onClickNotification = {
+           chooseCityScreenVisible = false
+           notificationTrayVisible = !notificationTrayVisible
+           readNotifications()
+       }
    )
+
 }
 
 @Composable
@@ -138,6 +212,10 @@ private fun Content(
     notificationVisible: Boolean,
     locationVisible: Boolean,
     chevronLeftVisible: Boolean,
+    onChooseCity: (String) -> Unit,
+    onBack: () -> Unit,
+    onClickLocation: () -> Unit,
+    onClickNotification: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -173,7 +251,7 @@ private fun Content(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (chevronLeftVisible) {
-                BackButton()
+                BackButton(onClick = onBack)
                 Spacer(modifier = modifier.width(MaterialTheme.spacers.medium))
             }
             Text(
@@ -191,12 +269,14 @@ private fun Content(
             IconNavigation(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_location),
                 contentDescription = "location",
-                visible = locationVisible
+                visible = locationVisible,
+                onClick = onClickLocation
             )
             IconNavigation(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_notifications),
                 contentDescription = "notification",
-                visible = notificationVisible
+                visible = notificationVisible,
+                onClick = onClickNotification
             )
         }
     }
@@ -217,7 +297,8 @@ private fun Content(
 fun IconNavigation(
     imageVector: ImageVector,
     contentDescription: String?,
-    visible: Boolean
+    visible: Boolean,
+    onClick: () -> Unit
 ) {
     if (visible) {
         Box(
@@ -227,6 +308,7 @@ fun IconNavigation(
                     color = colorScheme.primary,
                     shape = MaterialTheme.shapes.medium
                 )
+                .clickable { onClick() }
         ) {
             Icon(
                 imageVector = imageVector,
@@ -259,7 +341,9 @@ fun PreviewHeader(){
                 logoVisible = false,
                 notificationVisible = true,
                 locationVisible = true,
-                balanceVisible = false
+                balanceVisible = false,
+                onBack = {},
+                onChooseCity = {},
             )
         }
     }
