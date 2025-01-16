@@ -100,7 +100,9 @@ fun HomeOnboarding(
                 locationVisible = true,
                 balanceVisible = true,
                 notificationVisible = true,
-                chevronLeftVisible = false
+                chevronLeftVisible = false,
+                onBack = {},
+                onChooseCity = {}
             )
             MLazyRow(
                 modifier = Modifier
@@ -158,7 +160,9 @@ fun HomeOnboarding(
                     locationVisible = true,
                     notificationVisible = true,
                     chevronLeftVisible = false,
-                    nameCategory = ""
+                    nameCategory = "",
+                    onBack = {},
+                    onChooseCity = {}
                 )
 
             Onboarding.Home.Stories -> {

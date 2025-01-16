@@ -93,6 +93,8 @@ fun ProfileOnboarding(onFinish: () -> Unit) {
                 nameCategory = stringResource(R.string.profile_screen_title),
                 balanceVisible = true,
                 notificationVisible = true,
+                onBack = {},
+                onChooseCity = {}
             )
             RemovableBanner(
                 bannerResource = R.drawable.profile_onboarding_banner,
