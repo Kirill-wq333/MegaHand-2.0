@@ -26,7 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
-
+import com.evothings.mhand.presentation.feature.shared.button.FilledButton
 
 @Composable
 fun UserSurveyBottomSheet(
@@ -70,6 +70,13 @@ fun UserSurveyBottomSheet(
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
+        FilledButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            label = stringResource(R.string.send),
+            onClick = { onSubmit(chosenIndex.intValue) }
+        )
     }
 
 }

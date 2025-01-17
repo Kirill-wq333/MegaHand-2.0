@@ -3,8 +3,8 @@ package com.evothings.mhand.presentation.feature.checkout.ui.model
 import com.evothings.domain.feature.address.model.Address
 import com.evothings.domain.feature.checkout.model.PaymentMethod
 import com.evothings.domain.feature.checkout.model.PickupPoint
-import com.evothings.domain.feature.product.model.Product
 import com.evothings.domain.feature.profile.model.Profile
+import com.evothings.domain.feature.product.model.Product
 
 data class CheckoutUiState(
     val profile: Profile = Profile(),

@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.navigation.bottomBar.ui
+package com.evothings.mhand.presentation.feature.navigation.bottombar.ui
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,8 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.bottomsheet.OtherBottomSheet
-import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.model.WebPageScreen
+import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.bottomsheet.OtherBottomSheet
+import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.model.WebPageScreen
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.navigation.graph.Screen
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton

@@ -35,10 +35,10 @@ import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.BackButton
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.Logo
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.PrizeAndMoney
-import com.evothings.mhand.presentation.feature.shared.header.view.base.BaseHeaderViewModel
-import com.evothings.mhand.presentation.feature.shared.header.view.mock.MockHeaderViewModel
-import com.evothings.mhand.presentation.feature.shared.header.view.HeaderContract
-import com.evothings.mhand.presentation.feature.shared.header.view.HeaderViewModel
+import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderContract
+import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderViewModel
+import com.evothings.mhand.presentation.feature.shared.header.viewmodel.base.BaseHeaderViewModel
+import com.evothings.mhand.presentation.feature.shared.header.viewmodel.mock.MockHeaderViewModel
 import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.ChooseCityScreen
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography

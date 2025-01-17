@@ -1,6 +1,5 @@
 package com.evothings.mhand.presentation.feature.shared.map
 
-
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

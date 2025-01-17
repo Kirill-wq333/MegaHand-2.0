@@ -1,6 +1,5 @@
 package com.evothings.mhand.presentation.feature.shared.loyalityCard
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -190,5 +189,3 @@ fun Cashback(
         )
     }
 }
-
-

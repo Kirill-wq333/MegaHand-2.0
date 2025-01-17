@@ -1,6 +1,5 @@
 package com.evothings.mhand.presentation.feature.payment
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -33,7 +32,6 @@ class PaymentActivity : AppCompatActivity() {
 
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (intent?.extras == null || intent?.extras?.containsKey(PAYMENT_LINK_EXTRA) == false) {

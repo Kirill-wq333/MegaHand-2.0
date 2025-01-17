@@ -99,8 +99,8 @@ private fun AccordionLink(
     }
 
     val iconTint = MaterialTheme.colorScheme.secondary.copy(
-        alpha = if (isExpanded) 1.0f else 0.4f
-    )
+            alpha = if (isExpanded) 1.0f else 0.4f
+        )
 
     val background =
         if (isExpanded)

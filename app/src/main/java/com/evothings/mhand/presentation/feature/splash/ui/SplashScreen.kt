@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.screen.LoadingTechnicalServiceScreen
 import com.evothings.mhand.presentation.feature.splash.viewmodel.SplashContract
 import com.evothings.mhand.presentation.feature.splash.viewmodel.SplashViewModel
 import com.evothings.mhand.presentation.theme.MegahandTheme
@@ -138,49 +139,6 @@ private fun Content(
     }
 }
 
-@Composable
-fun LoadingTechnicalServiceScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize()
-            .background(color = Color(0xFF46423E)),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_setting),
-                contentDescription = "Logo",
-                tint = colorScheme.primary,
-                modifier = Modifier
-                    .size(128.dp)
-            )
-            Spacer(modifier = Modifier.height(192.dp))
-            CircularProgressIndicator(
-                modifier = Modifier.size(28.dp),
-                color = colorScheme.primary,
-                strokeWidth = 2.dp,
-                trackColor = colorScheme.secondary.copy(0.6f)
-            )
-            Spacer(modifier = Modifier.height(90.dp))
-            Text(
-                text = stringResource(R.string.server_tech_works),
-                color = Color.White,
-                style = MegahandTypography.titleLarge
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                text = stringResource(R.string.app_unavailable),
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                style = MegahandTypography.bodyLarge,
-                modifier = Modifier
-                    .padding(horizontal = 70.dp)
-            )
-        }
-    }
-}
 
 @Preview
 @Composable
@@ -189,6 +147,3 @@ private fun SplashScreenPreview() {
         Content(false)
     }
 }
-
-
-

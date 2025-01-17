@@ -13,13 +13,13 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 import com.evothings.mhand.presentation.theme.values.paddings.LocalPaddings
 import com.evothings.mhand.presentation.theme.values.spacers.LocalSpacers
 
-    val MaterialTheme.paddings
-        @Composable
-        get() = LocalPaddings.current
+val MaterialTheme.paddings
+    @Composable
+    get() = LocalPaddings.current
 
-    val MaterialTheme.spacers
-        @Composable
-        get() = LocalSpacers.current
+val MaterialTheme.spacers
+    @Composable
+    get() = LocalSpacers.current
 
 @Composable
 fun MegahandTheme(

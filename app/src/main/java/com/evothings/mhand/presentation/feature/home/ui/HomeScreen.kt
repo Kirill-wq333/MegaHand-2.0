@@ -242,8 +242,8 @@ private fun Content(
 fun BrandsList(brand: List<Brand>) {
     LazyRow(
         modifier =
-            Modifier
-                .padding(MaterialTheme.paddings.extraLarge),
+        Modifier
+            .padding(MaterialTheme.paddings.extraLarge),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium),
     ) {
         items(brand) { it ->
@@ -259,8 +259,8 @@ fun StoriesLists(
 ) {
     LazyRow(
         modifier =
-            Modifier
-                .padding(MaterialTheme.paddings.extraLarge),
+        Modifier
+            .padding(MaterialTheme.paddings.extraLarge),
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         itemsIndexed(list) { index, storiesItem ->
@@ -316,15 +316,15 @@ fun NewProduct(
     Box(modifier = modifier.fillMaxWidth()) {
         LazyVerticalGrid(
             modifier =
-                Modifier
-                    .height(gridHeight),
+            Modifier
+                .height(gridHeight),
             columns = GridCells.Fixed(2),
             userScrollEnabled = false,
             contentPadding =
-                PaddingValues(
-                    horizontal = MaterialTheme.spacers.medium,
-                    vertical = MaterialTheme.spacers.large,
-                ),
+            PaddingValues(
+                horizontal = MaterialTheme.spacers.medium,
+                vertical = MaterialTheme.spacers.large,
+            ),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.normal),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.extraLarge),
         ) {
@@ -336,8 +336,8 @@ fun NewProduct(
                     color = colorScheme.secondary,
                     style = MegahandTypography.titleLarge,
                     modifier =
-                        Modifier
-                            .padding(start = MaterialTheme.paddings.giant),
+                    Modifier
+                        .padding(start = MaterialTheme.paddings.giant),
                 )
             }
             items(products.size.coerceAtMost(4)) { i ->

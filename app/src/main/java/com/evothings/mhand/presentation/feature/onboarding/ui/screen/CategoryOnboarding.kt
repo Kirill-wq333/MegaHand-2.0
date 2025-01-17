@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.Category.components.categories.CategoryItemOnboarding
 import com.evothings.mhand.presentation.feature.catalog.ui.components.SearchBar
+import com.evothings.mhand.presentation.feature.catalog.ui.components.categories.CategoryItemOnboarding
 import com.evothings.mhand.presentation.feature.onboarding.model.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.OnboardingScrim
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboardings

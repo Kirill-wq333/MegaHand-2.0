@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.bottomsheet.Other
+import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.bottomsheet.Other
 import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
 import com.evothings.mhand.presentation.feature.onboarding.model.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.BottomSheetLikeIndicator

@@ -22,9 +22,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.evothings.mhand.presentation.feature.navigation.DestinationResolver
-import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.BottomBarNavigation
-import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.model.WebPageScreen
+import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.BottomBarNavigation
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
+import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.model.WebPageScreen
 import com.evothings.mhand.presentation.feature.navigation.buildNavigation
 import com.evothings.mhand.presentation.feature.navigation.graph.shouldShowNavBar
 import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.model.ConfirmCodeUseCase

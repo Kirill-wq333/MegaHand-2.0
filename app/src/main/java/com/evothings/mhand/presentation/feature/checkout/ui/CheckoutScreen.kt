@@ -160,32 +160,32 @@ fun CProduct(
     modifier: Modifier = Modifier
 ) {
 
-   Row {
-       Box(
-           modifier = Modifier
-               .size(100.dp)
-       ){
-           AsyncImage(
-               model = "",
-               contentDescription = null,
-               modifier = Modifier
-                   .matchParentSize()
-                   .clip(MaterialTheme.shapes.medium)
-           )
-       }
-       Spacer(modifier = Modifier.width(MaterialTheme.spacers.extraMedium))
-       Information(
-           price = 1111.0,
-           cashback = 2222.0,
-           discount = 3333.0,
-           keepOldPrice = true,
-           discountPercent = 4.0,
-           isDiscountPercent = true,
-           title = "тестик",
-           condition = "тестик",
-           size = "тестик",
-           showSizeAndCondition = true
-       )
-   }
+    Row {
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+        ){
+            AsyncImage(
+                model = "",
+                contentDescription = null,
+                modifier = Modifier
+                    .matchParentSize()
+                    .clip(MaterialTheme.shapes.medium)
+            )
+        }
+        Spacer(modifier = Modifier.width(MaterialTheme.spacers.extraMedium))
+        Information(
+            price = 1111.0,
+            cashback = 2222.0,
+            discount = 3333.0,
+            keepOldPrice = true,
+            discountPercent = 4.0,
+            isDiscountPercent = true,
+            title = "тестик",
+            condition = "тестик",
+            size = "тестик",
+            showSizeAndCondition = true
+        )
+    }
 
 }

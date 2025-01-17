@@ -18,6 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
+import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
@@ -28,6 +30,16 @@ fun UpdateAvailableBottomSheet(
     onDismiss: () -> Unit,
     onClickUpdate: () -> Unit
 ) {
+
+    MhandModalBottomSheet(
+        onDismissRequest = onDismiss
+    ) { hide ->
+        UpdateAvailableModal(
+            modifier = Modifier.modalBottomSheetPadding(),
+            onDismiss = hide,
+            onClickUpdate = { onClickUpdate(); hide() }
+        )
+    }
 
 }
 
@@ -70,9 +82,23 @@ private fun UpdateAvailableModal(
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
+            Button(
+                modifier = Modifier.weight(0.5f),
+                text = stringResource(R.string.update_available_dismiss_button),
+                backgroundColor = Color.Transparent,
+                borderColor = MaterialTheme.colorScheme.secondary.copy(0.1f),
+                onClick = onDismiss
+            )
             Spacer(
                 modifier = Modifier
                     .width(MaterialTheme.spacers.medium)
+            )
+            Button(
+                modifier = Modifier.weight(0.5f),
+                text = stringResource(R.string.update_available_proceed_button),
+                backgroundColor = MaterialTheme.colorScheme.primary,
+                textColor = ColorTokens.Graphite,
+                onClick = onClickUpdate
             )
         }
     }

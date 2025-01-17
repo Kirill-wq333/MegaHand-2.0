@@ -1,7 +1,7 @@
 package com.evothings.mhand.presentation.feature.catalog.ui.components.model
 
-import androidx.annotation.DrawableRes
 import com.evothings.mhand.R
+import androidx.annotation.DrawableRes
 
 sealed class Category(
     @DrawableRes val imageResId: Int,

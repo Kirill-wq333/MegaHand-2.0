@@ -26,16 +26,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.card.model.Card
 import com.evothings.domain.feature.card.model.Transaction
-import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.card.ui.components.CreditingAndDebiting
 import com.evothings.mhand.presentation.feature.card.ui.components.HistoryBar
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardContract
@@ -43,7 +39,6 @@ import com.evothings.mhand.presentation.feature.card.viewmodel.CardViewModel
 import com.evothings.mhand.presentation.feature.card.viewmodel.enumeration.CardFilterType
 import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
 import com.evothings.mhand.presentation.theme.MegahandTheme
-import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.Connectivity
 
@@ -166,12 +161,12 @@ private fun Content(
         item {
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         }
-            history(
-                currentFilter = uiState.currentFilter,
-                transactions = uiState.transactions,
-                isFilterModalExpanded = filterPickerBottomSheetExpanded,
-                openFilterSelector = { filterPickerBottomSheetExpanded = true },
-            )
+        history(
+            currentFilter = uiState.currentFilter,
+            transactions = uiState.transactions,
+            isFilterModalExpanded = filterPickerBottomSheetExpanded,
+            openFilterSelector = { filterPickerBottomSheetExpanded = true },
+        )
     }
 
 }

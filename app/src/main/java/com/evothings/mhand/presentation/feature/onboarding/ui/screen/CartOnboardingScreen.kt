@@ -24,7 +24,7 @@ import com.evothings.domain.feature.product.model.Product
 import com.evothings.domain.util.Mock
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.cart.ui.components.CartSelectionOptions
-import com.evothings.mhand.presentation.feature.cart.ui.components.productComponent.Cart
+import com.evothings.mhand.presentation.feature.cart.ui.components.productComponents.Cart
 import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
 import com.evothings.mhand.presentation.feature.onboarding.model.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.OnboardingScrim

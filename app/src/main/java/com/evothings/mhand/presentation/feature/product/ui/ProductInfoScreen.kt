@@ -44,7 +44,7 @@ fun ProductInfoScreen() {
         Box(
             modifier = Modifier
                 .padding(it)
-            .background(color = colorScheme.onSecondary)
+                .background(color = colorScheme.onSecondary)
         ) {
             Content(
                 heading = "Кроссовки QUESTAR 2 M, черные, 43",
@@ -111,7 +111,7 @@ private fun Content(
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
         BrandProduct(
             modifier = Modifier
-            .padding(start = MaterialTheme.paddings.extraGiant),
+                .padding(start = MaterialTheme.paddings.extraGiant),
             brand = "https://s3-alpha-sig.figma.com/img/997c/f6cf/1ca7984783573f3aa9869d9638c2aeef?Expires=1737331200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UO~tqmhTxGO5NmiQbKeNZVHi1tl~YR4X1EevQZDX4jLkrRtBgggr91p5eAnLDVsjer-J3Qt~ASPcQNgel~rGgTc8WfCCWr9DuAAwjJmbDYJdMzpwG-NPkPTHgmzWX9~aYOW47QtvasQre5328BGe74pL2fEJPRNNRsl6-taMakIuWcokkpyBibI9aBydQwXfhCfk9eLMJLvIKFZDJjeaMuXXWjJ6vbqBRxjAWJDci8TUEfGWpaoH-d8rSmkQ~EkVWVjqV8A2vfR~YMmQsGDGMPtouSjIoaLRmE3tOd4wkYi1jnPL4YXm6g4tzKD1gMs1tG2wzSmmiIbaA9Ju~GG8LA__"
         )
 

@@ -19,13 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.shops.model.Shop
 import com.evothings.domain.util.Mock
-import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.mock.MockNavigationBar
+import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.mock.MockNavigationBar
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen

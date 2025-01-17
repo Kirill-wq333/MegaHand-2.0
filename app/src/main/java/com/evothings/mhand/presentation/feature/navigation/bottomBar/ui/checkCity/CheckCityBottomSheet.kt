@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.checkCity
+package com.evothings.mhand.presentation.feature.navigation.bottombar.ui.checkCity
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

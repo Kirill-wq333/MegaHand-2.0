@@ -1,8 +1,8 @@
 package com.evothings.mhand.presentation.feature.navigation
 
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
-import androidx.navigation.NavGraph
 import com.evothings.domain.util.memoize
+import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
+import com.evothings.mhand.presentation.feature.navigation.graph.Screen
 import kotlin.reflect.KClass
 
 object DestinationResolver {

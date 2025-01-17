@@ -40,7 +40,7 @@ import com.evothings.domain.feature.news.model.NewsArticle
 import com.evothings.domain.util.Mock
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.home.ui.components.CouponBanner
-import com.evothings.mhand.presentation.feature.news.ui.articleComponents.InformationArticle
+import com.evothings.mhand.presentation.feature.news.ui.articleComponent.InformationArticle
 import com.evothings.mhand.presentation.feature.news.ui.components.NewsItem
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleContract
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleViewModel
