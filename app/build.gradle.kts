@@ -14,7 +14,7 @@ plugins {
 
 android {
     namespace = "com.evothings.mhand"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.evothings.mhand"

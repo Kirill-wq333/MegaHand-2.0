@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.evothings.domain"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26

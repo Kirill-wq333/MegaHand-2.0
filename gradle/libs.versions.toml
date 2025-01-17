@@ -1,23 +1,23 @@
 [versions]
 agp = "8.7.3"
 kotlin = "1.9.21"
-ktx = "1.15.0"
-lifecycle = "2.8.7"
-composeBom = "2024.12.01"
-composeNavigation = "2.8.5"
+ktx = "1.9.0"
+lifecycle = "2.7.0"
+composeBom = "2024.02.01"
+composeNavigation = "2.8.0-beta04"
 coil = "2.5.0"
 hilt = "2.49"
-glance = "1.1.1"
+glance = "1.1.0"
 hiltCompiler = "2.47"
-paging = "3.3.5"
+paging = "3.3.4"
 appUpdate = "2.1.0"
-retrofit = "2.11.0"
-okhttp = "4.12.0"
+retrofit = "2.9.0"
+okhttp = "4.11.0"
 room = "2.6.1"
-#junit = "4.13.2"
-#junitVersion = "1.2.1"
-#espressoCore = "3.6.1"
-#material = "1.12.0"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+material = "1.12.0"
 
 [libraries]
 kotlinx-immutableCollections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version = "0.3.7" }
@@ -83,10 +83,10 @@ huawei-connectCore = { group = "com.huawei.agconnect", name = "agconnect-core", 
 huawei-services = { group = "com.huawei.hms", name = "appservice", version = "5.0.4.302" }
 
 hcaptcha = { group = "com.github.hcaptcha", name = "hcaptcha-android-sdk", version = "4.0.0" }
-#junit = { group = "junit", name = "junit", version.ref = "junit" }
-#androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-#androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-#material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
