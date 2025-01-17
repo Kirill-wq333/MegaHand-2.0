@@ -1,9 +1,7 @@
 package com.evothings.mhand.presentation.feature.coupon.viewmodel
 
+import com.evothings.mhand.core.viewmodel.*
 import com.evothings.domain.feature.coupon.model.CouponForm
-import com.evothings.mhand.core.viewmodel.ViewEffect
-import com.evothings.mhand.core.viewmodel.ViewEvent
-import com.evothings.mhand.core.viewmodel.ViewState
 
 object CouponContract {
 

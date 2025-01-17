@@ -3,8 +3,8 @@ package com.evothings.mhand.presentation.feature.checkout.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.evothings.domain.feature.address.interactor.AddressInteractor
 import com.evothings.domain.feature.checkout.interactor.CheckoutInteractor
-import com.evothings.domain.feature.checkout.model.CheckoutResult
 import com.evothings.mhand.core.viewmodel.BaseViewModel
+import com.evothings.domain.feature.checkout.model.CheckoutResult
 import com.evothings.mhand.presentation.feature.checkout.ui.model.CheckoutUiState
 import com.evothings.mhand.presentation.feature.snackbar.host.SnackbarItemHost
 import com.evothings.mhand.presentation.feature.snackbar.model.SnackbarItem

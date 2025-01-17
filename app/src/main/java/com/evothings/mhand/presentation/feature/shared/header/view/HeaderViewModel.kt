@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.shared.header.viewmodel
+package com.evothings.mhand.presentation.feature.shared.header.view
 
 import androidx.lifecycle.viewModelScope
 import com.evothings.domain.util.DateFormat.FULL_DATE_MICROSECONDS

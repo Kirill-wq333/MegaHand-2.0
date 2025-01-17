@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.shared.header.viewmodel
+package com.evothings.mhand.presentation.feature.shared.header.view
 
 import com.evothings.mhand.core.viewmodel.ViewEffect
 import com.evothings.mhand.core.viewmodel.ViewEvent

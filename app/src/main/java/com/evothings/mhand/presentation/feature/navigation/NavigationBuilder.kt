@@ -13,7 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.evothings.mhand.presentation.feature.aboutService.AboutServiceScreen
 import com.evothings.mhand.presentation.feature.auth.ui.AuthScreen
-import com.evothings.mhand.presentation.feature.auth.viewmodel.AuthViewModel
+import com.evothings.mhand.presentation.feature.auth.viewmodal.AuthViewModel
 import com.evothings.mhand.presentation.feature.card.ui.CardScreen
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardViewModel
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogScreen

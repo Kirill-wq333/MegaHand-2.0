@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
     private val catalogInteractor: CatalogInteractor,

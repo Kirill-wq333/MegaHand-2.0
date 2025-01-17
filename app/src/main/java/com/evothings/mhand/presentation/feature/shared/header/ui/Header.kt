@@ -1,14 +1,12 @@
 package com.evothings.mhand.presentation.feature.shared.header.ui
 
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -30,12 +28,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.BackButton
@@ -43,10 +37,9 @@ import com.evothings.mhand.presentation.feature.shared.header.ui.components.Logo
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.PrizeAndMoney
 import com.evothings.mhand.presentation.feature.shared.header.view.base.BaseHeaderViewModel
 import com.evothings.mhand.presentation.feature.shared.header.view.mock.MockHeaderViewModel
-import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderContract
-import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderViewModel
+import com.evothings.mhand.presentation.feature.shared.header.view.HeaderContract
+import com.evothings.mhand.presentation.feature.shared.header.view.HeaderViewModel
 import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.ChooseCityScreen
-import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.EmptyChooseCityCallback.onChooseCity
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings

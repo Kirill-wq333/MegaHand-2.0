@@ -2,13 +2,16 @@ package com.evothings.mhand.presentation.feature.shops.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.evothings.data.feature.shops.ShopsRepositoryImpl
 import com.evothings.domain.feature.settings.interactor.AppSettingsInteractor
 import com.evothings.domain.feature.shops.interactor.ShopsInteractor
 import com.evothings.domain.feature.shops.model.Shop
+import com.evothings.domain.util.Mock
 import com.evothings.mhand.core.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -24,9 +27,7 @@ class ShopsViewModel @Inject constructor(
     private val appSettingsInteractor: AppSettingsInteractor,
 ) : BaseViewModel<ShopsContract.Event, ShopsContract.State, ShopsContract.Effect>() {
 
-    private val _shopsList: MutableStateFlow<ImmutableList<Shop>> = MutableStateFlow(
-        persistentListOf()
-    )
+    private val _shopsList: MutableStateFlow<ImmutableList<Shop>> = MutableStateFlow(persistentListOf())
     val shopsList = _shopsList.asStateFlow()
 
     private val city: Flow<String>

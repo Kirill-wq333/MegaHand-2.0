@@ -1,9 +1,7 @@
 package com.evothings.mhand.presentation.feature.checkout.viewmodel
 
+import com.evothings.mhand.core.viewmodel.*
 import com.evothings.domain.feature.checkout.model.CheckoutResult
-import com.evothings.mhand.core.viewmodel.ViewEffect
-import com.evothings.mhand.core.viewmodel.ViewEvent
-import com.evothings.mhand.core.viewmodel.ViewState
 
 object CheckoutContract {
 

@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.auth.viewmodel.securecode
+package com.evothings.mhand.presentation.feature.auth.viewmodal.securecode
 
 import androidx.lifecycle.viewModelScope
 import com.evothings.domain.feature.settings.interactor.AppSettingsInteractor
@@ -7,6 +7,7 @@ import com.evothings.domain.feature.card.interactor.CardInteractor
 import com.evothings.domain.feature.profile.interactor.ProfileInteractor
 import com.evothings.domain.feature.profile.model.Profile
 import com.evothings.mhand.core.viewmodel.BaseViewModel
+import com.evothings.mhand.presentation.feature.auth.viewmodel.securecode.SecureCodeContract
 import com.evothings.mhand.presentation.feature.snackbar.host.SnackbarItemHost
 import com.evothings.mhand.presentation.feature.snackbar.model.SnackbarItem
 import com.evothings.mhand.presentation.utils.sdkutil.ageFromDate
@@ -46,6 +47,7 @@ class SecureCodeViewModel @Inject constructor(
         is SecureCodeContract.Event.CheckSecureCode -> confirmSecureCode(event.code, event.phone)
         is SecureCodeContract.Event.SendConfirmCodeToReset -> sendConfirmCodeToReset(event.phone)
         is SecureCodeContract.Event.DisableConfirmErrorState -> disableErrorState()
+        else -> {}
     }
 
     init {
