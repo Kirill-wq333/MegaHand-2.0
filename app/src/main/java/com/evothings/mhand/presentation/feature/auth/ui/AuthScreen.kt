@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.auth.ui.components.PrivacyPolicyText
-import com.evothings.mhand.presentation.feature.auth.viewmodal.AuthContract
-import com.evothings.mhand.presentation.feature.auth.viewmodal.AuthViewModel
+import com.evothings.mhand.presentation.feature.auth.viewmodel.AuthContract
+import com.evothings.mhand.presentation.feature.auth.viewmodel.AuthViewModel
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.button.icon.SmallIconButton
 import com.evothings.mhand.presentation.feature.shared.hint.AnimatedHint
@@ -85,6 +85,8 @@ fun AuthScreen(
                 is AuthContract.Effect.NavigateToSecureCode -> openEnterSecureCode(effect.phone)
                 is AuthContract.Effect.ShowErrorToast ->
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+
+                else -> {}
             }
         }
     }
@@ -157,6 +159,8 @@ private fun Content(
                         onChangeRefCode = { refCode = it }
                     )
                 }
+
+                else -> {}
             }
         }
     }
