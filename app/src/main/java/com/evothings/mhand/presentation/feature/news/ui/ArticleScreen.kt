@@ -31,12 +31,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.evothings.domain.feature.news.model.NewsArticle
 import com.evothings.domain.util.Mock
+import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.home.ui.components.CouponBanner
 import com.evothings.mhand.presentation.feature.news.ui.articleComponents.InformationArticle
 import com.evothings.mhand.presentation.feature.news.ui.components.NewsItem
@@ -226,17 +228,14 @@ fun ImageNews(
     modifier: Modifier = Modifier,
     mainImage: String,
 ) {
-    Box(
+    AsyncImage(
+        model = mainImage,
+        contentDescription = null,
+        placeholder = painterResource(id = R.drawable.no_photo_placeholder),
+        contentScale = ContentScale.Crop,
         modifier = modifier
-    ) {
-        AsyncImage(
-            model = mainImage,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .clip(shape = MegahandShapes.extraLarge)
-        )
-    }
+            .clip(shape = MegahandShapes.extraLarge)
+    )
 }
 
 
