@@ -152,7 +152,7 @@ private fun Content(
                 InformationArticle(
                     title = title,
                     publicationDate = publishingDate,
-                    informationNews = content,
+                    category = categories,
                     onClick = { callback.shareArticle(articleLink) }
                 )
             }
@@ -232,8 +232,8 @@ fun ImageNews(
         AsyncImage(
             model = mainImage,
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .matchParentSize()
                 .clip(shape = MegahandShapes.extraLarge)
         )
     }

@@ -29,7 +29,7 @@ fun InformationArticle(
     modifier: Modifier = Modifier,
     title: String,
     publicationDate: String,
-    informationNews: String,
+    category: String,
     onClick: () -> Unit
 ) {
     Column(
@@ -42,7 +42,7 @@ fun InformationArticle(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = title,
+                text = category,
                 color = colorScheme.secondary.copy(.4f),
                 style = MegahandTypography.bodyLarge
             )
@@ -60,7 +60,7 @@ fun InformationArticle(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = informationNews,
+                text = title,
                 color = ColorTokens.White,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
