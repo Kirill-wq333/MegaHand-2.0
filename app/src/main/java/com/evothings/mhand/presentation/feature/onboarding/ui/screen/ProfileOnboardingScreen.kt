@@ -32,19 +32,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.evothings.domain.feature.profile.model.Referal
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.onboarding.model.Onboarding
-import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.OnboardingScrim
+import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboardings
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItem
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItemOffset
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.Action
-import com.evothings.mhand.presentation.feature.profile.ui.state.data.Referral
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.Block
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.BlockCashback
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.Data
-import com.evothings.mhand.presentation.feature.profile.viewmodel.ProfileContract
 import com.evothings.mhand.presentation.feature.shared.banner.RemovableBanner
 import com.evothings.mhand.presentation.feature.shared.header.ui.Header
 import com.evothings.mhand.presentation.theme.MegahandTheme
@@ -196,7 +193,7 @@ fun ProfileOnboarding(onFinish: () -> Unit) {
             else -> {}
         }
 
-        Onboarding(
+        Onboardings(
             icon = currentItem.iconRes,
             heading = currentItem.title,
             underHeading = currentItem.description,

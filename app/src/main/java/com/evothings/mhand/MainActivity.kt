@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.evothings.domain.feature.notification.repository.NotificationRepository
 import com.evothings.mhand.presentation.NavigationHost
+import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.snackbar.host.SnackbarItemHost
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.viewmodel.ThemeViewModel
@@ -106,6 +107,14 @@ class MainActivity : ComponentActivity() {
         val intentData = intent.data ?: return
         val host = intentData.host
 
+        val route =
+            when(host) {
+                CARD_DEEPLINK -> NavGraph.BottomNav.Catalog
+                AUTH_DEEPLINK -> NavGraph.Auth.AuthenticationScreen
+                else -> return
+            }
+
+        navController?.navigate(route)
     }
 
     companion object {

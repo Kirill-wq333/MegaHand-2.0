@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.detekt) 
     alias(libs.plugins.firebaseCrashlytics)
     alias(libs.plugins.kotlin.serialization)
-    id("kotlinx-serialization")
+    id("kotlin-parcelize")
     kotlin("kapt")
 }
 

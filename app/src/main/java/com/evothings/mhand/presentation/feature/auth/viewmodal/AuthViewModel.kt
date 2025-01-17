@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.auth.viewmodal
+package com.evothings.mhand.presentation.feature.auth.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.evothings.domain.feature.auth.interactor.AuthInteractor

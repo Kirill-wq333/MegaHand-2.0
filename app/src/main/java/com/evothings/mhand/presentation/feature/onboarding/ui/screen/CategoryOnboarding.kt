@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
@@ -22,13 +23,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.Category.components.categories.CategoryItem
 import com.evothings.mhand.presentation.feature.Category.components.categories.CategoryItemOnboarding
 import com.evothings.mhand.presentation.feature.catalog.ui.components.SearchBar
-import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
 import com.evothings.mhand.presentation.feature.onboarding.model.Onboarding
-import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.OnboardingScrim
+import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboardings
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItem
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
@@ -44,9 +43,10 @@ fun CatalogOnboarding(
     }
 
     val item = remember { Onboarding.Catalog.Categories }
-
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorScheme.onSecondary)
     ) {
 
         Column(
@@ -89,7 +89,7 @@ fun CatalogOnboarding(
                 .padding(MaterialTheme.spacers.medium),
         )
 
-        Onboarding(
+        Onboardings(
             heading = item.title,
             underHeading = item.description,
             pageNumber = item.itemsCounter,

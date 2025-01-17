@@ -14,6 +14,7 @@ import com.evothings.domain.feature.settings.interactor.AppSettingsInteractor
 import com.evothings.domain.feature.splash.SplashInteractor
 import com.evothings.domain.util.DateFormat
 import com.evothings.mhand.core.viewmodel.BaseViewModel
+import com.evothings.mhand.presentation.feature.onboarding.model.OnboardingCacheKey
 import com.evothings.mhand.presentation.feature.snackbar.host.SnackbarItemHost
 import com.evothings.mhand.presentation.feature.snackbar.model.SnackbarItem
 import com.evothings.mhand.presentation.utils.sdkutil.ageFromDate
@@ -210,10 +211,10 @@ class ProfileViewModel @Inject constructor(
                 return@launch
             }
 
-//            if (shouldEnableOnboarding()) {
-//                updateState { ProfileContract.State.OnboardingActive }
-//                return@launch
-//            }
+            if (shouldEnableOnboarding()) {
+                updateState { ProfileContract.State.OnboardingActive }
+                return@launch
+            }
 
             profileInteractor.getProfile(forceOnline).fold(
                 onSuccess = { profile ->
@@ -273,8 +274,8 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-//    private suspend fun shouldEnableOnboarding(): Boolean =
-//        onboardingInteractor.isOnboardingActive(OnboardingCacheKey.PROFILE)
+    private suspend fun shouldEnableOnboarding(): Boolean =
+        onboardingInteractor.isOnboardingActive(OnboardingCacheKey.PROFILE)
 
     private fun deleteAccount() {
         viewModelScope.launch(dispatcher) {

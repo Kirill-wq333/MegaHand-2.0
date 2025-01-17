@@ -6,12 +6,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -27,6 +31,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.card.model.Card
 import com.evothings.domain.feature.card.model.Transaction
@@ -143,70 +148,77 @@ private fun Content(
         }
     }
 
-    val creditingAndDebitingList = listOf(
-        CreditingAndDebitingClass(
-            day = "Сегодня",
-            date = "16:30",
-            money = "200",
-            color = colorScheme.inverseSurface.copy(.1f),
-            colorIcon = colorScheme.inverseSurface,
-            icon = ImageVector.vectorResource(R.drawable.ic_plus),
-            selected = true
-        ),
-        CreditingAndDebitingClass(
-            day = "25 ноября",
-            date = "01:25",
-            money = "500",
-            color = colorScheme.error.copy(.1f),
-            colorIcon = colorScheme.error,
-            icon = ImageVector.vectorResource(R.drawable.ic_minus),
-            selected = false
-        )
 
-    )
-
-
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        LoyalityCard(
-            cashback = uiState.cashback,
-            openProfile = callback::openProfileScreen,
-            enableBalance = true
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.mega))
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        HistoryBar()
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.extraLarge)
-        ) {
-            items(creditingAndDebitingList){ item ->
-                CreditingAndDebiting(
-                    day = item.day,
-                    date = item.date,
-                    money = item.money,
-                    selected = item.selected,
-                    color = item.color,
-                    colorIcon = item.colorIcon,
-                    icon = item.icon
-                )
-            }
+        item {
+            LoyalityCard(
+                cashback = uiState.cashback,
+                openProfile = callback::openProfileScreen,
+                enableBalance = true
+            )
         }
+        item {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.mega))
+        }
+        item {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        }
+            history(
+                currentFilter = uiState.currentFilter,
+                transactions = uiState.transactions,
+                isFilterModalExpanded = filterPickerBottomSheetExpanded,
+                openFilterSelector = { filterPickerBottomSheetExpanded = true },
+            )
     }
 
 }
 
-data class CreditingAndDebitingClass(
-    val day: String,
-    val date: String,
-    val money: String,
-    val color: Color,
-    val colorIcon: Color,
-    val icon: ImageVector,
-    val selected: Boolean
-)
+private fun LazyListScope.history(
+    currentFilter: CardFilterType,
+    transactions: Map<String, List<Transaction>>,
+    isFilterModalExpanded: Boolean,
+    openFilterSelector: () -> Unit,
+) {
+
+    item {
+        HistoryBar(
+            isFilterPickerExpanded = isFilterModalExpanded,
+            currentFilter = currentFilter,
+            onExpand = openFilterSelector
+        )
+    }
+
+    items(transactions.keys.toList()) { key  ->
+        val items = remember { transactions[key] } ?: return@items
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 18.dp),
+            verticalArrangement = Arrangement.spacedBy(
+                space = MaterialTheme.spacers.medium
+            )
+        ) {
+            Text(
+                text = key,
+                style = typography.labelLarge,
+                color = colorScheme.secondary.copy(0.4f)
+            )
+            repeat(items.size) { i ->
+                val item = remember { items[i] }
+                CreditingAndDebiting(
+                    date = item.date,
+                    money = item.amount,
+                    type = item.type
+                )
+            }
+        }
+    }
+}
+
 
 @Preview
 @Composable

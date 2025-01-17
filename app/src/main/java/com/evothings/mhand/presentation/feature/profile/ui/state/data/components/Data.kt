@@ -58,7 +58,8 @@ fun Data(
                 modifier = Modifier.weight(.5f),
                 textField = "29.01.1800",
                 visiblePrize = true,
-                colorPrize = colorScheme.inverseSurface
+                colorPrize = colorScheme.inverseSurface,
+                onValueChange = {}
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
             TextAndTextField(
@@ -66,7 +67,8 @@ fun Data(
                 modifier = Modifier.weight(.5f),
                 textField = "Тольятти",
                 visiblePrize = true,
-                colorPrize = colorScheme.inverseSurface
+                colorPrize = colorScheme.inverseSurface,
+                onValueChange = {}
             )
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
@@ -83,7 +85,8 @@ fun Data(
                 modifier = Modifier.weight(.5f),
                 textField = "",
                 visiblePrize = true,
-                colorPrize = colorScheme.secondary
+                colorPrize = colorScheme.secondary,
+                onValueChange = {}
             )
         }
     }

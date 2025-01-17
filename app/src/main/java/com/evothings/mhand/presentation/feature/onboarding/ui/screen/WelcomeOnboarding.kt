@@ -12,11 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -29,16 +30,50 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.onboarding.viewmodel.IntroductionContract
+import com.evothings.mhand.presentation.feature.onboarding.viewmodel.IntroductionViewModel
 import com.evothings.mhand.presentation.feature.shared.button.Button
+import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 
+private interface IntroductionCallback {
+    fun onClose()
+    fun onProceed()
+}
+
 @Composable
 fun WelcomeOnboarding(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    vm: IntroductionViewModel,
+    openMainScreen: () -> Unit
 ) {
+    LaunchedEffect(vm.effect) {
+        vm.effect.collect {
+            when(it) {
+                is IntroductionContract.Effect.OpenMainScreen -> openMainScreen()
+            }
+        }
+    }
+    Content(
+        callback = object : IntroductionCallback {
 
+            override fun onClose() =
+                vm.handleEvent(IntroductionContract.Event.DeclineOnboarding)
+
+            override fun onProceed() =
+                vm.handleEvent(IntroductionContract.Event.Proceed)
+        }
+    )
+
+}
+
+@Composable
+private fun Content(
+    modifier: Modifier = Modifier,
+    callback: IntroductionCallback
+) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -66,7 +101,8 @@ fun WelcomeOnboarding(
         TopBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            callback = callback
         )
         Column(
             modifier = Modifier
@@ -96,7 +132,7 @@ fun WelcomeOnboarding(
                     textColor = ColorTokens.Graphite,
                     backgroundColor = ColorTokens.White,
                     borderColor = ColorTokens.Graphite.copy(.1f),
-                    onClick = {}
+                    onClick = callback::onClose
                 )
                 Button(
                     modifier = Modifier
@@ -105,17 +141,17 @@ fun WelcomeOnboarding(
                     text = stringResource(R.string.next),
                     textColor = ColorTokens.Graphite,
                     backgroundColor = ColorTokens.Sunflower,
-                    onClick = {}
+                    onClick = callback::onProceed
                 )
             }
         }
     }
-
 }
 
 @Composable
-fun TopBar(
-    modifier: Modifier = Modifier
+private fun TopBar(
+    modifier: Modifier = Modifier,
+    callback: IntroductionCallback
 ) {
 
    Row(
@@ -131,18 +167,11 @@ fun TopBar(
                .height(42.dp)
                .padding(MaterialTheme.paddings.extraLarge)
        )
-       Box(
-           modifier = Modifier
-               .padding(MaterialTheme.paddings.extraLarge)
-       ){
-           Icon(
-               imageVector = ImageVector.vectorResource(R.drawable.ic_close),
-               contentDescription = null,
-               tint = ColorTokens.White,
-               modifier = Modifier
-                   .padding(MaterialTheme.paddings.large)
-           )
-       }
+       IconButton(
+           icon = ImageVector.vectorResource(id = R.drawable.ic_close),
+           tint = Color.White,
+           onClick = callback::onClose
+       )
    }
 
 }
@@ -173,6 +202,11 @@ fun WelcomeOnboardingTitle(
 @Composable
 private fun PreviewWelcomeOnboarding() {
     MegahandTheme(true) {
-        WelcomeOnboarding()
+        Content(
+            callback = object : IntroductionCallback {
+                override fun onClose() {}
+                override fun onProceed() {}
+            }
+        )
     }
 }

@@ -1,11 +1,11 @@
-package com.evothings.mhand.presentation.feature.auth.viewmodal.securecode
+package com.evothings.mhand.presentation.feature.auth.viewmodel.securecode
 
 import androidx.lifecycle.viewModelScope
+import com.evothings.domain.feature.settings.interactor.AppSettingsInteractor
 import com.evothings.domain.feature.auth.interactor.AuthInteractor
 import com.evothings.domain.feature.card.interactor.CardInteractor
 import com.evothings.domain.feature.profile.interactor.ProfileInteractor
 import com.evothings.domain.feature.profile.model.Profile
-import com.evothings.domain.feature.settings.interactor.AppSettingsInteractor
 import com.evothings.mhand.core.viewmodel.BaseViewModel
 import com.evothings.mhand.presentation.feature.snackbar.host.SnackbarItemHost
 import com.evothings.mhand.presentation.feature.snackbar.model.SnackbarItem

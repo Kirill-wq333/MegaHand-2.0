@@ -24,13 +24,12 @@ import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
 import com.evothings.mhand.presentation.feature.home.ui.NewProduct
 import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItem
-import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
-import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItem
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItemOffset
 import com.evothings.mhand.presentation.feature.shared.MLazyRow
 import com.evothings.mhand.presentation.feature.onboarding.model.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.OnboardingScrim
+import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboardings
 import com.evothings.mhand.presentation.feature.shared.header.ui.Header
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
 import com.evothings.mhand.presentation.theme.MegahandTheme
@@ -214,7 +213,7 @@ fun HomeOnboarding(
             else -> {}
         }
 
-        Onboarding(
+        Onboardings(
             heading = currentItem.title,
             icon = currentItem.iconRes,
             underHeading = currentItem.description,

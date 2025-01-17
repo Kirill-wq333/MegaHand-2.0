@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.profile.ui.state.requiredFields
+    package com.evothings.mhand.presentation.feature.profile.ui.state.requiredFields
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -119,6 +119,9 @@ private fun Data(
 
     var selectCityBottomSheetVisible by remember { mutableStateOf(false) }
 
+    var email by remember { mutableStateOf("") }
+    var surname by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var city by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
@@ -138,14 +141,18 @@ private fun Data(
                     .weight(.5f),
                 text = stringResource(R.string.name),
                 visibleAttention = true,
-                visiblePrize = true
+                visiblePrize = true,
+                onValueChange = { },
+                textField = name
             )
             TextAndTextField(
                 modifier = Modifier
                     .weight(.5f),
-                text = stringResource(R.string.name),
+                text = stringResource(R.string.surname),
                 visibleAttention = true,
-                visiblePrize = true
+                visiblePrize = true,
+                textField = surname,
+                onValueChange = { surname = it }
             )
         }
         LabelTextField(
@@ -158,7 +165,9 @@ private fun Data(
         )
         TextAndTextField(
             text = stringResource(R.string.profile_email),
-            visiblePrize = true
+            visiblePrize = true,
+            onValueChange = {  },
+            textField = email
         )
         TrailingButtonTextField(
             value = city,
@@ -197,7 +206,8 @@ fun TextAndTextField(
     visiblePrize: Boolean = false,
     visibleAttention: Boolean = false,
     colorPrize: Color = colorScheme.secondary.copy(.6f),
-    textField: String = ""
+    textField: String,
+    onValueChange: (String) -> Unit
 ) {
     var textField by remember { mutableStateOf(textField) }
 
@@ -235,7 +245,7 @@ fun TextAndTextField(
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
         MTextField(
             value = textField,
-            onValueChange = {}
+            onValueChange = onValueChange
         )
     }
 }

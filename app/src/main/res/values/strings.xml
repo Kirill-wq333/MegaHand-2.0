@@ -159,7 +159,7 @@
 
     <!-- Coupon -->
     <string name="gather_coupon_title">Получить %1$s ₽</string>
-    <string name="coupon_success_message">Купон успешно получен!\nОжидай СМС-сообщение</string>
+        <string name="coupon_success_message">Купон успешно получен!\nОжидай СМС-сообщение</string>
     <string name="coupon_banner_title">Скидка на первую покупку в Мегахенд</string>
     <string name="coupon_banner_subtitle">Получи бесплатные %1$s ₽, работает только один раз</string>
     <string name="coupon_was_sent">Отлично!\nКупон отправлен вам в СМС</string>

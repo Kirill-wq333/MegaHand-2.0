@@ -363,7 +363,7 @@ fun PreviewContent() {
                 uiState =
                 HomeUiState(
                     stories = Mock.demoStoriesList,
-                    brands = Mock.denoBrand,
+                    brands = Mock.demoBrand,
                     newProducts = Mock.demoProductsList,
                 ),
             )

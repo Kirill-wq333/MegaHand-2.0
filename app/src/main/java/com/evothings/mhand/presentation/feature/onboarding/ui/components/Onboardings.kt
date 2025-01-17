@@ -42,7 +42,7 @@ import com.evothings.mhand.presentation.theme.spacers
 
 
 @Composable 
-fun Onboarding(
+fun Onboardings(
     modifiers: Modifier = Modifier,
     icon: Int,
     heading: String,
@@ -256,7 +256,7 @@ fun HeadingAndUnderHeading(
 @Composable
 private fun OnboardingPreview() {
     MegahandTheme(false) {
-        Onboarding(
+        Onboardings(
             heading = "Heading",
             underHeading = "Under heading",
             pageNumber = "1/4",

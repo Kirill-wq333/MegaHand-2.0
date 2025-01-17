@@ -1,5 +1,6 @@
 package com.evothings.mhand.presentation.feature.profile.ui.state.data.bottomsheet
 
+import android.util.Patterns
 import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,13 +15,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,73 +36,89 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.evothings.domain.feature.profile.model.Profile
+import com.evothings.domain.util.Mock
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.BottomSheetLikeIndicator
 import com.evothings.mhand.presentation.feature.profile.ui.state.requiredFields.TextAndTextField
 import com.evothings.mhand.presentation.feature.shared.button.Button
+import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.feature.shared.text.DatePickerTextField
 import com.evothings.mhand.presentation.feature.shared.text.LabelTextField
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
 import com.evothings.mhand.presentation.feature.shared.text.transform.TextMasks
 import com.evothings.mhand.presentation.feature.shared.text.transform.rememberMaskVisualTransformation
+import com.evothings.mhand.presentation.feature.shared.text.util.cleanPhoneNumber
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.utils.date.DateValidator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-private fun RefactorProfilePreview() {
+private fun EditProfileModalPreview() {
     MegahandTheme {
-        RefactorProfile(
-            alignment = CardAlignment.BOTTOM
-        )
+        Surface {
+            ModalBottomSheet(
+                onDismissRequest = {}
+            ) {
+                RefactorProfile(
+                    modifier = Modifier.modalBottomSheetPadding(),
+                    model = Profile(),
+                    onCancel = { },
+                    onSaveChanges = { _, _, _ -> }
+                )
+            }
+        }
     }
 }
 
 @Composable
 fun RefactorProfile(
     modifier: Modifier = Modifier,
-    alignment: CardAlignment
-) {
-    val indicatorAlign = remember(alignment) {
-        if (alignment == CardAlignment.BOTTOM)
-            Alignment.TopCenter
-        else
-            Alignment.BottomCenter
-    }
-
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = colorScheme.onSecondary,
-                shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
-            )
-    ) {
-        BottomSheetLikeIndicator(
-            modifier = Modifier.align(indicatorAlign)
-        )
-        Content(
-            onChangePhone = {}
-        )
-    }
-}
-
-@Composable
-private fun Content(
-    modifier: Modifier = Modifier,
-    onChangePhone: (String) -> Unit
+    model: Profile,
+    onCancel: () -> Unit,
+    onSaveChanges: (model: Profile, changePhone: Boolean, phone: String) -> Unit
 ) {
 
-    val focusManager = LocalFocusManager.current
+    var firstName by remember { mutableStateOf(model.firstName) }
+    var lastName by remember { mutableStateOf(model.lastName) }
+    var phone by remember { mutableStateOf(model.phoneNumber.cleanPhoneNumber()) }
+    var email by remember { mutableStateOf(model.email) }
+    var birthday by remember { mutableStateOf(model.birthday) }
+    var city by remember { mutableStateOf(model.city) }
 
-    var selectCityBottomSheetVisible by remember { mutableStateOf(false) }
+    val isSaveButtonEnabled by remember {
+        derivedStateOf {
+            val emailValid = email.matches(Patterns.EMAIL_ADDRESS.toRegex())
+            val phoneValid = phone.length == 11
+            val isDateValid = DateValidator.isBeforeToday(birthday)
 
-    var phone by remember { mutableStateOf("") }
-    var city by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf("") }
+            (firstName.isNotEmpty() && lastName.isNotEmpty() && phoneValid) && // <- Required fields
+                    (email.isEmpty() || emailValid) && (birthday.isEmpty() || isDateValid) // <- Not required
+        }
+    }
+
+    var cityBottomSheetIsVisible by remember { mutableStateOf(false) }
+
+    val phoneNumberIsChanged by remember {
+        derivedStateOf {
+            phone.cleanPhoneNumber() != model.phoneNumber.cleanPhoneNumber()
+        }
+    }
+
+    val newProfile by rememberUpdatedState(
+        newValue = Profile(
+            firstName = firstName,
+            lastName = lastName,
+            birthday = birthday,
+            city = city,
+            email = email,
+        )
+    )
 
     Column(
         modifier = modifier
@@ -123,7 +145,9 @@ private fun Content(
                     text = stringResource(R.string.name),
                     visibleAttention = true,
                     visiblePrize = true,
-                    colorPrize = colorScheme.inverseSurface
+                    colorPrize = colorScheme.inverseSurface,
+                    textField = firstName,
+                    onValueChange = { firstName = it }
                 )
                 TextAndTextField(
                     modifier = Modifier
@@ -131,7 +155,9 @@ private fun Content(
                     text = stringResource(R.string.name),
                     visibleAttention = true,
                     visiblePrize = true,
-                    colorPrize = colorScheme.inverseSurface
+                    colorPrize = colorScheme.inverseSurface,
+                    textField = lastName,
+                    onValueChange = { lastName = it }
                 )
             }
             Column(
@@ -144,7 +170,7 @@ private fun Content(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                     visualTransformation = rememberMaskVisualTransformation(mask = TextMasks.phone),
                     maxLength = 11,
-                    onValueChange = onChangePhone
+                    onValueChange = { phone = it }
                 )
                 Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
                 Text(
@@ -157,7 +183,9 @@ private fun Content(
                 text = stringResource(R.string.name),
                 visibleAttention = false,
                 visiblePrize = true,
-                colorPrize = colorScheme.inverseSurface
+                colorPrize = colorScheme.inverseSurface,
+                textField = email,
+                onValueChange = { email = it }
             )
             TrailingButtonTextField(
                 value = city,
@@ -165,8 +193,7 @@ private fun Content(
                 buttonLabel = stringResource(R.string.choose),
                 onValueChange = { city = it },
                 onClickTrailingButton = {
-                    selectCityBottomSheetVisible = true
-                    focusManager.clearFocus()
+                    cityBottomSheetIsVisible = true
                 },
                 visiblePrize = true,
                 colorPrize = colorScheme.inverseSurface
@@ -181,8 +208,8 @@ private fun Content(
                 )
                 Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
                 DatePickerTextField(
-                    date = date,
-                    onDateChange = {}
+                    date = birthday,
+                    onDateChange = { birthday = it}
                 )
             }
         }
@@ -197,7 +224,7 @@ private fun Content(
                 text = stringResource(R.string.cancel),
                 textColor = colorScheme.secondary,
                 borderColor = colorScheme.secondary.copy(.1f),
-                onClick = {}
+                onClick = onCancel
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
             Button(
@@ -206,7 +233,7 @@ private fun Content(
                 text = stringResource(R.string.save),
                 textColor = colorScheme.secondary,
                 backgroundColor = colorScheme.primary,
-                onClick = {}
+                onClick = { onSaveChanges(newProfile, phoneNumberIsChanged, phone) }
             )
         }
     }

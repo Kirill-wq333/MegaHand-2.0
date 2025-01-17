@@ -28,7 +28,10 @@ import com.evothings.mhand.presentation.feature.news.ui.ArticleScreen
 import com.evothings.mhand.presentation.feature.news.ui.NewsScreen
 import com.evothings.mhand.presentation.feature.news.viewmodel.NewsViewModel
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleViewModel
+import com.evothings.mhand.presentation.feature.onboarding.ui.screen.WelcomeOnboarding
+import com.evothings.mhand.presentation.feature.onboarding.viewmodel.IntroductionViewModel
 import com.evothings.mhand.presentation.feature.product.ui.ProductInfoScreen
+import com.evothings.mhand.presentation.feature.shared.screen.ImageViewScreen
 import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.model.ConfirmCodeUseCase
 import com.evothings.mhand.presentation.feature.shops.ui.ShopsScreen
 import com.evothings.mhand.presentation.feature.shops.viewmodel.ShopsViewModel
@@ -55,8 +58,15 @@ fun NavGraphBuilder.buildNavigation(
         )
     }
 
-    composable<NavGraph.StartScreens.OnboardingIntro>{
+    composable<NavGraph.StartScreens.OnboardingIntro>(
+        exitTransition = { fadeOut(tween(500)) }
+    ){
+        val introductionViewModel = hiltViewModel<IntroductionViewModel>()
 
+        WelcomeOnboarding(
+            openMainScreen = { navController.navigate(NavGraph.BottomNav.Home)},
+            vm = introductionViewModel
+        )
     }
 
     // Auth
@@ -186,13 +196,6 @@ fun NavGraphBuilder.buildNavigation(
         AboutServiceScreen()
     }
 
-    composable<NavGraph.Other.Help> {
-
-    }
-
-    composable<NavGraph.Other.Vacancies> {
-
-    }
 
     composable<NavGraph.Other.NewsArticle> {
         val articleId = it.toRoute<NavGraph.Other.NewsArticle>().articleId
@@ -222,6 +225,11 @@ fun NavGraphBuilder.buildNavigation(
 
     // ImageView
     composable<NavGraph.ImageView> {
+        val args = it.toRoute<NavGraph.ImageView>()
 
+        ImageViewScreen(
+            imageLink = args.link,
+            onBack = { navController.popBackStack() }
+        )
     }
 }

@@ -1,9 +1,12 @@
 package com.evothings.mhand.presentation.feature.cart.ui.components.productComponent
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,15 +29,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.evothings.domain.feature.product.model.Product
+import com.evothings.domain.util.Mock
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.Information
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.SizeAndStars
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.checkbox.CheckboxChecker
 import com.evothings.mhand.presentation.feature.shared.text.saver.BooleanSaver
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -52,6 +58,7 @@ fun Cart(
     when(model.availability){
         Product.Availability.IN_STOCK -> {
             InStockCart(
+                modifier = modifier,
                 model = model,
                 onFavorite = toggleFavourite,
                 onTrash = removeFromCart,
@@ -77,6 +84,7 @@ fun Cart(
 
 @Composable
 fun InStockCart(
+    modifier: Modifier = Modifier,
     model: Product,
     showSizeAndCondition: Boolean = true,
     keepOldPrice: Boolean = true,
@@ -88,34 +96,38 @@ fun InStockCart(
 ) {
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() }
     ) {
         PhotoProducts(
+            modifier = Modifier
+                .size(177.dp),
             photo = model.photos,
             isChecked = isCheckedLocal,
             onCheck = onCheck
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.extraMedium))
-        Information(
-            discount = model.oldPrice,
-            discountPercent = model.discount,
-            isDiscountPercent = model.isPercentDiscount,
-            showSizeAndCondition = showSizeAndCondition,
-            condition = model.condition,
-            keepOldPrice = keepOldPrice,
-            price = model.actualPrice,
-            cashback = model.cashbackPoints,
-            size = model.size,
-            title = model.title
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
-        Action(
-            onTrash = onTrash,
-            onFavorite = onFavorite,
-            isFavorite = model.isFavourite
-        )
+        Column {
+            Information(
+                discount = model.oldPrice,
+                discountPercent = model.discount,
+                isDiscountPercent = model.isPercentDiscount,
+                showSizeAndCondition = showSizeAndCondition,
+                condition = model.condition,
+                keepOldPrice = keepOldPrice,
+                price = model.actualPrice,
+                cashback = model.cashbackPoints,
+                size = model.size,
+                title = model.title
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
+            Action(
+                onTrash = onTrash,
+                onFavorite = onFavorite,
+                isFavorite = model.isFavourite
+            )
+        }
     }
 
 }
@@ -132,7 +144,7 @@ fun OutOfStockCart(
     onTrash: () -> Unit
 ) {
     Row(
-        modifier =  Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
     ) {
@@ -224,4 +236,27 @@ fun PhotoProducts(
         )
     }
 
+}
+
+@Preview
+@Composable
+private fun Cart() {
+    MegahandTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorScheme.onSecondary)
+        ) {
+            InStockCart(
+                modifier = Modifier
+                    .padding(MaterialTheme.paddings.medium),
+                model = Mock.demoProduct,
+                isCheckedLocal = false,
+                onClick = {},
+                onCheck = {},
+                onTrash = {},
+                onFavorite = {},
+            )
+        }
+    }
 }

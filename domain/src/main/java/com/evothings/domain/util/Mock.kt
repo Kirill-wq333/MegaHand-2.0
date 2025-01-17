@@ -26,7 +26,7 @@ import com.evothings.domain.feature.profile.model.OrderHistoryProduct
 
 object Mock {
 
-    val denoBrand = listOf<Brand>(
+    val demoBrand = listOf<Brand>(
         Brand(
             id = 0,
             photoLink = "https://s3-alpha-sig.figma.com/img/997c/f6cf/1ca7984783573f3aa9869d9638c2aeef?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Qh7sOf~C-36uqICgJIBIx0Q23EiMjQrtnHjUshq8NNBVDaFHvbsElHTnVy2PcACw-3-kpi1A40W9FehECtyh6OnbosIzJ1YYtRSvrub39aPrq7GLHXDkzp5EiAPcA-21BDiuMYaAMsASha53ib4qPPPVJBNjsviJ-MvCzF9UUhFBmdiJBYxq54pPnWWC51dRhlFUohb2Zp2f6RkBn4SNZVR2RI2SiaIKGN8sisVdfbSn7-j7cdMgoUkxR-zafpGf6zGuZBCCs~N91xaF5KkS8gtDyg7WkKegq7kdYLSDFAd230mKvEyVgpXkR4tEBk72q-LKENWAN7lrl-hR0sjNGA__",

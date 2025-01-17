@@ -27,8 +27,8 @@ import com.evothings.mhand.presentation.feature.cart.ui.components.CartSelection
 import com.evothings.mhand.presentation.feature.cart.ui.components.productComponent.Cart
 import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
 import com.evothings.mhand.presentation.feature.onboarding.model.Onboarding
-import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.OnboardingScrim
+import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboardings
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItem
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.spacers
@@ -65,19 +65,13 @@ fun CartOnboardingScreen(
                     ),
                 product = Mock.demoProduct
             )
-            Spacer(
-                modifier = Modifier
-                    .height(MaterialTheme.spacers.small)
-            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
             DemoProduct(
                 modifier = Modifier
                     .padding(horizontal = MaterialTheme.spacers.medium),
                 product = Mock.demoProductsList[1]
             )
-            Spacer(
-                modifier = Modifier
-                    .height(MaterialTheme.spacers.large)
-            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
             DemoProduct(
                 modifier = Modifier
                     .padding(horizontal = MaterialTheme.spacers.medium),
@@ -100,7 +94,7 @@ fun CartOnboardingScreen(
         )
 
         with(Onboarding.Cart.CartItem) {
-            Onboarding(
+            Onboardings(
                 icon = iconRes,
                 heading = title,
                 underHeading = description,

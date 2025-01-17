@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.auth.viewmodal
+package com.evothings.mhand.presentation.feature.auth.viewmodel
 
 import com.evothings.mhand.core.viewmodel.ViewEffect
 import com.evothings.mhand.core.viewmodel.ViewEvent

@@ -71,12 +71,11 @@ fun CartSelectionOptions(
 ){
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(horizontal = MaterialTheme.paddings.extraLarge),
         horizontalArrangement = Arrangement.SpaceBetween
     ){
         Checkbox(
-            modifier = Modifier
-                .padding(MaterialTheme.paddings.medium),
             title = stringResource(R.string.select_all),
             isChecked = selectAllChecked,
             onCheck = onCheckSelectAll
@@ -85,8 +84,6 @@ fun CartSelectionOptions(
             text = stringResource(R.string.clear_all),
             color = colorScheme.error,
             style = MegahandTypography.bodyLarge,
-            modifier = Modifier
-                .padding(MaterialTheme.paddings.medium)
         )
     }
 }

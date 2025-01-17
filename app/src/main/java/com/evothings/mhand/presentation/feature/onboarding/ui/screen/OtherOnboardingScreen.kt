@@ -14,12 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.bottomsheet.Other
-import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.bottomsheet.OtherBottomSheet
 import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
 import com.evothings.mhand.presentation.feature.onboarding.model.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.BottomSheetLikeIndicator
-import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboarding
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.OnboardingScrim
+import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboardings
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.spacers
@@ -34,7 +33,7 @@ fun OtherOnboardingScreen(onFinish: () -> Unit) {
         OnboardingScrim(onClick = onFinish)
 
         with(Onboarding.Other.BottomSheet) {
-            Onboarding(
+            Onboardings(
                 icon = iconRes,
                 heading = title,
                 underHeading = description,
