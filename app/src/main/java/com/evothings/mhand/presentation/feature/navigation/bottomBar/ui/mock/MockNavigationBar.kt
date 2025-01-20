@@ -10,9 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.BottomItem
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.navigation.graph.Screen
-import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.NavigationItem
 import com.evothings.mhand.presentation.theme.MegahandTheme
 
 @Preview
@@ -42,9 +42,9 @@ fun MockNavigationBar(selectedScreen: Screen) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             NavGraph.BottomNav.bottomNavigationEntries.forEach { item ->
-                NavigationItem(
-                    isSelected = selectedScreen == item::class,
-                    iconRes = item.iconResId,
+                BottomItem(
+                    selected = selectedScreen == item::class,
+                    icon = item.iconResId,
                     onClick = {}
                 )
             }

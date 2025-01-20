@@ -269,9 +269,9 @@
     <string name="no_notifications_yet">Нет уведомлений</string>
     <string name="notifications">Уведомления</string>
     <string name="search_by_name">Поиск по названию</string>
-    <string name="confirm_city_title">Это город в котором Вы находитесь?</string>
-    <string name="confirm_city_correct">Да, все верно</string>
-    <string name="confirm_city_choose_another">Нет, выбрать другой</string>
+    <string name="confirm_city_title">Ты проживаешь в городе %1$s?</string>
+    <string name="confirm_city_correct">Верно</string>
+    <string name="confirm_city_choose_another">Сменить город</string>
     <string name="city_choose_screen_label">Выбор города</string>
     <string name="where_from_you_know_us">Откуда вы о нас узнали?</string>
     <string name="can_choose_several_answers">Можно выбрать несколько вариантов</string>

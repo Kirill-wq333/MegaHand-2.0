@@ -73,7 +73,10 @@ fun CardOnboardingScreen(onFinish: () -> Unit) {
                 locationVisible = false,
                 balanceVisible = false,
                 onBack = {},
-                onChooseCity = {}
+                onChooseCity = {},
+                turnButtonVisible = false,
+                notificationVisible = true,
+                logoVisible = false
             )
             DemoLoyalityCard(
                 modifier = Modifier

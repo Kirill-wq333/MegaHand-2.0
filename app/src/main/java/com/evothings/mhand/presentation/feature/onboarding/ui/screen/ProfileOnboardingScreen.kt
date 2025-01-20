@@ -91,7 +91,8 @@ fun ProfileOnboarding(onFinish: () -> Unit) {
                 balanceVisible = true,
                 notificationVisible = true,
                 onBack = {},
-                onChooseCity = {}
+                onChooseCity = {},
+                logoVisible = false
             )
             RemovableBanner(
                 bannerResource = R.drawable.profile_onboarding_banner,

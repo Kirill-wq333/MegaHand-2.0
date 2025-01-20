@@ -72,9 +72,10 @@ fun Header(
     nameCategory: String,
     viewModel: BaseHeaderViewModel = createViewModel(),
     logoVisible: Boolean,
-    balanceVisible: Boolean,
-    notificationVisible: Boolean,
-    locationVisible: Boolean,
+    balanceVisible: Boolean = true,
+    notificationVisible: Boolean = true,
+    locationVisible: Boolean = true,
+    turnButtonVisible: Boolean = false,
     onBack: () -> Unit,
     onChooseCity: () -> Unit,
 ) {
@@ -130,6 +131,7 @@ fun Header(
         balanceVisible = displayCardBalance,
         notificationVisible = notificationVisible,
         locationVisible = locationVisible,
+        turnButtonVisible = turnButtonVisible,
         onBack = onBack,
         unreadNotifications = unreadNotification,
         onChooseCity = {
@@ -153,6 +155,7 @@ private fun HeaderContent(
     balanceVisible: Boolean,
     notificationVisible: Boolean,
     locationVisible: Boolean,
+    turnButtonVisible: Boolean,
     onBack: () -> Unit,
     onChooseCity: (String) -> Unit,
     readNotifications: () -> Unit,
@@ -194,6 +197,7 @@ private fun HeaderContent(
             locationVisible = locationVisible,
             toggleDevMode = toggleDevMode,
             onBack = onBack,
+            turnButtonVisible = turnButtonVisible,
             locationSheetOpen = chooseCityScreenVisible,
             notificationsSheetOpened = notificationTrayVisible,
             unreadNotifications = unreadNotifications,
@@ -235,6 +239,7 @@ private fun Content(
     balanceVisible: Boolean,
     notificationVisible: Boolean,
     locationVisible: Boolean,
+    turnButtonVisible: Boolean,
     onBack: () -> Unit,
     locationSheetOpen: Boolean,
     notificationsSheetOpened: Boolean,
@@ -279,7 +284,9 @@ private fun Content(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    BackButton(onClick = onBack)
+                    if (turnButtonVisible) {
+                        BackButton(onClick = onBack)
+                    }
                     Spacer(modifier = modifier.width(MaterialTheme.spacers.medium))
                     Text(
                         modifier = Modifier.basicMarquee(),
