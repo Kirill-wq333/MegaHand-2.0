@@ -26,34 +26,32 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Logo(
-    visible: Boolean,
     onLongClick: () -> Unit
 ) {
-    if (visible) {
-        Box(
-            modifier = Modifier
-                .width(50.dp)
-                .height(42.dp)
-                .background(
-                    color = Color(0xFF46423E),
-                    shape = MegahandShapes.small
-                )
-                .combinedClickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = {},
-                    onLongClick = onLongClick
-                ),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.logo),
-                contentDescription = "logo",
-                tint = colorScheme.primary,
-                modifier = Modifier
-                    .width(38.dp)
+
+    Box(
+        modifier = Modifier
+            .width(50.dp)
+            .height(42.dp)
+            .background(
+                color = Color(0xFF46423E),
+                shape = MegahandShapes.small
             )
-        }
+            .combinedClickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = {},
+                onLongClick = onLongClick
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.logo),
+            contentDescription = "logo",
+            tint = colorScheme.primary,
+            modifier = Modifier
+                .width(38.dp)
+        )
     }
 
 }
@@ -63,7 +61,6 @@ fun Logo(
 fun PreviewLogo() {
     MegahandTheme {
         Logo(
-            visible = true,
             onLongClick = {}
         )
     }

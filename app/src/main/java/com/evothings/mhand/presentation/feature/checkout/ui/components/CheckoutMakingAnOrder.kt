@@ -93,7 +93,6 @@ fun CheckoutMakingAnOrder(
              if (cashbackPoints > 0) {
                  Cashback(
                      text = stringResource(R.string.cashback),
-                     selected = true,
                      money = "${cashbackPoints.splitHundreds(NumberSeparator.SPACE)} ₽"
                  )
              }

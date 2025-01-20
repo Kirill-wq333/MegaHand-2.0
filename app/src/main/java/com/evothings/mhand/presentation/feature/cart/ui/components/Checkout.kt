@@ -62,7 +62,6 @@ fun Checkout(
             if (cashbackPoints > 0) {
                 Cashback(
                     text = stringResource(R.string.cashback),
-                    selected = true,
                     money = "${cashbackPoints.splitHundreds(NumberSeparator.SPACE)} ₽"
                 )
             }
@@ -123,7 +122,6 @@ fun CheckoutItem(
 fun Cashback(
     text: String,
     money: String,
-    selected: Boolean
 ) {
     Row(
         modifier = Modifier
@@ -136,7 +134,6 @@ fun Cashback(
             style = MegahandTypography.bodyLarge
         )
         PrizeAndMoney(
-            selected = selected,
             money = money,
         )
     }

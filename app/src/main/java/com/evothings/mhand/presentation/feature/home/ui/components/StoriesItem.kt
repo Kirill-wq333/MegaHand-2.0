@@ -104,7 +104,6 @@ fun Content(
             )
         Text(
             modifier = Modifier
-                .gradient()
                 .align(Alignment.BottomStart)
                 .padding(MaterialTheme.paddings.medium),
             text = textStories,

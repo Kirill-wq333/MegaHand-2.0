@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
@@ -47,17 +48,23 @@ import com.evothings.domain.feature.home.model.Story
 import com.evothings.domain.feature.product.model.Product
 import com.evothings.domain.util.Mock
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.coupon.ui.Coupon
 import com.evothings.mhand.presentation.feature.home.ui.components.BrandsItem
 import com.evothings.mhand.presentation.feature.home.ui.components.CouponBanner
-import com.evothings.mhand.presentation.feature.home.ui.components.PreloadItem
+import com.evothings.mhand.presentation.feature.home.ui.components.PreloadScreen
 import com.evothings.mhand.presentation.feature.home.ui.components.QrCode
-import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItem
 import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItems
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeContract
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeViewModel
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
+import com.evothings.mhand.presentation.feature.onboarding.ui.screen.HomeOnboarding
+import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.BalanceAndCashback
+import com.evothings.mhand.presentation.feature.shared.product.ProductItem
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
+import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
+import com.evothings.mhand.presentation.feature.shared.screen.NoInternetConnectionScreen
+import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
@@ -104,11 +111,12 @@ private object EmptyHomeScreenCallback : HomeScreenCallback {
 
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     vm: HomeViewModel,
     openStoriesScreen: (storyIndex: Int) -> Unit,
     openProductInfoScreen: (Int) -> Unit,
     openProfile: () -> Unit,
-    openCouponPhoneConfirmationScreen: (String) -> Unit,
+    openCouponPhoneConfirmationScreen: (String) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -128,7 +136,7 @@ fun HomeScreen(
     }
 
     LaunchedEffect(Unit) {
-        while (true) {
+        while(true) {
             delay(1000)
             if (!Connectivity.hasInternetConnection(context)) {
                 vm.handleEvent(HomeContract.Event.EnableNoInternetConnectionState)
@@ -136,53 +144,111 @@ fun HomeScreen(
         }
     }
 
-    val callback =
-        object : HomeScreenCallback {
-            override fun onClickStory(storyIndex: Int) = openStoriesScreen(storyIndex)
+    val callback = object : HomeScreenCallback {
 
-            override fun navigateToProfile() = openProfile()
+        override fun onClickStory(storyIndex: Int) =
+            openStoriesScreen(storyIndex)
 
-            override fun refresh() = vm.handleEvent(HomeContract.Event.Refresh)
+        override fun navigateToProfile() = openProfile()
 
-            override fun openPrivacyPolicy() {
-                openPrivacyPolicyPage(context)
-            }
+        override fun refresh() =
+            vm.handleEvent(HomeContract.Event.Refresh)
 
-            override fun openCouponPhoneConfirmationScreen(phone: String) {
-                openCouponPhoneConfirmationScreen(phone)
-            }
-
-            override fun addToCart(id: Int) = vm.handleEvent(HomeContract.Event.AddProductToCart(id))
-
-            override fun openProductDetailScreen(id: Int) = openProductInfoScreen(id)
-
-            override fun toggleFavourite(id: Int) = vm.handleEvent(HomeContract.Event.ToggleFavouriteOnProduct(id))
-
-            override fun openAppMarketPage() {
-                val packageName = context.packageName
-                val deeplinkIntent =
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=$packageName"),
-                    )
-                val fallbackIntent =
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://play.google.com/store/apps/details?id=$packageName"),
-                    )
-
-                try {
-                    context.startActivity(deeplinkIntent)
-                } catch (e: ActivityNotFoundException) {
-                    context.startActivity(fallbackIntent)
-                }
-            }
+        override fun openPrivacyPolicy() {
+            openPrivacyPolicyPage(context)
         }
 
-    Content(
+        override fun openCouponPhoneConfirmationScreen(phone: String) {
+            openCouponPhoneConfirmationScreen(phone)
+        }
+
+        override fun addToCart(id: Int) =
+            vm.handleEvent(HomeContract.Event.AddProductToCart(id))
+
+        override fun openProductDetailScreen(id: Int) =
+            openProductInfoScreen(id)
+
+        override fun toggleFavourite(id: Int) =
+            vm.handleEvent(HomeContract.Event.ToggleFavouriteOnProduct(id))
+
+        override fun openAppMarketPage() {
+            val packageName = context.packageName
+            val deeplinkIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("market://details?id=$packageName")
+            )
+            val fallbackIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+            )
+
+            try {
+                context.startActivity(deeplinkIntent)
+            } catch(e: ActivityNotFoundException) {
+                context.startActivity(fallbackIntent)
+            }
+
+        }
+
+    }
+
+
+    if (state is HomeContract.State.OnboardingActive) {
+        HomeOnboarding(
+            onFinish = {
+                vm.handleEvent(HomeContract.Event.FinishOnboarding)
+            }
+        )
+        return
+    }
+
+    HomeContent(
+        state = state,
         uiState = uiState,
-        callback = callback,
+        callback = callback
     )
+}
+
+@Composable
+private fun HomeContent(
+    state: HomeContract.State,
+    uiState: HomeUiState,
+    callback: HomeScreenCallback
+) {
+    var updateAvailableBottomSheetVisible by remember(uiState.isUpdateAvailable) {
+        mutableStateOf(uiState.isUpdateAvailable)
+    }
+    HeaderProvider(
+        screenTitle = "",
+        isHomeScreen = true,
+        onBack = {}
+    ) { headerPadding ->
+        PullRefreshLayout(
+            modifier = Modifier.padding(headerPadding),
+            onRefresh = callback::refresh
+        ) {
+            when (state) {
+                is HomeContract.State.Loading ->
+                    PreloadScreen()
+
+                is HomeContract.State.Loaded ->
+                    Content(
+                        uiState = uiState,
+                        callback = callback,
+                    )
+
+                is HomeContract.State.NetworkError ->
+                    ServerErrorScreen(
+                        onRefresh = callback::refresh
+                    )
+                is HomeContract.State.NoInternetConnection ->
+                    NoInternetConnectionScreen(
+                        onReload = callback:: refresh
+                    )
+                else -> {}
+            }
+        }
+    }
 }
 
 @Composable
@@ -200,7 +266,11 @@ private fun Content(
 
     val scrollState = rememberScrollState()
 
-    Column(Modifier.fillMaxSize().verticalScroll(scrollState)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+    ) {
         StoriesLists(list = uiState.stories, onClick = callback::onClickStory)
         Spacer(modifier = Modifier.height(MaterialTheme.paddings.extraLarge))
         if (uiState.showCard) {
@@ -235,6 +305,13 @@ private fun Content(
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         BrandsList(brand = uiState.brands)
+    }
+
+    if (couponBottomSheetEnabled) {
+        Coupon(
+            onDismiss = { couponBottomSheetEnabled = false },
+            openConfirmationScreen = callback::openCouponPhoneConfirmationScreen
+        )
     }
 }
 
@@ -315,8 +392,7 @@ fun NewProduct(
 
     Box(modifier = modifier.fillMaxWidth()) {
         LazyVerticalGrid(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .height(gridHeight),
             columns = GridCells.Fixed(2),
             userScrollEnabled = false,
@@ -342,7 +418,7 @@ fun NewProduct(
             }
             items(products.size.coerceAtMost(4)) { i ->
                 val item = remember { products[i] }
-                PreloadItem(
+                ProductItem(
                     model = item,
                     callback = callback,
                 )
@@ -353,19 +429,34 @@ fun NewProduct(
 
 @Preview
 @Composable
-fun PreviewContent() {
+fun PreviewHome() {
     MegahandTheme(true) {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorScheme.onSecondary)
-        ) {
-            Content(
+        Surface {
+            HomeContent(
+                state = HomeContract.State.Loaded,
                 uiState =
                 HomeUiState(
                     stories = Mock.demoStoriesList,
                     brands = Mock.demoBrand,
                     newProducts = Mock.demoProductsList,
                 ),
+                callback = object : HomeScreenCallback {
+                    override fun onClickStory(storyIndex: Int) {}
+
+                    override fun navigateToProfile() {}
+
+                    override fun openPrivacyPolicy() {}
+
+                    override fun openProductDetailScreen(id: Int) {}
+
+                    override fun addToCart(id: Int) {}
+
+                    override fun toggleFavourite(id: Int) {}
+
+                    override fun openAppMarketPage() {}
+
+                    override fun refresh() {}
+                }
             )
         }
     }

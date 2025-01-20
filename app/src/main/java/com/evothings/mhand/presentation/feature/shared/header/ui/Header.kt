@@ -1,12 +1,22 @@
 package com.evothings.mhand.presentation.feature.shared.header.ui
 
+import android.os.Build
+import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -32,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.BackButton
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.Logo
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.PrizeAndMoney
@@ -59,11 +71,10 @@ fun Header(
     modifier: Modifier = Modifier,
     nameCategory: String,
     viewModel: BaseHeaderViewModel = createViewModel(),
-    logoVisible: Boolean = false,
-    balanceVisible: Boolean = true,
-    notificationVisible: Boolean = true,
-    locationVisible: Boolean = true,
-    chevronLeftVisible: Boolean = false,
+    logoVisible: Boolean,
+    balanceVisible: Boolean,
+    notificationVisible: Boolean,
+    locationVisible: Boolean,
     onBack: () -> Unit,
     onChooseCity: () -> Unit,
 ) {
@@ -98,7 +109,7 @@ fun Header(
             viewModel.handleEvent(HeaderContract.Event.DeleteNotification(id))
 
         override fun onClickUpdateApp() {
-            val isHuaweiDevice = (android.os.Build.MANUFACTURER == "Huawei")
+            val isHuaweiDevice = (Build.MANUFACTURER == "Huawei")
             val linkPrefix = if (isHuaweiDevice) "appmarket" else "market"
             tryOpenWebPage(context, "$linkPrefix://details?id=com.evothings.mhand")
         }
@@ -115,16 +126,18 @@ fun Header(
     HeaderContent(
         modifier = modifier,
         nameCategory = nameCategory,
-        viewModel = viewModel,
         logoVisible = logoVisible,
         balanceVisible = displayCardBalance,
         notificationVisible = notificationVisible,
         locationVisible = locationVisible,
-        chevronLeftVisible = chevronLeftVisible,
         onBack = onBack,
-        onChooseCity = onChooseCity,
+        unreadNotifications = unreadNotification,
+        onChooseCity = {
+            viewModel.handleEvent(HeaderContract.Event.ChooseCity(it))
+            onChooseCity()
+        },
         readNotifications = {
-
+            viewModel.handleEvent(HeaderContract.Event.ReadAllNotifications)
         },
         toggleDevMode = callback::toggleDevMode,
         cardBalance = cardBalance
@@ -136,26 +149,23 @@ fun Header(
 private fun HeaderContent(
     modifier: Modifier = Modifier,
     nameCategory: String,
-    viewModel: BaseHeaderViewModel = createViewModel(),
-    logoVisible: Boolean = false,
-    balanceVisible: Boolean = true,
-    notificationVisible: Boolean = true,
-    locationVisible: Boolean = true,
-    chevronLeftVisible: Boolean = false,
+    logoVisible: Boolean,
+    balanceVisible: Boolean,
+    notificationVisible: Boolean,
+    locationVisible: Boolean,
     onBack: () -> Unit,
-    onChooseCity: () -> Unit,
+    onChooseCity: (String) -> Unit,
     readNotifications: () -> Unit,
     toggleDevMode: () -> Unit,
-    cardBalance: Int
+    cardBalance: Int,
+    unreadNotifications: Int
 ) {
     val context = LocalContext.current
 
     var notificationTrayVisible by remember { mutableStateOf(false) }
     var chooseCityScreenVisible by remember { mutableStateOf(false) }
 
-    val showLogo = remember(notificationTrayVisible, chooseCityScreenVisible) {
-        logoVisible && !(notificationTrayVisible || chooseCityScreenVisible)
-    }
+
 
     val formattedTitle = remember(notificationTrayVisible, chooseCityScreenVisible, nameCategory) {
         when {
@@ -165,32 +175,53 @@ private fun HeaderContent(
         }
     }
 
+    BackHandler(
+        enabled = (notificationTrayVisible || chooseCityScreenVisible),
+        onBack = {
+            notificationTrayVisible = false
+            chooseCityScreenVisible = false
+        }
+    )
 
-   Content(
-       modifier = modifier,
-       nameCategory = formattedTitle,
-       money = cardBalance,
-       logoVisible = showLogo,
-       notificationVisible = notificationVisible,
-       balanceVisible = balanceVisible,
-       chevronLeftVisible = chevronLeftVisible,
-       locationVisible = locationVisible,
-       toggleDevMode = toggleDevMode,
-       onBack = onBack,
-       onChooseCity = {
-           viewModel.handleEvent(HeaderContract.Event.ChooseCity(it))
-           onChooseCity()
-       },
-       onClickLocation = {
-           notificationTrayVisible = false
-           chooseCityScreenVisible = !chooseCityScreenVisible
-       },
-       onClickNotification = {
-           chooseCityScreenVisible = false
-           notificationTrayVisible = !notificationTrayVisible
-           readNotifications()
-       }
-   )
+    Column {
+        Content(
+            modifier = modifier,
+            nameCategory = formattedTitle,
+            money = cardBalance,
+            logoVisible = logoVisible,
+            notificationVisible = notificationVisible,
+            balanceVisible = balanceVisible,
+            locationVisible = locationVisible,
+            toggleDevMode = toggleDevMode,
+            onBack = onBack,
+            locationSheetOpen = chooseCityScreenVisible,
+            notificationsSheetOpened = notificationTrayVisible,
+            unreadNotifications = unreadNotifications,
+            onClickLocation = {
+                notificationTrayVisible = false
+                chooseCityScreenVisible = !chooseCityScreenVisible
+            },
+            onClickNotification = {
+                chooseCityScreenVisible = false
+                notificationTrayVisible = !notificationTrayVisible
+                readNotifications()
+            }
+        )
+
+        if (chooseCityScreenVisible && !notificationTrayVisible) {
+            ChooseCityScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(colorScheme.surface)
+                    .padding(horizontal = 12.dp),
+                onChoose = {
+                    onChooseCity(it)
+                    chooseCityScreenVisible = false
+                }
+            )
+        }
+
+    }
 
 }
 
@@ -204,11 +235,12 @@ private fun Content(
     balanceVisible: Boolean,
     notificationVisible: Boolean,
     locationVisible: Boolean,
-    chevronLeftVisible: Boolean,
-    onChooseCity: (String) -> Unit,
     onBack: () -> Unit,
+    locationSheetOpen: Boolean,
+    notificationsSheetOpened: Boolean,
     onClickLocation: () -> Unit,
-    onClickNotification: () -> Unit
+    onClickNotification: () -> Unit,
+    unreadNotifications: Int
 ) {
     val context = LocalContext.current
 
@@ -226,94 +258,73 @@ private fun Content(
     val showLogo = remember(notificationTrayVisible, chooseCityScreenVisible) {
         logoVisible && !(notificationTrayVisible || chooseCityScreenVisible)
     }
+    if (!locationVisible && !notificationVisible) return
 
-
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(MaterialTheme.paddings.extraLarge),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+    Box(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Logo(
-            visible = showLogo,
-            onLongClick = toggleDevMode
-        )
         Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(MaterialTheme.paddings.extraLarge),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (chevronLeftVisible) {
-                BackButton(onClick = onBack)
-                Spacer(modifier = modifier.width(MaterialTheme.spacers.medium))
-            }
-            Text(
-                text = formattedTitle,
-                color = colorScheme.secondary,
-                style = MegahandTypography.headlineMedium
-            )
-        }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            PrizeAndMoney(
-                money = "$money ₽",
-                selected = balanceVisible
-            )
-            Spacer(modifier = modifier.width(MaterialTheme.spacers.normal))
-            IconNavigation(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_location),
-                contentDescription = "location",
-                visible = locationVisible,
-                onClick = onClickLocation
-            )
-            IconNavigation(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_notifications),
-                contentDescription = "notification",
-                visible = notificationVisible,
-                onClick = onClickNotification
-            )
-        }
-    }
 
-    if (chooseCityScreenVisible && !notificationTrayVisible) {
-        ChooseCityScreen(
-            onChoose = {
-                onChooseCity(it)
-                chooseCityScreenVisible = false
-            }
-        )
-    }
-
-}
-
-
-@Composable
-fun IconNavigation(
-    imageVector: ImageVector,
-    contentDescription: String?,
-    visible: Boolean,
-    onClick: () -> Unit
-) {
-    if (visible) {
-        Box(
-            modifier = Modifier
-                .border(
-                    width = 1.dp,
-                    color = colorScheme.primary,
-                    shape = MaterialTheme.shapes.medium
+            if (showLogo) {
+                Logo(
+                    onLongClick = toggleDevMode
                 )
-                .clickable { onClick() }
-        ) {
-            Icon(
-                imageVector = imageVector,
-                contentDescription = contentDescription,
-                tint = colorScheme.secondary,
-                modifier = Modifier
-                    .padding(MaterialTheme.paddings.large)
-            )
+            } else {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BackButton(onClick = onBack)
+                    Spacer(modifier = modifier.width(MaterialTheme.spacers.medium))
+                    Text(
+                        modifier = Modifier.basicMarquee(),
+                        text = formattedTitle,
+                        color = colorScheme.secondary,
+                        style = MegahandTypography.headlineMedium
+                    )
+                }
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(9.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                    ) {
+                AnimatedVisibility(
+                    visible = balanceVisible,
+                    enter = fadeIn(tween(300))
+                ) {
+                    PrizeAndMoney(
+                        money = "$money",
+                    )
+                }
+                if (locationVisible) {
+                    IconButton(
+                        icon = ImageVector.vectorResource(id = R.drawable.ic_location),
+                        borderColor = if (locationSheetOpen) colorScheme.primary else Color.Transparent,
+                        tint = colorScheme.secondary,
+                        onClick = onClickLocation
+                    )
+                }
+                if (notificationVisible) {
+                    IconButton(
+                        icon = ImageVector.vectorResource(id = R.drawable.ic_notifications),
+                        tint = colorScheme.secondary,
+                        borderColor = if (notificationsSheetOpened) colorScheme.primary else Color.Transparent,
+                        badgeValue = unreadNotifications,
+                        onClick = onClickNotification
+                    )
+                }
+            }
         }
     }
 
 }
+
 
 @Composable
 private fun createViewModel(): BaseHeaderViewModel =
@@ -325,19 +336,34 @@ private fun createViewModel(): BaseHeaderViewModel =
 
 @Preview
 @Composable
-fun PreviewHeader(){
+fun PreviewHeader() {
+
     MegahandTheme {
-        Surface(color = colorScheme.onSecondary) {
-            Header(
-                nameCategory = "Магазины",
-                chevronLeftVisible = true,
-                logoVisible = false,
-                notificationVisible = true,
-                locationVisible = true,
-                balanceVisible = false,
-                onBack = {},
-                onChooseCity = {},
-            )
-        }
+        HeaderProvider(
+            screenTitle = "Привет",
+            isHomeScreen = true,
+            onBack = {},
+            onChooseCity = {},
+            content = {  }
+        )
     }
+
+}
+
+@Preview
+@Composable
+fun Preview(
+    modifier: Modifier = Modifier
+) {
+  MegahandTheme { 
+      Header(
+          nameCategory = "False",
+          onBack = {},
+          onChooseCity = {},
+          balanceVisible = true,
+          locationVisible = true,
+          notificationVisible = true,
+          logoVisible = true
+      )
+  }
 }

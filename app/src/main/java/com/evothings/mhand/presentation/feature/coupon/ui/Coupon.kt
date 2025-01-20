@@ -88,23 +88,11 @@ fun Coupon(
     MhandModalBottomSheet(
         onDismissRequest = onDismiss
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(
-                    shape = RoundedCornerShape(
-                        topStart = 12.dp,
-                        topEnd = 12.dp
-                    )
-                )
-                .background(color = colorScheme.onSecondary)
-        ) {
-            Content(
-                bonusAmount = couponAmount,
-                onFill = { vm.handleEvent(CouponContract.Event.SendForm(it)) },
-                openPrivacyPolicy = { openPrivacyPolicyPage(context) }
-            )
-        }
+        Content(
+            bonusAmount = couponAmount,
+            onFill = { vm.handleEvent(CouponContract.Event.SendForm(it)) },
+            openPrivacyPolicy = { openPrivacyPolicyPage(context) }
+        )
     }
 }
 

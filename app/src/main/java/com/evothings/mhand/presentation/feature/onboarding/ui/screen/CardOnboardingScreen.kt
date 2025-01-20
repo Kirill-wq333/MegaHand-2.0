@@ -72,7 +72,6 @@ fun CardOnboardingScreen(onFinish: () -> Unit) {
                 nameCategory = stringResource(id = R.string.card_screen_title),
                 locationVisible = false,
                 balanceVisible = false,
-                chevronLeftVisible = false,
                 onBack = {},
                 onChooseCity = {}
             )

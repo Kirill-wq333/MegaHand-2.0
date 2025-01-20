@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -28,32 +29,30 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 @Composable
 fun PrizeAndMoney(
     money: String,
-    selected: Boolean
 ) {
-    if (selected) {
-        Box(
+
+    Box(
+        modifier = Modifier
+            .border(
+                width = 1.dp,
+                color = colorScheme.onBackground.copy(0.05f),
+                shape = MegahandShapes.small
+            )
+    ) {
+        Row(
             modifier = Modifier
-                .border(
-                    width = 1.dp,
-                    color = colorScheme.onBackground.copy(0.05f),
-                    shape = MegahandShapes.small
-                )
+                .padding(MaterialTheme.paddings.large)
         ) {
-            Row(
-                modifier = Modifier
-                    .padding(MaterialTheme.paddings.large)
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_prize),
-                    contentDescription = "prize",
-                    tint = colorScheme.inverseSurface
-                )
-                Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
-                Text(
-                    text = money,
-                    style = MegahandTypography.labelLarge
-                )
-            }
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_prize),
+                contentDescription = "prize",
+                tint = colorScheme.inverseSurface
+            )
+            Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
+            Text(
+                text = "${money.splitHundreds()} ₽",
+                style = MegahandTypography.labelLarge
+            )
         }
     }
 

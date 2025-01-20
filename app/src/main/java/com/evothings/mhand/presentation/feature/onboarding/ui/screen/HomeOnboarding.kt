@@ -99,7 +99,6 @@ fun HomeOnboarding(
                 locationVisible = true,
                 balanceVisible = true,
                 notificationVisible = true,
-                chevronLeftVisible = false,
                 onBack = {},
                 onChooseCity = {}
             )
@@ -158,7 +157,6 @@ fun HomeOnboarding(
                     balanceVisible = true,
                     locationVisible = true,
                     notificationVisible = true,
-                    chevronLeftVisible = false,
                     nameCategory = "",
                     onBack = {},
                     onChooseCity = {}

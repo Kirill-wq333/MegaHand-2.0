@@ -143,7 +143,6 @@ private fun AddressMapContent(
 
     HeaderProvider(
         screenTitle = stringResource(R.string.address_map_heading),
-        enableBackButton = true,
         onBack = onBack,
         enableMapIconButton = false,
         enableNotificationButton = false,

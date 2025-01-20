@@ -132,6 +132,8 @@ dependencies {
     implementation(libs.firebase.messaging)
 
     implementation(libs.hcaptcha)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
 
     "googleImplementation"(libs.play.services)
     "googleImplementation"(libs.play.update)

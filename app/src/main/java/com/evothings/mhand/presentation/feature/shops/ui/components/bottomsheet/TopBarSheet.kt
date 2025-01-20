@@ -26,7 +26,10 @@ fun TopBarSheet(
     email: String,
     phone: String
 ) {
-    Row {
+    Row(
+        modifier = Modifier
+            .padding(MaterialTheme.paddings.extraLarge)
+    ) {
         Info(
             textHeading = email,
             textUnderHeading = "Free delivery on all orders"

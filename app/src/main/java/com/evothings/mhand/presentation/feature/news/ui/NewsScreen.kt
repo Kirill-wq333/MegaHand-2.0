@@ -139,10 +139,10 @@ private fun Content(
     ) {
         item {
             MainNews(
-                title = article.title,
+                title = article.categories,
                 mainImage = article.previewImageLink,
                 publicationDate = article.publishingDate,
-                informationNews = article.content,
+                informationNews = article.title,
                 onShare = { callback.shareArticle(article.articleLink) }
             )
         }
