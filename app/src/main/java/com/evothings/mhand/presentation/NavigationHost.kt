@@ -56,11 +56,7 @@ fun NavigationHost(
                     currentRoute = currentRoute,
                     openScreen = { route -> navController.navigate(route) },
                     openWebPageScreen = { openWebPageScreen(context, it) },
-                    openPhoneConfirmationScreen = { phone ->
-                        navController.navigate(
-                            NavGraph.ConfirmationCode(phone, ConfirmCodeUseCase.COUPON.ordinal)
-                        )
-                    }
+                    openChooseCityScreen = { navController.navigate(NavGraph.AddressMap("")) },
                 )
             }
         }

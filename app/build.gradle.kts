@@ -151,14 +151,6 @@ dependencies {
 
     implementation(libs.osmdroid)
 
-    implementation(libs.androidx.dataStore)
-    implementation(libs.play.services.location)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 
 
 }
