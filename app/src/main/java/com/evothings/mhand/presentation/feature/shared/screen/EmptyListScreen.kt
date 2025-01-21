@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -60,7 +61,7 @@ fun EmptyListScreen(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.open_catalog_button),
             backgroundColor = MaterialTheme.colorScheme.primary,
-            textColor = ColorTokens.Graphite,
+            textColor = colorScheme.secondary,
             onClick = onClickOpenCatalog
         )
 

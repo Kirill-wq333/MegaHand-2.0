@@ -1,69 +1,62 @@
 package com.evothings.mhand.presentation.feature.product.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.evothings.domain.feature.product.model.ProductProperty
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
-import com.evothings.mhand.presentation.theme.paddings
-import com.evothings.mhand.presentation.theme.spacers
-
 @Composable
 fun ParametersProduct(
-    sizeProduct: String,
-    qualityProduct: String,
-    seriesProduct: String,
-    styleProduct: String,
-    releaseDateProduct: String,
-    colorProduct: String
-){
-    Column(
-        modifier = Modifier
-            .padding(horizontal = MaterialTheme.paddings.extraGiant),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.normal)
-    ) {
-        ParametersProductItem(
-            text = stringResource(R.string.size_product),
-            secondText = sizeProduct
+    size: String,
+    color: String,
+    quality: String,
+    series: String,
+    idStyle: String,
+    dataPublished: String,
+    properties: List<ProductProperty>,
+    inStock: Boolean
+) {
+    val mergedProperties = remember {
+        val staticProperties = listOf(
+            ProductProperty(name = "Размер", value = size),
+            ProductProperty(name = "Качество", value = quality),
+            ProductProperty(name = "Серия", value = series),
+            ProductProperty(name = "ID Стиля", value = idStyle),
+            ProductProperty(name = "Дата выхода", value = dataPublished),
+            ProductProperty(name = "Цвет", value = color),
         )
-        ParametersProductItem(
-            text = stringResource(R.string.quality_product),
-            secondText = qualityProduct
-        )
-        ParametersProductItem(
-            text = stringResource(R.string.series_product),
-            secondText = seriesProduct
-        )
-        ParametersProductItem(
-            text = stringResource(R.string.id_style_product),
-            secondText = styleProduct
-        )
-        ParametersProductItem(
-            text = stringResource(R.string.release_date_product),
-            secondText = releaseDateProduct
-        )
-        ParametersProductItem(
-            text = stringResource(R.string.color_product),
-            secondText = colorProduct
+
+        staticProperties + properties
+    }
+    if (inStock) {
+        repeat(mergedProperties.size) { i ->
+            val propertyItem = remember { mergedProperties[i] }
+            ParametersProductItem(
+                text = propertyItem.name,
+                secondText = propertyItem.value
+            )
+        }
+    } else {
+        Text(
+            text = stringResource(id = R.string.out_of_stock),
+            style = typography.headlineMedium,
+            fontSize = 24.sp,
+            color = colorScheme.secondary
         )
     }
 }
+
 
 
 
@@ -78,31 +71,18 @@ fun ParametersProductItem(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        TextItem(
+        Text(
             text = text,
             color = colorScheme.secondary.copy(0.6f),
+            style = MegahandTypography.bodyLarge
         )
-        TextItem(
+        Text(
             text = secondText,
-            color = colorScheme.secondary
+            color = colorScheme.secondary,
+            style = MegahandTypography.bodyLarge
         )
     }
 }
-
-
-@Composable
-private fun TextItem(
-    text: String,
-    color: Color,
-) {
-    Text(
-        text = text,
-        color = color,
-        style = MegahandTypography.bodyLarge
-    )
-}
-
-
 
 @Preview
 @Composable

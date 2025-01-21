@@ -82,6 +82,7 @@ private fun DemoOtherBottomSheet(modifier: Modifier) {
             openVacanciesPage = {},
             openHelpPage = {},
             onChangeTheme = {},
+            openCouponPhoneConfirmationScreen = {}
         )
     }
 

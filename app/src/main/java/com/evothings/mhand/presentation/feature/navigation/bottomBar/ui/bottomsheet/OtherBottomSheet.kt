@@ -148,13 +148,6 @@ private fun Content(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                color = colorScheme.onSecondary,
-                shape = RoundedCornerShape(
-                    topStart = 12.dp,
-                    topEnd = 12.dp
-                )
-            )
     ) {
         Column(
             modifier = Modifier

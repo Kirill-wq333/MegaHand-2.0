@@ -19,6 +19,7 @@ fun HeaderProvider(
     enableNotificationButton: Boolean = true,
     onBack: () -> Unit,
     onChooseCity: () -> Unit = {},
+    turnButtonVisible: Boolean = false,
     content: @Composable (PaddingValues) -> Unit
 ) {
 
@@ -35,6 +36,7 @@ fun HeaderProvider(
             notificationVisible = enableNotificationButton,
             onBack = onBack,
             onChooseCity = onChooseCity,
+            turnButtonVisible = turnButtonVisible
         )
     }
 }

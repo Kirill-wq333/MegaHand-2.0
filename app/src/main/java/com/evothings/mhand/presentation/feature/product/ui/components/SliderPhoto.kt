@@ -18,7 +18,7 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun SliderPhoto(
-    model: String
+    model: List<String>
 ){
     LazyRow(
         modifier = Modifier

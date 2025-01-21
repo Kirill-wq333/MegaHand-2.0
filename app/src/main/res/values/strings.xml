@@ -170,6 +170,7 @@
     <!-- Catalog -->
     <string name="search_bar_placeholder">Искать в Мегахенд</string>
     <string name="filters">Фильтры и сортировка</string>
+    <string name="sort">Сортировка</string>
     <string name="products_count">%1$s товара(ов)</string>
     <string name="product">Товар</string>
     <string name="size_product">Размер</string>
@@ -188,6 +189,7 @@
     <string name="turtlenecks">Водолазки</string>
     <string name="jackets">Пиджаки</string>
     <string name="coast">Пальто</string>
+    <string name="material">Материал</string>
     
     <!-- Cart -->
     <string name="cart">Корзина</string>

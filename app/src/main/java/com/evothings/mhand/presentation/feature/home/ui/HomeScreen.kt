@@ -54,6 +54,7 @@ import com.evothings.mhand.presentation.feature.home.ui.components.CouponBanner
 import com.evothings.mhand.presentation.feature.home.ui.components.PreloadScreen
 import com.evothings.mhand.presentation.feature.home.ui.components.QrCode
 import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItems
+import com.evothings.mhand.presentation.feature.home.ui.components.bottomsheet.UpdateAvailableBottomSheet
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeContract
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeViewModel
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
@@ -248,6 +249,12 @@ private fun HomeContent(
                 else -> {}
             }
         }
+    }
+    if (updateAvailableBottomSheetVisible) {
+        UpdateAvailableBottomSheet(
+            onDismiss = { updateAvailableBottomSheetVisible = false },
+            onClickUpdate = callback::openAppMarketPage
+        )
     }
 }
 

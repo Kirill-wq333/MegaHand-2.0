@@ -57,26 +57,26 @@ private fun ButtonsPreview() {
     }
 }
 
-//@Composable
-//fun Button(
-//    modifier: Modifier = Modifier,
-//    backgroundColor: Color = Color.Unspecified,
-//    shape: Shape = MaterialTheme.shapes.medium,
-//    borderColor: Color = Color.Unspecified,
-//    isEnabled: Boolean = true,
-//    onClick: () -> Unit,
-//    content: @Composable () -> Unit
-//) {
-//    MButton(
-//        modifier = modifier,
-//        backgroundColor = backgroundColor,
-//        shape = shape,
-//        borderColor = borderColor,
-//        isEnabled = isEnabled,
-//        onClick = onClick,
-//        content = content
-//    )
-//}
+@Composable
+fun Button(
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = Color.Unspecified,
+    shape: Shape = MaterialTheme.shapes.medium,
+    borderColor: Color = Color.Unspecified,
+    isEnabled: Boolean = true,
+    onClick: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    MButton(
+        modifier = modifier,
+        backgroundColor = backgroundColor,
+        shape = shape,
+        borderColor = borderColor,
+        isEnabled = isEnabled,
+        onClick = onClick,
+        content = content
+    )
+}
 
 @Composable
 fun Button(

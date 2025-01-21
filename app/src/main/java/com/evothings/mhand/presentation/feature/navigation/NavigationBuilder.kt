@@ -198,7 +198,11 @@ fun NavGraphBuilder.buildNavigation(
         val arguments = it.toRoute<NavGraph.ProductInfo>()
         val productVm = hiltViewModel<ProductViewModel>()
 
-        ProductInfoScreen()
+        ProductInfoScreen(
+            id = arguments.id,
+            vm = productVm,
+            onBack = { navController.popBackStack() }
+        )
     }
 
     composable<NavGraph.AddressMap> {
