@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -37,58 +38,78 @@ import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
+import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
+import com.evothings.mhand.presentation.utils.sdkutil.tryOpenWebPage
 
 @Preview
 @Composable
 private fun AboutServicePreview() {
     MegahandTheme(false) {
-        AboutServiceScreen()
+        Surface {
+            AboutServiceScreen(
+                onBack = {}
+            )
+        }
     }
 }
 
 @Composable
 fun AboutServiceScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorScheme.onSecondary)
-    ) {
-        Content()
-    }
+    val context = LocalContext.current
+
+    Content(
+        openVideo = {
+            val videoUrl = "https://www.youtube.com/watch?v=fIxNdpAMdoU"
+            tryOpenWebPage(context, videoUrl)
+        },
+        onBack = onBack
+    )
 }
 
 
 @Composable
 private fun Content(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    openVideo: () -> Unit,
+    onBack: () -> Unit
 ) {
-    
-   Column(
-       modifier = modifier
-           .fillMaxSize()
-           .padding(horizontal = MaterialTheme.paddings.extraLarge)
-           .verticalScroll(rememberScrollState()),
-       verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.extraLarge)
-   ) {
-       ServiceVideo()
-       Heading()
-       Evidence()
-       Footer()
-   }
-    
+
+    HeaderProvider(
+        screenTitle = stringResource(id = R.string.about_service),
+        turnButtonVisible = true,
+        enableMapIconButton = false,
+        onBack = onBack
+    ) { headerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = MaterialTheme.paddings.extraLarge)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.extraLarge)
+        ) {
+            ServiceVideo(
+                openVideo = openVideo
+            )
+            Heading()
+            Evidence()
+            Footer()
+        }
+    }
 }
 
 @Composable
 private fun ServiceVideo(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    openVideo: () -> Unit,
 ) {
 
     Box(
@@ -114,7 +135,7 @@ private fun ServiceVideo(
             IconButton(
                 tint = colorScheme.secondary,
                 icon = ImageVector.vectorResource(R.drawable.ic_play),
-                onClick = {},
+                onClick = openVideo,
                 )
         }
     }

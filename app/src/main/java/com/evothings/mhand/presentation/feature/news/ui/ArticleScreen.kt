@@ -114,14 +114,14 @@ private fun ArticleContent(
     state: ArticleContract.State,
     callback: ArticleCallback,
 ){
-    Content(
+    ArticlesContent(
         uiState = uiState,
         callback = callback
     )
 }
 
 @Composable
-private fun Content(
+private fun ArticlesContent(
     modifier: Modifier = Modifier,
     uiState: ArticleUiState,
     callback: ArticleCallback
@@ -248,7 +248,7 @@ private fun ArticleScreenPreview() {
                 .fillMaxSize()
                 .background(color = colorScheme.onSecondary)
         ) {
-            Content(
+            ArticlesContent(
                 uiState = ArticleUiState(
                     newsModel = Mock.demoNews,
                     similarArticles = Mock.demoNewsList,

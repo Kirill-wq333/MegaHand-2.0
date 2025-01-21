@@ -27,17 +27,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.card.model.Card
 import com.evothings.domain.feature.card.model.Transaction
+import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.card.ui.components.CreditingAndDebiting
 import com.evothings.mhand.presentation.feature.card.ui.components.HistoryBar
+import com.evothings.mhand.presentation.feature.card.ui.components.screen.LoyalityNotAvailableScreen
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardContract
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardViewModel
 import com.evothings.mhand.presentation.feature.card.viewmodel.enumeration.CardFilterType
 import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
+import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
+import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
+import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
+import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
+import com.evothings.mhand.presentation.feature.shared.screen.UserIsNotAuthorized
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.Connectivity
@@ -112,16 +120,44 @@ private fun CardContent(
     uiState: CardUiState,
     callback: CardScreenCallback
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorScheme.onSecondary)
-    ) {
-        Content(
-            uiState = uiState,
-            callback = callback,
-            offlineMode = uiState.offlineMode
-        )
+    HeaderProvider(
+        screenTitle = stringResource(id = R.string.card_screen_title),
+        enableCardBalance = false,
+        enableMapIconButton = false,
+        onBack = {}
+    ) { headerPadding ->
+        PullRefreshLayout(
+            modifier = Modifier.padding(headerPadding),
+            onRefresh = callback::refresh
+        ) {
+            when (state) {
+                is CardContract.State.Loading -> LoadingScreen()
+                is CardContract.State.Loaded -> {
+                    Content(
+                        uiState = uiState,
+                        callback = callback,
+                        offlineMode = uiState.offlineMode
+                    )
+                }
+                is CardContract.State.NetworkError -> {
+                    ServerErrorScreen(
+                        onRefresh = callback::refresh
+                    )
+                }
+                is CardContract.State.UserIsNotAuthorized -> {
+                    UserIsNotAuthorized(
+                        onClickAuthorize = callback::openProfileScreen
+                    )
+                }
+                is CardContract.State.LoyalityNotAvailable -> {
+                    LoyalityNotAvailableScreen(
+                        onNotify = {}
+                    )
+                }
+
+                else -> {}
+            }
+        }
     }
 }
 
@@ -152,7 +188,9 @@ private fun Content(
             LoyalityCard(
                 cashback = uiState.cashback,
                 openProfile = callback::openProfileScreen,
-                enableBalance = true
+                enableBalance = true,
+                cardQRUrl = uiState.card.barcodeUrl.orEmpty(),
+                showQR = { qrViewIsVisible = true }
             )
         }
         item {

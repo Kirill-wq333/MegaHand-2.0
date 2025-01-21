@@ -3,13 +3,11 @@ package com.evothings.mhand.presentation.feature.news.ui
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -20,17 +18,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.news.model.NewsArticle
 import com.evothings.domain.feature.news.model.NewsCategory
 import com.evothings.domain.util.Mock
+import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.news.ui.components.MainNews
 import com.evothings.mhand.presentation.feature.news.ui.components.NewsItem
 import com.evothings.mhand.presentation.feature.news.viewmodel.NewsContract
 import com.evothings.mhand.presentation.feature.news.viewmodel.NewsViewModel
 import com.evothings.mhand.presentation.feature.shared.MLazyRow
 import com.evothings.mhand.presentation.feature.shared.button.Chip
+import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
+import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
+import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
+import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -110,14 +114,42 @@ private fun NewsContent(
     callback: NewsCallback = EmptyNewsCallback,
 ) {
 
-    Box() {
-        Content(
-            articles = uiState.news,
-            categories = uiState.categories,
-            selectedCategoryIndex = uiState.selectedCategoryIndex,
-            article = uiState.primaryArticle,
-            callback = callback
-        )
+    HeaderProvider(
+        screenTitle = stringResource(R.string.news_screen_title),
+        turnButtonVisible = false,
+        enableMapIconButton = false,
+        onBack = {}
+    ) { headerPadding ->
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(headerPadding)
+        ) {
+            when (state) {
+                is NewsContract.State.Loading -> {
+                    LoadingScreen()
+                }
+
+                is NewsContract.State.Loaded -> {
+                    PullRefreshLayout(onRefresh = callback::refresh) {
+                        Content(
+                            articles = uiState.news,
+                            categories = uiState.categories,
+                            selectedCategoryIndex = uiState.selectedCategoryIndex,
+                            article = uiState.primaryArticle,
+                            callback = callback
+                        )
+                    }
+                }
+
+                is NewsContract.State.ServerError -> {
+                    ServerErrorScreen(
+                        onRefresh = callback::refresh
+                    )
+                }
+            }
+        }
     }
 
 }

@@ -134,9 +134,6 @@ private fun ProductContent(
 ) {
         Content(
             model = product,
-            series = "Air Force 1",
-            idStyle = " CW2288-111",
-            dataPublished = "01.01.2018",
             price = product.actualPrice,
             cashback = product.cashbackPoints,
             discountPercent = product.isPercentDiscount,
@@ -155,9 +152,6 @@ private fun ProductContent(
 @Composable
 private fun Content(
     model: Product,
-    series: String,
-    idStyle: String,
-    dataPublished: String,
     oldPrice: Double,
     discount: Double,
     discountPercent: Boolean,
@@ -190,9 +184,6 @@ private fun Content(
             size = model.size,
             color = model.color,
             quality = model.condition,
-            series = series,
-            idStyle = idStyle,
-            dataPublished = dataPublished,
             properties = model.properties,
             inStock = inStock
         )

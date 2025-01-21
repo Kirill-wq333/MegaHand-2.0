@@ -12,6 +12,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.evothings.mhand.presentation.feature.aboutService.AboutServiceScreen
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.auth.viewmodel.AuthViewModel
 import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.ConfirmCodeViewModel
@@ -34,6 +35,7 @@ import com.evothings.mhand.presentation.feature.catalog.ui.CatalogScreen
 import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogViewModel
 import com.evothings.mhand.presentation.feature.checkout.viewmodel.CheckoutViewModel
 import com.evothings.mhand.presentation.feature.favourites.viewmodel.FavouritesViewModel
+import com.evothings.mhand.presentation.feature.news.ui.ArticleScreen
 import com.evothings.mhand.presentation.feature.news.viewmodel.NewsViewModel
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleViewModel
 import com.evothings.mhand.presentation.feature.news.ui.NewsScreen
@@ -261,7 +263,9 @@ fun NavGraphBuilder.buildNavigation(
     }
 
     composable<NavGraph.Other.AboutService> {
-
+        AboutServiceScreen(
+            onBack = { navController.popBackStack() }
+        )
     }
 
     composable<NavGraph.Other.Shops>(
@@ -293,6 +297,12 @@ fun NavGraphBuilder.buildNavigation(
         val articleId = it.toRoute<NavGraph.Other.NewsArticle>().articleId
         val articleVm = hiltViewModel<ArticleViewModel>()
 
+        ArticleScreen(
+            vm = articleVm,
+            id = articleId,
+            openAnotherArticle = { id -> navController.navigate(NavGraph.Other.NewsArticle(id)) },
+            onBack = { navController.popBackStack() }
+        )
     }
 
 }

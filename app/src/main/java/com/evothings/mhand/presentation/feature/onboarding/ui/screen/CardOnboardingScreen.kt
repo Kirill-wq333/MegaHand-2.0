@@ -152,7 +152,9 @@ private fun DemoLoyalityCard(modifier: Modifier) {
         modifier = modifier.padding(MaterialTheme.spacers.medium),
         cashback = 15,
         openProfile = {},
-        enableBalance = true
+        enableBalance = true,
+        cardQRUrl = "",
+        showQR = {}
     )
 }
 

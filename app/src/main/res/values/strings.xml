@@ -175,9 +175,6 @@
     <string name="product">Товар</string>
     <string name="size_product">Размер</string>
     <string name="quality_product">Качество</string>
-    <string name="series_product">Серия</string>
-    <string name="id_style_product">ID Стиля</string>
-    <string name="release_date_product">Дата выхода</string>
     <string name="color_product">Цвет</string>
     <string name="all_clothes">Вся одежда</string>
     <string name="new_items">Новинки</string>

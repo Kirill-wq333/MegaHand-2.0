@@ -78,7 +78,7 @@ fun StoriesItems(
 }
 
 @Composable
-fun Content(
+private fun Content(
     storiesImage: Painter,
     textStories: String,
     onClickStory: () -> Unit

@@ -1,8 +1,11 @@
 package com.evothings.mhand.presentation.feature.product.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
@@ -16,14 +19,14 @@ import com.evothings.domain.feature.product.model.ProductProperty
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
+import com.evothings.mhand.presentation.theme.paddings
+import com.evothings.mhand.presentation.theme.spacers
+
 @Composable
 fun ParametersProduct(
     size: String,
     color: String,
     quality: String,
-    series: String,
-    idStyle: String,
-    dataPublished: String,
     properties: List<ProductProperty>,
     inStock: Boolean
 ) {
@@ -31,29 +34,35 @@ fun ParametersProduct(
         val staticProperties = listOf(
             ProductProperty(name = "Размер", value = size),
             ProductProperty(name = "Качество", value = quality),
-            ProductProperty(name = "Серия", value = series),
-            ProductProperty(name = "ID Стиля", value = idStyle),
-            ProductProperty(name = "Дата выхода", value = dataPublished),
             ProductProperty(name = "Цвет", value = color),
         )
 
         staticProperties + properties
     }
-    if (inStock) {
-        repeat(mergedProperties.size) { i ->
-            val propertyItem = remember { mergedProperties[i] }
-            ParametersProductItem(
-                text = propertyItem.name,
-                secondText = propertyItem.value
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = MaterialTheme.paddings.extraGiant),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.small)
+    ) {
+        if (inStock) {
+            repeat(mergedProperties.size) { i ->
+                val propertyItem = remember { mergedProperties[i] }
+                ParametersProductItem(
+                    text = propertyItem.name,
+                    secondText = propertyItem.value
+                )
+            }
+
+        } else {
+            Text(
+                text = stringResource(id = R.string.out_of_stock),
+                style = typography.headlineMedium,
+                fontSize = 24.sp,
+                color = colorScheme.secondary
+
             )
         }
-    } else {
-        Text(
-            text = stringResource(id = R.string.out_of_stock),
-            style = typography.headlineMedium,
-            fontSize = 24.sp,
-            color = colorScheme.secondary
-        )
     }
 }
 
@@ -89,7 +98,7 @@ fun ParametersProductItem(
 fun PreviewParameterProductItem(){
     MegahandTheme {
         ParametersProductItem(
-            text = stringResource(R.string.id_style_product),
+            text = stringResource(R.string.size_product),
             secondText = stringResource(R.string.quality_product)
         )
     }

@@ -127,7 +127,9 @@ fun HomeOnboarding(
                     ),
                 cashback = 3,
                 openProfile = {},
-                enableBalance = true
+                enableBalance = true,
+                showQR = {},
+                cardQRUrl = ""
             )
 
             NewProduct(
@@ -193,7 +195,9 @@ fun HomeOnboarding(
                         ),
                     cashback = 3,
                     openProfile = {},
-                    enableBalance = true
+                    enableBalance = true,
+                    cardQRUrl = "",
+                    showQR = {}
                 )
 
             Onboarding.Home.NewProducts -> {

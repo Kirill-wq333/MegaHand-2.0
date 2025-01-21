@@ -3,13 +3,17 @@ package com.evothings.mhand.presentation.feature.home.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,61 +21,104 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.loading.LoadingIndicator
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 
 @Composable
-fun QrCode() {
+fun QrCode(
+    modifier: Modifier = Modifier,
+    qrLink: String,
+    isOnboarding: Boolean,
+    isOffline: Boolean = false,
+    onClick: () -> Unit
+) {
+
+    val clickableModifier =
+        Modifier.clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = onClick
+        )
+
+    // Padding calculation to prevent thin of QR
+    val density = LocalDensity.current
+    val verticalPadding = remember {
+        when(density.density) {
+            in 1.5..2.0 -> 30.dp
+            else -> 24.dp
+        }
+    }
+
+    var isImageLoading by remember { mutableStateOf(false) }
+
+    val background =
+        if (isOffline) {
+            colorScheme.secondary.copy(0.1f)
+        } else {
+            colorScheme.inverseSurface.copy(0.1f)
+        }
     Box(
-        modifier = Modifier
-            .width(200.dp)
-            .height(200.dp)
+        modifier = modifier
+            .fillMaxSize()
             .background(
-                color = colorScheme.inverseSurface.copy(0.1f),
-                shape = RoundedCornerShape(
-                    topEnd = 9.dp,
-                    bottomEnd = 9.dp
-                )
+                color = background,
+                shape = shapes.large
+                    .copy(
+                        topStart = CornerSize(0.dp),
+                        bottomStart = CornerSize(0.dp)
+                    )
             ),
         contentAlignment = Alignment.Center
     ) {
-        AsyncImage(
-            model = R.drawable.demo_qr_code,
-            contentDescription = "QrCode",
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier
-                .padding(MaterialTheme.paddings.extraGiant)
+        Box(
+            modifier = clickableModifier
+                .matchParentSize()
+                .padding(
+                    horizontal = 24.dp,
+                    vertical = verticalPadding
+                )
+                .clip(shapes.large)
                 .border(
                     width = 1.dp,
                     color = colorScheme.inverseSurface,
-                    shape = MegahandShapes.large
-                )
-                .clip(shape = MegahandShapes.large)
-        )
-        Box(
-            modifier = Modifier
-                .background(color = colorScheme.secondary)
-                .size(27.dp)
+                    shape = shapes.large
+                ),
+            contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.logo),
-                contentDescription = "logo",
-                tint = colorScheme.onSecondary,
-                modifier = Modifier
-                    .width(24.dp)
-                    .height(14.dp)
-                    .align(Alignment.Center)
+            if (isOnboarding) {
+                Image(
+                    painter = painterResource(id = R.drawable.demo_qr_code),
+                    contentDescription = null
+                )
+                return
+            }
+            AsyncImage(
+                model = qrLink,
+                onState = { isImageLoading = it is AsyncImagePainter.State.Loading },
+                contentScale = ContentScale.FillBounds,
+                contentDescription = null
             )
+            if (isImageLoading) {
+                QRLoadingIndicator()
+            }
         }
 
         Icon(
@@ -86,5 +133,17 @@ fun QrCode() {
                 .padding(MaterialTheme.paddings.medium)
         )
 
+    }
+}
+
+@Composable
+private fun QRLoadingIndicator() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorScheme.background),
+        contentAlignment = Alignment.Center
+    ) {
+        LoadingIndicator()
     }
 }

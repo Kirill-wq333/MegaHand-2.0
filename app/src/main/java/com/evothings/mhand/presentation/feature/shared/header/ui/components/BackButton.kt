@@ -26,7 +26,7 @@ fun BackButton(
                 color = colorScheme.secondary.copy(0.05f),
                 shape = MegahandShapes.medium
             )
-            .clickable { onClick }
+            .clickable { onClick() }
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_left),
