@@ -10,10 +10,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
@@ -87,7 +92,10 @@ private fun Content(
             .fillMaxWidth()
             .background(color = colorScheme.onSecondary)
     ) {
-        FilterAndSortContent()
+        FilterAndSortContent(
+            modifier = Modifier
+                .padding(top = MaterialTheme.paddings.extraLarge)
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -103,6 +111,7 @@ private fun Content(
                 onClick = onCancel,
                 modifier = Modifier.weight(.5f)
             )
+            Spacer(modifier = Modifier.width(MaterialTheme.paddings.extraLarge))
             Button(
                 text = stringResource(R.string.apply),
                 backgroundColor = colorScheme.primary,
@@ -121,7 +130,7 @@ private fun FilterAndSortContent(
 ) {
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
         CardItem(
@@ -149,6 +158,8 @@ private fun FilterAndSortContent(
 
         )
         CardItem(
+            modifier = Modifier
+                .height(282.dp),
             text = stringResource(R.string.color_product),
             content = {
                 LazyColumn(
@@ -206,6 +217,8 @@ private fun FilterAndSortContent(
             }
         )
         CardItem(
+            modifier = Modifier
+                .height(282.dp),
             text = stringResource(R.string.size_product),
             content = {
                 LazyColumn(
@@ -280,12 +293,16 @@ private fun CardItem(
         else R.drawable.ic_chevron_bottom
     }
 
-    Box(modifier = Modifier.fillMaxWidth()) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
         Column {
             Box(
                 modifier = Modifier
                 .fillMaxWidth()
                 .background(background)
+                    .clickable { isExpanded = !isExpanded; onExpandStateChange(isExpanded) },
             ) {
                 Row(
                     modifier = Modifier
@@ -293,8 +310,7 @@ private fun CardItem(
                         .padding(
                             horizontal = MaterialTheme.paddings.extraGiant,
                             vertical = MaterialTheme.paddings.giant
-                        )
-                        .clickable { isExpanded = !isExpanded; onExpandStateChange(isExpanded) },
+                        ),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
@@ -314,7 +330,9 @@ private fun CardItem(
                 enter = expandVertically(),
                 exit = shrinkVertically()
             ) {
-                Column {
+                Column(
+                    modifier = modifier
+                ) {
                     content.invoke(this)
                 }
             }
