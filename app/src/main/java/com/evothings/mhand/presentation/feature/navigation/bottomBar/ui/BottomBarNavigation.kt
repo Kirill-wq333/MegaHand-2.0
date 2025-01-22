@@ -18,8 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.bottomsheet.OtherBottomSheet
-import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.model.WebPageScreen
+import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.bottomsheet.OtherBottomSheet
+import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.model.WebPageScreen
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.navigation.graph.Screen
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton

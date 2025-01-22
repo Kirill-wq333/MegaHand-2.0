@@ -63,12 +63,22 @@ fun StoriesScreen(
         vm.handleEvent(StoriesContract.Event.LoadStories)
     }
 
-    Content(
-        storyIndex = storyIndex,
-        storiesList = storiesList,
-        onClickButton = { link -> tryOpenWebPage(context, link) },
-        onFinish = openMainScreen
-    )
+    when(state) {
+        is StoriesContract.State.Loading -> LoadingScreen()
+        is StoriesContract.State.Loaded -> {
+            Content(
+                storiesList = storiesList,
+                storyIndex = storyIndex,
+                onFinish = openMainScreen,
+                onClickButton = { link -> tryOpenWebPage(context, link) }
+            )
+        }
+        is StoriesContract.State.NetworkFailure -> {
+            NoInternetConnectionScreen(
+                onReload = { vm.handleEvent(StoriesContract.Event.LoadStories) }
+            )
+        }
+    }
 }
 
 @Composable

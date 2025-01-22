@@ -194,6 +194,7 @@ private fun Content(
             style = MegahandTypography.bodyLarge,
             color = colorScheme.secondary.copy(0.6f),
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.paddings.extraGiant)
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
@@ -215,13 +216,5 @@ private fun Content(
             inStock = inStock,
             onFavorite = onFavorite
         )
-    }
-}
-
-@Preview
-@Composable
-fun PreviewProductInfoScreen(){
-    MegahandTheme(false){
-
     }
 }

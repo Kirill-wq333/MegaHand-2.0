@@ -28,7 +28,8 @@ fun SliderPhoto(
         items(4) {
             AsyncImage(
                 model = model,
-                placeholder = painterResource(id = R.drawable.no_photo_placeholder),
+                placeholder = painterResource(id = R.drawable.image_placeholder),
+                error = painterResource(id = R.drawable.no_photo_placeholder),
                 contentDescription = null,
                 modifier = Modifier
                     .clip(shape = MegahandShapes.medium)

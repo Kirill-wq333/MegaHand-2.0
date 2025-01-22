@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.navigation.bottombar.ui.mock
+package com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.mock
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

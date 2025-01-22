@@ -47,7 +47,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.checkCity.CheckCityViewModel
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.utils.sdkutil.UserLocationManager
 import com.google.android.gms.location.LocationServices

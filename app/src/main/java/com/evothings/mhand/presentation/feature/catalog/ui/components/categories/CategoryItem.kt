@@ -77,6 +77,7 @@ fun Item(
             contentDescription = contentDescription,
             contentScale = ContentScale.Crop,
             modifier = Modifier
+                .matchParentSize()
                 .clip(MegahandShapes.medium)
         )
         Text(

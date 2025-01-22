@@ -1,10 +1,19 @@
 package com.evothings.mhand.presentation.feature.catalog.ui
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -12,9 +21,21 @@ import com.evothings.domain.feature.catalog.model.FilterValue
 import com.evothings.domain.feature.catalog.model.ProductCategory
 import com.evothings.domain.feature.catalog.model.SearchHint
 import com.evothings.domain.feature.product.model.Product
+import com.evothings.mhand.presentation.feature.Category.components.categories.CategoriesGrid
+import com.evothings.mhand.presentation.feature.catalog.ui.components.AllClothesScreen
+import com.evothings.mhand.presentation.feature.catalog.ui.components.SearchBar
+import com.evothings.mhand.presentation.feature.catalog.ui.components.SearchResultContent
+import com.evothings.mhand.presentation.feature.catalog.ui.components.SearchScreen
+import com.evothings.mhand.presentation.feature.catalog.ui.components.SubCategory
 import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogContract
 import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogViewModel
+import com.evothings.mhand.presentation.feature.onboarding.ui.screen.CatalogOnboarding
+import com.evothings.mhand.presentation.feature.product.ui.ProductInfoScreen
+import com.evothings.mhand.presentation.feature.product.viewmodel.ProductViewModel
+import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
+import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
+import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 
 data class CatalogUiState(
     val query: String,
@@ -133,10 +154,74 @@ fun CatalogScreen(
 
     }
 
+    if (state is CatalogContract.State.Onboarding) {
+        CatalogOnboarding(
+            onFinish = callback::finishOnboarding
+        )
+        return
+    }
+
+    Content(
+        state = state,
+        uiState = CatalogUiState(
+            query = query,
+            searchHints = searchHints,
+            products = products,
+            gridScrollPosition = pagingGridScrollPosition,
+            filters = filters,
+            categories = categories,
+            productsTotal = productsCount,
+            selectedSubcategory = selectedSubcategory,
+            appliedFilters = appliedFilters
+        ),
+        callback = callback
+    )
+
 }
 
 @Composable
-private fun Content(){
+private fun Content(
+    state: CatalogContract.State,
+    uiState: CatalogUiState,
+    callback: CatalogCallback
+){
+
+    BackHandler(
+        enabled = true,
+        onBack = {
+            if (state is CatalogContract.State.ProductInfo) {
+                callback.popState()
+            } else {
+                callback.resetState()
+            }
+        }
+    )
+
+    when(state) {
+        is CatalogContract.State.CategoryProductsListLoading,
+        is CatalogContract.State.CategoryProductsServerError,
+        is CatalogContract.State.SubcategoryProducts -> {
+            AllClothesScreen(
+                state = state,
+                uiState = uiState,
+                callback = callback
+            )
+        }
+        is CatalogContract.State.ProductInfo -> {
+            ProductInfoScreen(
+                id = state.id,
+                vm = hiltViewModel<ProductViewModel>(),
+                onBack = callback::popState
+            )
+        }
+        else -> {
+            Search(
+                state = state,
+                uiState = uiState,
+                callback = callback,
+            )
+        }
+    }
 
 }
 
@@ -146,66 +231,65 @@ fun Search(
     uiState: CatalogUiState,
     callback: CatalogCallback
 ){
-//    Scaffold(
-//        topBar = {
-//            SearchBar(
-//                modifier = Modifier.padding(12.dp),
-//                query = uiState.query,
-//                enableBackButton = (state !is CatalogContract.State.Search),
-//                onChangeQuery = callback::onChangeQuery,
-//                onSearch = callback::search,
-//                onBack = callback::resetState
-//            )
-//        }
-//    ) { scaffoldPadding ->
-//        AnimatedContent(
-//            targetState = state
-//        ){
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(scaffoldPadding)
-//                    .padding(horizontal = 12.dp),
-//            ) {
-//                when (it) {
-//                    is CatalogContract.State.Search -> {
-//                        CategoriesGrid(
-//                            modifier = Modifier,
-//                            categories = uiState.categories,
-//                            onClickCategory = callback::selectCategory
-//                        )
-//                    }
-//                    is CatalogContract.State.Subcategories -> {
-//                        SubcategoriesList(
-//                            subcategories = it.subcategories,
-//                            onClick = callback::selectSubcategorySearch
-//                        )
-//                    }
-//                    is CatalogContract.State.QueryInput -> {
-//                        SearchHintsList(
-//                            hints = uiState.searchHints,
-//                            onClick = callback::onSelectSearchHint
-//                        )
-//                    }
-//                    is CatalogContract.State.SearchResultsLoading -> {
-//                        LoadingScreen()
-//                    }
-//                    is CatalogContract.State.SearchServerError -> {
-//                        ServerErrorScreen(
-//                            onRefresh = callback::refreshSearch
-//                        )
-//                    }
-//                    is CatalogContract.State.SearchResults -> {
-//                        PullRefreshLayout(onRefresh = callback::refreshSearch) {
-//                            SearchResultContent(
-//                                uiState = uiState,
-//                                callback = callback
-//                            )
-//                        }
-//                    }
-//                    else -> {}
-//                }
-//            }
-//        }
-//    }
+    Scaffold(
+        topBar = {
+            SearchBar(
+                modifier = Modifier.padding(12.dp),
+                query = uiState.query,
+                enableBackButton = (state !is CatalogContract.State.Search),
+                onChangeQuery = callback::onChangeQuery,
+                onSearch = callback::search,
+                onBack = callback::resetState
+            )
+        }
+    ) { scaffoldPadding ->
+        AnimatedContent(
+            targetState = state
+        ){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(scaffoldPadding)
+                    .padding(horizontal = 12.dp),
+            ) {
+                when (it) {
+                    is CatalogContract.State.Search -> {
+                        CategoriesGrid(
+                            categories = uiState.categories,
+                            onClickCategory = callback::selectCategory
+                        )
+                    }
+                    is CatalogContract.State.Subcategories -> {
+                        SubCategory(
+                            subcategories = it.subcategories,
+                            onClick = callback::selectSubcategorySearch
+                        )
+                    }
+                    is CatalogContract.State.QueryInput -> {
+                        SearchScreen(
+                            hints = uiState.searchHints,
+                            onClick = callback::onSelectSearchHint
+                        )
+                    }
+                    is CatalogContract.State.SearchResultsLoading -> {
+                        LoadingScreen()
+                    }
+                    is CatalogContract.State.SearchServerError -> {
+                        ServerErrorScreen(
+                            onRefresh = callback::refreshSearch
+                        )
+                    }
+                    is CatalogContract.State.SearchResults -> {
+                        PullRefreshLayout(onRefresh = callback::refreshSearch) {
+                            SearchResultContent(
+                                uiState = uiState,
+                                callback = callback
+                            )
+                        }
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
 }

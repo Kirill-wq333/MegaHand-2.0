@@ -1,6 +1,7 @@
 package com.evothings.mhand.presentation.feature.catalog.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,13 +41,15 @@ fun HintsListAsyncImage(
     model: String,
     contentDescription: String?,
     nameCategory: String,
-    descriptionCategory: String
+    descriptionCategory: String,
+    onClick: () -> Unit
 ) {
     Column {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(colorScheme.onSecondary)
+                .clickable { onClick() }
                 .padding(MaterialTheme.paddings.extraLarge),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -102,7 +105,8 @@ fun PreviewHintsListAsyncImage(){
             model = "https://s3-alpha-sig.figma.com/img/bbc9/b4f4/3bcb0ac3ea5a25f8bff886fa37da5c5d?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AQyMhZk8IhlCmT-0PnG5aoBYVuy~QU7XpvBX-zmheXo2yABCgT18nTSVlhQl3CkzxGcYl76a2mNMvFZI4-r6lHfd65DnBkRiCRkEACHRekl7AlIEHN6u2NftRCb53RWgs1sEYVQPw72e4mjR5PYQGMFroWxnhQ2cqYuERt7DlbEAh73hw2GWau5fx5m~6eDPs2h7MR5z3x07un84o7AIJ~Jwo6p-EwD9OmrGLCj4su1zIi3oZNzOKwJX0bbfZx571gxUejCZLRkw0vxL~AMa7EAL2ywi-UpROw0zbEM8xWrE~MzQhriBATrIAU1tEbjx9iP2tWq2V6FzS1zy9UTRqw__",
             contentDescription = "clothes",
             nameCategory = "Одежда",
-            descriptionCategory = "Одежда – Верхняя одежда"
+            descriptionCategory = "Одежда – Верхняя одежда",
+            onClick = {}
         )
     }
 }

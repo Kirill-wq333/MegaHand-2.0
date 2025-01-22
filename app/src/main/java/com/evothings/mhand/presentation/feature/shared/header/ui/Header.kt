@@ -6,7 +6,9 @@ import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
@@ -42,11 +44,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.evothings.domain.feature.notification.model.Notification
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.BackButton
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.Logo
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.PrizeAndMoney
+import com.evothings.mhand.presentation.feature.shared.header.ui.notifications.NotificationsTray
 import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderContract
 import com.evothings.mhand.presentation.feature.shared.header.viewmodel.HeaderViewModel
 import com.evothings.mhand.presentation.feature.shared.header.viewmodel.base.BaseHeaderViewModel
@@ -142,7 +146,9 @@ fun Header(
             viewModel.handleEvent(HeaderContract.Event.ReadAllNotifications)
         },
         toggleDevMode = callback::toggleDevMode,
-        cardBalance = cardBalance
+        cardBalance = cardBalance,
+        callback = callback,
+        notifications = notificationsList
     )
 }
 
@@ -151,6 +157,7 @@ fun Header(
 private fun HeaderContent(
     modifier: Modifier = Modifier,
     nameCategory: String,
+    notifications: List<Notification>,
     logoVisible: Boolean,
     balanceVisible: Boolean,
     notificationVisible: Boolean,
@@ -160,6 +167,7 @@ private fun HeaderContent(
     onChooseCity: (String) -> Unit,
     readNotifications: () -> Unit,
     toggleDevMode: () -> Unit,
+    callback: HeaderCallback,
     cardBalance: Int,
     unreadNotifications: Int
 ) {
@@ -168,15 +176,6 @@ private fun HeaderContent(
     var notificationTrayVisible by remember { mutableStateOf(false) }
     var chooseCityScreenVisible by remember { mutableStateOf(false) }
 
-
-
-    val formattedTitle = remember(notificationTrayVisible, chooseCityScreenVisible, nameCategory) {
-        when {
-            notificationTrayVisible -> context.getString(R.string.notifications)
-            chooseCityScreenVisible -> context.getString(R.string.city)
-            else -> nameCategory
-        }
-    }
 
     BackHandler(
         enabled = (notificationTrayVisible || chooseCityScreenVisible),
@@ -189,7 +188,7 @@ private fun HeaderContent(
     Column {
         Content(
             modifier = modifier,
-            nameCategory = formattedTitle,
+            nameCategory = nameCategory,
             money = cardBalance,
             logoVisible = logoVisible,
             notificationVisible = notificationVisible,
@@ -225,6 +224,18 @@ private fun HeaderContent(
             )
         }
 
+        AnimatedVisibility(
+            visible = notificationTrayVisible,
+            enter = expandVertically(tween(700)),
+            exit = shrinkVertically(tween(700))
+        ) {
+            NotificationsTray(
+                list = notifications,
+                onClickUpdate = callback::onClickUpdateApp,
+                removeSingle = callback::deleteNotification,
+                clearAll = callback::clearNotifications
+            )
+        }
     }
 
 }
@@ -282,12 +293,12 @@ private fun Content(
                 )
             } else {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
                 ) {
                     if (turnButtonVisible) {
                         BackButton(onClick = onBack)
                     }
-                    Spacer(modifier = modifier.width(MaterialTheme.spacers.medium))
                     Text(
                         modifier = Modifier.basicMarquee(),
                         text = formattedTitle,

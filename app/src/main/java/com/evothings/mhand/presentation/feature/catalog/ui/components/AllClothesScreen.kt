@@ -21,6 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -46,39 +47,140 @@ import com.evothings.domain.feature.product.model.Product
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogCallback
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogUiState
+import com.evothings.mhand.presentation.feature.catalog.ui.components.filters.FilterAndSort
+import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogContract
 import com.evothings.mhand.presentation.feature.home.ui.components.PreloadItem
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
+import com.evothings.mhand.presentation.feature.shared.button.Chip
+import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
+import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
+import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
+import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
+
 @Composable
 fun AllClothesScreen(
+    state: CatalogContract.State,
     uiState: CatalogUiState,
     callback: CatalogCallback
 ) {
     var filterBottomSheetExpanded by remember { mutableStateOf(false) }
 
-    Content(
-        subcategories = uiState.categories,
+    ClothesContent(
+        state = state,
         products = uiState.products,
-        gridScrollPosition = uiState.gridScrollPosition,
-        prodCount = uiState.productsTotal,
-        onClickFilter = {filterBottomSheetExpanded = true},
+        productsCount = uiState.productsTotal,
+        selectedSubcategory = uiState.selectedSubcategory,
+        initialGridScrollPosition = uiState.gridScrollPosition,
+        openFilterBottomSheet = { filterBottomSheetExpanded = true },
         callback = callback
     )
+
+
+    if (filterBottomSheetExpanded) {
+        MhandModalBottomSheet(
+            onDismissRequest = { filterBottomSheetExpanded = false }
+        ) { hide ->
+            FilterAndSort(
+                filters = uiState.filters,
+                selected = uiState.appliedFilters,
+                onCancel = { hide(); filterBottomSheetExpanded = false },
+                onApply = {
+                    callback.applyFilters(it); hide()
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun ClothesContent(
+    state: CatalogContract.State,
+    products: LazyPagingItems<Product>,
+    productsCount: Int,
+    initialGridScrollPosition: Int,
+    selectedSubcategory: ProductCategory?,
+    openFilterBottomSheet: () -> Unit,
+    callback: CatalogCallback
+){
+    val screenTitle = remember(state) {
+        if (state is CatalogContract.State.SubcategoryProducts) state.category.title else ""
+    }
+
+    HeaderProvider(
+        screenTitle = screenTitle,
+        enableMapIconButton = false,
+        turnButtonVisible = true,
+        onBack = callback::resetState
+    ) { headerPadding ->
+        PullRefreshLayout(
+            onRefresh = {
+                if (state is CatalogContract.State.SubcategoryProducts) {
+                    callback.refreshSubcategoryProducts(state.category)
+                }
+            }
+        ) {
+            Scaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(headerPadding),
+                topBar = {
+                    if (state is CatalogContract.State.SubcategoryProducts) {
+                        Content(
+                            subcategories = state.subcategories,
+                            selectedName = selectedSubcategory?.title.orEmpty(),
+                            prodCount = productsCount,
+                            onClickFilter = openFilterBottomSheet,
+                            onClickSubcategory = callback::selectSubcategory
+                        )
+                    }
+                }
+            ) { scaffoldPadding ->
+                Box(
+                    modifier = Modifier.padding(scaffoldPadding),
+                    contentAlignment = Alignment.Center
+                ) {
+                    when (state) {
+                        is CatalogContract.State.CategoryProductsListLoading -> {
+                            LoadingScreen()
+                        }
+
+                        is CatalogContract.State.CategoryProductsServerError -> {
+                            ServerErrorScreen(
+                                onRefresh = { callback.resetState() }
+                            )
+                        }
+
+                        is CatalogContract.State.SubcategoryProducts -> {
+                            Products(
+                                products = products,
+                                initialScrollPosition = initialGridScrollPosition,
+                                onChangeScrollPosition = callback::updatePagingGridScrollPosition,
+                                callback = callback
+                            )
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
 private fun Content(
-    products: LazyPagingItems<Product>,
     subcategories: List<ProductCategory>?,
-    gridScrollPosition: Int,
-    callback: CatalogCallback,
     prodCount: Int,
-    onClickFilter: () -> Unit
+    onClickFilter: () -> Unit,
+    selectedName: String,
+    onClickSubcategory: (ProductCategory) -> Unit
 ) {
 
     Column(
@@ -94,44 +196,51 @@ private fun Content(
                 horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.small)
             ) {
                 items(subcategories) { item ->
-                    Button(
-                        text = item.title
+                    Chip(
+                        text = item.title,
+                        enabled = (item.title == selectedName),
+                        onClick = { onClickSubcategory(item) }
                     )
                 }
             }
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        Row(
+        FilterAndSorting(
+            onClickFilter = onClickFilter,
+            prodCount = prodCount
+        )
+    }
+}
+
+@Composable
+fun FilterAndSorting(
+    modifier: Modifier = Modifier,
+    onClickFilter: () -> Unit,
+    prodCount: Int
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = stringResource(R.string.filters),
+            color = colorScheme.secondary.copy(0.4f),
+            style = MegahandTypography.bodyLarge,
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = stringResource(R.string.filters),
-                color = colorScheme.secondary.copy(0.4f),
-                style = MegahandTypography.bodyLarge,
-                modifier = Modifier
-                    .padding(MaterialTheme.paddings.medium)
-            )
-            Text(
-                text = stringResource(R.string.products_count, prodCount),
-                color = colorScheme.secondary.copy(0.4f),
-                style = MegahandTypography.bodyLarge,
-                modifier = Modifier
-                    .clickable { onClickFilter() }
-                    .padding(
-                        horizontal = MaterialTheme.paddings.extraLarge,
-                        vertical = MaterialTheme.paddings.medium
-                    )
-            )
-        }
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
-        Products(
-            products = products,
-            callback = callback,
-            initialScrollPosition = gridScrollPosition,
-            onChangeScrollPosition = callback::updatePagingGridScrollPosition
+                .padding(MaterialTheme.paddings.medium)
+        )
+        Text(
+            text = stringResource(R.string.products_count, prodCount),
+            color = colorScheme.secondary.copy(0.4f),
+            style = MegahandTypography.bodyLarge,
+            modifier = Modifier
+                .clickable { onClickFilter() }
+                .padding(
+                    horizontal = MaterialTheme.paddings.extraLarge,
+                    vertical = MaterialTheme.paddings.medium
+                )
         )
     }
 }
@@ -195,23 +304,3 @@ fun Products(
 
 }
 
-@Composable
-private fun Button(
-    text: String
-){
-    Box(
-        modifier = Modifier
-            .border(width = 1.dp, color = colorScheme.primary, shape = MegahandShapes.medium)
-    ){
-        Text(
-            text = text,
-            color = colorScheme.secondary,
-            style = MegahandTypography.labelLarge,
-            modifier = Modifier
-                .padding(
-                    horizontal = MaterialTheme.paddings.giant,
-                    vertical = MaterialTheme.paddings.extraLarge
-                )
-        )
-    }
-}

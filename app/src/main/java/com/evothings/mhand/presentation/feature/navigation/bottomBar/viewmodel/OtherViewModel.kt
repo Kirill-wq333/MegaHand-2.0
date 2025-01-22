@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.navigation.bottombar.viewmodel
+package com.evothings.mhand.presentation.feature.navigation.bottomBar.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,17 +1,25 @@
-package com.evothings.mhand.presentation.feature.shared.header.ui.sheet
+@file:OptIn(ExperimentalFoundationApi::class)
+package com.evothings.mhand.presentation.feature.shared.header.ui.notifications.components
 
+import androidx.compose.animation.core.exponentialDecay
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.gestures.AnchoredDraggableState
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -20,216 +28,155 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.evothings.domain.feature.notification.model.Notification
+import com.evothings.domain.feature.notification.model.NotificationType
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.button.SmallButton
+import com.evothings.mhand.presentation.feature.shared.header.ui.sheet.NotificationDragState
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
-import com.evothings.mhand.presentation.theme.values.MegahandShapes
+import kotlin.math.roundToInt
 
-data class Notification(
-    val icon: ImageVector,
-    val heading: String,
-    val underTheHeading: String,
-    val gettingDate: String,
-    val colorCircleShape: Color,
-    val selected: Boolean,
-    val contentDescription: String?,
-    val color: Color
-)
 
 
 @Composable
 fun Notification(
-    textBottom: String,
+    model: Notification,
+    onSwipe: (Int) -> Unit,
+    onClickUpdate: () -> Unit
 ) {
-    val notification = listOf(
-        Notification(
-            icon = ImageVector.vectorResource(R.drawable.ic_sparkles),
-            heading = "Новая версия приложения!",
-            colorCircleShape = colorScheme.primary,
-            underTheHeading = "2.1.10 Уже в App Store и Google Play",
-            gettingDate = "3м. назад",
-            selected = true,
-            contentDescription = "sparkles",
-            color = colorScheme.secondary
-        ),
-        Notification(
-            icon = ImageVector.vectorResource(R.drawable.ic_news),
-            heading = "Открытие магазина во Владивостоке",
-            colorCircleShape = colorScheme.secondary.copy(0.1f),
-            underTheHeading = "Читай подробнее в разделе «Новости»",
-            gettingDate = "4ч. назад",
-            selected = false,
-            contentDescription = "news",
-            color = colorScheme.secondary.copy(0.4f)
-        ),
-        Notification(
-            icon = ImageVector.vectorResource(R.drawable.ic_exclamation),
-            heading = "Сбой системы лояльности",
-            colorCircleShape = colorScheme.secondary.copy(0.1f),
-            underTheHeading = "Списание баллов временно недоступ...",
-            gettingDate = "2ч. назад",
-            selected = false,
-            contentDescription = "exclamation",
-            color = colorScheme.error
+    val screenDensity = LocalDensity.current
+
+    val dragState = remember {
+        AnchoredDraggableState(
+            initialValue = NotificationDragState.START,
+            anchors = DraggableAnchors {
+                NotificationDragState.START at 0f
+                NotificationDragState.END at -(400f * screenDensity.density)
+            },
+            positionalThreshold = { position: Float -> position * 0.6f },
+            velocityThreshold = { with(screenDensity) { 150.dp.toPx() } },
+            snapAnimationSpec = tween(),
+            decayAnimationSpec = exponentialDecay()
         )
-    )
-
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = Color.White)
-            .clip(shape = RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
-    ) {
-
-        Column(
-            modifier = Modifier
-                .padding(
-                    top = MaterialTheme.paddings.extraLarge,
-                    start = MaterialTheme.paddings.extraLarge,
-                    end = MaterialTheme.paddings.extraLarge
-                ),
-            horizontalAlignment = Alignment.End
-        ) {
-
-            LazyColumn() {
-                items(notification) { notification ->
-                    NotificationItem(
-                        icon = notification.icon,
-                        contentDescription = notification.contentDescription,
-                        heading = notification.heading,
-                        underTheHeading = notification.underTheHeading,
-                        textBottom = textBottom,
-                        gettingDate = notification.gettingDate,
-                        colorCircleShape = notification.colorCircleShape,
-                        selected = notification.selected,
-                        color = notification.color
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = colorScheme.secondary.copy(0.05f),
-                        shape = shapes.small
-                    )
-                    .padding(bottom = MaterialTheme.paddings.extraLarge)
-            ){
-                Text(
-                    text = stringResource(R.string.clear_all),
-                    color = colorScheme.secondary,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.W500,
-                    fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-                    modifier = Modifier
-                        .padding(
-                            vertical = MaterialTheme.paddings.medium,
-                            horizontal = MaterialTheme.paddings.large
-                        )
-                )
-            }
-        }
-
     }
+
+    val offset by remember {
+        derivedStateOf {
+            val safeDragOffset =
+                if (!dragState.offset.isNaN()) dragState.offset else 0f
+
+            IntOffset(
+                x = safeDragOffset.roundToInt(),
+                y = 0
+            )
+        }
+    }
+
+    SideEffect {
+        if (offset.x <= -300f) {
+            onSwipe(model.id)
+        }
+    }
+
+    NotificationItem(
+        type = model.type,
+        heading = model.title,
+        underTheHeading = model.description,
+        gettingDate = model.arrivalTime,
+        draggableState = dragState,
+        dragOffset = offset,
+        onClickUpdate = onClickUpdate
+    )
 }
 
 
 @Composable
 fun NotificationItem(
-    icon: ImageVector,
-    contentDescription: String?,
+    type: NotificationType,
     heading: String,
     underTheHeading: String,
-    textBottom: String,
     gettingDate: String,
-    colorCircleShape: Color,
-    selected: Boolean,
-    color: Color
+    draggableState: AnchoredDraggableState<NotificationDragState>,
+    dragOffset: IntOffset,
+    onClickUpdate: () -> Unit,
 ) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.paddings.extraLarge),
-        verticalAlignment = Alignment.Top,
-        horizontalArrangement = Arrangement.Start
+            .anchoredDraggable(
+                state = draggableState,
+                orientation = Orientation.Horizontal
+            )
+            .offset { dragOffset },
+        contentAlignment = Alignment.Center
     ) {
-        Box(
+        Row(
             modifier = Modifier
-                .background(
-                    color = colorCircleShape,
-                    shape = CircleShape
-                )
+                .fillMaxWidth()
+                .padding(MaterialTheme.paddings.extraLarge),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.Start
         ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = contentDescription,
-                tint = color,
+            NotificationIcon(
+                modifier = Modifier.weight(0.25f),
+                type = type
+            )
+            Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
+            Column(
                 modifier = Modifier
-                    .padding(MaterialTheme.paddings.medium)
-            )
-        }
-        Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
-        Column(
-            modifier = Modifier
-                .width(230.dp)
-        ) {
-            TextItem(
-                text = heading,
-                color = colorScheme.secondary,
-                fontSize = 16.sp
-            )
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.tiny))
-            TextItem(
-                text = underTheHeading,
-                color = colorScheme.secondary.copy(0.4f),
-                fontSize = 12.sp
-            )
-            if (selected) {
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-                Box(
-                    modifier = Modifier
-                        .background(
-                            color = colorScheme.primary,
-                            shape = MegahandShapes.small
-                        )
-                ) {
-                    Text(
-                        text = textBottom,
-                        color = colorScheme.secondary,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W500,
-                        fontFamily = FontFamily(listOf(Font(R.font.golos_500))),
-                        modifier = Modifier
-                            .padding(
-                                vertical = MaterialTheme.paddings.medium,
-                                horizontal = MaterialTheme.paddings.large
-                            )
+                    .width(230.dp)
+            ) {
+                TextItem(
+                    text = heading,
+                    color = colorScheme.secondary,
+                    fontSize = 16.sp
+                )
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.tiny))
+                TextItem(
+                    text = underTheHeading,
+                    color = colorScheme.secondary.copy(0.4f),
+                    fontSize = 12.sp
+                )
+                if (type != NotificationType.NEW_VERSION) {
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
+                    SmallButton(
+                        text = stringResource(R.string.update_available_proceed_button),
+                        textColor = colorScheme.secondary,
+                        backgroundColor = colorScheme.primary,
+                        onClick = onClickUpdate
                     )
                 }
             }
+            Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
+            TextItem(
+                text = gettingDate,
+                color = colorScheme.secondary.copy(0.4f),
+                fontSize = 12.sp
+            )
         }
-        Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
-        TextItem(
-            text = gettingDate,
-            color = colorScheme.secondary.copy(0.4f),
-            fontSize = 12.sp
-        )
     }
 }
 
@@ -251,13 +198,48 @@ private fun TextItem(
     )
 }
 
-
-@Preview
 @Composable
-fun PreviewNotification() {
-    MegahandTheme {
-        Notification(
-            textBottom = "Обновить",
+private fun NotificationIcon(
+    modifier: Modifier,
+    type: NotificationType
+) {
+
+    val iconResId = remember {
+        when(type) {
+            NotificationType.NEW_VERSION -> R.drawable.ic_sparkles
+            NotificationType.ALERT -> R.drawable.ic_attention
+            NotificationType.INFOFMATION -> R.drawable.ic_news
+        }
+    }
+
+    val iconTint =
+        when(type) {
+            NotificationType.ALERT -> colorScheme.error
+            NotificationType.INFOFMATION -> colorScheme.secondary
+            NotificationType.NEW_VERSION -> ColorTokens.Graphite
+        }
+
+    val backgroundColor =
+        when(type) {
+            NotificationType.ALERT -> colorScheme.error.copy(alpha = 0.1f)
+            NotificationType.INFOFMATION -> colorScheme.secondary.copy(alpha = 0.1f)
+            NotificationType.NEW_VERSION -> ColorTokens.Sunflower
+        }
+
+    Box(
+        modifier = Modifier
+            .background(
+                color = backgroundColor,
+                shape = CircleShape
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = iconResId),
+            tint = iconTint,
+            contentDescription = null,
+            modifier = modifier.padding(6.dp)
         )
     }
+
 }

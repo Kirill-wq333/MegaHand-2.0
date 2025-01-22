@@ -1,5 +1,6 @@
 package com.evothings.mhand.presentation.feature.home.ui.components.bottomsheet
 
+import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -27,6 +29,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.button.FilledButton
+import com.evothings.mhand.presentation.feature.shared.checkbox.CheckboxChecker
+import com.evothings.mhand.presentation.theme.MegahandTypography
+import com.evothings.mhand.presentation.theme.paddings
+import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun UserSurveyBottomSheet(
@@ -44,32 +50,31 @@ fun UserSurveyBottomSheet(
     val chosenIndex = remember { mutableIntStateOf(0) }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                start = 15.dp,
-                end = 15.dp,
-                bottom = 20.dp
-            )
-            .offset(x = 0.dp, y = (-10).dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+      modifier = Modifier
+          .fillMaxWidth()
+          .padding(MaterialTheme.paddings.extraGiant),
+        horizontalAlignment = Alignment.Start
     ) {
         Text(
             text = stringResource(R.string.where_from_you_know_us),
-            style = MaterialTheme.typography.headlineMedium
+            color = colorScheme.secondary,
+            style = MegahandTypography.headlineMedium
         )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         Text(
             text = stringResource(R.string.can_choose_several_answers),
-            style = MaterialTheme.typography.labelMedium.copy(MaterialTheme.colorScheme.secondary.copy(0.4f))
+            color = colorScheme.secondary.copy(.6f),
+            style = MegahandTypography.bodyLarge
         )
-        repeat(userSurveyEntries.size) {
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        repeat(userSurveyEntries.size){
             SurveyItem(
                 title = userSurveyEntries[it],
                 chosen = it == chosenIndex.intValue,
                 onChoose = { chosenIndex.intValue = it }
             )
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         FilledButton(
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,7 +83,6 @@ fun UserSurveyBottomSheet(
             onClick = { onSubmit(chosenIndex.intValue) }
         )
     }
-
 }
 
 @Composable
@@ -96,27 +100,21 @@ private fun SurveyItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                color = MaterialTheme.colorScheme.secondary.copy(0.1f),
-                shape = RoundedCornerShape(8.dp)
-            )
             .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
                 onClick = onChoose
-            ),
-        contentAlignment = Alignment.Center
-    ) {
+            )
+    ){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp),
+                .padding(MaterialTheme.paddings.giant),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.labelMedium
+                color = colorScheme.secondary,
+                style = MegahandTypography.bodyLarge
             )
             Image(
                 modifier = Modifier.size(18.dp),

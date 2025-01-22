@@ -58,7 +58,6 @@ fun QrCode(
             onClick = onClick
         )
 
-    // Padding calculation to prevent thin of QR
     val density = LocalDensity.current
     val verticalPadding = remember {
         when(density.density) {

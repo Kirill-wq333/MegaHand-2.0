@@ -17,13 +17,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.evothings.domain.feature.catalog.model.FilterValue
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
@@ -46,56 +52,52 @@ import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.utils.list.toggleItem
 
-@Preview
-@Composable
-private fun FilterPreview() {
-    MegahandTheme {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = colorScheme.onSecondary.copy(.3f)),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            Content(
-                onCancel = {},
-                onApply = {}
-            )
-        }
-    }
-}
 
 @Composable
-fun FContent(
+fun FilterAndSort(
     modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit
-) {
-    MhandModalBottomSheet(
-        onDismissRequest = onDismissRequest,
-        content = {
-            Content(
-                onCancel = {},
-                onApply = {}
-            )
-        }
-    )
-}
-
-@Composable
-private fun Content(
-    modifier: Modifier = Modifier,
-    onApply: () -> Unit,
     onCancel: () -> Unit,
+    filters: Map<String, List<FilterValue>>,
+    selected: Map<String, List<Int>>,
+    onApply: (Map<String, List<Int>>) -> Unit
 ) {
+    val selectedLocal = remember(selected) {
+        val selectedAsPairs = selected.map { it.key to it.value }
+        mutableStateMapOf(*selectedAsPairs.toTypedArray())
+    }
+
+    var currentFilterExpanded by remember {
+        mutableIntStateOf(-1)
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(color = colorScheme.onSecondary)
     ) {
-        FilterAndSortContent(
-            modifier = Modifier
-                .padding(top = MaterialTheme.paddings.extraLarge)
-        )
+        repeat(filters.keys.size) { i ->
+            val key = remember { filters.keys.elementAt(i) }
+            val isSorting = remember { key == "Сортировка" }
+            val selectedEntries = remember(selectedLocal) { selectedLocal[key] ?: listOf(0) }
+            val filterEntries = remember { filters[key] ?: listOf() }
+
+            FilterAndSortContent(
+                modifier = Modifier
+                    .padding(top = MaterialTheme.paddings.extraLarge),
+                selected = selectedEntries,
+                title = key,
+                enableRadio = isSorting,
+                entries = filterEntries,
+                onSelect = { entry ->
+                    val oldList = selectedLocal[key]?.toMutableList() ?: mutableListOf()
+                    val list = if (isSorting) mutableListOf() else oldList
+                    list.toggleItem(entry)
+                    selectedLocal.put(key, list)
+                }
+            )
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -116,7 +118,7 @@ private fun Content(
                 text = stringResource(R.string.apply),
                 backgroundColor = colorScheme.primary,
                 textColor = colorScheme.secondary,
-                onClick = onApply,
+                onClick = { onApply(selectedLocal) },
                 modifier = Modifier.weight(.5f)
             )
         }
@@ -127,163 +129,83 @@ private fun Content(
 @Composable
 private fun FilterAndSortContent(
     modifier: Modifier = Modifier,
+    selected: List<Int>,
+    entries: List<FilterValue>,
+    enableRadio: Boolean,
+    title: String,
+    onSelect: (Int) -> Unit
 ) {
+    val selectedLocal = remember(selected) {
+        mutableStateListOf(*selected.toTypedArray())
+    }
 
     Column(
         modifier = modifier
             .fillMaxWidth()
     ) {
         CardItem(
-            text = stringResource(R.string.sort),
+            text = title,
             content = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = MaterialTheme.paddings.giant,
-                            vertical = MaterialTheme.paddings.extraLarge
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
-                ) {
-                    TextAndCheckBox(
-                        text = "Сначала дешевые",
-                        visibleChecker = false,
-                    )
-                    TextAndCheckBox(
-                        text = "Сначала новые",
-                        visibleChecker = false
-                    )
-                }
-            }
-
-        )
-        CardItem(
-            modifier = Modifier
-                .height(282.dp),
-            text = stringResource(R.string.color_product),
-            content = {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = MaterialTheme.paddings.giant,
-                            vertical = MaterialTheme.paddings.extraLarge
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
-                ) {
-                    items(10) {
-                        TextAndCheckBox(
-                            text = "Черный",
-                            visibleChecker = true
-                        )
+                TextAndCheckBoxs(
+                    selected = selectedLocal,
+                    enableRadio = enableRadio,
+                    entries = entries,
+                    onSelect = { id ->
+                        if (!enableRadio) {
+                            selectedLocal.toggleItem(id)
+                        } else {
+                            selectedLocal.clear()
+                            selectedLocal.add(id)
+                        }
+                        onSelect(id)
                     }
-                }
-            }
-        )
-        CardItem(
-            text = stringResource(R.string.material),
-            content = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = MaterialTheme.paddings.giant,
-                            vertical = MaterialTheme.paddings.extraLarge
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
-                ) {
-
-                    TextAndCheckBox(
-                        text = "Все",
-                        visibleChecker = true
-                    )
-                    TextAndCheckBox(
-                        text = "Хлопок",
-                        visibleChecker = true
-                    )
-                    TextAndCheckBox(
-                        text = "Лен",
-                        visibleChecker = true
-                    )
-                    TextAndCheckBox(
-                        text = "Шерсть",
-                        visibleChecker = true
-                    )
-                    TextAndCheckBox(
-                        text = "Синтетика",
-                        visibleChecker = true
-                    )
-                }
-            }
-        )
-        CardItem(
-            modifier = Modifier
-                .height(282.dp),
-            text = stringResource(R.string.size_product),
-            content = {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = MaterialTheme.paddings.giant,
-                            vertical = MaterialTheme.paddings.extraLarge
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
-                ) {
-                    items(10){
-                        TextAndCheckBox(
-                            text = "Все",
-                            visibleChecker = true
-                        )
-                    }
-                }
-            }
-        )
-        CardItem(
-            text = stringResource(R.string.quality_product),
-            content = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = MaterialTheme.paddings.giant,
-                            vertical = MaterialTheme.paddings.extraLarge
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
-                ) {
-                    TextAndCheckBox(
-                        text = "Все",
-                        visibleChecker = true
-                    )
-                    TextAndCheckBox(
-                        text = "Высокое",
-                        visibleChecker = true
-                    )
-                    TextAndCheckBox(
-                        text = "Среднее",
-                        visibleChecker = true
-                    )
-                    TextAndCheckBox(
-                        text = "Низкое",
-                        visibleChecker = true
-                    )
-                }
+                )
             }
         )
 
     }
 }
 
+@Composable
+fun TextAndCheckBoxs(
+    modifier: Modifier = Modifier,
+    selected: List<Int>,
+    entries: List<FilterValue>,
+    enableRadio: Boolean,
+    onSelect: (Int) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = MaterialTheme.paddings.giant,
+                vertical = MaterialTheme.paddings.extraLarge
+            ),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
+    ) {
+        items(entries){ item ->
+            TextAndCheckBox(
+                text = item.value,
+                visibleChecker = (item.id in selected),
+                isChecked = enableRadio,
+                onClick = { onSelect(item.id) }
+            )
+        }
+    }
+}
 
 @Composable
 private fun CardItem(
     modifier: Modifier = Modifier,
     text: String,
     onExpandStateChange: (Boolean) -> Unit = {},
-    content: @Composable (ColumnScope) -> Unit
+    content: @Composable () -> Unit
 ) {
     var isExpanded by rememberSaveable(Unit, BooleanSaver) { mutableStateOf(false) }
 
+    val iconTint = MaterialTheme.colorScheme.secondary.copy(
+        alpha = if (isExpanded) 1.0f else 0.4f
+    )
     val background =
         if (isExpanded) colorScheme.secondary.copy(.05f)
         else colorScheme.onSecondary
@@ -293,89 +215,97 @@ private fun CardItem(
         else R.drawable.ic_chevron_bottom
     }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Column {
-            Box(
-                modifier = Modifier
+        Box(
+            modifier = Modifier
                 .fillMaxWidth()
                 .background(background)
-                    .clickable { isExpanded = !isExpanded; onExpandStateChange(isExpanded) },
+                .clickable { isExpanded = !isExpanded; onExpandStateChange(isExpanded) },
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = MaterialTheme.paddings.extraGiant,
+                        vertical = MaterialTheme.paddings.giant
+                    ),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = MaterialTheme.paddings.extraGiant,
-                            vertical = MaterialTheme.paddings.giant
-                        ),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = text,
-                        color = colorScheme.secondary,
-                        style = MegahandTypography.headlineSmall
-                    )
-                    IconButton(
-                        icon = ImageVector.vectorResource(icon),
-                        iconPadding = 0.dp,
-                        onClick = { }
-                    )
-                }
-            }
-            AnimatedVisibility(
-                visible = isExpanded,
-                enter = expandVertically(),
-                exit = shrinkVertically()
-            ) {
-                Column(
-                    modifier = modifier
-                ) {
-                    content.invoke(this)
-                }
+                Text(
+                    text = text,
+                    color = colorScheme.secondary,
+                    style = MegahandTypography.headlineSmall
+                )
+                IconButton(
+                    icon = ImageVector.vectorResource(icon),
+                    iconPadding = 0.dp,
+                    tint = iconTint,
+                    onClick = { }
+                )
             }
         }
+        AnimatedVisibility(
+            visible = isExpanded,
+            enter = expandVertically(),
+            exit = shrinkVertically()
+        ) {
+            content.invoke()
+        }
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = colorScheme.secondary.copy(.05f))
+        )
     }
+
 }
 
 @Composable
 fun TextAndCheckBox(
     modifier: Modifier = Modifier,
     text: String,
-    visibleChecker: Boolean
+    visibleChecker: Boolean,
+    isChecked: Boolean,
+    onClick: () -> Unit
 ) {
 
-    var isChecked by rememberSaveable(Unit, BooleanSaver) { mutableStateOf(false) }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = MaterialTheme.paddings.giant)
-            .clickable { isChecked = !isChecked },
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = text,
-            color = colorScheme.secondary,
-            style = MegahandTypography.bodyLarge,
+    Column {
+        Row(
             modifier = Modifier
-                .padding(MaterialTheme.paddings.medium)
-        )
-        if (visibleChecker) {
-            CheckboxChecker(
-                isChecked = isChecked,
+                .fillMaxWidth()
+                .padding(horizontal = MaterialTheme.paddings.giant)
+                .clickable { onClick() },
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = text,
+                color = colorScheme.secondary,
+                style = MegahandTypography.bodyLarge,
                 modifier = Modifier
-                    .padding(
-                        horizontal = MaterialTheme.paddings.medium,
-                        vertical = MaterialTheme.paddings.large
-                    )
+                    .padding(MaterialTheme.paddings.medium)
             )
-        } else{
-            RadioChecker(
-                isChecked = isChecked
-            )
+            if (visibleChecker) {
+                CheckboxChecker(
+                    isChecked = isChecked,
+                    modifier = Modifier
+                        .padding(
+                            horizontal = MaterialTheme.paddings.medium,
+                            vertical = MaterialTheme.paddings.large
+                        )
+                )
+            } else {
+                RadioChecker(
+                    isChecked = isChecked
+                )
+            }
         }
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = colorScheme.secondary.copy(.05f))
+        )
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -143,20 +145,16 @@ fun OutOfStockProductItem(
 @Composable
 fun PhotoSlider(
     product: List<String>
-){
-    Box(
+) {
+    AsyncImage(
+        model = product,
+        error =painterResource(id = R.drawable.no_photo_placeholder) ,
+        placeholder = painterResource(R.drawable.image_placeholder),
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = shapes.large)
-            .height(180.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        AsyncImage(
-            model = product,
-            placeholder = painterResource(R.drawable.no_photo_placeholder),
-            contentDescription = null,
-            modifier = Modifier
-                .clip(shape = shapes.large)
-        )
-    }
+            .height(180.dp)
+    )
 }

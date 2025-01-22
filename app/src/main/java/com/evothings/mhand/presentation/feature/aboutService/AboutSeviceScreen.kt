@@ -92,7 +92,7 @@ private fun Content(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(horizontal = MaterialTheme.paddings.extraLarge)
+                .padding(headerPadding)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.extraLarge)
         ) {

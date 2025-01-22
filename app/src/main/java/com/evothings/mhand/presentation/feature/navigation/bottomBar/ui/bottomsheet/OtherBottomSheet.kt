@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.navigation.bottombar.ui.bottomsheet
+package com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.bottomsheet
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
@@ -35,8 +34,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.evothings.mhand.presentation.feature.navigation.bottombar.ui.model.WebPageScreen
-import com.evothings.mhand.presentation.feature.navigation.bottombar.viewmodel.OtherViewModel
+import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.model.WebPageScreen
+import com.evothings.mhand.presentation.feature.navigation.bottomBar.viewmodel.OtherViewModel
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.navigation.graph.Screen
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet

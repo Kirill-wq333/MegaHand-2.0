@@ -77,7 +77,7 @@ fun Buttons(
     ) {
         if (!inCartLocal) {
             Button(
-                modifier = Modifier.weight(0.8f),
+                modifier = Modifier.weight(0.7f),
                 text = stringResource(id = R.string.buy),
                 textColor = ColorTokens.Graphite,
                 isEnabled = isInStock,
@@ -85,12 +85,7 @@ fun Buttons(
                 onClick = { inCartLocal = !inCartLocal; onClickBuy() }
             )
         } else {
-            Button(
-                modifier = Modifier.weight(0.8f),
-                text = stringResource(id = R.string.in_cart),
-                textColor = ColorTokens.Graphite,
-                isEnabled = isInStock,
-                backgroundColor = MaterialTheme.colorScheme.primary,
+            InCartButton(
                 onClick = { inCartLocal = !inCartLocal; onClickBuy() }
             )
         }
@@ -106,4 +101,34 @@ fun Buttons(
     }
 }
 
+@Composable
+private fun RowScope.InCartButton(
+    onClick: () -> Unit
+) {
+    var labelFontSize by remember { mutableStateOf(16.sp) }
 
+    Button(
+        modifier = Modifier.weight(0.7f),
+        backgroundColor = MaterialTheme.colorScheme.secondary,
+        onClick = onClick,
+        content = {
+            Text(
+                text = stringResource(id = R.string.in_cart),
+                color = MaterialTheme.colorScheme.onSecondary,
+                style = MaterialTheme.typography.labelLarge,
+                maxLines = 1,
+                fontSize = labelFontSize,
+                onTextLayout = {
+                    if (it.hasVisualOverflow) {
+                        labelFontSize *= 0.9f
+                    }
+                },
+                modifier = Modifier
+                    .padding(
+                        vertical = 12.dp,
+                        horizontal = 16.dp
+                    )
+            )
+        }
+    )
+}

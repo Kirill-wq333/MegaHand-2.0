@@ -1,6 +1,7 @@
 package com.evothings.mhand.presentation.feature.catalog.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -27,11 +29,24 @@ import com.evothings.mhand.presentation.theme.paddings
 @Composable
 fun HintsList(
     text: String,
+    onClick: () -> Unit
+){
+    HintsList(
+        text = AnnotatedString(text),
+        onClick = onClick
+    )
+}
+
+@Composable
+fun HintsList(
+    text: AnnotatedString,
+    onClick: () -> Unit
     ) {
     Column {
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable { onClick() },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
