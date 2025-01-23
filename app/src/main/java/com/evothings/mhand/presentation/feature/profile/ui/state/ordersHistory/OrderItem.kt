@@ -191,9 +191,6 @@ private fun Heading(
                     color = colorScheme.secondary
                 )
             }
-            Spacer(
-                modifier = Modifier.weight(0.1f)
-            )
             Icon(
                 imageVector = ImageVector.vectorResource(id = icon),
                 tint = colorScheme.secondary.copy(
@@ -201,7 +198,6 @@ private fun Heading(
                 ),
                 contentDescription = null,
                 modifier = Modifier
-                    .weight(0.1f)
                     .size(20.dp)
             )
         }

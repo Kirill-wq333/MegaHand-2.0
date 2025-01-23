@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,42 +15,72 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ModalBottomSheetDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import com.evothings.domain.feature.address.model.Address
+import com.evothings.domain.feature.profile.model.Profile
+import com.evothings.domain.feature.profile.model.Referal
+import com.evothings.domain.feature.profile.model.ReferalInfo
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.profile.ui.ProfileCallback
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.Block
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.BlockCashback
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.Data
+import com.evothings.mhand.presentation.feature.profile.ui.state.data.bottomsheet.DeleteAccount
+import com.evothings.mhand.presentation.feature.profile.ui.state.data.bottomsheet.RefactorProfile
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
-import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
+import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
+import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileDataScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    profile: Profile,
+    referalInfo: ReferalInfo,
+    addresses: List<Address>,
+    callback: ProfileCallback
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = colorScheme.onSecondary)
-    ) {
-        ProfileData()
-    }
-}
+    val scope = rememberCoroutineScope()
 
-@Composable
-fun ProfileData(
-    modifier: Modifier = Modifier
-) {
+    val fullName = remember(profile) { "${profile.firstName} ${profile.lastName}" }
+
+    var editProfileBottomSheetExpanded by remember { mutableStateOf(false) }
+    val editProfileBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    var deleteProfileBottomSheetExpanded by remember { mutableStateOf(false) }
+
+    var selectedAddress by remember {
+        val primaryAddressIndex = addresses
+            .indexOfFirst { it.main }
+            .coerceAtLeast(0)
+
+        mutableIntStateOf(primaryAddressIndex)
+    }
 
     Column(
         modifier = modifier
@@ -74,13 +105,22 @@ fun ProfileData(
                 .fillMaxWidth()
                 .padding(MaterialTheme.paddings.extraGiant)
         ) {
-            Action()
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
             Data(
-                nameAndSurName = "Иванов Иван"
+                nameAndSurName = fullName,
+                birthday = profile.birthday,
+                city = profile.city,
+                phoneNumber = profile.phoneNumber,
+                email = profile.email,
+                onEditProfile = { editProfileBottomSheetExpanded = true }
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.mega))
-            Referral()
+            Referral(
+                cashback = profile.cashback,
+                referalCode = profile.referalCode,
+                referalProfit = referalInfo.balance,
+                referals = referalInfo.referalsList
+            )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.mega))
             Box(
                 modifier = Modifier
@@ -91,68 +131,207 @@ fun ProfileData(
                     Button(
                         text = stringResource(R.string.logout),
                         textColor = colorScheme.secondary,
-                        onClick = {}
+                        onClick = callback::logout
                     )
                     Spacer(modifier = Modifier.width(MaterialTheme.paddings.extraLarge))
                     Button(
                         text = stringResource(R.string.delete_account),
                         textColor = colorScheme.secondary,
-                        onClick = {}
+                        onClick = { deleteProfileBottomSheetExpanded = true }
                     )
 
                 }
             }
         }
     }
+    if (editProfileBottomSheetExpanded) {
+        ModalBottomSheet(
+            sheetState = editProfileBottomSheetState,
+            properties = ModalBottomSheetDefaults.properties(shouldDismissOnBackPress = false),
+            onDismissRequest = { editProfileBottomSheetExpanded = false },
+        ) {
 
+            fun hide() {
+                scope.launch {
+                    editProfileBottomSheetState.hide()
+                    editProfileBottomSheetExpanded = false
+                }
+            }
+
+            RefactorProfile(
+                modifier = Modifier.modalBottomSheetPadding(),
+                model = profile,
+                onCancel = { hide() },
+                onSaveChanges = { profile, changePhone, phone ->
+                    hide()
+                    callback.updateProfile(profile)
+                    if (changePhone) {
+                        callback.confirmPhone(phone)
+                    }
+                },
+            )
+        }
+    }
+
+    if (deleteProfileBottomSheetExpanded) {
+        MhandModalBottomSheet(
+            onDismissRequest = { deleteProfileBottomSheetExpanded = false },
+        ) {
+            DeleteAccount(
+                modifier = Modifier.modalBottomSheetPadding(),
+                onCancel = { deleteProfileBottomSheetExpanded = false },
+                onDelete = callback::deleteAccount
+            )
+        }
+    }
 }
 
 @Composable
-fun Referral(modifier: Modifier = Modifier) {
+fun Referral(
+    modifier: Modifier = Modifier,
+    cashback: Int,
+    referalCode: String,
+    referalProfit: Int,
+    referals: List<Referal>
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
     ) {
         BlockCashback(
-            cashback = 5
+            cashback = cashback
         )
         Block(
             text = stringResource(R.string.shipping_address),
-            content = {}
+            content = {
+
+            }
         )
         Block(
-            text = "5GH78",
+            text = referalCode,
             visiblePrize = true,
             visibleText = true,
-            content = {}
+            content = {
+                AnimatedContent(
+                    profit = referalProfit,
+                    referals = referals
+                )
+            }
         )
+
     }
 }
 
 @Composable
-fun Action(
-    modifier: Modifier = Modifier
+private fun AnimatedContent(
+    profit: Int,
+    referals: List<Referal>
 ) {
-    Row {
-        Button(
-            text = stringResource(R.string.user_data_chip),
-            textColor = colorScheme.secondary,
-            borderColor = colorScheme.primary,
-            onClick = {}
-        )
-        Spacer(modifier = Modifier.width(MaterialTheme.spacers.small))
-        Button(
-            text = stringResource(R.string.orders_history_chip),
-            textColor = colorScheme.secondary,
-            borderColor = colorScheme.secondary.copy(.1f),
-            onClick = {}
-        )
+    Text(
+        text = stringResource(id = R.string.referal_instruction),
+        style = typography.bodyMedium,
+        color = colorScheme.secondary.copy(0.6f)
+    )
+    Spacer(
+        modifier = Modifier
+            .height(MaterialTheme.spacers.extraLarge)
+    )
+    ReferalProfitCard(
+        profit = profit
+    )
+    Spacer(
+        modifier = Modifier
+            .height(MaterialTheme.spacers.extraLarge)
+    )
+    Text(
+        text = stringResource(R.string.referals_count, referals.size),
+        style = typography.labelLarge,
+        color = colorScheme.secondary
+    )
+    Spacer(
+        modifier = Modifier
+            .height(MaterialTheme.spacers.large)
+    )
+    Column(
+        modifier = Modifier
+            .height(IntrinsicSize.Min)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
+    ) {
+        repeat(referals.size) {
+            val item = remember { referals[it] }
+
+            ReferalItem(
+                name = item.name,
+                cashback = item.cashback,
+                joinedSince = item.joinDate
+            )
+        }
     }
 }
-@Preview
+
 @Composable
-private fun ProfileDataPreview() {
-    MegahandTheme {
-        ProfileDataScreen()
+private fun ReferalProfitCard(profit: Int) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = colorScheme.inverseSurface.copy(0.1f),
+                shape = MaterialTheme.shapes.medium
+            ),
+        contentAlignment = Alignment.CenterStart
+    ) {
+        Column(
+            modifier = Modifier.padding(MaterialTheme.spacers.medium)
+        ) {
+            Text(
+                text = stringResource(R.string.referal_profit),
+                style = typography.bodyLarge,
+                color = colorScheme.secondary
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(MaterialTheme.spacers.small)
+            )
+            Text(
+                text = "${profit.splitHundreds(NumberSeparator.SPACE)} ₽",
+                style = typography.headlineSmall,
+                color = colorScheme.secondary
+            )
+        }
+    }
+}
+
+@Composable
+private fun ReferalItem(
+    name: String,
+    cashback: Int,
+    joinedSince: String
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
+            Text(
+                text = name,
+                style = typography.bodyMedium
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(MaterialTheme.spacers.tiny)
+            )
+            Text(
+                text = stringResource(R.string.cashback) + ": $cashback%",
+                style = typography.bodyMedium,
+                color = colorScheme.secondary.copy(0.4f)
+            )
+        }
+        Text(
+            text = joinedSince,
+            style = typography.bodyMedium,
+            color = colorScheme.secondary.copy(0.4f)
+        )
     }
 }

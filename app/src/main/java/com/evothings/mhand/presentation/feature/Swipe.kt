@@ -97,6 +97,7 @@ fun SwipeToDeleteLeftRightItem(item: String, onDelete: (String) -> Unit) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(horizontal = 30.dp)
                     .offset { IntOffset(animatedOffsetX.roundToPx(), 0) },
                 verticalAlignment = Alignment.CenterVertically
             ) {

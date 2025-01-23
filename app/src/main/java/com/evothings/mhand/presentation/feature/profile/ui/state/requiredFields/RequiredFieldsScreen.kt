@@ -1,5 +1,6 @@
-    package com.evothings.mhand.presentation.feature.profile.ui.state.requiredFields
+package com.evothings.mhand.presentation.feature.profile.ui.state.requiredFields
 
+import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,9 +19,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +36,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.evothings.domain.feature.profile.model.Profile
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.text.DatePickerTextField
@@ -42,39 +47,43 @@ import com.evothings.mhand.presentation.feature.shared.text.transform.TextMasks
 import com.evothings.mhand.presentation.feature.shared.text.transform.rememberMaskVisualTransformation
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
+import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.utils.date.DateValidator
 
-@Preview
-@Composable
-private fun RequiredFieldsScreenPreview() {
-    MegahandTheme {
-        RequiredFieldsScreen()
-    }
-}
 
 @Composable
 fun RequiredFieldsScreen(
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorScheme.onSecondary)
-    ) {
-        Content(
-            onChangePhone = {},
-            selected = false
-        )
-    }
-}
-
-@Composable
-private fun Content(
     modifier: Modifier = Modifier,
-    onChangePhone: (String) -> Unit,
-    selected: Boolean
+    model: Profile,
+    onSave: (Profile) -> Unit
 ) {
+    var name by rememberSaveable { mutableStateOf(model.firstName) }
+    var surname by rememberSaveable { mutableStateOf(model.lastName) }
+    var email by rememberSaveable { mutableStateOf(model.email) }
+    var city by remember { mutableStateOf(model.city) }
+    var date by remember { mutableStateOf(model.birthday) }
+
+    val isSaveButtonEnabled by remember {
+        derivedStateOf {
+            val emailValid = email.matches(Patterns.EMAIL_ADDRESS.toRegex())
+            val dateValid = DateValidator.isBeforeToday(date)
+
+            (name.isNotEmpty() && surname.isNotEmpty()) &&
+                    (email.isEmpty() || emailValid) && (date.isEmpty() || dateValid)
+        }
+    }
+
+    val newProfile by rememberUpdatedState(
+        newValue = Profile(
+            firstName = name,
+            lastName = surname,
+            birthday = date,
+            city = city,
+            email = email,
+        )
+    )
 
     Column(
         modifier = Modifier
@@ -94,16 +103,19 @@ private fun Content(
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         Data(
-            onChangePhone = onChangePhone
+            model = model,
+            enablePhoneField = false
+
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         Button(
             modifier = Modifier
                 .fillMaxWidth(),
             text = stringResource(R.string.proceed),
-            textColor = if (selected) colorScheme.secondary else colorScheme.onSecondary,
-            backgroundColor = if (selected) colorScheme.primary else colorScheme.secondary.copy(.1f),
-            onClick = {}
+            backgroundColor = colorScheme.primary,
+            textColor = ColorTokens.Graphite,
+            onClick = { onSave(newProfile) },
+            isEnabled = isSaveButtonEnabled
         )
     }
 
@@ -112,19 +124,32 @@ private fun Content(
 @Composable
 private fun Data(
     modifier: Modifier = Modifier,
-    onChangePhone: (String) -> Unit
+    model: Profile,
+    onChangePhone: (String) -> Unit = {},
+    enablePhoneField: Boolean = true,
 ) {
 
     val focusManager = LocalFocusManager.current
 
     var selectCityBottomSheetVisible by remember { mutableStateOf(false) }
 
-    var email by remember { mutableStateOf("") }
-    var surname by remember { mutableStateOf("") }
-    var name by remember { mutableStateOf("") }
-    var phone by remember { mutableStateOf("") }
-    var city by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf(model.email) }
+    var surname by remember { mutableStateOf(model.lastName) }
+    var name by remember { mutableStateOf(model.firstName) }
+    var phone by remember { mutableStateOf(model.phoneNumber) }
+    var city by remember { mutableStateOf(model.city) }
+    var date by remember { mutableStateOf(model.birthday) }
+
+    val isSaveButtonEnabled by remember {
+        derivedStateOf {
+            val emailValid = email.matches(Patterns.EMAIL_ADDRESS.toRegex())
+            val dateValid = DateValidator.isBeforeToday(date)
+
+            (name.isNotEmpty() && surname.isNotEmpty()) &&
+                    (email.isEmpty() || emailValid) && (date.isEmpty() || dateValid)
+        }
+    }
+
 
     Column(
         modifier = Modifier
@@ -142,7 +167,7 @@ private fun Data(
                 text = stringResource(R.string.name),
                 visibleAttention = true,
                 visiblePrize = true,
-                onValueChange = { },
+                onValueChange = { name = it },
                 textField = name
             )
             TextAndTextField(
@@ -155,6 +180,7 @@ private fun Data(
                 onValueChange = { surname = it }
             )
         }
+        if (enablePhoneField){
         LabelTextField(
             value = phone,
             label = stringResource(id = R.string.phone_number),
@@ -163,10 +189,11 @@ private fun Data(
             maxLength = 11,
             onValueChange = onChangePhone
         )
+        }
         TextAndTextField(
             text = stringResource(R.string.profile_email),
             visiblePrize = true,
-            onValueChange = {  },
+            onValueChange = { email = it },
             textField = email
         )
         TrailingButtonTextField(
@@ -191,7 +218,7 @@ private fun Data(
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
             DatePickerTextField(
                 date = date,
-                onDateChange = {}
+                onDateChange = { date = it }
             )
         }
     }

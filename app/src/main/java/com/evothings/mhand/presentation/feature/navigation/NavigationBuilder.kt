@@ -42,6 +42,7 @@ import com.evothings.mhand.presentation.feature.news.ui.NewsScreen
 import com.evothings.mhand.presentation.feature.onboarding.ui.screen.WelcomeOnboarding
 import com.evothings.mhand.presentation.feature.product.ui.ProductInfoScreen
 import com.evothings.mhand.presentation.feature.product.viewmodel.ProductViewModel
+import com.evothings.mhand.presentation.feature.profile.ui.ProfileScreen
 import com.evothings.mhand.presentation.feature.profile.viewmodel.ProfileViewModel
 import com.evothings.mhand.presentation.feature.shared.screen.ImageViewScreen
 import com.evothings.mhand.presentation.feature.shared.screen.LoadingTechnicalServiceScreen
@@ -258,7 +259,21 @@ fun NavGraphBuilder.buildNavigation(
         val profileVm = hiltViewModel<ProfileViewModel>()
 
         CompositionLocalProvider(LocalNavController provides navController) {
-
+            ProfileScreen(
+                vm = profileVm,
+                openAuth = { navController.navigate(NavGraph.Auth.AuthenticationScreen) },
+                openProductInfoScreen = { id -> navController.navigate(NavGraph.ProductInfo(id)) },
+                openCatalog = { navController.navigate(NavGraph.BottomNav.Catalog) },
+                openAddressMap = { city -> navController.navigate(NavGraph.AddressMap(city)) },
+                openCheckoutScreen = { orderId ->
+                    navController.navigate(NavGraph.BottomNav.ShoppingCart.Checkout(orderId))
+                },
+                openConfirmPhoneScreen = { phone ->
+                    navController.navigate(
+                        NavGraph.ConfirmationCode(phone, ConfirmCodeUseCase.PROFILE.ordinal)
+                    )
+                },
+            )
         }
     }
 
