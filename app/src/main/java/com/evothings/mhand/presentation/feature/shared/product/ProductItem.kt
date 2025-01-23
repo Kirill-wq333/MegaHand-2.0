@@ -1,26 +1,38 @@
 package com.evothings.mhand.presentation.feature.shared.product
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,6 +46,7 @@ import com.evothings.mhand.presentation.feature.shared.product.callback.ProductC
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import kotlinx.coroutines.delay
 
 @Composable
 fun ProductItem(
@@ -79,7 +92,12 @@ fun InStockProductItem(
         contentAlignment = Alignment.TopStart
     ){
         Column() {
-            PhotoSlider(product = model.photos)
+            PhotoSlider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp),
+                product = model.photos
+            )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
             Information(
                 discount = discount,
@@ -124,7 +142,12 @@ fun OutOfStockProductItem(
             ),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        PhotoSlider(product = model.photos)
+        PhotoSlider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp),
+            product = model.photos
+        )
         Text(
             text = stringResource(R.string.out_of_stock),
             style = MaterialTheme.typography.headlineMedium,
@@ -144,17 +167,119 @@ fun OutOfStockProductItem(
 
 @Composable
 fun PhotoSlider(
+    modifier: Modifier = Modifier,
     product: List<String>
 ) {
+
+    val pagerState = rememberPagerState { product.size }
+
+    val indicatorVisibilityTimer = 1000L
+    val isIndicatorVisible = remember { mutableStateOf(false) }
+
+    LaunchedEffect(isIndicatorVisible.value, pagerState.currentPage) {
+        if (isIndicatorVisible.value) {
+            delay(indicatorVisibilityTimer)
+            isIndicatorVisible.value = false
+        }
+    }
+
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        if (product.size in 0..1) {
+           ProductPhoto(
+                link = product.firstOrNull().orEmpty()
+            )
+        } else {
+            Pager(
+                state = pagerState,
+                photos = product,
+                onPress = { isIndicatorVisible.value = true }
+            )
+            AnimatedVisibility(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                visible = isIndicatorVisible.value,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+               PageIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    pages = product.size,
+                    current = pagerState.currentPage
+                )
+            }
+        }
+    }
+
+}
+
+@Composable
+private fun BoxScope.Pager(
+    state: PagerState,
+    photos: List<String>,
+    onPress: () -> Unit
+) {
+    HorizontalPager(
+        modifier = Modifier
+            .matchParentSize()
+            .pointerInput(PointerEventType.Press) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent()
+                        if (event.type == PointerEventType.Press) onPress()
+                    }
+                }
+            },
+        pageSpacing = MaterialTheme.spacers.tiny,
+        state = state
+    ) { page ->
+        ProductPhoto(
+            link = photos[page]
+        )
+    }
+}
+
+@Composable
+private fun ProductPhoto(
+    modifier: Modifier = Modifier,
+    link: String
+) {
     AsyncImage(
-        model = product,
+        model = link,
         error =painterResource(id = R.drawable.no_photo_placeholder) ,
         placeholder = painterResource(R.drawable.image_placeholder),
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(shape = shapes.large)
-            .height(180.dp)
     )
+}
+
+@Composable
+private fun PageIndicator(
+    modifier: Modifier,
+    pages: Int,
+    current: Int
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.tiny)
+    ) {
+        repeat(pages) {
+            Box(
+                modifier = Modifier
+                    .weight(0.2f)
+                    .height(1.dp)
+                    .background(
+                        color = colorScheme.secondary.copy(
+                            alpha = if (current == it) 1.0f else 0.2f
+                        )
+                    )
+            )
+        }
+    }
 }

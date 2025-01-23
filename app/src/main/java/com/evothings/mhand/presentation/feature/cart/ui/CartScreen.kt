@@ -31,13 +31,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.product.model.Product
 import com.evothings.domain.util.Mock
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.cart.ui.components.AuthorizationRequired
 import com.evothings.mhand.presentation.feature.cart.ui.components.Checkout
 import com.evothings.mhand.presentation.feature.cart.ui.components.productsList
 import com.evothings.mhand.presentation.feature.cart.viewmodel.CartContract
 import com.evothings.mhand.presentation.feature.cart.viewmodel.CartViewModel
 import com.evothings.mhand.presentation.feature.onboarding.ui.screen.CartHeading
+import com.evothings.mhand.presentation.feature.onboarding.ui.screen.CartOnboardingScreen
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
+import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
+import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
+import com.evothings.mhand.presentation.feature.shared.screen.EmptyListScreen
+import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.spacers
@@ -127,26 +133,31 @@ fun CartScreen(
             vm.handleEvent(CartContract.Event.FinishOnboarding)
     }
 
-    CartContent(
-        products = products,
-        cashbackPoints = cashbackPoints,
-        summary = summary,
-        discount = discount,
-        isAuthorized = isAuthorized.value,
-        callback = callback,
-        total = total
-    )
+    if (state is CartContract.State.OnboardingActive) {
+        CartOnboardingScreen(
+            onFinish = callback::finishOnboarding
+        )
+    } else {
+        CartContent(
+            state = state,
+            uiState = CartUiState(
+                products = products,
+                total = total,
+                discount = discount,
+                cashbackPoints = cashbackPoints,
+                summary = summary,
+                isAuthorized = isAuthorized.value
+            ),
+            callback = callback
+        )
+    }
 }
 
 @Composable
 private fun CartContent(
     modifier: Modifier = Modifier,
-    products: List<Product>,
-    total: Double,
-    discount: Double,
-    cashbackPoints: Double,
-    summary: Double,
-    isAuthorized: Boolean,
+    state: CartContract.State,
+    uiState: CartUiState,
     callback: CartCallback
 ) {
     Scaffold(
@@ -159,15 +170,37 @@ private fun CartContent(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            Content(
-                callback = callback,
-                cashbackPoints = cashbackPoints,
-                products = products,
-                discount = discount,
-                total = total,
-                isAuthorized = isAuthorized,
-                summary = summary
-            )
+            when(state) {
+                is CartContract.State.Loading -> {
+                    LoadingScreen()
+                }
+                is CartContract.State.Loaded -> {
+                    PullRefreshLayout(onRefresh = callback::refreshScreen) {
+                        Content(
+                            products = uiState.products,
+                            total = uiState.total,
+                            discount = uiState.discount,
+                            cashbackPoints = uiState.cashbackPoints,
+                            summary = uiState.summary,
+                            isAuthorized = uiState.isAuthorized,
+                            callback = callback
+                        )
+                    }
+                }
+                is CartContract.State.NoItems -> {
+                    EmptyListScreen(
+                        text = stringResource(id = R.string.empty_cart_text),
+                        onClickOpenCatalog = callback::openCatalog
+                    )
+                }
+                is CartContract.State.ServerError -> {
+                    ServerErrorScreen(
+                        onRefresh = callback::refreshScreen
+                    )
+                }
+
+                else -> {}
+            }
         }
     }
 }
@@ -247,6 +280,10 @@ private fun Content(
                             callback.proceedToCheckout(selectionList)
                         }
                     )
+                }else{
+                    AuthorizationRequired(
+                        onClickLogin = callback::openAuthScreen
+                    )
                 }
             }
         }
@@ -289,12 +326,15 @@ private fun CartContentPreview() {
 
     MegahandTheme {
         CartContent(
-            products = Mock.demoProductsList,
-            total = 0.0,
-            discount = 0.0,
-            cashbackPoints = 0.0,
-            summary = 0.0,
-            isAuthorized = true,
+            uiState = CartUiState(
+                products = Mock.demoProductsList,
+                total = 8.9,
+                discount = 10.11,
+                cashbackPoints = 12.13,
+                summary = 14.15,
+                isAuthorized = false,
+            ),
+            state = CartContract.State.Loaded,
             callback = object : CartCallback{
                 override fun refreshScreen(){}
                 override fun openCatalog(){}

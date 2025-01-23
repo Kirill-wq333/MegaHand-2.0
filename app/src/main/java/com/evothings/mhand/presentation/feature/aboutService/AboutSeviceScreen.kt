@@ -124,7 +124,7 @@ private fun ServiceVideo(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .matchParentSize()
-                .padding(top =  MaterialTheme.paddings.extraLarge)
+                .padding(horizontal = MaterialTheme.paddings.extraLarge)
                 .clip(MegahandShapes.extraLarge)
             )
         Box(
@@ -208,7 +208,7 @@ fun Footer(
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = MaterialTheme.paddings.large)
+                .padding(horizontal = MaterialTheme.paddings.extraLarge)
                 .clip(MegahandShapes.extraLarge)
         )
 }

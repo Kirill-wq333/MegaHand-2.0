@@ -5,6 +5,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,13 +15,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
@@ -74,8 +78,7 @@ fun FilterAndSort(
 
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .background(color = colorScheme.onSecondary)
+            .verticalScroll(rememberScrollState())
     ) {
         repeat(filters.keys.size) { i ->
             val key = remember { filters.keys.elementAt(i) }
@@ -90,6 +93,10 @@ fun FilterAndSort(
                 title = key,
                 enableRadio = isSorting,
                 entries = filterEntries,
+                onExpandChange = { expanded ->
+                    if (expanded) currentFilterExpanded = i
+                },
+                isExpanded = (i == currentFilterExpanded),
                 onSelect = { entry ->
                     val oldList = selectedLocal[key]?.toMutableList() ?: mutableListOf()
                     val list = if (isSorting) mutableListOf() else oldList
@@ -131,12 +138,18 @@ private fun FilterAndSortContent(
     modifier: Modifier = Modifier,
     selected: List<Int>,
     entries: List<FilterValue>,
-    enableRadio: Boolean,
+    enableRadio: Boolean = false,
     title: String,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
+    isExpanded: Boolean,
+    onExpandChange: (Boolean) -> Unit
 ) {
     val selectedLocal = remember(selected) {
         mutableStateListOf(*selected.toTypedArray())
+    }
+
+    var expanded by remember(isExpanded) {
+        mutableStateOf(isExpanded)
     }
 
     Column(
@@ -145,6 +158,8 @@ private fun FilterAndSortContent(
     ) {
         CardItem(
             text = title,
+            isExpanded = expanded,
+            onExpandChange = onExpandChange,
             content = {
                 TextAndCheckBoxs(
                     selected = selectedLocal,
@@ -177,11 +192,16 @@ fun TextAndCheckBoxs(
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(
+                min = 100.dp,
+                max = 280.dp
+            )
             .padding(
                 horizontal = MaterialTheme.paddings.giant,
                 vertical = MaterialTheme.paddings.extraLarge
             ),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(entries){ item ->
             TextAndCheckBox(
@@ -198,57 +218,29 @@ fun TextAndCheckBoxs(
 private fun CardItem(
     modifier: Modifier = Modifier,
     text: String,
-    onExpandStateChange: (Boolean) -> Unit = {},
-    content: @Composable () -> Unit
+    isExpanded: Boolean,
+    onExpandChange: (Boolean) -> Unit,
+    content: @Composable () -> Unit,
 ) {
-    var isExpanded by rememberSaveable(Unit, BooleanSaver) { mutableStateOf(false) }
-
-    val iconTint = MaterialTheme.colorScheme.secondary.copy(
-        alpha = if (isExpanded) 1.0f else 0.4f
-    )
-    val background =
-        if (isExpanded) colorScheme.secondary.copy(.05f)
-        else colorScheme.onSecondary
-
-    val icon = remember(isExpanded) {
-        if (isExpanded) R.drawable.ic_chevron_top
-        else R.drawable.ic_chevron_bottom
+    var expanded by remember(isExpanded) {
+        mutableStateOf(isExpanded)
     }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(background)
-                .clickable { isExpanded = !isExpanded; onExpandStateChange(isExpanded) },
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = MaterialTheme.paddings.extraGiant,
-                        vertical = MaterialTheme.paddings.giant
-                    ),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = text,
-                    color = colorScheme.secondary,
-                    style = MegahandTypography.headlineSmall
-                )
-                IconButton(
-                    icon = ImageVector.vectorResource(icon),
-                    iconPadding = 0.dp,
-                    tint = iconTint,
-                    onClick = { }
-                )
+        Item(
+            text = text,
+            isExpanded = expanded,
+            onExpand = {
+                expanded = !expanded
+                onExpandChange(expanded)
             }
-        }
+        )
+
         AnimatedVisibility(
-            visible = isExpanded,
+            visible = expanded,
             enter = expandVertically(),
             exit = shrinkVertically()
         ) {
@@ -262,6 +254,58 @@ private fun CardItem(
     }
 
 }
+@Composable
+fun Item(
+    text: String,
+    isExpanded: Boolean,
+    onExpand: () -> Unit
+){
+    val iconTint = MaterialTheme.colorScheme.secondary.copy(
+        alpha = if (isExpanded) 1.0f else 0.4f
+    )
+    val background =
+        if (isExpanded) colorScheme.secondary.copy(.05f)
+        else colorScheme.onSecondary
+
+    val icon = remember(isExpanded) {
+        if (isExpanded) R.drawable.ic_chevron_top
+        else R.drawable.ic_chevron_bottom
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(background)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onExpand
+            ),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = MaterialTheme.paddings.extraGiant,
+                    vertical = MaterialTheme.paddings.giant
+                ),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = text,
+                color = colorScheme.secondary,
+                style = MegahandTypography.headlineSmall
+            )
+            Icon(
+                imageVector = ImageVector.vectorResource(icon),
+                tint = iconTint,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
+}
 
 @Composable
 fun TextAndCheckBox(
@@ -272,12 +316,19 @@ fun TextAndCheckBox(
     onClick: () -> Unit
 ) {
 
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick
+            )
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.paddings.giant)
-                .clickable { onClick() },
+                .padding(horizontal = MaterialTheme.paddings.giant),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
@@ -288,16 +339,11 @@ fun TextAndCheckBox(
                     .padding(MaterialTheme.paddings.medium)
             )
             if (visibleChecker) {
-                CheckboxChecker(
-                    isChecked = isChecked,
-                    modifier = Modifier
-                        .padding(
-                            horizontal = MaterialTheme.paddings.medium,
-                            vertical = MaterialTheme.paddings.large
-                        )
+                RadioChecker(
+                    isChecked = isChecked
                 )
             } else {
-                RadioChecker(
+                CheckboxChecker(
                     isChecked = isChecked
                 )
             }

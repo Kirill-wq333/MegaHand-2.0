@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -25,9 +27,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,12 +46,15 @@ import com.evothings.mhand.presentation.feature.card.viewmodel.CardContract
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardViewModel
 import com.evothings.mhand.presentation.feature.card.viewmodel.enumeration.CardFilterType
 import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
+import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
 import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.feature.shared.screen.UserIsNotAuthorized
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
+import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.Connectivity
 
@@ -173,11 +181,6 @@ private fun Content(
 
     var filterPickerBottomSheetExpanded by remember { mutableStateOf(false) }
 
-    val transactionsListIsEmpty by remember {
-        derivedStateOf {
-            uiState.transactions.isEmpty() && uiState.currentFilter == CardFilterType.ALL
-        }
-    }
 
 
     LazyColumn(
@@ -193,20 +196,66 @@ private fun Content(
                 showQR = { qrViewIsVisible = true }
             )
         }
-        item {
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.mega))
+        when {
+            offlineMode -> {
+                item {
+                    OfflineMode(
+                        onReload = callback::refresh
+                    )
+                }
+            }
+            else -> {
+                history(
+                    currentFilter = uiState.currentFilter,
+                    transactions = uiState.transactions,
+                    isFilterModalExpanded = filterPickerBottomSheetExpanded,
+                    openFilterSelector = { filterPickerBottomSheetExpanded = true },
+                )
+            }
         }
-        item {
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        }
-        history(
-            currentFilter = uiState.currentFilter,
-            transactions = uiState.transactions,
-            isFilterModalExpanded = filterPickerBottomSheetExpanded,
-            openFilterSelector = { filterPickerBottomSheetExpanded = true },
-        )
     }
 
+}
+
+@Composable
+fun OfflineMode(
+    modifier: Modifier = Modifier,
+    onReload: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = MaterialTheme.paddings.extraGiant),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.ic_card_offline),
+            contentDescription = null,
+            modifier = Modifier
+                .size(100.dp)
+        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        Text(
+            text = stringResource(R.string.card_offline_mode_title),
+            color = colorScheme.secondary,
+            style = MegahandTypography.headlineMedium
+        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
+        Text(
+            text = stringResource(R.string.card_offline_mode_subtitle),
+            color = colorScheme.secondary.copy(.6f),
+            style = MegahandTypography.bodyLarge
+        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        Button(
+            modifier = Modifier
+                .fillMaxWidth(),
+            text = stringResource(R.string.reload_page),
+            textColor = colorScheme.secondary,
+            borderColor = colorScheme.secondary.copy(.1f),
+            onClick = onReload,
+        )
+    }
 }
 
 private fun LazyListScope.history(

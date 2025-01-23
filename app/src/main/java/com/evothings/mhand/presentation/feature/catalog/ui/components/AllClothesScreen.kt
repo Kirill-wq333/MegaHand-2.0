@@ -1,6 +1,5 @@
 package com.evothings.mhand.presentation.feature.catalog.ui.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,12 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
@@ -49,19 +43,17 @@ import com.evothings.mhand.presentation.feature.catalog.ui.CatalogCallback
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogUiState
 import com.evothings.mhand.presentation.feature.catalog.ui.components.filters.FilterAndSort
 import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogContract
-import com.evothings.mhand.presentation.feature.home.ui.components.PreloadItem
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Chip
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
+import com.evothings.mhand.presentation.feature.shared.product.ProductItem
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
 import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
 import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
-import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
-import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 
 @Composable
@@ -79,7 +71,8 @@ fun AllClothesScreen(
         selectedSubcategory = uiState.selectedSubcategory,
         initialGridScrollPosition = uiState.gridScrollPosition,
         openFilterBottomSheet = { filterBottomSheetExpanded = true },
-        callback = callback
+        callback = callback,
+        gridScrollPosition = uiState.gridScrollPosition
     )
 
 
@@ -107,7 +100,8 @@ private fun ClothesContent(
     initialGridScrollPosition: Int,
     selectedSubcategory: ProductCategory?,
     openFilterBottomSheet: () -> Unit,
-    callback: CatalogCallback
+    callback: CatalogCallback,
+    gridScrollPosition: Int
 ){
     val screenTitle = remember(state) {
         if (state is CatalogContract.State.SubcategoryProducts) state.category.title else ""
@@ -137,7 +131,11 @@ private fun ClothesContent(
                             selectedName = selectedSubcategory?.title.orEmpty(),
                             prodCount = productsCount,
                             onClickFilter = openFilterBottomSheet,
-                            onClickSubcategory = callback::selectSubcategory
+                            onClickSubcategory = callback::selectSubcategory,
+                            callback = callback,
+                            products = products,
+                            gridScrollPosition = gridScrollPosition,
+
                         )
                     }
                 }
@@ -177,16 +175,17 @@ private fun ClothesContent(
 @Composable
 private fun Content(
     subcategories: List<ProductCategory>?,
+    products: LazyPagingItems<Product>,
     prodCount: Int,
+    gridScrollPosition: Int,
     onClickFilter: () -> Unit,
     selectedName: String,
-    onClickSubcategory: (ProductCategory) -> Unit
+    onClickSubcategory: (ProductCategory) -> Unit,
+    callback: CatalogCallback
 ) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
             .padding(horizontal = MaterialTheme.paddings.extraLarge),
         horizontalAlignment = Alignment.Start,
     ) {
@@ -209,6 +208,16 @@ private fun Content(
             onClickFilter = onClickFilter,
             prodCount = prodCount
         )
+        Spacer(
+            modifier = Modifier
+                .height(MaterialTheme.spacers.medium)
+        )
+        ProductList(
+            products = products,
+            initialScrollPosition = gridScrollPosition,
+            callback = callback,
+            onChangeScrollPosition = callback::updatePagingGridScrollPosition
+        )
     }
 }
 
@@ -230,13 +239,13 @@ fun FilterAndSorting(
             style = MegahandTypography.bodyLarge,
             modifier = Modifier
                 .padding(MaterialTheme.paddings.medium)
+                .clickable { onClickFilter() }
         )
         Text(
             text = stringResource(R.string.products_count, prodCount),
             color = colorScheme.secondary.copy(0.4f),
             style = MegahandTypography.bodyLarge,
             modifier = Modifier
-                .clickable { onClickFilter() }
                 .padding(
                     horizontal = MaterialTheme.paddings.extraLarge,
                     vertical = MaterialTheme.paddings.medium
@@ -294,7 +303,7 @@ fun Products(
         ) { index ->
             val item = products.get(index)
             item?.let { i ->
-                PreloadItem(
+                ProductItem(
                     model = i,
                     callback = callback
                 )

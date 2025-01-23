@@ -2,6 +2,7 @@ package com.evothings.mhand.presentation.feature.cart.ui.components.productCompo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,12 +10,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,14 +25,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.evothings.domain.feature.product.model.Product
 import com.evothings.domain.util.Mock
 import com.evothings.mhand.R
@@ -39,6 +37,8 @@ import com.evothings.mhand.presentation.feature.home.ui.components.preloadCompon
 import com.evothings.mhand.presentation.feature.home.ui.components.preloadComponents.SizeAndStars
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.checkbox.CheckboxChecker
+import com.evothings.mhand.presentation.feature.shared.product.components.PhotosSlider
+import com.evothings.mhand.presentation.feature.shared.product.components.ProductPhoto
 import com.evothings.mhand.presentation.feature.shared.text.saver.BooleanSaver
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
@@ -100,12 +100,13 @@ fun InStockCart(
             .fillMaxWidth()
             .clickable { onClick() }
     ) {
-        PhotoProducts(
+        ImageSliderWithCheckbox(
             modifier = Modifier
-                .size(177.dp),
-            photo = model.photos,
+                .weight(0.5f)
+                .fillMaxSize(),
+            images = model.photos,
             isChecked = isCheckedLocal,
-            onCheck = onCheck
+            onCheck = onCheck,
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.extraMedium))
         Column {
@@ -148,12 +149,11 @@ fun OutOfStockCart(
             .fillMaxWidth()
             .clickable { onClick() }
     ) {
-        PhotoProducts(
+        ProductPhoto(
             modifier = Modifier
-                .size(177.dp),
-            photo = model.photos,
-            isChecked = isChecked,
-            onCheck = onCheck
+                .width(100.dp)
+                .fillMaxSize(),
+            link = model.photos.firstOrNull().orEmpty()
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
         Text(
@@ -176,6 +176,43 @@ fun OutOfStockCart(
         )
     }
 }
+
+@Composable
+private fun ImageSliderWithCheckbox(
+    modifier: Modifier,
+    images: List<String>,
+    isChecked: Boolean,
+    onCheck: () -> Unit
+) {
+
+    var isCheckedLocal by remember(isChecked) { mutableStateOf(isChecked) }
+
+    Box(
+        modifier = modifier
+    ) {
+        PhotosSlider(
+            modifier = Modifier.fillMaxSize(),
+            images = images
+        )
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .offset(4.dp, 4.dp)
+                .size(24.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = { isCheckedLocal = !isCheckedLocal; onCheck() }
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            CheckboxChecker(
+                isChecked = isCheckedLocal
+            )
+        }
+    }
+}
+
 
 @Composable
 fun Action(
@@ -207,36 +244,6 @@ fun Action(
     }
 }
 
-@Composable
-fun PhotoProducts(
-    modifier: Modifier = Modifier,
-    photo: List<String>,
-    isChecked: Boolean,
-    onCheck: () -> Unit
-){
-
-    var isCheckedLocal by remember(isChecked) { mutableStateOf(isChecked) }
-
-    Box(
-        modifier = modifier
-    ){
-        AsyncImage(
-            model = photo,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .clip(shape = shapes.large)
-                .clickable { isCheckedLocal = !isCheckedLocal; onCheck() }
-        )
-        CheckboxChecker(
-            modifier = Modifier
-                .padding(MaterialTheme.paddings.large)
-                .align(Alignment.TopStart),
-            isChecked = isCheckedLocal,
-        )
-    }
-
-}
 
 @Preview
 @Composable

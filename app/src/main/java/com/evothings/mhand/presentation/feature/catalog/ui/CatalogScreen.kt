@@ -198,8 +198,12 @@ private fun Content(
     )
 
     when(state) {
-        is CatalogContract.State.CategoryProductsListLoading,
-        is CatalogContract.State.CategoryProductsServerError,
+        is CatalogContract.State.CategoryProductsListLoading ->
+            LoadingScreen()
+        is CatalogContract.State.CategoryProductsServerError ->
+            ServerErrorScreen(
+                onRefresh = callback::refreshSearch
+            )
         is CatalogContract.State.SubcategoryProducts -> {
             AllClothesScreen(
                 state = state,

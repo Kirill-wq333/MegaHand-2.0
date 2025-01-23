@@ -1,17 +1,24 @@
 package com.evothings.mhand.presentation.feature.product.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.product.components.ProductPhoto
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -20,21 +27,25 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 fun SliderPhoto(
     model: List<String>
 ){
-    LazyRow(
-        modifier = Modifier
-            .padding(start = MaterialTheme.paddings.extraLarge),
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
-    ) {
-        items(4) {
-            AsyncImage(
-                model = model,
-                placeholder = painterResource(id = R.drawable.image_placeholder),
-                error = painterResource(id = R.drawable.no_photo_placeholder),
-                contentDescription = null,
-                modifier = Modifier
-                    .clip(shape = MegahandShapes.medium)
-                    .size(345.dp)
-            )
-        }
+    val pagerState = rememberPagerState(
+        pageCount = { model.size }
+    )
+
+    HorizontalPager(
+        modifier = Modifier.fillMaxWidth(),
+        state = pagerState,
+        contentPadding = PaddingValues(
+            horizontal = MaterialTheme.spacers.medium
+        ),
+        pageSpacing = MaterialTheme.spacers.small,
+        pageSize = PageSize.Fixed(345.dp)
+    ) { index ->
+
+        val item = remember { model[index] }
+
+        ProductPhoto(
+            modifier = Modifier.size(345.dp),
+            link = item
+        )
     }
 }

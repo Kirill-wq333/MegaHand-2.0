@@ -160,15 +160,14 @@ fun NotificationItem(
                     color = colorScheme.secondary.copy(0.4f),
                     fontSize = 12.sp
                 )
-                if (type != NotificationType.NEW_VERSION) {
-                    Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-                    SmallButton(
-                        text = stringResource(R.string.update_available_proceed_button),
-                        textColor = colorScheme.secondary,
-                        backgroundColor = colorScheme.primary,
-                        onClick = onClickUpdate
-                    )
-                }
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
+                if (type != NotificationType.NEW_VERSION) return
+                SmallButton(
+                    text = stringResource(R.string.update_available_proceed_button),
+                    textColor = colorScheme.secondary,
+                    backgroundColor = colorScheme.primary,
+                    onClick = onClickUpdate
+                )
             }
             Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
             TextItem(
