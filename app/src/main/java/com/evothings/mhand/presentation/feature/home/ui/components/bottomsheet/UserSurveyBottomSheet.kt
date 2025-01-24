@@ -36,12 +36,12 @@ import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun UserSurveyBottomSheet(
-    onSubmit: (Int) -> Unit
+    onSubmit: (Int) -> Unit,
 ) {
 
     val userSurveyEntries = listOf<String>(
-        "Промо",
-        "Наружная реклама",
+        "Промо на лисовках",
+        "Наружная реклама(щиты)",
         "Интернет",
         "Радио-реклама",
         "Реклама по телевидению"

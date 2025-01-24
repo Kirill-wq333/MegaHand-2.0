@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.shops.ui.sheetShop
+package com.evothings.mhand.presentation.feature.shops.ui.components.bottomsheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +34,7 @@ import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
-import com.google.common.collect.ImmutableList
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -45,7 +45,7 @@ import java.util.Locale
 @Composable
 fun CalendarDiscountBottomSheet(
     modifier: Modifier = Modifier,
-    days: ImmutableList<DiscountDay>,
+    days: PersistentList<DiscountDay>,
     onDismissRequest: () -> Unit
 ) {
     MhandModalBottomSheet(
@@ -60,7 +60,7 @@ fun CalendarDiscountBottomSheet(
 @Composable
 private fun CalendarDiscount(
     modifier: Modifier = Modifier,
-    days: ImmutableList<DiscountDay>,
+    days: PersistentList<DiscountDay>,
 ) {
     val monthName = remember {
         val currentDate = LocalDate.now()
@@ -80,13 +80,6 @@ private fun CalendarDiscount(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = colorScheme.onSecondary,
-                shape = RoundedCornerShape(
-                    topStart = 12.dp,
-                    topEnd = 12.dp
-                )
-            )
     ){
         Column(
             modifier = Modifier
@@ -104,7 +97,10 @@ private fun CalendarDiscount(
                 style = MegahandTypography.titleLarge,
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-                weekDays.forEach{ item ->
+            Column(
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.small)
+            ) {
+                weekDays.forEach { item ->
                     DiscountWeek(
                         number = item.dayOfMonth,
                         discount = item.discount,
@@ -115,6 +111,7 @@ private fun CalendarDiscount(
                         type = item.type
                     )
                 }
+            }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -124,16 +121,22 @@ private fun CalendarDiscount(
                     modifier = Modifier
                         .weight(0.5f),
                     text = stringResource(R.string.turn_back),
-                    onClick = {},
-                    textColor = ColorTokens.Graphite,
-                    backgroundColor = colorScheme.secondary.copy(.1f),
+                    onClick = {
+                        val coercedWeek = (currentWeek - 1).coerceAtLeast(0)
+                        currentWeek = coercedWeek
+                    },
+                    textColor = colorScheme.secondary,
+                    borderColor = colorScheme.secondary.copy(.1f),
                 )
                 Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
                 Button(
                     modifier = Modifier
                         .weight(0.5f),
                     text = stringResource(R.string.next),
-                    onClick = {},
+                    onClick = {
+                        val coercedWeek = (currentWeek + 1).coerceAtMost(weeks.lastIndex)
+                        currentWeek = coercedWeek
+                    },
                     textColor = ColorTokens.Graphite,
                     backgroundColor = ColorTokens.Sunflower,
                 )

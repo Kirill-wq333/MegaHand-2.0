@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +45,9 @@ import com.evothings.mhand.presentation.feature.news.ui.articleComponent.Informa
 import com.evothings.mhand.presentation.feature.news.ui.components.NewsItem
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleContract
 import com.evothings.mhand.presentation.feature.news.viewmodel.article.ArticleViewModel
+import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
+import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
+import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.feature.shared.text.util.toAnnotateString
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
@@ -106,6 +110,15 @@ fun ArticleScreen(
 
     }
 
+    ArticleContent(
+        uiState = ArticleUiState(
+            newsModel = news,
+            similarArticles = similarArticles
+        ),
+        state = state,
+        callback = callback
+    )
+
 }
 
 @Composable
@@ -114,10 +127,37 @@ private fun ArticleContent(
     state: ArticleContract.State,
     callback: ArticleCallback,
 ){
-    ArticlesContent(
-        uiState = uiState,
-        callback = callback
-    )
+    HeaderProvider(
+        screenTitle = stringResource(id = R.string.news_screen_title),
+        turnButtonVisible    = true,
+        enableMapIconButton = false,
+        onBack = callback::onBack
+    ) { headerPadding ->
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(headerPadding)
+        ) {
+            when(state) {
+                is ArticleContract.State.Loading -> {
+                    LoadingScreen()
+                }
+                is ArticleContract.State.Loaded -> {
+                    ArticlesContent(
+                        uiState = uiState,
+                        callback = callback
+                    )
+                }
+                is ArticleContract.State.ServerError -> {
+                    ServerErrorScreen(
+                        onRefresh = callback::reload
+                    )
+                }
+            }
+        }
+
+    }
 }
 
 @Composable
@@ -134,12 +174,13 @@ private fun ArticlesContent(
     if (uiState.newsModel == null) return
 
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(colorScheme.onSecondary)
     ) {
-        item {
+
             ImageNews(
                 mainImage = uiState.newsModel.previewImageLink,
                 modifier = Modifier
@@ -147,8 +188,7 @@ private fun ArticlesContent(
                     .height(214.dp)
                     .padding(horizontal = MaterialTheme.paddings.extraLarge)
             )
-        }
-        item {
+
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
             with(uiState.newsModel) {
                 InformationArticle(
@@ -158,18 +198,17 @@ private fun ArticlesContent(
                     onClick = { callback.shareArticle(articleLink) }
                 )
             }
-        }
-        item {
+
+
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        }
-        item {
+
+
             ArticleTitle(
                 content = uiState.newsModel.content,
                 modifier = Modifier
                     .padding(horizontal = MaterialTheme.paddings.extraLarge)
             )
-        }
-        item {
+
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
             if (couponBannerVisible) {
                 CouponBanner(
@@ -181,19 +220,17 @@ private fun ArticlesContent(
                     },
                 )
             }
-        }
-        items(
-            items = uiState.similarArticles,
-            key = { it.id }
-        ) {
+        repeat(uiState.similarArticles.size) { i ->
+            val item = remember { uiState.similarArticles[i] }
+
             NewsItem(
-                imageLink = uiState.newsModel.previewImageLink,
-                publicationDate = uiState.newsModel.publishingDate,
-                information = uiState.newsModel.title,
-                category = uiState.newsModel.categories
+                imageLink = item.previewImageLink,
+                publicationDate = item.publishingDate,
+                information = item.title,
+                category = item.categories,
+                onClick = { callback.openSimilarArticle(item.id) }
             )
         }
-
     }
 }
 

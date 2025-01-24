@@ -55,10 +55,12 @@ import com.evothings.mhand.presentation.feature.home.ui.components.PreloadScreen
 import com.evothings.mhand.presentation.feature.home.ui.components.QrCode
 import com.evothings.mhand.presentation.feature.home.ui.components.StoriesItems
 import com.evothings.mhand.presentation.feature.home.ui.components.bottomsheet.UpdateAvailableBottomSheet
+import com.evothings.mhand.presentation.feature.home.ui.components.bottomsheet.UserSurveyBottomSheet
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeContract
 import com.evothings.mhand.presentation.feature.home.viewmodel.HomeViewModel
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.onboarding.ui.screen.HomeOnboarding
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.BalanceAndCashback
 import com.evothings.mhand.presentation.feature.shared.product.ProductItem
@@ -85,6 +87,7 @@ data class HomeUiState(
     val showCouponBanner: Boolean = false,
     val couponAmount: Int = 0,
     val isUpdateAvailable: Boolean = false,
+    val isUserSurvey: Boolean = true
 )
 
 private interface HomeScreenCallback : ProductCardCallback {
@@ -99,6 +102,8 @@ private interface HomeScreenCallback : ProductCardCallback {
     fun openAppMarketPage() {}
 
     fun refresh() {}
+
+    fun openMainScreen(id: Int) {}
 }
 
 @Stable
@@ -117,7 +122,8 @@ fun HomeScreen(
     openStoriesScreen: (storyIndex: Int) -> Unit,
     openProductInfoScreen: (Int) -> Unit,
     openProfile: () -> Unit,
-    openCouponPhoneConfirmationScreen: (String) -> Unit
+    openCouponPhoneConfirmationScreen: (String) -> Unit,
+    openMainScreen: (Int) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -169,6 +175,10 @@ fun HomeScreen(
         override fun openProductDetailScreen(id: Int) =
             openProductInfoScreen(id)
 
+        override fun openMainScreen(id: Int) {
+            openMainScreen(id)
+        }
+
         override fun toggleFavourite(id: Int) =
             vm.handleEvent(HomeContract.Event.ToggleFavouriteOnProduct(id))
 
@@ -219,6 +229,11 @@ private fun HomeContent(
     var updateAvailableBottomSheetVisible by remember(uiState.isUpdateAvailable) {
         mutableStateOf(uiState.isUpdateAvailable)
     }
+
+    var isUserSurveyBottomSheet by remember(uiState.isUserSurvey) {
+        mutableStateOf(uiState.isUserSurvey)
+    }
+
     HeaderProvider(
         screenTitle = "",
         isHomeScreen = true,
@@ -255,6 +270,15 @@ private fun HomeContent(
             onDismiss = { updateAvailableBottomSheetVisible = false },
             onClickUpdate = callback::openAppMarketPage
         )
+    }
+    if (isUserSurveyBottomSheet){
+        MhandModalBottomSheet(
+            onDismissRequest = { isUserSurveyBottomSheet = false }
+        ) {
+            UserSurveyBottomSheet(
+                onSubmit = { callback::openMainScreen; isUserSurveyBottomSheet = false }
+            )
+        }
     }
 }
 

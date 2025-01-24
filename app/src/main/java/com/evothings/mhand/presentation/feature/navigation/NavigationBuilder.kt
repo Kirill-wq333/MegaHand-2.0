@@ -152,6 +152,9 @@ fun NavGraphBuilder.buildNavigation(
                 navController.navigate(
                     NavGraph.ConfirmationCode(phone, ConfirmCodeUseCase.COUPON.ordinal)
                 )
+            },
+            openMainScreen = {
+                navController.navigate(NavGraph.BottomNav.Home)
             }
         )
     }

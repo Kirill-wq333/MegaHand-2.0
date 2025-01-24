@@ -13,10 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.evothings.domain.feature.shops.model.Shop
-import com.evothings.mhand.presentation.feature.shops.ui.sheetShop.CalendarDiscountBottomSheet
 import com.evothings.mhand.presentation.theme.spacers
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun ShopsMapOverlay(

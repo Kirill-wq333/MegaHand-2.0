@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,11 +39,11 @@ import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboard
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.Onboardings
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItem
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.onboardingItemOffset
-import com.evothings.mhand.presentation.feature.profile.ui.state.data.Action
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.Block
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.BlockCashback
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.Data
 import com.evothings.mhand.presentation.feature.shared.banner.RemovableBanner
+import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.header.ui.Header
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.spacers
@@ -103,7 +104,20 @@ fun ProfileOnboarding(onFinish: () -> Unit) {
                 modifier = Modifier
                     .padding(horizontal = MaterialTheme.spacers.extraLarge)
             ) {
-                Action()
+                Row {
+                    Button(
+                        text = stringResource(R.string.user_data_chip),
+                        textColor = colorScheme.secondary,
+                        borderColor = colorScheme.primary,
+                        onClick = {}
+                    )
+                    Button(
+                        text = stringResource(R.string.orders_history_chip),
+                        textColor = colorScheme.secondary,
+                        borderColor = colorScheme.secondary,
+                        onClick = {}
+                    )
+                }
             }
             Spacer(
                 modifier = Modifier
@@ -214,7 +228,12 @@ fun ProfileOnboarding(onFinish: () -> Unit) {
 private fun DemoPersonalInfo(modifier: Modifier) {
     Column(modifier) {
         Data(
-            nameAndSurName = "Иванов Иван"
+            nameAndSurName = "Иванов Иван",
+            birthday = "12.12.1999",
+            phoneNumber = "+7(346) 155-23-55",
+            city = "Самара",
+            email = "E-mail",
+            onEditProfile = {}
         )
     }
 }

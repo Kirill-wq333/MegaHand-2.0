@@ -1,6 +1,7 @@
 package com.evothings.mhand.presentation.feature.news.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,19 +41,26 @@ fun MainNews(
     title: String,
     publicationDate: String,
     informationNews: String,
-    onShare: () -> Unit
+    onShare: () -> Unit,
+    onClick: () -> Unit
 ) {
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(221.dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick
+            )
     ) {
         AsyncImage(
             model = mainImage,
             contentDescription = null,
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
+                .matchParentSize()
                 .clip(shape = MegahandShapes.extraLarge)
         )
         InformationMainNews(
@@ -134,7 +143,8 @@ private fun PreviewMainNews() {
             mainImage = "https://s3-alpha-sig.figma.com/img/431b/470c/dd88f4e7511b4076f9d7748eddab16fc?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=foj0nwK~YDQZOU1FPzvF2KxBmp3S7Dt8EJfH31HqpfReSN3vRXL3kxxaVUFxPxD4~jX6qMzCVuw-hMGmEn6AzbgRJd7lArFjyH6J~bmxbmX1w57~zN-Z8WvgCKWFBKg3j9CG5afdmPOmO0jJ2z9UYbmg9d~PCFP9YYIdMr5OySWcr1xCtsNVyyhr6EI-UqUyGOSOA16SlJCCfF5VnWCidBeCX7NosMUTx3~DDitLoMz-TJj3TQczgl-5PAvYWQJRaK9d1qn3I6mLjms-AoIiKPIwG-JarguBhpuINiXRm9GVgA6GTjhJy5DNryDO3sEfmqeW~iAYhMAEP~jx~a4COw__",
             publicationDate = "5ч. назад",
             informationNews = "Стиль после 30 лет – как выглядеть шикарно и скромно одновременно",
-            onShare = {}
+            onShare = {},
+            onClick = {}
         )
     }
 }

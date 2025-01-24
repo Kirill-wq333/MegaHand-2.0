@@ -215,7 +215,7 @@ private fun ImageSliderWithCheckbox(
 
 
 @Composable
-fun Action(
+private fun Action(
     modifier: Modifier = Modifier,
     isFavorite: Boolean,
     onTrash: () -> Unit,

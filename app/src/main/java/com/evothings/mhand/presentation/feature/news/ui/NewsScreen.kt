@@ -175,7 +175,8 @@ private fun Content(
                 mainImage = article.previewImageLink,
                 publicationDate = article.publishingDate,
                 informationNews = article.title,
-                onShare = { callback.shareArticle(article.articleLink) }
+                onShare = { callback.shareArticle(article.articleLink) },
+                onClick = { callback.openArticle(article.id) }
             )
         }
 
@@ -207,7 +208,8 @@ private fun Content(
                 imageLink = news.previewImageLink,
                 publicationDate = news.publishingDate,
                 information = news.title,
-                category = news.categories
+                category = news.categories,
+                onClick = { callback.openArticle(news.id) }
             )
         }
 

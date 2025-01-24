@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.shops.ui.sheetShop
+package com.evothings.mhand.presentation.feature.shops.ui.components.bottomsheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,6 +33,7 @@ import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -83,7 +84,10 @@ fun ModalBottomSheetShop(
 
     Box(
         modifier = Modifier
-            .background(color = colorScheme.onSecondary)
+            .background(
+                color = colorScheme.onSecondary,
+                shape = MegahandShapes.extraLarge
+                )
     ) {
 
         Column(

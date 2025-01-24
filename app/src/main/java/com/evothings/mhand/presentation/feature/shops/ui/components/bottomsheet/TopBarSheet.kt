@@ -19,6 +19,7 @@ import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun TopBarSheet(
@@ -50,7 +51,10 @@ fun Info(
 
     Box(
         modifier = Modifier
-            .background(color = colorScheme.onSecondary)
+            .background(
+                color = colorScheme.onSecondary,
+                shape = MegahandShapes.medium
+                )
     ) {
         Column(
             modifier = Modifier

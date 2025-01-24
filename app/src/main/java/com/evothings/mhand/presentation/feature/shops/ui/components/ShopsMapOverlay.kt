@@ -13,8 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.evothings.domain.feature.shops.model.Shop
-import com.evothings.mhand.presentation.feature.shops.ui.sheetShop.CalendarDiscountBottomSheet
-import com.evothings.mhand.presentation.feature.shops.ui.sheetShop.ShopCardsSlider
+import com.evothings.mhand.presentation.feature.shops.ui.components.bottomsheet.ShopCardsSlider
+import com.evothings.mhand.presentation.feature.shops.ui.components.bottomsheet.CalendarDiscountBottomSheet
 import com.evothings.mhand.presentation.feature.shops.ui.sheetShop.TopBarSheet
 import com.evothings.mhand.presentation.theme.spacers
 import kotlinx.collections.immutable.ImmutableList
@@ -58,11 +58,11 @@ fun ShopsMapOverlay(
         )
     }
 
-//    if (discountCalendarVisible) {
-//        CalendarDiscountBottomSheet(
-//            days = shopItem.discountWeeks.toPersistentList(),
-//            onDismissRequest = { discountCalendarVisible = false }
-//        )
-//    }
+    if (discountCalendarVisible) {
+        CalendarDiscountBottomSheet(
+            days = shopItem.discountWeeks.toPersistentList(),
+            onDismissRequest = { discountCalendarVisible = false }
+        )
+    }
 
 }
