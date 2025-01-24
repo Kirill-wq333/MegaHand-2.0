@@ -40,6 +40,7 @@ import com.evothings.domain.feature.profile.model.Profile
 import com.evothings.domain.feature.profile.model.Referal
 import com.evothings.domain.feature.profile.model.ReferalInfo
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.address.ui.components.list.AddressList
 import com.evothings.mhand.presentation.feature.profile.ui.ProfileCallback
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.Block
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.components.BlockCashback
@@ -119,7 +120,12 @@ fun ProfileDataScreen(
                 cashback = profile.cashback,
                 referalCode = profile.referalCode,
                 referalProfit = referalInfo.balance,
-                referals = referalInfo.referalsList
+                referals = referalInfo.referalsList,
+                list = addresses,
+                selected = selectedAddress,
+                onAddressChange = callback::reload,
+                openAddressMap = callback::openAddressMap,
+                onSelect = { index -> selectedAddress = index }
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.mega))
             Box(
@@ -192,7 +198,12 @@ fun Referral(
     cashback: Int,
     referalCode: String,
     referalProfit: Int,
-    referals: List<Referal>
+    referals: List<Referal>,
+    list: List<Address>,
+    selected: Int,
+    onSelect: (Int) -> Unit,
+    onAddressChange: () -> Unit,
+    openAddressMap: (String) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -204,7 +215,14 @@ fun Referral(
         Block(
             text = stringResource(R.string.shipping_address),
             content = {
-
+                AddressList(
+                    addresses = list,
+                    selected = selected,
+                    isProfile = true,
+                    onSelect = onSelect,
+                    onAddressChange = onAddressChange,
+                    openAddressMap = openAddressMap
+                )
             }
         )
         Block(

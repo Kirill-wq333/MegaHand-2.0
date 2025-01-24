@@ -34,6 +34,7 @@ import com.evothings.mhand.presentation.feature.cart.viewmodel.CartViewModel
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogScreen
 import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogViewModel
 import com.evothings.mhand.presentation.feature.checkout.viewmodel.CheckoutViewModel
+import com.evothings.mhand.presentation.feature.favourites.ui.FavouritesScreen
 import com.evothings.mhand.presentation.feature.favourites.viewmodel.FavouritesViewModel
 import com.evothings.mhand.presentation.feature.news.ui.ArticleScreen
 import com.evothings.mhand.presentation.feature.news.viewmodel.NewsViewModel
@@ -299,6 +300,11 @@ fun NavGraphBuilder.buildNavigation(
     composable<NavGraph.Other.Favourites> {
         val favouritesVm = hiltViewModel<FavouritesViewModel>()
 
+        FavouritesScreen(
+            vm = favouritesVm,
+            openCatalog = { navController.navigate(NavGraph.BottomNav.Catalog)},
+            openProductInfoScreen = {id -> navController.navigate(NavGraph.ProductInfo(id))}
+        )
     }
 
     composable<NavGraph.Other.News> {

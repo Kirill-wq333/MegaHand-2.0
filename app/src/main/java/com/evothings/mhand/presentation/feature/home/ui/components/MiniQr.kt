@@ -90,7 +90,7 @@ fun QrCode(
     ) {
         Box(
             modifier = clickableModifier
-                .matchParentSize()
+                .fillMaxSize()
                 .padding(
                     horizontal = 24.dp,
                     vertical = verticalPadding
@@ -106,15 +106,20 @@ fun QrCode(
             if (isOnboarding) {
                 Image(
                     painter = painterResource(id = R.drawable.demo_qr_code),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier
+                        .matchParentSize()
+                        .clip(MegahandShapes.large)
                 )
                 return
             }
             AsyncImage(
                 model = qrLink,
                 onState = { isImageLoading = it is AsyncImagePainter.State.Loading },
-                contentScale = ContentScale.FillBounds,
-                contentDescription = null
+                contentScale = ContentScale.Crop,
+                contentDescription = null,
+                modifier = Modifier
+                    .clip(MegahandShapes.large)
             )
             if (isImageLoading) {
                 QRLoadingIndicator()
