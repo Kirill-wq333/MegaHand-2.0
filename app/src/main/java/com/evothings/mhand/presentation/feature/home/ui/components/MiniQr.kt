@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -120,17 +121,29 @@ fun QrCode(
             }
         }
 
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_magnifying_glass),
-            contentDescription = "",
-            tint = colorScheme.onSecondary,
-            modifier = Modifier
+        Box(
+            modifier = clickableModifier
                 .align(Alignment.BottomEnd)
-                .padding(MaterialTheme.paddings.medium)
-                .background(color = colorScheme.secondary, shape = CircleShape)
-                .border(width = 1.dp, color = colorScheme.inverseSurface, shape = CircleShape)
-                .padding(MaterialTheme.paddings.medium)
-        )
+                .offset((-10).dp, (-10).dp)
+                .clip(CircleShape)
+                .border(
+                    width = 1.dp,
+                    color = colorScheme.inverseSurface,
+                    shape = CircleShape
+                )
+                .background(
+                    color = colorScheme.onSecondary,
+                    shape = CircleShape
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_magnifying_glass),
+                tint = colorScheme.secondary,
+                contentDescription = null,
+                modifier = Modifier.padding(6.dp)
+            )
+        }
 
     }
 }

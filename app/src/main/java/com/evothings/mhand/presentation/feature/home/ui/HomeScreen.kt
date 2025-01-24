@@ -5,6 +5,12 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -63,6 +69,7 @@ import com.evothings.mhand.presentation.feature.onboarding.ui.screen.HomeOnboard
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.BalanceAndCashback
+import com.evothings.mhand.presentation.feature.shared.loyalityCard.BigQrcode
 import com.evothings.mhand.presentation.feature.shared.product.ProductItem
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
 import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
@@ -340,6 +347,18 @@ private fun Content(
         BrandsList(brand = uiState.brands)
     }
 
+    if (uiState.showCard) {
+        AnimatedVisibility(
+            visible = showQrCodeView,
+            enter = fadeIn() + scaleIn(tween(150)),
+            exit = fadeOut() + scaleOut(tween(150))
+        ) {
+            BigQrcode(
+                qrCodeLink = uiState.cardQRLink,
+                onClose = { showQrCodeView = false }
+            )
+        }
+    }
     if (couponBottomSheetEnabled) {
         Coupon(
             onDismiss = { couponBottomSheetEnabled = false },
@@ -393,25 +412,33 @@ fun LoyalityCard(
     openProfile: () -> Unit,
     enableBalance: Boolean
 ) {
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(MaterialTheme.paddings.extraLarge),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
+    Box(
+        modifier = Modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(12.dp)
+                .height(184.dp)
         ) {
-            BalanceAndCashback(
-                enableBalance = enableBalance,
-                cashback = cashback,
-                onClickIncrease = openProfile,
-            )
-            QrCode(
-                modifier = Modifier.weight(0.5f),
-                qrLink = cardQRUrl,
-                isOnboarding = isOnboarding,
-                onClick = showQR
-            )
+            Row(
+                modifier = modifier
+                    .fillMaxSize()
+            ) {
+                BalanceAndCashback(
+                    modifier = Modifier.weight(.5f),
+                    enableBalance = enableBalance,
+                    cashback = cashback,
+                    onClickIncrease = openProfile,
+                )
+                QrCode(
+                    modifier = Modifier.weight(.5f),
+                    qrLink = cardQRUrl,
+                    isOnboarding = isOnboarding,
+                    onClick = showQR
+                )
+            }
         }
     }
 }

@@ -1,5 +1,11 @@
 package com.evothings.mhand.presentation.feature.card.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -49,6 +55,7 @@ import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
+import com.evothings.mhand.presentation.feature.shared.loyalityCard.BigQrcode
 import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
 import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.feature.shared.screen.UserIsNotAuthorized
@@ -214,6 +221,18 @@ private fun Content(
             }
         }
     }
+
+
+        AnimatedVisibility(
+            visible = qrViewIsVisible,
+            enter = fadeIn() + scaleIn(tween(150)),
+            exit = fadeOut() + scaleOut(tween(150))
+        ) {
+            BigQrcode(
+                qrCodeLink = uiState.card.barcodeUrl,
+                onClose = { qrViewIsVisible = false }
+            )
+        }
 
 }
 

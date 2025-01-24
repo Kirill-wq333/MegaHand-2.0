@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -52,6 +53,7 @@ import com.evothings.mhand.presentation.theme.values.paddings.LocalPaddings
 
 @Composable
 fun BalanceAndCashback(
+    modifier: Modifier = Modifier,
     money: Int = -1,
     cashback: Int,
     enableBalance: Boolean,
@@ -64,9 +66,8 @@ fun BalanceAndCashback(
     val showIncreaseButton = remember(isOffline) { !maximumCashbackIsReached && !isOffline }
 
     Box(
-        modifier = Modifier
-            .width(200.dp)
-            .height(200.dp)
+        modifier = modifier
+            .fillMaxSize()
             .border(
                 width = 1.dp,
                 color = colorScheme.primary.copy(.05f),
@@ -77,6 +78,7 @@ fun BalanceAndCashback(
 
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(MaterialTheme.paddings.giant)
         ) {
             if (enableBalance) {
