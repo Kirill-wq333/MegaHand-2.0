@@ -5,14 +5,21 @@ import com.evothings.data.feature.checkout.dto.mapper.toAddressRequest
 import com.evothings.data.feature.checkout.dto.mapper.toAmountRequest
 import com.evothings.data.feature.checkout.dto.mapper.toCheckoutData
 import com.evothings.data.feature.checkout.dto.mapper.toCheckoutInfo
+import com.evothings.data.feature.checkout.dto.mapper.toDeliveryPrice
 import com.evothings.data.feature.checkout.dto.mapper.toPickupPointsList
+import com.evothings.data.feature.checkout.dto.mapper.toPriceDetails
+import com.evothings.data.feature.checkout.dto.request.DeliveryPriceRequest
+import com.evothings.data.feature.checkout.dto.request.PointsDiscountRequest
 import com.evothings.data.utils.awaitResult
 import com.evothings.domain.feature.address.repository.AddressRepository
 import com.evothings.domain.feature.card.model.CardException
 import com.evothings.domain.feature.card.repository.CardRepository
 import com.evothings.domain.feature.checkout.model.CheckoutInfo
 import com.evothings.domain.feature.checkout.model.CheckoutResult
+import com.evothings.domain.feature.checkout.model.DeliveryOption
+import com.evothings.domain.feature.checkout.model.DeliveryPrice
 import com.evothings.domain.feature.checkout.model.PickupPoint
+import com.evothings.domain.feature.checkout.model.PriceDetails
 import com.evothings.domain.feature.checkout.repository.CheckoutRepository
 import com.evothings.domain.feature.product.model.Product
 import com.evothings.domain.feature.product.repository.ProductRepository
@@ -54,6 +61,34 @@ class CheckoutRepositoryImpl(
         }
     }
 
+    override suspend fun getDeliveryCost(
+        id: String,
+        city: String,
+        option: DeliveryOption
+    ): Result<DeliveryPrice> {
+        return api.calculateDeliveryCost(
+            id = id,
+            payload = DeliveryPriceRequest(
+                city = city,
+                deliveryOptionCode = option.code
+            )
+        ).awaitResult().map { it.toDeliveryPrice() }
+    }
+
+    override suspend fun getPointsDiscount(
+        id: String,
+        deliveryCost: Double,
+        pointsToWithdraw: Int
+    ): Result<PriceDetails> {
+        return api.calculatePointsDiscount(
+            id = id,
+            payload = PointsDiscountRequest(
+                deliveryCost = deliveryCost,
+                pointsToWithdraw = pointsToWithdraw
+            )
+        ).awaitResult().mapCatching { it.toPriceDetails() }
+    }
+
     private suspend fun getOrderProducts(productIds: List<Int>): List<Product> {
         val items = arrayListOf<Product>()
         for (id in productIds) {
@@ -63,7 +98,7 @@ class CheckoutRepositoryImpl(
         return items
     }
 
-    override suspend fun updateCheckoutInfo(id: String, checkoutResult: CheckoutResult): Result<String> {
+    override suspend fun checkout(id: String, checkoutResult: CheckoutResult): Result<String> {
         return api.updateCheckoutOrder(id, checkoutResult.toCheckoutData()).awaitResult()
             .mapCatching { it.link }
     }

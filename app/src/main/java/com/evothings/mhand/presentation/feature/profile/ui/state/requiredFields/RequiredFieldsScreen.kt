@@ -38,7 +38,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.domain.feature.profile.model.Profile
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
+import com.evothings.mhand.presentation.feature.shared.chooseCity.ChooseCityModal
+import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.feature.shared.text.DatePickerTextField
 import com.evothings.mhand.presentation.feature.shared.text.LabelTextField
 import com.evothings.mhand.presentation.feature.shared.text.MTextField
@@ -219,6 +222,19 @@ private fun Data(
             DatePickerTextField(
                 date = date,
                 onDateChange = { date = it }
+            )
+        }
+    }
+    if (selectCityBottomSheetVisible) {
+        MhandModalBottomSheet(
+            onDismissRequest = { selectCityBottomSheetVisible = false }
+        ) { hide ->
+            ChooseCityModal(
+                modifier = Modifier.modalBottomSheetPadding(),
+                onDismiss = hide,
+                onChoose = {
+                    city = it; hide()
+                }
             )
         }
     }

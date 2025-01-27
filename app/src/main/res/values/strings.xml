@@ -216,6 +216,8 @@
     <string name="save_in_profile_checkbox">Сохранить данные в профиле</string>
     <string name="postal_code_placeholder">Индекс</string>
     <string name="discount">Скидка</string>
+    <string name="delivery_checkout_item">Доставка</string>
+    <string name="checkout_points_discount">Списание баллов</string>
     <string name="save_address_checkbox">Добавить адрес в адресную книгу</string>
     <string name="incorrect_withdraw_amount_error_text">Сумма недоступна для списания</string>
     <string name="first_payment_sbp">Через СБП</string>

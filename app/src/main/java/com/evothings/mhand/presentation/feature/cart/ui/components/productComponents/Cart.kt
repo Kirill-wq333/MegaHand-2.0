@@ -74,8 +74,6 @@ fun Cart(
                 onClick = onClick,
                 onTrash = toggleFavourite,
                 onFavorite = removeFromCart,
-                isChecked = isSelected,
-                onCheck = onSelect
             )
         }
     }
@@ -98,6 +96,7 @@ fun InStockCart(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .height(200.dp)
             .clickable { onClick() }
     ) {
         ImageSliderWithCheckbox(
@@ -109,7 +108,10 @@ fun InStockCart(
             onCheck = onCheck,
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.extraMedium))
-        Column {
+        Column(
+            modifier = Modifier
+                .weight(.5f)
+        ) {
             Information(
                 discount = model.oldPrice,
                 discountPercent = model.discount,
@@ -137,9 +139,7 @@ fun InStockCart(
 fun OutOfStockCart(
     modifier: Modifier = Modifier,
     model: Product,
-    onCheck: () -> Unit,
     showSizeAndCondition: Boolean = true,
-    isChecked: Boolean,
     onClick: () -> Unit,
     onFavorite: () -> Unit,
     onTrash: () -> Unit
@@ -147,33 +147,39 @@ fun OutOfStockCart(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .height(200.dp)
             .clickable { onClick() }
     ) {
         ProductPhoto(
             modifier = Modifier
-                .width(100.dp)
+                .weight(.5f)
                 .fillMaxSize(),
             link = model.photos.firstOrNull().orEmpty()
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
-        Text(
-            text = model.title,
-            color = colorScheme.secondary.copy(0.6f),
-            style = MegahandTypography.bodyLarge,
+        Column(
             modifier = Modifier
-                .padding(
-                    horizontal = MaterialTheme.paddings.extraLarge
-                )
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
-        if (showSizeAndCondition) {
-            SizeAndStars(estimation = model.condition, textSize = model.size)
+                .weight(.5f)
+        ) {
+            Text(
+                text = model.title,
+                color = colorScheme.secondary.copy(0.6f),
+                style = MegahandTypography.bodyLarge,
+                modifier = Modifier
+                    .padding(
+                        horizontal = MaterialTheme.paddings.extraLarge
+                    )
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
+            if (showSizeAndCondition) {
+                SizeAndStars(estimation = model.condition, textSize = model.size)
+            }
+            Action(
+                onFavorite = onFavorite,
+                onTrash = onTrash,
+                isFavorite = model.isFavourite
+            )
         }
-        Action(
-            onFavorite = onFavorite,
-            onTrash = onTrash,
-            isFavorite = model.isFavourite
-        )
     }
 }
 

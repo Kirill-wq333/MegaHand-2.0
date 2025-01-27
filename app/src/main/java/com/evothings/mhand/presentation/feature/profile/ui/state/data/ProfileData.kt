@@ -104,7 +104,6 @@ fun ProfileDataScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(MaterialTheme.paddings.extraGiant)
         ) {
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
             Data(

@@ -45,7 +45,7 @@ fun NotificationsTray(
         if (list.isEmpty()) {
             item {
                 Text(
-                    modifier = Modifier.padding(30.dp),
+                    modifier = Modifier.padding(top = 44.dp, bottom = 110.dp),
                     text = stringResource(R.string.no_notifications_yet),
                     style = typography.headlineMedium,
                     color = colorScheme.secondary.copy(0.4f),

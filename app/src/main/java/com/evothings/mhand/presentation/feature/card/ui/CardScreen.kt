@@ -47,15 +47,18 @@ import com.evothings.domain.feature.card.model.Transaction
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.card.ui.components.CreditingAndDebiting
 import com.evothings.mhand.presentation.feature.card.ui.components.HistoryBar
+import com.evothings.mhand.presentation.feature.card.ui.components.bottomsheet.TransactionFilterPicker
 import com.evothings.mhand.presentation.feature.card.ui.components.screen.LoyalityNotAvailableScreen
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardContract
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardViewModel
 import com.evothings.mhand.presentation.feature.card.viewmodel.enumeration.CardFilterType
 import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.BigQrcode
+import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
 import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.feature.shared.screen.UserIsNotAuthorized
@@ -206,11 +209,18 @@ private fun Content(
         when {
             offlineMode -> {
                 item {
-                    OfflineMode(
-                        onReload = callback::refresh
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        OfflineMode(
+                            onReload = callback::refresh
+                        )
+                    }
                 }
             }
+
             else -> {
                 history(
                     currentFilter = uiState.currentFilter,
@@ -222,18 +232,30 @@ private fun Content(
         }
     }
 
-
-        AnimatedVisibility(
-            visible = qrViewIsVisible,
-            enter = fadeIn() + scaleIn(tween(150)),
-            exit = fadeOut() + scaleOut(tween(150))
-        ) {
-            BigQrcode(
-                qrCodeLink = uiState.card.barcodeUrl,
-                onClose = { qrViewIsVisible = false }
+    AnimatedVisibility(
+        visible = qrViewIsVisible,
+        enter = fadeIn() + scaleIn(tween(150)),
+        exit = fadeOut() + scaleOut(tween(150))
+    ) {
+        BigQrcode(
+            qrCodeLink = uiState.card.barcodeUrl,
+            onClose = { qrViewIsVisible = false }
+        )
+    }
+    if (filterPickerBottomSheetExpanded) {
+        MhandModalBottomSheet(
+            onDismissRequest = { filterPickerBottomSheetExpanded = false }
+        ) { hide ->
+            TransactionFilterPicker(
+                modifier = Modifier.modalBottomSheetPadding(),
+                currentEntryIndex = uiState.currentFilter.ordinal,
+                onDismiss = hide,
+                onSelect = { index ->
+                    callback.chooseFilter(index); hide()
+                }
             )
         }
-
+    }
 }
 
 @Composable
@@ -244,7 +266,10 @@ fun OfflineMode(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = MaterialTheme.paddings.extraGiant),
+            .padding(
+                vertical = 95.dp,
+                horizontal = MaterialTheme.paddings.extraGiant
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
@@ -330,11 +355,17 @@ private fun CardPreview() {
                 .fillMaxSize()
                 .background(color = colorScheme.onSecondary)
         ) {
-            Content(
-                offlineMode = true,
+            CardContent(
+                state = CardContract.State.Loaded,
                 uiState = CardUiState(
                     cashback = 3
-                )
+                ),
+                callback = object : CardScreenCallback{
+                    override fun chooseFilter(filterIndex: Int) {}
+                    override fun notifyLoyalitySystem() {}
+                    override fun refresh() {}
+                    override fun openProfileScreen() {}
+                }
             )
         }
     }

@@ -27,6 +27,7 @@ import com.evothings.mhand.presentation.feature.card.viewmodel.enumeration.CardF
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.radio.RadioChecker
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
+import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
@@ -72,11 +73,11 @@ private fun PickerItem(
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = MaterialTheme.paddings.giant)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp)
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
@@ -107,7 +108,12 @@ private fun Actions(
     onAccept: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = MaterialTheme.paddings.extraGiant,
+                vertical = MaterialTheme.paddings.extraLarge
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
     ) {

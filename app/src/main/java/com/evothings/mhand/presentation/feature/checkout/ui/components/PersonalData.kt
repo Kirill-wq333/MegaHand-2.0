@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
@@ -16,21 +17,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import com.evothings.mhand.R
+import com.evothings.mhand.presentation.feature.shared.text.LabelTextField
 import com.evothings.mhand.presentation.feature.shared.text.MTextField
+import com.evothings.mhand.presentation.feature.shared.text.transform.TextMasks
+import com.evothings.mhand.presentation.feature.shared.text.transform.rememberMaskVisualTransformation
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun PersonalData(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    name: String,
+    surname: String,
+    phoneNumber: String,
+    email: String,
+    onChangeName: (String) -> Unit,
+    onChangeSurname: (String) -> Unit,
+    onChangePhone: (String) -> Unit,
+    onChangeEmail: (String) -> Unit,
 ) {
-
-    var name by remember { mutableStateOf("Имя") }
-    var surname by remember { mutableStateOf("Фамилия") }
-    var address by remember { mutableStateOf("E-mail") }
-    var phoneNumber by remember { mutableStateOf("Телефон") }
 
     Column(
         modifier = modifier
@@ -47,48 +55,32 @@ fun PersonalData(
             style = MegahandTypography.titleLarge
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        TextAndTextField(
-            text = name
+        LabelTextField(
+            value = name,
+            label = stringResource(id = R.string.name),
+            onValueChange = onChangeName
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        TextAndTextField(
-            text = surname
+        LabelTextField(
+            value = surname,
+            label = stringResource(id = R.string.surname),
+            onValueChange = onChangeSurname
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        TextAndTextField(
-            text = phoneNumber
+        LabelTextField(
+            value = phoneNumber,
+            visualTransformation = rememberMaskVisualTransformation(mask = TextMasks.phone),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+            label = stringResource(id = R.string.phone_number),
+            onValueChange = onChangePhone
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        TextAndTextField(
-            text = address
+        LabelTextField(
+            value = email,
+            label = stringResource(id = R.string.profile_email),
+            onValueChange = onChangeEmail
         )
     }
 
 }
 
-@Composable
-private fun TextAndTextField(
-    modifier: Modifier = Modifier,
-    text: String
-) {
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.Start
-    ) {
-        Text(
-            text = text,
-            color = colorScheme.secondary.copy(.6f),
-            style = MegahandTypography.bodyLarge,
-            modifier = Modifier
-                .padding(horizontal = MaterialTheme.paddings.medium)
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
-        MTextField(
-            value = "",
-            onValueChange = {},
-        )
-    }
-
-}

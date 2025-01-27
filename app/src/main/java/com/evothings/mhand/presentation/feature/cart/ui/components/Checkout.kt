@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,18 +28,17 @@ import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun Checkout(
+    modifier: Modifier = Modifier,
     productsCount: Int,
     total: Double,
     discount: Double,
+    deliveryCost: Double = 0.0,
     cashbackPoints: Double,
+    pointsDiscount: Double = 0.0,
     summary: Double,
 ){
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(
                     vertical = MaterialTheme.paddings.giant,
@@ -50,16 +50,32 @@ fun Checkout(
                 text = stringResource(R.string.products_count, productsCount),
                 color = colorScheme.secondary
             )
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
             if (discount > 0) {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
                 CheckoutItem(
                     value = "${discount.splitHundreds(NumberSeparator.SPACE)} ₽",
                     text = stringResource(R.string.discount),
                     color = colorScheme.error
                 )
             }
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+            if (pointsDiscount > 0){
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
+                CheckoutItem(
+                    value = "-${discount.splitHundreds(NumberSeparator.SPACE)} ₽",
+                    text = stringResource(R.string.checkout_points_discount),
+                    color = colorScheme.inverseSurface
+                )
+            }
+            if (deliveryCost > 0) {
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
+                CheckoutItem(
+                    value = "${deliveryCost.splitHundreds(NumberSeparator.SPACE)} ₽",
+                    text = stringResource(R.string.delivery_checkout_item),
+                    color = colorScheme.secondary
+                )
+            }
             if (cashbackPoints > 0) {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
                 Cashback(
                     text = stringResource(R.string.cashback),
                     money = "${cashbackPoints.splitHundreds(NumberSeparator.SPACE)} ₽"
@@ -84,7 +100,6 @@ fun Checkout(
             }
 
         }
-    }
 
 }
 
@@ -93,7 +108,7 @@ fun Checkout(
 
 
 @Composable
-fun CheckoutItem(
+private fun CheckoutItem(
     value: String,
     text: String,
     color: Color

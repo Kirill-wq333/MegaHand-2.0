@@ -94,7 +94,7 @@ data class HomeUiState(
     val showCouponBanner: Boolean = false,
     val couponAmount: Int = 0,
     val isUpdateAvailable: Boolean = false,
-    val isUserSurvey: Boolean = true
+    val isUserSurvey: Boolean = false
 )
 
 private interface HomeScreenCallback : ProductCardCallback {

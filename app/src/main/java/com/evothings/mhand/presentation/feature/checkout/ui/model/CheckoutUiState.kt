@@ -10,6 +10,7 @@ data class CheckoutUiState(
     val profile: Profile = Profile(),
     val addresses: List<Address> = listOf(),
     val pickupCity: String = "",
+    val pickupPointsLoading: Boolean = false,
     val pickupPoints: List<PickupPoint> = listOf(),
     val paymentMethods: List<PaymentMethod> = listOf(),
     val isLoyalityAvailable: Boolean = false,
@@ -19,6 +20,8 @@ data class CheckoutUiState(
     val orderItems: List<Product> = listOf(),
     val total: Double = 0.0,
     val discount: Double = 0.0,
+    val deliveryCost: Double = 0.0,
+    val pointsDiscount: Double = 0.0,
     val cashbackPoints: Double = 0.0,
     val summary: Double = 0.0
 )

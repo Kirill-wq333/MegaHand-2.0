@@ -3,8 +3,12 @@ package com.evothings.data.feature.checkout.datasource
 import com.evothings.data.feature.checkout.dto.response.CheckoutData
 import com.evothings.data.feature.checkout.dto.request.AddressRequest
 import com.evothings.data.feature.checkout.dto.request.AmountRequest
+import com.evothings.data.feature.checkout.dto.request.DeliveryPriceRequest
+import com.evothings.data.feature.checkout.dto.request.PointsDiscountRequest
 import com.evothings.data.feature.checkout.dto.response.AmountResponse
+import com.evothings.data.feature.checkout.dto.response.DeliveryPriceResponse
 import com.evothings.data.feature.checkout.dto.response.PaymentLinkResponse
+import com.evothings.data.feature.checkout.dto.response.PriceDetailsResponse
 import com.evothings.data.feature.checkout.dto.response.cdek.CdekPointsResponse
 import com.evothings.data.network.annotation.WithAuthorization
 import com.evothings.data.network.config.NetworkConfig
@@ -24,6 +28,20 @@ interface CheckoutApi {
     @WithAuthorization
     @PATCH("${NetworkConfig.Routes.Order.order}{id}/")
     fun updateCheckoutOrder(@Path("id") id: String, @Body payload: CheckoutData): Call<PaymentLinkResponse>
+
+    @WithAuthorization
+    @POST("${NetworkConfig.Routes.Order.order}{id}/calculate-delivery-cost/")
+    fun calculateDeliveryCost(
+        @Path("id") id: String,
+        @Body payload: DeliveryPriceRequest
+    ): Call<DeliveryPriceResponse>
+
+    @WithAuthorization
+    @POST("${NetworkConfig.Routes.Order.order}{id}/prices/")
+    fun calculatePointsDiscount(
+        @Path("id") id: String,
+        @Body payload: PointsDiscountRequest
+    ): Call<PriceDetailsResponse>
 
     @WithAuthorization
     @POST(NetworkConfig.Routes.Order.getCdekPickupPoints)
