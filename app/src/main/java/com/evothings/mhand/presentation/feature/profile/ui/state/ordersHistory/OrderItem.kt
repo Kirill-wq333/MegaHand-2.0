@@ -359,6 +359,7 @@ private fun OrderInfoItem(
     enableCopy: Boolean = false,
     onCopy: () -> Unit = {}
 ) {
+
     Column {
         Text(
             text = title,

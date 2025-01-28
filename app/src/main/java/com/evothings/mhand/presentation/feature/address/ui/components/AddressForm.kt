@@ -1,12 +1,12 @@
 package com.evothings.mhand.presentation.feature.address.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -29,10 +29,10 @@ import com.evothings.mhand.presentation.feature.address.viewmodel.registry.Addre
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.chooseCity.ChooseCityModal
-import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.feature.shared.text.LabelTextField
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
 import com.evothings.mhand.presentation.feature.shared.text.saver.StringSaver
+import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
@@ -79,7 +79,9 @@ fun AddressForm(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(MaterialTheme.paddings.extraGiant)
             .height(IntrinsicSize.Min),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
     ) {
 
         TrailingButtonTextField(
@@ -89,8 +91,6 @@ fun AddressForm(
             onValueChange = { city = it },
             onClickTrailingButton = { cityBottomSheetVisible = true }
         )
-
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -103,7 +103,6 @@ fun AddressForm(
                 label = stringResource(R.string.street_placeholder),
                 onValueChange = { street = it }
             )
-            Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
             IconButton(
                 icon = ImageVector.vectorResource(id = R.drawable.ic_map),
                 tint = MaterialTheme.colorScheme.secondary,
@@ -123,8 +122,6 @@ fun AddressForm(
             )
         }
 
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -134,7 +131,6 @@ fun AddressForm(
                 modifier = Modifier.weight(0.5f, fill = false),
                 onValueChange = { house = it },
             )
-            Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
             LabelTextField(
                 value = flat,
                 label = stringResource(id = R.string.flat_placeholder),
@@ -146,18 +142,15 @@ fun AddressForm(
             )
         }
 
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-
     }
 
     if (cityBottomSheetVisible) {
         MhandModalBottomSheet(
             onDismissRequest = { cityBottomSheetVisible = false }
-        ) { hide ->
+        ) {
             ChooseCityModal(
-                modifier = Modifier.modalBottomSheetPadding(),
-                onDismiss = hide,
-                onChoose = { city = it; hide() }
+                onChoose = {city = it},
+                onDismiss = { cityBottomSheetVisible = false }
             )
         }
     }

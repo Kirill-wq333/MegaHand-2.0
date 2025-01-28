@@ -78,6 +78,7 @@
     <string name="order_cost">Стоимость</string>
     <string name="order_track">Трек-номер</string>
     <string name="order_no_track_status">Еще не присвоен</string>
+    <string name="track_order">Показать несколько</string>
     <string name="order_search_placeholder">Поиск заказа по товару</string>
     <string name="order_date_search_placeholder">По дате</string>
     <string name="order_track_copy_success">Трек номер скопирован</string>
@@ -193,6 +194,8 @@
     <string name="select_all">Выбрать все</string>
     <string name="clear_selection">Очистить выбранное</string>
     <string name="checkout_summary">Итого</string>
+    <string name="can_i_return_the_product">Можно ли вернуть товар?</string>
+    <string name="how_the_delivery_takes_place">Как происходит доставка?</string>
     <string name="proceed_checkout_button">К оформлению</string>
     <string name="empty_cart_text">Ты еще не добавил ни одного товара в корзину</string>
     <string name="open_catalog_button">В каталог</string>

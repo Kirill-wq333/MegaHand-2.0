@@ -54,7 +54,6 @@ fun LazyListScope.productsList(
         items = products,
         key = { it.id }
     ) { product ->
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         Cart(
             model = product,
             isSelected = (product.id in selectionList),

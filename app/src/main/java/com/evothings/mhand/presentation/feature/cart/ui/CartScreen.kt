@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -45,6 +48,7 @@ import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefresh
 import com.evothings.mhand.presentation.feature.shared.screen.EmptyListScreen
 import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.theme.MegahandTheme
+import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.list.toggleItem
@@ -237,7 +241,7 @@ private fun Content(
     LazyColumn(
         modifier = Modifier.fillMaxHeight(),
         contentPadding = PaddingValues(horizontal = 12.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         productsList(
@@ -255,10 +259,6 @@ private fun Content(
         )
 
         item {
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        }
-
-        item {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -267,6 +267,7 @@ private fun Content(
                         end = MaterialTheme.spacers.medium,
                         bottom = MaterialTheme.spacers.large
                     ),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (isAuthorized) {
                     CartCheckout(
@@ -281,6 +282,20 @@ private fun Content(
                         }
                     )
                 }else{
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+                    Column {
+                        Text(
+                            text = stringResource(R.string.can_i_return_the_product),
+                            color = colorScheme.secondary.copy(.4f),
+                            style = MegahandTypography.bodyLarge
+                        )
+                        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
+                        Text(
+                            text = stringResource(R.string.how_the_delivery_takes_place),
+                            color = colorScheme.secondary.copy(.4f),
+                            style = MegahandTypography.bodyLarge                )
+                    }
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
                     AuthorizationRequired(
                         onClickLogin = callback::openAuthScreen
                     )

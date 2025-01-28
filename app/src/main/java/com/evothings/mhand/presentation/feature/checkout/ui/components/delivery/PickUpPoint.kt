@@ -2,6 +2,7 @@ package com.evothings.mhand.presentation.feature.checkout.ui.components.delivery
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +23,7 @@ import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBot
 import com.evothings.mhand.presentation.feature.shared.chooseCity.ChooseCityModal
 import com.evothings.mhand.presentation.feature.shared.map.PlacemarkMap
 import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
+import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.ChooseCityScreen
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.maps.findNearestPointIndex
@@ -68,9 +70,11 @@ fun PickUpPoint(
         MhandModalBottomSheet(
             onDismissRequest = { cityBottomSheetVisible = false }
         ) { hide ->
-            ChooseCityModal(
-                modifier = Modifier.modalBottomSheetPadding(),
-                onDismiss = hide,
+            ChooseCityScreen(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.7f),
+                markChosen = false,
                 onChoose = { onChangeCity(it); hide() }
             )
         }

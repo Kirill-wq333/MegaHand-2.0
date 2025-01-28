@@ -55,7 +55,6 @@ fun ReceiptMethodAndAddress(
     onClick: () -> Unit
 ) {
 
-    var address by remember { mutableStateOf("Тольятти, ул. Революционная 52") }
 
     Column(
         modifier = modifier

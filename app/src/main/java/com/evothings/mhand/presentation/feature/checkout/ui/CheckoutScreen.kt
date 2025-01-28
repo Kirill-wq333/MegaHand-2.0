@@ -459,7 +459,6 @@ private fun Content(
     }
 
     if (selectedDeliveryOption == DeliveryOption.PICK_UP) {
-
         AnimatedVisibility(
             visible = showCDEKMap,
             enter = fadeIn() + scaleIn(tween(150)),
