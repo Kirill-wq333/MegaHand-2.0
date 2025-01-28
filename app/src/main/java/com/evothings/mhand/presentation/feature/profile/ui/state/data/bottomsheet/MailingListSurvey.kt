@@ -41,7 +41,7 @@ fun MailingListSurvey(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.paddings.extraGiant),
+            .padding(horizontal = MaterialTheme.paddings.extraGiant),
     ) {
         Text(
             text = "Согласны ли вы на получение мобильных сообщений и email рассылок?",

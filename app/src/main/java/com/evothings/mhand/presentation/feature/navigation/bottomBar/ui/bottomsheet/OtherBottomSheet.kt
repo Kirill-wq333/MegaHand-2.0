@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.evothings.mhand.presentation.feature.coupon.ui.Coupon
 import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.model.WebPageScreen
 import com.evothings.mhand.presentation.feature.navigation.bottomBar.viewmodel.OtherViewModel
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
@@ -166,7 +167,8 @@ private fun Content(
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-            LazyVerticalGrid(columns = GridCells.Fixed(2),
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(6.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
@@ -185,9 +187,10 @@ private fun Content(
                 }
             }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-            BottonFillMaxSizeItem(
+            BottomFillMaxSizeItem(
                 text = stringResource(R.string.gather_coupon_title, couponAmount),
                 backgroundColor = colorScheme.primary,
+                onClick = { couponBottomSheetVisible = true },
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -198,6 +201,12 @@ private fun Content(
                 onClick = onChangeTheme
             )
         }
+    }
+    if (couponBottomSheetVisible) {
+        Coupon(
+            onDismiss = { couponBottomSheetVisible = false },
+            openConfirmationScreen = openCouponPhoneConfirmationScreen,
+            )
     }
 
 }
@@ -238,10 +247,11 @@ private fun ThemeSwitch(
 }
 
 @Composable
-private fun BottonFillMaxSizeItem(
+private fun BottomFillMaxSizeItem(
     modifier: Modifier = Modifier,
     text: String,
-    backgroundColor: Color
+    backgroundColor: Color,
+    onClick: () -> Unit
 ){
 
     Box(
@@ -249,6 +259,9 @@ private fun BottonFillMaxSizeItem(
             .background(
                 color = backgroundColor,
                 shape = MegahandShapes.medium
+            )
+            .clickable(
+                onClick = onClick
             ),
         contentAlignment = Alignment.Center
     ){

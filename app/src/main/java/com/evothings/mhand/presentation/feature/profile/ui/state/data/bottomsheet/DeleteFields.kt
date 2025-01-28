@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,7 +30,7 @@ fun DeleteAccount(
 ) {
     Column(
         modifier = modifier
-            .padding(MaterialTheme.paddings.extraGiant)
+            .padding(horizontal = MaterialTheme.paddings.extraGiant)
     ) {
         Text(
             text = stringResource(R.string.delete_account_title),
@@ -76,9 +77,11 @@ fun DeleteAccount(
 @Composable
 private fun DeleteAccountPreview() {
     MegahandTheme {
-        DeleteAccount(
-            onCancel = {},
-            onDelete = {}
-        )
+        Surface {
+            DeleteAccount(
+                onCancel = {},
+                onDelete = {}
+            )
+        }
     }
 }

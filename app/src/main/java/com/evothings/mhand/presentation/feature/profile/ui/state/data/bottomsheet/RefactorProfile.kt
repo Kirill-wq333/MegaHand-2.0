@@ -123,7 +123,7 @@ fun RefactorProfile(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.paddings.extraGiant)
+            .padding(horizontal = MaterialTheme.paddings.extraGiant)
     ) {
         Text(
             text = stringResource(R.string.profile_edit_label),

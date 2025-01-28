@@ -74,7 +74,7 @@ fun TrackOrderList(
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.paddings.extraGiant)
+            .padding(horizontal = MaterialTheme.paddings.extraGiant)
     ) {
         items(track) { it ->
             TrackOrder(

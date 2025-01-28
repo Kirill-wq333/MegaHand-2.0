@@ -77,14 +77,10 @@ private fun CalendarDiscount(
         weeks[currentWeek].toPersistentList()
     }
 
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-    ){
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(MaterialTheme.paddings.extraGiant),
+                .padding(horizontal = MaterialTheme.paddings.extraGiant),
             horizontalAlignment = Alignment.Start
         ) {
             Text(
@@ -142,7 +138,7 @@ private fun CalendarDiscount(
                 )
             }
         }
-    }
+
 
 }
 
