@@ -294,7 +294,7 @@ private fun AddressCard(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(all = MaterialTheme.spacers.medium)
+            .padding(MaterialTheme.spacers.medium)
             .background(
                 color = MaterialTheme.colorScheme.onSecondary,
                 shape = MaterialTheme.shapes.extraLarge
@@ -306,7 +306,7 @@ private fun AddressCard(
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier
-                .padding(all = MaterialTheme.spacers.extraLarge)
+                .padding(MaterialTheme.spacers.extraLarge)
         )
     }
 }

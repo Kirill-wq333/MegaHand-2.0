@@ -90,10 +90,7 @@ fun AddressForm(
             onClickTrailingButton = { cityBottomSheetVisible = true }
         )
 
-        Spacer(
-            modifier = Modifier
-                .height(MaterialTheme.spacers.medium)
-        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -101,15 +98,12 @@ fun AddressForm(
         ) {
             LabelTextField(
                 modifier = Modifier
-                    .weight(1f, false),
+                    .weight(.7f, false),
                 value = street,
                 label = stringResource(R.string.street_placeholder),
                 onValueChange = { street = it }
             )
-            Spacer(
-                modifier = Modifier
-                    .width(MaterialTheme.spacers.medium)
-            )
+            Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
             IconButton(
                 icon = ImageVector.vectorResource(id = R.drawable.ic_map),
                 tint = MaterialTheme.colorScheme.secondary,
@@ -125,14 +119,11 @@ fun AddressForm(
                     AddressNavigationRegistry.set(addressInstance)
                     onClickMap(city)
                 },
-                modifier = Modifier.weight(0.15f)
+                modifier = Modifier.weight(0.3f)
             )
         }
 
-        Spacer(
-            modifier = Modifier
-                .height(MaterialTheme.spacers.medium)
-        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
 
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -143,10 +134,7 @@ fun AddressForm(
                 modifier = Modifier.weight(0.5f, fill = false),
                 onValueChange = { house = it },
             )
-            Spacer(
-                modifier = Modifier
-                    .width(MaterialTheme.spacers.medium)
-            )
+            Spacer(modifier = Modifier.width(MaterialTheme.spacers.medium))
             LabelTextField(
                 value = flat,
                 label = stringResource(id = R.string.flat_placeholder),
@@ -158,10 +146,7 @@ fun AddressForm(
             )
         }
 
-        Spacer(
-            modifier = Modifier
-                .height(MaterialTheme.spacers.medium)
-        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
 
     }
 

@@ -40,27 +40,6 @@ fun UserIsNotAuthorized(
     onClickAuthorize: () -> Unit
 ) {
 
-    val text =
-        buildAnnotatedString {
-            withStyle(
-                style = SpanStyle(
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            ) {
-                append(stringResource(id = R.string.not_authorized_subtitle1))
-            }
-            withStyle(
-             style = SpanStyle(
-                 color = MaterialTheme.colorScheme.secondary.copy(.6f)
-             )
-            ) {
-                append(
-                    stringResource(
-                        id = R.string.not_authorized_subtitle2,
-                    )
-                )
-            }
-        }
 
     Column(
         modifier = Modifier
@@ -89,7 +68,7 @@ fun UserIsNotAuthorized(
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
             Text(
-                text = text,
+                text = stringResource(R.string.not_authorized_subtitle),
                 style = MegahandTypography.bodyLarge,
                 color = colorScheme.secondary.copy(0.6f),
                 textAlign = TextAlign.Center
