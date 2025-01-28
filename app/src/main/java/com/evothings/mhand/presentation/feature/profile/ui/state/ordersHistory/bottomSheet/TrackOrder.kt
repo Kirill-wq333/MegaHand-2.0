@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
+import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
@@ -74,7 +75,7 @@ fun TrackOrderList(
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = MaterialTheme.paddings.extraGiant)
+            .modalBottomSheetPadding()
     ) {
         items(track) { it ->
             TrackOrder(

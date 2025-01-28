@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import com.evothings.mhand.presentation.feature.shared.map.PlacemarkMap
 import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.ChooseCityScreen
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
+import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.maps.findNearestPointIndex
 import com.evothings.mhand.presentation.utils.maps.toGeoPoint
@@ -73,7 +75,8 @@ fun PickUpPoint(
             ChooseCityScreen(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.7f),
+                    .fillMaxHeight(0.7f)
+                    .modalBottomSheetPadding(),
                 markChosen = false,
                 onChoose = { onChangeCity(it); hide() }
             )

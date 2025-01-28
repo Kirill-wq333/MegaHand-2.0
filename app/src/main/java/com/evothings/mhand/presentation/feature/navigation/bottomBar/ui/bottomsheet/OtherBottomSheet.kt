@@ -41,6 +41,7 @@ import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.navigation.graph.Screen
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
+import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
@@ -152,12 +153,7 @@ private fun Content(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    top = MaterialTheme.paddings.extraGiant,
-                    start = MaterialTheme.paddings.extraGiant,
-                    bottom = MaterialTheme.paddings.extraLarge,
-                    end = MaterialTheme.paddings.extraGiant
-                )
+                .modalBottomSheetPadding()
         ) {
             Text(
                 text = stringResource(R.string.other),

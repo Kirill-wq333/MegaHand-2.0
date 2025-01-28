@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.button.Button
+import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
@@ -30,7 +31,7 @@ fun DeleteAccount(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = MaterialTheme.paddings.extraGiant)
+            .modalBottomSheetPadding()
     ) {
         Text(
             text = stringResource(R.string.delete_account_title),

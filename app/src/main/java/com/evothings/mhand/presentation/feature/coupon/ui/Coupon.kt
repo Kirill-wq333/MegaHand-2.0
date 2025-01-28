@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -53,6 +54,8 @@ import com.evothings.mhand.presentation.feature.coupon.viewmodel.CouponContract
 import com.evothings.mhand.presentation.feature.coupon.viewmodel.CouponViewModel
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
+import com.evothings.mhand.presentation.feature.shared.chooseCity.ChooseCityModal
+import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.ChooseCityScreen
 import com.evothings.mhand.presentation.feature.shared.text.MTextField
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
 import com.evothings.mhand.presentation.feature.shared.text.transform.TextMasks
@@ -140,20 +143,20 @@ private fun Content(
         NameAndSurnameTextField(
             name = name,
             surname = surname,
-            onChangeName = {name = it},
-            onChangeSurname = {surname = it}
+            onChangeName = { name = it },
+            onChangeSurname = { surname = it }
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         NumberPhoneTextField(
             phone = phone,
-            onChangePhone = { phone = it}
+            onChangePhone = { phone = it }
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         TrailingButtonTextField(
             value = city,
             label = stringResource(R.string.city),
             buttonLabel = stringResource(R.string.choose),
-            onValueChange = {city = it},
+            onValueChange = { city = it },
             onClickTrailingButton = {
                 selectCityBottomSheetVisible = true
                 focusManager.clearFocus()
@@ -183,6 +186,22 @@ private fun Content(
             onClick = openPrivacyPolicy
         )
     }
+
+    if (selectCityBottomSheetVisible) {
+        MhandModalBottomSheet(
+            onDismissRequest = { selectCityBottomSheetVisible = false }
+        ) {
+            ChooseCityScreen(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.7f)
+                    .padding(horizontal = MaterialTheme.paddings.extraLarge),
+                markChosen = false,
+                onChoose = { city = it }
+            )
+        }
+    }
+
 }
 
 @Composable

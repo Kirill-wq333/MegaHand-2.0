@@ -149,6 +149,8 @@ fun AddressForm(
             onDismissRequest = { cityBottomSheetVisible = false }
         ) {
             ChooseCityModal(
+                modifier = Modifier
+                    .padding(horizontal = MaterialTheme.paddings.extraGiant),
                 onChoose = {city = it},
                 onDismiss = { cityBottomSheetVisible = false }
             )
