@@ -66,11 +66,6 @@ fun HintsList(
                     .padding(MaterialTheme.paddings.extraLarge)
             )
         }
-        HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = colorScheme.secondary.copy(0.05f))
-        )
     }
 
 }

@@ -50,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.evothings.domain.feature.home.model.City
 import com.evothings.mhand.presentation.feature.shared.button.Chip
+import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import kotlinx.coroutines.launch
 
 private data class ChooseCityUiState(
@@ -228,6 +229,7 @@ private fun LetterCitiesList(
     cities: List<City>,
     onChoose: (String) -> Unit
 ) {
+
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -238,16 +240,24 @@ private fun LetterCitiesList(
         Spacer(
             modifier = Modifier.height(24.dp)
         )
-        repeat(cities.size) { i ->
-            val city = remember(cities) { cities[i] }
+        cities.forEachIndexed { index, i ->
 
             CityItem(
-                name = city.name,
-                isSelected = city.chosen,
-                onClick = { onChoose(city.name) }
+                name = i.name,
+                isSelected = i.chosen,
+                onClick = { onChoose(i.name) }
             )
+            if (index < cities.size - 1) {
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    thickness = 1.dp,
+                    color = if (i.chosen)colorScheme.secondary.copy(0f) else colorScheme.secondary.copy(0.05f )
+                )
+            }
         }
     }
+
 }
 
 @Composable
@@ -278,13 +288,6 @@ private fun CityItem(
             text = name,
             style = typography.bodyLarge,
             modifier = Modifier.padding(12.dp)
-        )
-        HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter),
-            thickness = 1.dp,
-            color = colorScheme.secondary.copy(0.05f)
         )
     }
 

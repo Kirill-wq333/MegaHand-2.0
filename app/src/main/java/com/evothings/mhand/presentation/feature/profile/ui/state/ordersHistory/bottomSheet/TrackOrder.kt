@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.evothings.mhand.R
@@ -30,7 +29,7 @@ import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
-private data class TrackOrder(
+data class Tracker(
     val number: String,
     val track: String
 )
@@ -38,38 +37,52 @@ private data class TrackOrder(
 @Preview
 @Composable
 private fun TrackOrder() {
+
     MegahandTheme {
         Surface() {
-            MhandModalBottomSheet(
-                onDismissRequest = {}
-            ) {
-                TrackOrderList(
-                    onCopy = {}
-                )
-            }
+            TrackOrderBottomSheet()
         }
     }
 }
 
 @Composable
-fun TrackOrderList(
-    modifier: Modifier = Modifier,
-    onCopy: () -> Unit
+fun TrackOrderBottomSheet(
+    modifier: Modifier = Modifier
 ) {
     val track = listOf(
-        TrackOrder(
+        Tracker(
             number = "1.",
             track = "125150980634"
         ),
-        TrackOrder(
+        Tracker(
             number = "2.",
-            track = "219519592395"
+            track = "125150980634"
         ),
-        TrackOrder(
+        Tracker(
             number = "3.",
-            track = "3285532385"
-        )
+            track = "125150980634"
+        ),
     )
+
+    MhandModalBottomSheet(
+        onDismissRequest = {}
+    ) {
+        TrackOrderList(
+            onCopy = {},
+            track = track
+        )
+    }
+
+}
+
+
+@Composable
+private fun TrackOrderList(
+    modifier: Modifier = Modifier,
+    onCopy: () -> Unit,
+    track: List<Tracker>
+) {
+
 
     LazyColumn(
         verticalArrangement = Arrangement.Top,
@@ -77,13 +90,21 @@ fun TrackOrderList(
             .fillMaxWidth()
             .modalBottomSheetPadding()
     ) {
-        items(track) { it ->
+        itemsIndexed(track) { index, tracks ->
             TrackOrder(
-                number = it.number,
-                track = it.track,
+                number = tracks.number,
+                track = tracks.track,
                 onCopy = onCopy
             )
+            if (index < track.size - 1){
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    color = colorScheme.secondary.copy(.05f)
+                )
+            }
         }
+
     }
 
 }
@@ -91,8 +112,8 @@ fun TrackOrderList(
 @Composable
 fun TrackOrder(
     modifier: Modifier = Modifier,
-    number: String,
     track: String,
+    number: String,
     onCopy: () -> Unit
 ) {
     Column(
@@ -125,10 +146,5 @@ fun TrackOrder(
                 onClick = onCopy
             )
         }
-        HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth(),
-            color = colorScheme.secondary.copy(.05f)
-        )
     }
 }

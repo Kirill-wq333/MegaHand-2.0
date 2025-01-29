@@ -35,10 +35,7 @@ fun OrdersHistoryContent(
                 placeholder = stringResource(R.string.order_search_placeholder),
                 onValueChange = onChangeSearchQuery
             )
-            Spacer(
-                modifier = Modifier
-                    .height(MaterialTheme.spacers.medium)
-            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         }
 
         item {
@@ -47,10 +44,7 @@ fun OrdersHistoryContent(
                 placeholder = stringResource(R.string.order_date_search_placeholder),
                 onDateChange = onChangeDateFilter
             )
-            Spacer(
-                modifier = Modifier
-                    .height(MaterialTheme.spacers.extraLarge)
-            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         }
 
         items(
@@ -64,10 +58,7 @@ fun OrdersHistoryContent(
                 onClickPayOrder = { onClickPayOrder(order.paymentUrl) },
                 onContinueCheckout = { onContinueCheckout(order.id) }
             )
-            Spacer(
-                modifier = Modifier
-                    .height(MaterialTheme.spacers.normal)
-            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
         }
 
     }

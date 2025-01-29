@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
@@ -203,13 +204,20 @@ fun TextAndCheckBoxs(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(entries){ item ->
+        itemsIndexed(entries){ index, item ->
             TextAndCheckBox(
                 text = item.value,
                 visibleChecker = (item.id in selected),
                 isChecked = enableRadio,
                 onClick = { onSelect(item.id) }
             )
+            if (index < entries.size - 1){
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = colorScheme.secondary.copy(.05f))
+                )
+            }
         }
     }
 }

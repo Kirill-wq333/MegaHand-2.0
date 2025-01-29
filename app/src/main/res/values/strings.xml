@@ -84,6 +84,8 @@
     <string name="order_track_copy_success">Трек номер скопирован</string>
     <string name="empty_order_history">Ты еще не заказывал(а) ни одного товара</string>
     <string name="make_refund_button">Оформить возврат</string>
+    <string name="order_product">Выберите товар</string>
+    <string name="comment">Комментарий</string>
 
     <!-- Actions -->
     <string name="clear_all">Очистить все</string>

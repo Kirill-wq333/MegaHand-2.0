@@ -74,7 +74,8 @@ fun MTextField(
     leading: (@Composable () -> Unit)? = null,
     trailing: (@Composable () -> Unit)? = null,
     onFocusChange: (Boolean) -> Unit = {},
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    alignment: Alignment = Alignment.Center
 ) {
 
     var isFocused by remember { mutableStateOf(false) }
@@ -115,7 +116,8 @@ fun MTextField(
                     placeholderText = placeholder,
                     leading = leading,
                     trailing = trailing,
-                    innerTextField = innerTextField
+                    innerTextField = innerTextField,
+                    alignment = alignment
                 )
             }
         )
@@ -140,6 +142,7 @@ private fun MTextFieldDecorationBox(
     isFocused: Boolean,
     enablePlaceholder: Boolean,
     placeholderText: String,
+    alignment: Alignment,
     leading: (@Composable () -> Unit)?,
     trailing: (@Composable () -> Unit)?,
     innerTextField: @Composable () -> Unit
@@ -160,7 +163,7 @@ private fun MTextFieldDecorationBox(
                 color = borderColor,
                 shape = shapes.medium
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = alignment
     ) {
         Row(
             modifier = Modifier

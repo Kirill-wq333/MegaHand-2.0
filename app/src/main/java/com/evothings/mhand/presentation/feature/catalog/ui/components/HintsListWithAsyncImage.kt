@@ -87,11 +87,6 @@ fun HintsListAsyncImage(
                 tint = colorScheme.secondary
             )
         }
-        HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = colorScheme.secondary.copy(0.05f))
-        )
     }
 
 }
