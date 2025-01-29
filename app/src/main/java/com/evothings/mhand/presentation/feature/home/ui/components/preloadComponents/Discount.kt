@@ -35,9 +35,6 @@ fun Discount(
     Row(
         modifier = Modifier
             .alpha(if (enabled) 1.0f else 0.0f)
-            .padding(
-               horizontal = MaterialTheme.paddings.extraLarge
-            )
     ) {
 
         Text(

@@ -164,7 +164,7 @@ fun ProfileDataScreen(
             }
 
             RefactorProfile(
-                modifier = Modifier.modalBottomSheetPadding(),
+                modifier = Modifier,
                 model = profile,
                 onCancel = { hide() },
                 onSaveChanges = { profile, changePhone, phone ->
@@ -183,7 +183,6 @@ fun ProfileDataScreen(
             onDismissRequest = { deleteProfileBottomSheetExpanded = false },
         ) {
             DeleteAccount(
-                modifier = Modifier.modalBottomSheetPadding(),
                 onCancel = { deleteProfileBottomSheetExpanded = false },
                 onDelete = callback::deleteAccount
             )

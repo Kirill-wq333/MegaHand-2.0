@@ -40,7 +40,8 @@ fun EditAddressModal(
                 }
             },
             enableIcon = false,
-            onClick = onDelete
+            onClick = onDelete,
+            visibleHorizontalDivider = false
         )
     }
 }

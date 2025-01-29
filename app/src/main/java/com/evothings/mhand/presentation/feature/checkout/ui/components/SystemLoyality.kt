@@ -192,7 +192,7 @@ fun Points(
         RadioButton(
             title = stringResource(R.string.withdraw_radio),
             onSelect = { onCheckWithdraw(true) },
-            isSelected = !isWithdraw
+            isSelected = isWithdraw
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
         RadioButton(

@@ -20,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.PrizeAndMoney
+import com.evothings.mhand.presentation.feature.shared.product.components.price.CashbackPoints
+import com.evothings.mhand.presentation.feature.shared.product.components.price.PriceSize
 import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
 import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.MegahandTypography
@@ -78,7 +80,7 @@ fun Checkout(
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
                 Cashback(
                     text = stringResource(R.string.cashback),
-                    money = "${cashbackPoints.splitHundreds(NumberSeparator.SPACE)} ₽"
+                    money = cashbackPoints
                 )
             }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
@@ -136,7 +138,7 @@ private fun CheckoutItem(
 @Composable
 fun Cashback(
     text: String,
-    money: String,
+    money: Double,
 ) {
     Row(
         modifier = Modifier
@@ -148,8 +150,9 @@ fun Cashback(
             color = colorScheme.secondary.copy(.6f),
             style = MegahandTypography.bodyLarge
         )
-        PrizeAndMoney(
-            money = money,
+        CashbackPoints(
+            value = money,
+            size = PriceSize.Big
         )
     }
 }

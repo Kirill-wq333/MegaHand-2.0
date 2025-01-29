@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -532,6 +533,8 @@ private fun CProduct(
 
     Row(
         modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
@@ -540,12 +543,12 @@ private fun CProduct(
     ) {
         ProductPhoto(
             modifier = Modifier
-                .width(100.dp)
-                .fillMaxSize(),
+                .size(100.dp),
             link = model.photos.firstOrNull().orEmpty()
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.extraMedium))
         Information(
+            modifier = Modifier,
             price = model.actualPrice,
             cashback = model.cashbackPoints,
             discount = model.oldPrice,

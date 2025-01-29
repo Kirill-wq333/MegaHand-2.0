@@ -21,11 +21,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.card.viewmodel.enumeration.CardFilterType
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.radio.RadioChecker
+import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -44,14 +46,21 @@ fun TransactionFilterPicker(
     Column(
         modifier = modifier
     ) {
-        repeat(entries.size) { i ->
-            val item = remember { entries[i] }
+        entries.forEachIndexed { index, i ->
 
             PickerItem(
-                text = item.title,
-                isSelected = entryIndex == i,
-                onSelect = { entryIndex = i }
+                text = i.title,
+                isSelected = entryIndex == index,
+                onSelect = { entryIndex = index }
             )
+            if (index < entries.size - 1){
+                HorizontalDivider(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.secondary.copy(0.1f),
+                    thickness = 1.dp,
+                )
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
+            }
         }
         Spacer(
             modifier = Modifier
@@ -71,13 +80,11 @@ private fun PickerItem(
     isSelected: Boolean,
     onSelect: () -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxWidth()
-            .padding(horizontal = MaterialTheme.paddings.giant)
-    ) {
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(MaterialTheme.paddings.medium)
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
@@ -94,12 +101,7 @@ private fun PickerItem(
                 isChecked = isSelected
             )
         }
-        HorizontalDivider(
-            modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.secondary.copy(0.1f),
-            thickness = 1.dp,
-        )
-    }
+
 }
 
 @Composable

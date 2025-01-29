@@ -317,7 +317,7 @@ private fun Content(
                     enter = fadeIn(tween(300))
                 ) {
                     PrizeAndMoney(
-                        money = "$money",
+                        money = money,
                     )
                 }
                 if (locationVisible) {

@@ -33,6 +33,7 @@ import com.evothings.mhand.presentation.feature.cart.ui.CartScreen
 import com.evothings.mhand.presentation.feature.cart.viewmodel.CartViewModel
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogScreen
 import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogViewModel
+import com.evothings.mhand.presentation.feature.checkout.ui.MakingAnOrderScreen
 import com.evothings.mhand.presentation.feature.checkout.viewmodel.CheckoutViewModel
 import com.evothings.mhand.presentation.feature.favourites.ui.FavouritesScreen
 import com.evothings.mhand.presentation.feature.favourites.viewmodel.FavouritesViewModel
@@ -253,7 +254,14 @@ fun NavGraphBuilder.buildNavigation(
         val checkoutVm = hiltViewModel<CheckoutViewModel>()
 
         CompositionLocalProvider(LocalNavController provides navController) {
-
+            MakingAnOrderScreen(
+                vm = checkoutVm,
+                orderId = args.orderId,
+                onBack = { navController.popBackStack() },
+                openProductInfoScreen = { id -> navController.navigate(NavGraph.ProductInfo(id)) },
+                openAddressMap = { city -> navController.navigate(NavGraph.AddressMap(city)) },
+                openProfile = { navController.navigate(NavGraph.BottomNav.Profile) }
+            )
         }
     }
 

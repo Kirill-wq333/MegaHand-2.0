@@ -30,7 +30,7 @@ fun HistoryBar(
     modifier: Modifier = Modifier,
     isFilterPickerExpanded: Boolean,
     currentFilter: CardFilterType,
-    onExpand: () -> Unit
+    onExpand: () -> Unit,
 ){
     val iconRes = remember {
         if (isFilterPickerExpanded) R.drawable.ic_chevron_top else R.drawable.ic_chevron_bottom
@@ -39,12 +39,7 @@ fun HistoryBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.paddings.extraLarge)
-            .clickable (
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = onExpand
-            ),
+            .padding(MaterialTheme.paddings.extraLarge),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -56,6 +51,12 @@ fun HistoryBar(
                 .padding(vertical = MaterialTheme.paddings.medium)
         )
         Row(
+            modifier = Modifier
+                .clickable (
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onExpand
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(

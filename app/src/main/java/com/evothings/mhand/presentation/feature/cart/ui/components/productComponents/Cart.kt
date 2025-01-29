@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -72,8 +73,8 @@ fun Cart(
                 modifier = modifier,
                 model = model,
                 onClick = onClick,
-                onTrash = toggleFavourite,
-                onFavorite = removeFromCart,
+                onTrash = removeFromCart,
+                onFavorite = toggleFavourite,
             )
         }
     }
@@ -156,24 +157,26 @@ fun OutOfStockCart(
                 .fillMaxSize(),
             link = model.photos.firstOrNull().orEmpty()
         )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
+        Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
         Column(
             modifier = Modifier
                 .weight(.5f)
         ) {
             Text(
+                text = stringResource(R.string.out_of_stock),
+                style = MaterialTheme.typography.headlineMedium,
+                color = colorScheme.secondary
+            )
+            Text(
                 text = model.title,
                 color = colorScheme.secondary.copy(0.6f),
                 style = MegahandTypography.bodyLarge,
-                modifier = Modifier
-                    .padding(
-                        horizontal = MaterialTheme.paddings.extraLarge
-                    )
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
             if (showSizeAndCondition) {
                 SizeAndStars(estimation = model.condition, textSize = model.size)
             }
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
             Action(
                 onFavorite = onFavorite,
                 onTrash = onTrash,
@@ -231,7 +234,7 @@ private fun Action(
     val heartBorderColor =
         if (isFavouriteLocal) MaterialTheme.colorScheme.primary else Color.Transparent
 
-    Row {
+    Row(modifier) {
         IconButton(
             icon = ImageVector.vectorResource(id = R.drawable.ic_heart),
             tint = MaterialTheme.colorScheme.secondary,

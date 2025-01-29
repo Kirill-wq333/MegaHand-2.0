@@ -17,6 +17,7 @@ import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun Information(
+    modifier: Modifier = Modifier,
     price: Double,
     cashback: Double,
     discount: Double,
@@ -30,8 +31,6 @@ fun Information(
 ) {
     Column {
         Price(
-            modifier = Modifier
-                .padding(horizontal = MaterialTheme.paddings.extraLarge),
             price = price,
             cashback = cashback,
             verticalAlignment = Alignment.CenterVertically,
@@ -46,17 +45,13 @@ fun Information(
                 enabled = (discount > 0)
             )
         }
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.tiny))
         Text(
             text = title,
             color = colorScheme.secondary.copy(0.6f),
             style = MegahandTypography.bodyLarge,
-            modifier = Modifier
-                .padding(
-                    horizontal = MaterialTheme.paddings.extraLarge
-                )
         )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
         if (showSizeAndCondition) {
             SizeAndStars(estimation = condition, textSize = size)
         }

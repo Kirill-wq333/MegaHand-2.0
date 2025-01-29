@@ -42,7 +42,8 @@ fun HighLink(
 fun HighLink(
     text: AnnotatedString,
     enableIcon: Boolean = true,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    visibleHorizontalDivider: Boolean = true
 ) {
     Column(
         modifier = Modifier
@@ -74,11 +75,13 @@ fun HighLink(
                 )
             }
         }
+        if (visibleHorizontalDivider){
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
             thickness = 1.dp,
             color = MaterialTheme.colorScheme.secondary.copy(0.05f)
         )
+        }
     }
 }
 

@@ -33,8 +33,6 @@ fun SizeAndStars(
     estimation: String
 ) {
     Row(
-        modifier = Modifier
-            .padding(start = MaterialTheme.paddings.extraLarge),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconAndTextItem(

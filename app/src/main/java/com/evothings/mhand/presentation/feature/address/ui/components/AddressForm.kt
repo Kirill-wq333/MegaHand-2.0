@@ -79,7 +79,6 @@ fun AddressForm(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.paddings.extraGiant)
             .height(IntrinsicSize.Min),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
     ) {

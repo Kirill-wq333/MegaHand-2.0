@@ -28,7 +28,7 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun PrizeAndMoney(
-    money: String,
+    money: Int,
 ) {
 
     Box(
