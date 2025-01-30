@@ -157,6 +157,6 @@ dependencies {
 
     implementation(libs.osmdroid)
 
-
+    implementation(libs.play.services.location)
 
 }

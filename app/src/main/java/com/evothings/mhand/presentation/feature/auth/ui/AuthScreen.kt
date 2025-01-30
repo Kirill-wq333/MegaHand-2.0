@@ -85,8 +85,6 @@ fun AuthScreen(
                 is AuthContract.Effect.NavigateToSecureCode -> openEnterSecureCode(effect.phone)
                 is AuthContract.Effect.ShowErrorToast ->
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-
-                else -> {}
             }
         }
     }
@@ -137,7 +135,11 @@ private fun Content(
             if (state is AuthContract.State.Idle) {
                 val focusManager = LocalFocusManager.current
                 NextButtonAndPrivacyPolicyText(
-                    isSelected = isButtonEnabled
+                    isSelected = isButtonEnabled,
+                    onNext = {
+                        focusManager.clearFocus()
+                        callback.sendCode(phone, refCode)
+                    }
                 )
             }
         }
@@ -249,6 +251,7 @@ private fun InviteCodeInput(
 fun NextButtonAndPrivacyPolicyText(
     modifier: Modifier = Modifier,
     isSelected: Boolean,
+    onNext: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -261,7 +264,7 @@ fun NextButtonAndPrivacyPolicyText(
                 else colorScheme.secondary.copy(.1f),
             textColor = if (isSelected) colorScheme.secondary
                 else ColorTokens.White,
-            onClick = {},
+            onClick = onNext,
             modifier = Modifier
                 .fillMaxWidth()
         )

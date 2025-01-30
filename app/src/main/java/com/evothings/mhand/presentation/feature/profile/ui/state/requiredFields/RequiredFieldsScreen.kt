@@ -107,8 +107,6 @@ fun RequiredFieldsScreen(
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         Data(
             model = model,
-            enablePhoneField = false
-
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         Button(
@@ -128,11 +126,7 @@ fun RequiredFieldsScreen(
 private fun Data(
     modifier: Modifier = Modifier,
     model: Profile,
-    onChangePhone: (String) -> Unit = {},
-    enablePhoneField: Boolean = true,
 ) {
-
-    val focusManager = LocalFocusManager.current
 
     var selectCityBottomSheetVisible by remember { mutableStateOf(false) }
 
@@ -143,16 +137,59 @@ private fun Data(
     var city by remember { mutableStateOf(model.city) }
     var date by remember { mutableStateOf(model.birthday) }
 
-    val isSaveButtonEnabled by remember {
-        derivedStateOf {
-            val emailValid = email.matches(Patterns.EMAIL_ADDRESS.toRegex())
-            val dateValid = DateValidator.isBeforeToday(date)
 
-            (name.isNotEmpty() && surname.isNotEmpty()) &&
-                    (email.isEmpty() || emailValid) && (date.isEmpty() || dateValid)
+
+    DataContent(
+        name = name,
+        surname = surname,
+        email = email,
+        city = city,
+        date = date,
+        phone = phone,
+        enablePhoneField = false,
+        onChangeName = { name = it },
+        onChangeSurname = { surname = it },
+        onChangeEmail = { email = it },
+        onChangeDate = { date = it },
+        onChangeCity = { city = it }
+
+    )
+    if (selectCityBottomSheetVisible) {
+        MhandModalBottomSheet(
+            onDismissRequest = { selectCityBottomSheetVisible = false }
+        ) { hide ->
+            ChooseCityModal(
+                modifier = Modifier.modalBottomSheetPadding(),
+                onDismiss = hide,
+                onChoose = {
+                    city = it; hide()
+                }
+            )
         }
     }
+}
 
+
+@Composable
+private fun DataContent(
+    modifier: Modifier = Modifier,
+    name: String,
+    surname: String,
+    phone: String = "",
+    email: String,
+    city: String,
+    date: String,
+    enablePhoneField: Boolean = true,
+    onChangeName: (String) -> Unit,
+    onChangeSurname: (String) -> Unit,
+    onChangeEmail: (String) -> Unit,
+    onChangePhone: (String) -> Unit = {},
+    onChangeDate: (String) -> Unit,
+    onChangeCity: (String) -> Unit
+) {
+    val focusManager = LocalFocusManager.current
+
+    var selectCityBottomSheetVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -170,7 +207,7 @@ private fun Data(
                 text = stringResource(R.string.name),
                 visibleAttention = true,
                 visiblePrize = true,
-                onValueChange = { name = it },
+                onValueChange = onChangeName,
                 textField = name
             )
             TextAndTextField(
@@ -180,32 +217,32 @@ private fun Data(
                 visibleAttention = true,
                 visiblePrize = true,
                 textField = surname,
-                onValueChange = { surname = it }
+                onValueChange = onChangeSurname
             )
         }
         if (enablePhoneField){
-        LabelTextField(
-            value = phone,
-            label = stringResource(id = R.string.phone_number),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-            visualTransformation = rememberMaskVisualTransformation(mask = TextMasks.phone),
-            maxLength = 11,
-            onValueChange = onChangePhone
-        )
+            LabelTextField(
+                value = phone,
+                label = stringResource(id = R.string.phone_number),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                visualTransformation = rememberMaskVisualTransformation(mask = TextMasks.phone),
+                maxLength = 11,
+                onValueChange = onChangePhone
+            )
         }
         TextAndTextField(
             text = stringResource(R.string.profile_email),
             visiblePrize = true,
-            onValueChange = { email = it },
+            onValueChange = onChangeEmail,
             textField = email
         )
         TrailingButtonTextField(
             value = city,
             label = stringResource(R.string.city),
             buttonLabel = stringResource(R.string.choose),
-            onValueChange = {city = it},
+            onValueChange = onChangeCity,
             onClickTrailingButton = {
-                selectCityBottomSheetVisible = true
+                selectCityBottomSheetVisible = true;
                 focusManager.clearFocus()
             },
             visiblePrize = true
@@ -221,20 +258,7 @@ private fun Data(
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
             DatePickerTextField(
                 date = date,
-                onDateChange = { date = it }
-            )
-        }
-    }
-    if (selectCityBottomSheetVisible) {
-        MhandModalBottomSheet(
-            onDismissRequest = { selectCityBottomSheetVisible = false }
-        ) { hide ->
-            ChooseCityModal(
-                modifier = Modifier.modalBottomSheetPadding(),
-                onDismiss = hide,
-                onChoose = {
-                    city = it; hide()
-                }
+                onDateChange = onChangeDate
             )
         }
     }

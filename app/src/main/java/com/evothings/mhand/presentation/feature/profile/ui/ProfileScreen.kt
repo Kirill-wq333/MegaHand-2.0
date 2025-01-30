@@ -262,6 +262,8 @@ private fun ProfileScreenContent(
 
             is ProfileContract.State.NecessaryFieldsUnfilled -> {
                 RequiredFieldsScreen(
+                    modifier = Modifier
+                        .padding(headerPadding),
                     model = uiState.profile,
                     onSave = { profile ->
                         callback.updateProfile(profile)
