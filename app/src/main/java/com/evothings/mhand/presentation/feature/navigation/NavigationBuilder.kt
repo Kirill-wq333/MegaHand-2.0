@@ -29,6 +29,8 @@ import com.evothings.mhand.presentation.feature.onboarding.viewmodel.Introductio
 import com.evothings.mhand.presentation.feature.address.ui.screen.AddressMapScreen
 import com.evothings.mhand.presentation.feature.address.viewmodel.map.AddressMapViewModel
 import com.evothings.mhand.presentation.feature.address.viewmodel.registry.AddressNavigationRegistry
+import com.evothings.mhand.presentation.feature.auth.ui.securecode.CreateSecureCodeScreen
+import com.evothings.mhand.presentation.feature.auth.ui.securecode.EnterSecureCodeScreen
 import com.evothings.mhand.presentation.feature.cart.ui.CartScreen
 import com.evothings.mhand.presentation.feature.cart.viewmodel.CartViewModel
 import com.evothings.mhand.presentation.feature.catalog.ui.CatalogScreen
@@ -48,6 +50,7 @@ import com.evothings.mhand.presentation.feature.profile.ui.ProfileScreen
 import com.evothings.mhand.presentation.feature.profile.viewmodel.ProfileViewModel
 import com.evothings.mhand.presentation.feature.shared.screen.ImageViewScreen
 import com.evothings.mhand.presentation.feature.shared.screen.LoadingTechnicalServiceScreen
+import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.ui.ConfirmCodeScreen
 import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.model.ConfirmCodeUseCase
 import com.evothings.mhand.presentation.feature.shops.ui.ShopsScreen
 import com.evothings.mhand.presentation.feature.shops.viewmodel.ShopsViewModel
@@ -107,6 +110,13 @@ fun NavGraphBuilder.buildNavigation(
         val args = it.toRoute<NavGraph.Auth.SecureCode.Create>()
         val secureCodeViewModel = hiltViewModel<SecureCodeViewModel>()
 
+        CreateSecureCodeScreen(
+            vm = secureCodeViewModel,
+            phone = args.phone,
+            openProfile = { navController.navigate(NavGraph.BottomNav.Profile) },
+            onBack = { navController.popBackStack() }
+        )
+
     }
 
     composable<NavGraph.Auth.SecureCode.Enter>(
@@ -115,7 +125,13 @@ fun NavGraphBuilder.buildNavigation(
     ) {
         val args = it.toRoute<NavGraph.Auth.SecureCode.Enter>()
         val secureCodeViewModel = hiltViewModel<SecureCodeViewModel>()
-
+        EnterSecureCodeScreen(
+            vm = secureCodeViewModel,
+            phone = args.phone,
+            openProfile = {navController.navigate(NavGraph.BottomNav.Profile)},
+            openResetCode = {phone -> navController.navigate(NavGraph.ConfirmationCode(phone, ConfirmCodeUseCase.AUTH.ordinal))  },
+            onBack = { navController.popBackStack() },
+            )
     }
 
     composable<NavGraph.AppStatus.TechnicalWorks> {
@@ -138,6 +154,13 @@ fun NavGraphBuilder.buildNavigation(
         val args = it.toRoute<NavGraph.ConfirmationCode>()
         val confirmCodeViewModel = hiltViewModel<ConfirmCodeViewModel>()
 
+        ConfirmCodeScreen(
+            vm = confirmCodeViewModel,
+            phone = args.phone,
+            useCase = ConfirmCodeUseCase.entries[args.useCase],
+            openCreateSecureCode = {phone ->  navController.navigate(NavGraph.Auth.SecureCode.Create(phone))},
+            onBack = {navController.popBackStack()}
+        )
     }
 
     composable<NavGraph.BottomNav.Home>(
