@@ -140,7 +140,6 @@ dependencies {
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.core.ktx)
 
     "googleImplementation"(libs.play.services)
     "googleImplementation"(libs.play.update)
