@@ -206,7 +206,7 @@ private fun DataContent(
                     .weight(.5f),
                 text = stringResource(R.string.name),
                 visibleAttention = true,
-                visiblePrize = true,
+                visiblePrize = name.isNotEmpty(),
                 onValueChange = onChangeName,
                 textField = name
             )
@@ -215,7 +215,7 @@ private fun DataContent(
                     .weight(.5f),
                 text = stringResource(R.string.surname),
                 visibleAttention = true,
-                visiblePrize = true,
+                visiblePrize = surname.isNotEmpty(),
                 textField = surname,
                 onValueChange = onChangeSurname
             )
@@ -232,7 +232,7 @@ private fun DataContent(
         }
         TextAndTextField(
             text = stringResource(R.string.profile_email),
-            visiblePrize = true,
+            visiblePrize = email.isNotEmpty(),
             onValueChange = onChangeEmail,
             textField = email
         )
@@ -245,7 +245,7 @@ private fun DataContent(
                 selectCityBottomSheetVisible = true;
                 focusManager.clearFocus()
             },
-            visiblePrize = true
+            visiblePrize = city.isNotEmpty()
         )
         Column {
             Text(
