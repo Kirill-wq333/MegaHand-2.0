@@ -46,7 +46,6 @@ fun SwipeToDeleteLeftRightItem(item: String, onDelete: (String) -> Unit) {
     var swipeDirection by remember { mutableStateOf(SwipeDirection.None) }
     val animatedOffsetX by animateDpAsState(
         targetValue = when (swipeDirection) {
-            SwipeDirection.Left -> (-100).dp
             SwipeDirection.Right -> 100.dp
             SwipeDirection.None -> offsetX.dp
         },
@@ -76,13 +75,6 @@ fun SwipeToDeleteLeftRightItem(item: String, onDelete: (String) -> Unit) {
                                     isRemoved = true
                                     onDelete(item)
                                 }
-                            } else if (offsetX < -50) {
-                                swipeDirection = SwipeDirection.Left
-                                coroutineScope.launch {
-                                    delay(400)
-                                    isRemoved = true
-                                    onDelete(item)
-                                }
                             } else {
                                 swipeDirection = SwipeDirection.None
                                 offsetX = 0f
@@ -100,7 +92,7 @@ fun SwipeToDeleteLeftRightItem(item: String, onDelete: (String) -> Unit) {
             ) {
                 Text(text = item, modifier = Modifier.weight(1f))
                 IconButton(onClick = {
-                    swipeDirection = SwipeDirection.Left
+                    swipeDirection = SwipeDirection.Right
                     coroutineScope.launch {
                         delay(300)
                         isRemoved = true
@@ -117,7 +109,6 @@ fun SwipeToDeleteLeftRightItem(item: String, onDelete: (String) -> Unit) {
 
 enum class SwipeDirection {
     None,
-    Left,
     Right
 }
 
