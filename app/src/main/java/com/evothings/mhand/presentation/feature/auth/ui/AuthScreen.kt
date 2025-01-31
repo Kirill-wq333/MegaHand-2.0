@@ -63,7 +63,6 @@ private interface AuthCallback {
 
 @Composable
 fun AuthScreen(
-    modifier: Modifier = Modifier,
     vm: AuthViewModel,
     openMainScreen: () -> Unit,
     openConfirmationCode: (phone: String) -> Unit,
@@ -116,7 +115,6 @@ fun AuthScreen(
 
 @Composable
 private fun Content(
-    modifier: Modifier = Modifier,
     state: AuthContract.State,
     callback: AuthCallback
 ) {
@@ -135,11 +133,11 @@ private fun Content(
             if (state is AuthContract.State.Idle) {
                 val focusManager = LocalFocusManager.current
                 NextButtonAndPrivacyPolicyText(
-                    isSelected = isButtonEnabled,
                     onNext = {
                         focusManager.clearFocus()
                         callback.sendCode(phone, refCode)
-                    }
+                    },
+                    isEnabled = isButtonEnabled
                 )
             }
         }
@@ -250,8 +248,8 @@ private fun InviteCodeInput(
 @Composable
 fun NextButtonAndPrivacyPolicyText(
     modifier: Modifier = Modifier,
-    isSelected: Boolean,
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    isEnabled: Boolean
 ) {
     Column(
         modifier = Modifier
@@ -260,10 +258,9 @@ fun NextButtonAndPrivacyPolicyText(
     ) {
         Button(
             text = stringResource(R.string.next),
-            backgroundColor = if (isSelected) colorScheme.primary
-                else colorScheme.secondary.copy(.1f),
-            textColor = if (isSelected) colorScheme.secondary
-                else ColorTokens.White,
+            backgroundColor = colorScheme.primary,
+            textColor = colorScheme.secondary,
+            isEnabled = isEnabled,
             onClick = onNext,
             modifier = Modifier
                 .fillMaxWidth()
