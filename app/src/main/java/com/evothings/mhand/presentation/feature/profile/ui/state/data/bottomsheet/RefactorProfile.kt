@@ -42,7 +42,9 @@ import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
 import com.evothings.mhand.presentation.feature.onboarding.ui.components.BottomSheetLikeIndicator
 import com.evothings.mhand.presentation.feature.profile.ui.state.requiredFields.TextAndTextField
+import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
+import com.evothings.mhand.presentation.feature.shared.chooseCity.ChooseCityModal
 import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.feature.shared.text.DatePickerTextField
 import com.evothings.mhand.presentation.feature.shared.text.LabelTextField
@@ -231,9 +233,23 @@ fun RefactorProfile(
                 modifier = Modifier
                     .weight(.5f),
                 text = stringResource(R.string.save),
+                isEnabled = isSaveButtonEnabled,
                 textColor = colorScheme.secondary,
                 backgroundColor = colorScheme.primary,
                 onClick = { onSaveChanges(newProfile, phoneNumberIsChanged, phone) }
+            )
+        }
+    }
+    if (cityBottomSheetIsVisible) {
+        MhandModalBottomSheet(
+            onDismissRequest = { cityBottomSheetIsVisible = false }
+        ) { hide ->
+            ChooseCityModal(
+                modifier = Modifier.modalBottomSheetPadding(),
+                onDismiss = hide,
+                onChoose = {
+                    city = it; hide()
+                }
             )
         }
     }

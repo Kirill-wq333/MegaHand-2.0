@@ -67,6 +67,7 @@ fun RequiredFieldsScreen(
     var email by rememberSaveable { mutableStateOf(model.email) }
     var city by remember { mutableStateOf(model.city) }
     var date by remember { mutableStateOf(model.birthday) }
+    var phone by remember { mutableStateOf(model.phoneNumber) }
 
     val isSaveButtonEnabled by remember {
         derivedStateOf {
@@ -88,72 +89,56 @@ fun RequiredFieldsScreen(
         )
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(MaterialTheme.paddings.extraGiant)
-    ) {
-        Text(
-            text = stringResource(R.string.fill_profile_title),
-            color = colorScheme.secondary,
-            style = MegahandTypography.headlineMedium
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        Text(
-            text = stringResource(R.string.fill_profile_subtitle),
-            color = colorScheme.secondary.copy(.4f),
-            style = MegahandTypography.bodyLarge
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        Data(
-            model = model,
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        Button(
-            modifier = Modifier
-                .fillMaxWidth(),
-            text = stringResource(R.string.proceed),
-            backgroundColor = colorScheme.primary,
-            textColor = ColorTokens.Graphite,
-            onClick = { onSave(newProfile) },
-            isEnabled = isSaveButtonEnabled
-        )
-    }
-
-}
-
-@Composable
-private fun Data(
-    modifier: Modifier = Modifier,
-    model: Profile,
-) {
-
     var selectCityBottomSheetVisible by remember { mutableStateOf(false) }
 
-    var email by remember { mutableStateOf(model.email) }
-    var surname by remember { mutableStateOf(model.lastName) }
-    var name by remember { mutableStateOf(model.firstName) }
-    var phone by remember { mutableStateOf(model.phoneNumber) }
-    var city by remember { mutableStateOf(model.city) }
-    var date by remember { mutableStateOf(model.birthday) }
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(MaterialTheme.paddings.extraGiant)
+        ) {
+            Text(
+                text = stringResource(R.string.fill_profile_title),
+                color = colorScheme.secondary,
+                style = MegahandTypography.headlineMedium
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
+            Text(
+                text = stringResource(R.string.fill_profile_subtitle),
+                color = colorScheme.secondary.copy(.4f),
+                style = MegahandTypography.bodyLarge
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+            Data(
+                phone = phone,
+                email = email,
+                surname = surname,
+                name = name,
+                city = city,
+                date = date,
+                onChangeDate = { date = it },
+                onChangeEmail = { email = it },
+                onChangeName = { name = it },
+                onChangeCity = { city = it },
+                onChangeSurname = { surname = it },
+                onClickCity = { selectCityBottomSheetVisible = true }
 
-
-
-    DataContent(
-        name = name,
-        surname = surname,
-        email = email,
-        city = city,
-        date = date,
-        phone = phone,
-        enablePhoneField = false,
-        onChangeName = { name = it },
-        onChangeSurname = { surname = it },
-        onChangeEmail = { email = it },
-        onChangeDate = { date = it },
-        onChangeCity = { city = it }
-
-    )
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = stringResource(R.string.proceed),
+                backgroundColor = colorScheme.primary,
+                textColor = ColorTokens.Graphite,
+                onClick = { onSave(newProfile) },
+                isEnabled = isSaveButtonEnabled
+            )
+        }
+    }
     if (selectCityBottomSheetVisible) {
         MhandModalBottomSheet(
             onDismissRequest = { selectCityBottomSheetVisible = false }
@@ -169,10 +154,43 @@ private fun Data(
     }
 }
 
+@Composable
+private fun Data(
+    email: String,
+    surname: String,
+    name: String,
+    phone: String,
+    city: String,
+    date: String,
+    onClickCity: () -> Unit,
+    onChangeDate: (String) -> Unit,
+    onChangeEmail: (String) -> Unit,
+    onChangeName: (String) -> Unit,
+    onChangeCity: (String) -> Unit,
+    onChangeSurname: (String) -> Unit
+) {
+
+    DataContent(
+        name = name,
+        surname = surname,
+        email = email,
+        city = city,
+        date = date,
+        phone = phone,
+        enablePhoneField = false,
+        onChangeName = onChangeName,
+        onChangeSurname = onChangeSurname,
+        onChangeEmail = onChangeEmail,
+        onChangeDate = onChangeDate,
+        onChangeCity = onChangeCity,
+        onClickCity = onClickCity
+    )
+
+}
+
 
 @Composable
 private fun DataContent(
-    modifier: Modifier = Modifier,
     name: String,
     surname: String,
     phone: String = "",
@@ -185,11 +203,11 @@ private fun DataContent(
     onChangeEmail: (String) -> Unit,
     onChangePhone: (String) -> Unit = {},
     onChangeDate: (String) -> Unit,
-    onChangeCity: (String) -> Unit
+    onChangeCity: (String) -> Unit,
+    onClickCity: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
-    var selectCityBottomSheetVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -242,7 +260,7 @@ private fun DataContent(
             buttonLabel = stringResource(R.string.choose),
             onValueChange = onChangeCity,
             onClickTrailingButton = {
-                selectCityBottomSheetVisible = true;
+                onClickCity()
                 focusManager.clearFocus()
             },
             visiblePrize = city.isNotEmpty()
@@ -276,7 +294,6 @@ fun TextAndTextField(
     textField: String,
     onValueChange: (String) -> Unit
 ) {
-    var textField by remember { mutableStateOf(textField) }
 
     Column(
         modifier = modifier

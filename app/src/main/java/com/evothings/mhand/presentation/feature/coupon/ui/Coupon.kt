@@ -2,7 +2,6 @@ package com.evothings.mhand.presentation.feature.coupon.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,24 +27,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.evothings.domain.feature.coupon.model.CouponForm
 import com.evothings.mhand.R
@@ -54,7 +44,6 @@ import com.evothings.mhand.presentation.feature.coupon.viewmodel.CouponContract
 import com.evothings.mhand.presentation.feature.coupon.viewmodel.CouponViewModel
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
-import com.evothings.mhand.presentation.feature.shared.chooseCity.ChooseCityModal
 import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.ChooseCityScreen
 import com.evothings.mhand.presentation.feature.shared.text.MTextField
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
@@ -65,7 +54,6 @@ import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
-import com.evothings.mhand.presentation.theme.values.MegahandShapes
 import com.evothings.mhand.presentation.utils.sdkutil.openPrivacyPolicyPage
 
 @Composable

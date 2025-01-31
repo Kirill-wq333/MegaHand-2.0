@@ -115,7 +115,7 @@ fun ProfileDataScreen(
                 onEditProfile = { editProfileBottomSheetExpanded = true }
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.mega))
-            Referral(
+            CashbackAndAddressAndReferral(
                 cashback = profile.cashback,
                 referalCode = profile.referalCode,
                 referalProfit = referalInfo.balance,
@@ -191,7 +191,7 @@ fun ProfileDataScreen(
 }
 
 @Composable
-fun Referral(
+fun CashbackAndAddressAndReferral(
     modifier: Modifier = Modifier,
     cashback: Int,
     referalCode: String,

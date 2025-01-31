@@ -169,6 +169,7 @@ fun BlockCashback(
     Block(
         text = stringResource(R.string.cashback),
         visibleDiscount = true,
+        discount = cashback,
         content = {
             Column(
                 modifier = Modifier
@@ -274,13 +275,14 @@ private fun BlockPreview() {
         Block(
             text = stringResource(R.string.cashback),
             visibleDiscount = true,
+            discount = 5,
             content = {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
                     BlockCashback(
-                        cashback = 5
+                        cashback = 5,
                     )
                 }
             }
