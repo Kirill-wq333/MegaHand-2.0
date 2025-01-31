@@ -317,7 +317,7 @@ private fun Content(
                 openProfile = { NavGraph.BottomNav.Profile },
                 enableBalance = true,
                 cardQRUrl = uiState.cardQRLink,
-                showQR = { showQrCodeView = true }
+                showQR = { showQrCodeView = true },
             )
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
@@ -406,6 +406,7 @@ fun StoriesLists(
 fun LoyalityCard(
     modifier: Modifier = Modifier,
     cashback: Int,
+    cardBalance: Int = -1,
     cardQRUrl: String,
     isOnboarding: Boolean = false,
     showQR: () -> Unit,
@@ -431,6 +432,7 @@ fun LoyalityCard(
                     enableBalance = enableBalance,
                     cashback = cashback,
                     onClickIncrease = openProfile,
+                    money = cardBalance
                 )
                 QrCode(
                     modifier = Modifier.weight(.5f),

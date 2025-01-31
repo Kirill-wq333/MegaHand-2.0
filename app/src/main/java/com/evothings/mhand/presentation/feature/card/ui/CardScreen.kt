@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -192,7 +193,11 @@ private fun Content(
 
     var filterPickerBottomSheetExpanded by remember { mutableStateOf(false) }
 
-
+    val transactionsListIsEmpty by remember {
+        derivedStateOf {
+            uiState.transactions.isEmpty() && uiState.currentFilter == CardFilterType.ALL
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -204,7 +209,8 @@ private fun Content(
                 openProfile = callback::openProfileScreen,
                 enableBalance = true,
                 cardQRUrl = uiState.card.barcodeUrl.orEmpty(),
-                showQR = { qrViewIsVisible = true }
+                showQR = { qrViewIsVisible = true },
+                cardBalance = uiState.card.balance
             )
         }
         when {
@@ -221,7 +227,9 @@ private fun Content(
                     }
                 }
             }
-
+            transactionsListIsEmpty -> {
+                item { TransactionsListEmpty() }
+            }
             else -> {
                 history(
                     currentFilter = uiState.currentFilter,
@@ -342,6 +350,32 @@ private fun LazyListScope.history(
                     type = item.type
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun TransactionsListEmpty() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 40.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.transactions_list_is_empty),
+                style = typography.headlineSmall
+            )
+            Text(
+                text = stringResource(R.string.transactions_list_empty_subtitle),
+                textAlign = TextAlign.Center,
+                style = typography.labelLarge,
+                color = colorScheme.secondary.copy(0.6f)
+            )
         }
     }
 }

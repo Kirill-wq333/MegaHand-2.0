@@ -161,8 +161,6 @@ private fun Content(
                         onChangeRefCode = { refCode = it }
                     )
                 }
-
-                else -> {}
             }
         }
     }
@@ -187,6 +185,7 @@ private fun InputFields(
             label = stringResource(id = R.string.phone_number),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
             visualTransformation = rememberMaskVisualTransformation(mask = TextMasks.phone),
+            errorText = "Заполните поле",
             maxLength = 11,
             onValueChange = onChangePhone
         )
@@ -211,7 +210,6 @@ private fun InviteCodeInput(
 
     Column(
         verticalArrangement = Arrangement.spacedBy(9.dp),
-        horizontalAlignment = Alignment.Start
     ) {
         Text(
             text = stringResource(R.string.invite_link_field_title),
@@ -239,6 +237,8 @@ private fun InviteCodeInput(
             }
         )
         AnimatedHint(
+            modifier = Modifier
+                .align(Alignment.End),
             text = stringResource(id = R.string.invite_code_hint_text),
             visible = isHintVisible.value,
             onHide = { isHintVisible.value = false }
