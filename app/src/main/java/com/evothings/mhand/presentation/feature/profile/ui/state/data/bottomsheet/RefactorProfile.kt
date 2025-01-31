@@ -68,7 +68,6 @@ private fun EditProfileModalPreview() {
                 onDismissRequest = {}
             ) {
                 RefactorProfile(
-                    modifier = Modifier.modalBottomSheetPadding(),
                     model = Profile(),
                     onCancel = { },
                     onSaveChanges = { _, _, _ -> }
