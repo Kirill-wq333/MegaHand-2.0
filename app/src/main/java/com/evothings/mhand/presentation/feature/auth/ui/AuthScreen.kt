@@ -42,6 +42,7 @@ import com.evothings.mhand.presentation.feature.auth.viewmodel.AuthContract
 import com.evothings.mhand.presentation.feature.auth.viewmodel.AuthViewModel
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.button.icon.SmallIconButton
+import com.evothings.mhand.presentation.feature.shared.checkbox.Checkbox
 import com.evothings.mhand.presentation.feature.shared.hint.AnimatedHint
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.text.LabelTextField
@@ -49,7 +50,6 @@ import com.evothings.mhand.presentation.feature.shared.text.MTextField
 import com.evothings.mhand.presentation.feature.shared.text.transform.TextMasks
 import com.evothings.mhand.presentation.feature.shared.text.transform.rememberMaskVisualTransformation
 import com.evothings.mhand.presentation.theme.MegahandTheme
-import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.openPrivacyPolicyPage
@@ -122,8 +122,11 @@ private fun Content(
     var phone by rememberSaveable { mutableStateOf("") }
     var refCode by rememberSaveable { mutableStateOf("") }
 
+    var agreementIsChecked by rememberSaveable { mutableStateOf(false) }
+
     val isButtonEnabled by remember {
         derivedStateOf {
+            agreementIsChecked = phone.length == 11
             phone.length == 11
         }
     }
@@ -137,7 +140,10 @@ private fun Content(
                         focusManager.clearFocus()
                         callback.sendCode(phone, refCode)
                     },
-                    isEnabled = isButtonEnabled
+                    isEnabled = isButtonEnabled,
+                    onPrivacyPolicy = callback::openPrivacyPolicy,
+                    agreementIsChecked = agreementIsChecked,
+                    agreement = { agreementIsChecked = !agreementIsChecked }
                 )
             }
         }
@@ -247,15 +253,26 @@ private fun InviteCodeInput(
 
 @Composable
 fun NextButtonAndPrivacyPolicyText(
-    modifier: Modifier = Modifier,
     onNext: () -> Unit,
-    isEnabled: Boolean
+    isEnabled: Boolean,
+    onPrivacyPolicy: () -> Unit,
+    agreementIsChecked: Boolean,
+    agreement: () -> Unit
 ) {
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(MaterialTheme.paddings.extraGiant)
     ) {
+        Checkbox(
+            modifier = Modifier
+                .fillMaxWidth(),
+            title = stringResource(R.string.agreement),
+            onCheck = agreement,
+            isChecked = agreementIsChecked
+        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
         Button(
             text = stringResource(R.string.next),
             backgroundColor = colorScheme.primary,
@@ -268,7 +285,7 @@ fun NextButtonAndPrivacyPolicyText(
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
         PrivacyPolicyText(
             buttonLabel = stringResource(R.string.login),
-            onClick = {}
+            onClick = onPrivacyPolicy
         )
     }
 }

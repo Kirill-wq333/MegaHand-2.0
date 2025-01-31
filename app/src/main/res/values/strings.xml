@@ -25,7 +25,8 @@
     <string name="enter_code_one_more_time">Введи придуманный код еще раз</string>
     <string name="enter_secure_code">Введи код авторизации в аккаунт</string>
     <string name="forgot_secure_code">Я забыл(а) код авториации</string>
-    <string name="auth_code">Код авторизации</string>
+    <string name="auth_code">Код авторизации</string>,
+    <string name="agreement">Соглашаюсь на получение мобильных сообщений и E-mail рассылок</string>
 
     <!-- Profile -->
     <string name="profile_screen_title">Аккаунт</string>
