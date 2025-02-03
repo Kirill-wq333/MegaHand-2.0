@@ -51,7 +51,6 @@ fun PersonalData(
     ) {
         Text(
             text = stringResource(R.string.personal_data),
-            color = colorScheme.secondary,
             style = MegahandTypography.titleLarge
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))

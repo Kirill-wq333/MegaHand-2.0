@@ -1,7 +1,6 @@
 package com.evothings.mhand.presentation.feature.shared.header.ui
 
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -11,18 +10,13 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
@@ -47,7 +41,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.evothings.domain.feature.notification.model.Notification
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
-import com.evothings.mhand.presentation.feature.shared.header.ui.components.BackButton
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.Logo
 import com.evothings.mhand.presentation.feature.shared.header.ui.components.PrizeAndMoney
 import com.evothings.mhand.presentation.feature.shared.header.ui.notifications.NotificationsTray
@@ -81,7 +74,7 @@ fun Header(
     locationVisible: Boolean = true,
     turnButtonVisible: Boolean = false,
     onBack: () -> Unit,
-    onChooseCity: () -> Unit,
+    onChooseCity: () -> Unit = {},
 ) {
 
     val context = LocalContext.current
@@ -100,7 +93,6 @@ fun Header(
             when (it) {
                 is HeaderContract.Effect.ShowToast ->
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-                else -> {}
             }
         }
     }
@@ -171,12 +163,16 @@ private fun HeaderContent(
     cardBalance: Int,
     unreadNotifications: Int
 ) {
-    val context = LocalContext.current
 
     var notificationTrayVisible by remember { mutableStateOf(false) }
     var chooseCityScreenVisible by remember { mutableStateOf(false) }
 
 
+    if (notificationTrayVisible) {
+        Scrim(
+            onClick = { notificationTrayVisible = false }
+        )
+    }
     BackHandler(
         enabled = (notificationTrayVisible || chooseCityScreenVisible),
         onBack = {
@@ -185,9 +181,8 @@ private fun HeaderContent(
         }
     )
 
-    Column {
+    Column(modifier = modifier) {
         Content(
-            modifier = modifier,
             nameCategory = nameCategory,
             money = cardBalance,
             logoVisible = logoVisible,
@@ -242,9 +237,9 @@ private fun HeaderContent(
 
 @Composable
 private fun Content(
+    modifier: Modifier = Modifier,
     money: Int,
     nameCategory: String,
-    modifier: Modifier = Modifier,
     toggleDevMode: () -> Unit,
     logoVisible: Boolean,
     balanceVisible: Boolean,
@@ -276,66 +271,79 @@ private fun Content(
     }
     if (!locationVisible && !notificationVisible) return
 
-    Box(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(MaterialTheme.paddings.extraLarge),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+    Surface {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
-
-            if (showLogo) {
-                Logo(
-                    onLongClick = toggleDevMode
-                )
-            } else {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
-                ) {
-                    if (turnButtonVisible) {
-                        BackButton(onClick = onBack)
-                    }
-                    Text(
-                        modifier = Modifier.basicMarquee(),
-                        text = formattedTitle,
-                        color = colorScheme.secondary,
-                        style = MegahandTypography.headlineMedium
-                    )
-                }
-            }
-
             Row(
-                horizontalArrangement = Arrangement.spacedBy(9.dp),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(MaterialTheme.paddings.extraLarge),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Row(modifier = Modifier.weight(0.5f)) {
+                    if (showLogo) {
+                        Logo(
+                            onLongClick = toggleDevMode
+                        )
+                    } else {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
+                        ) {
+                            if (turnButtonVisible) {
+                                IconButton(
+                                    icon = ImageVector.vectorResource(id = R.drawable.ic_chevron_left),
+                                    tint = colorScheme.secondary,
+                                    backgroundColor = colorScheme.secondary.copy(alpha = 0.05f),
+                                    onClick = onBack
+                                )
+                            }
+                            Text(
+                                modifier = Modifier.basicMarquee(),
+                                text = formattedTitle,
+                                color = colorScheme.secondary,
+                                style = MegahandTypography.headlineMedium
+                            )
+                        }
+                    }
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(9.dp),
                     verticalAlignment = Alignment.CenterVertically
-                    ) {
-                AnimatedVisibility(
-                    visible = balanceVisible,
-                    enter = fadeIn(tween(300))
                 ) {
-                    PrizeAndMoney(
-                        money = money,
-                    )
-                }
-                if (locationVisible) {
-                    IconButton(
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_location),
-                        borderColor = if (locationSheetOpen) colorScheme.primary else Color.Transparent,
-                        tint = colorScheme.secondary,
-                        onClick = onClickLocation
-                    )
-                }
-                if (notificationVisible) {
-                    IconButton(
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_notifications),
-                        tint = colorScheme.secondary,
-                        borderColor = if (notificationsSheetOpened) colorScheme.primary else Color.Transparent,
-                        badgeValue = unreadNotifications,
-                        onClick = onClickNotification
-                    )
+                    AnimatedVisibility(
+                        visible = balanceVisible,
+                        enter = fadeIn(tween(300))
+                    ) {
+                        PrizeAndMoney(
+                            money = money,
+                        )
+                    }
+                    Row {
+                        if (locationVisible) {
+                            IconButton(
+                                icon = ImageVector.vectorResource(id = R.drawable.ic_location),
+                                borderColor = if (locationSheetOpen) colorScheme.primary else Color.Transparent,
+                                tint = colorScheme.secondary,
+                                onClick = onClickLocation
+                            )
+                        }
+                        if (notificationVisible) {
+                            IconButton(
+                                icon = ImageVector.vectorResource(id = R.drawable.ic_notifications),
+                                tint = colorScheme.secondary,
+                                borderColor = if (notificationsSheetOpened) colorScheme.primary else Color.Transparent,
+                                badgeValue = unreadNotifications,
+                                onClick = onClickNotification
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -358,8 +366,11 @@ fun PreviewHeader() {
 
     MegahandTheme {
         HeaderProvider(
-            screenTitle = "Привет",
-            isHomeScreen = true,
+            screenTitle = "Заказа",
+            isHomeScreen = false,
+            turnButtonVisible = true,
+            enableMapIconButton = false,
+            enableNotificationButton = true,
             onBack = {},
             onChooseCity = {},
             content = {  }
@@ -375,13 +386,14 @@ fun Preview(
 ) {
   MegahandTheme { 
       Header(
-          nameCategory = "False",
+          nameCategory = "Оаза",
           onBack = {},
           onChooseCity = {},
-          balanceVisible = true,
-          locationVisible = true,
+          balanceVisible = false,
+          locationVisible = false,
+          turnButtonVisible = true,
           notificationVisible = true,
-          logoVisible = true
+          logoVisible = false
       )
   }
 }

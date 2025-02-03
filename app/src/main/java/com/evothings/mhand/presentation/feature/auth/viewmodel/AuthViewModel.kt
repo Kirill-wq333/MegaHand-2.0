@@ -3,6 +3,8 @@ package com.evothings.mhand.presentation.feature.auth.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.evothings.domain.feature.auth.interactor.AuthInteractor
 import com.evothings.mhand.core.viewmodel.BaseViewModel
+import com.evothings.mhand.presentation.feature.snackbar.host.SnackbarItemHost
+import com.evothings.mhand.presentation.feature.snackbar.model.SnackbarItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -10,6 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authInteractor: AuthInteractor,
+    private val snackbarItemHost: SnackbarItemHost
 ) : BaseViewModel<AuthContract.Event, AuthContract.State, AuthContract.Effect>() {
 
     override fun setInitialState(): AuthContract.State = AuthContract.State.Idle
@@ -31,6 +34,7 @@ class AuthViewModel @Inject constructor(
                             AuthContract.Effect.NavigateToSecureCode(phone)
                         }
                     }
+                    authIncorrectCodeSnackbar()
                 },
                 onFailure = {
                     setEffect {
@@ -40,6 +44,15 @@ class AuthViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    private fun authIncorrectCodeSnackbar(){
+        snackbarItemHost.setSnackbar(
+            SnackbarItem(
+                title = "Ты ввел неверный код 3 раза подряд",
+                subtitle = "Вход был временно заблокирован"
+            )
+        )
     }
 
 }

@@ -19,12 +19,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.shops.model.Shop
 import com.evothings.domain.util.Mock
+import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.mock.MockNavigationBar
 import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
+import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.feature.shops.ui.components.ShopsMap
@@ -119,29 +122,40 @@ private fun Content(
         shops[currentItemIndex].point.toGeoPoint()
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    HeaderProvider(
+        screenTitle = stringResource(id = R.string.shops),
+        turnButtonVisible = false,
+        enableCardBalance = true,
+        enableMapIconButton = false,
+        onBack = {},
+    ) { headerPadding ->
 
-        ShopsMap(
-            modifier = Modifier.fillMaxSize(),
-            shopPoints = shopPoints,
-            selectedShopPoint = currentShopPoint,
-            onShopClick = { point ->
-                val nearestShopIndex = shopPoints.findNearestPointIndex(point)
-                currentItemIndex = nearestShopIndex
-            }
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(headerPadding)
+        ) {
 
-        ShopsMapOverlay(
-            shops = shops,
-            currentShopIndex = currentItemIndex,
-            onSelect = { currentItemIndex = it },
-            onClickDial = callback::dialToShop
-        )
+            ShopsMap(
+                modifier = Modifier.fillMaxSize(),
+                shopPoints = shopPoints,
+                selectedShopPoint = currentShopPoint,
+                onShopClick = { point ->
+                    val nearestShopIndex = shopPoints.findNearestPointIndex(point)
+                    currentItemIndex = nearestShopIndex
+                }
+            )
 
+            ShopsMapOverlay(
+                shops = shops,
+                currentShopIndex = currentItemIndex,
+                onSelect = { currentItemIndex = it },
+                onClickDial = callback::dialToShop
+            )
+
+        }
     }
+
 }
 
 
