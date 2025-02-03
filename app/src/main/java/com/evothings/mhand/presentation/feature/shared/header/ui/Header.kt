@@ -269,7 +269,6 @@ private fun Content(
     val showLogo = remember(notificationTrayVisible, chooseCityScreenVisible) {
         logoVisible && !(notificationTrayVisible || chooseCityScreenVisible)
     }
-    if (!locationVisible && !notificationVisible) return
 
     Surface {
         Box(
@@ -306,7 +305,6 @@ private fun Content(
                             Text(
                                 modifier = Modifier.basicMarquee(),
                                 text = formattedTitle,
-                                color = colorScheme.secondary,
                                 style = MegahandTypography.headlineMedium
                             )
                         }
@@ -325,30 +323,52 @@ private fun Content(
                             money = money,
                         )
                     }
-                    Row {
-                        if (locationVisible) {
-                            IconButton(
-                                icon = ImageVector.vectorResource(id = R.drawable.ic_location),
-                                borderColor = if (locationSheetOpen) colorScheme.primary else Color.Transparent,
-                                tint = colorScheme.secondary,
-                                onClick = onClickLocation
-                            )
-                        }
-                        if (notificationVisible) {
-                            IconButton(
-                                icon = ImageVector.vectorResource(id = R.drawable.ic_notifications),
-                                tint = colorScheme.secondary,
-                                borderColor = if (notificationsSheetOpened) colorScheme.primary else Color.Transparent,
-                                badgeValue = unreadNotifications,
-                                onClick = onClickNotification
-                            )
-                        }
-                    }
+                    Actions(
+                        locationVisible = locationVisible,
+                        locationSheetOpen = locationSheetOpen,
+                        notificationVisible = notificationVisible,
+                        notificationsSheetOpened = notificationsSheetOpened,
+                        onClickLocation = onClickLocation,
+                        onClickNotification = onClickNotification,
+                        unreadNotifications = unreadNotifications
+                    )
                 }
             }
         }
     }
 
+}
+
+@Composable
+private fun Actions(
+    locationVisible: Boolean,
+    locationSheetOpen: Boolean,
+    notificationVisible: Boolean,
+    notificationsSheetOpened: Boolean,
+    onClickLocation: () -> Unit,
+    unreadNotifications: Int,
+    onClickNotification: () -> Unit
+) {
+    if (!locationVisible && !notificationVisible) return
+    Row {
+        if (locationVisible) {
+            IconButton(
+                icon = ImageVector.vectorResource(id = R.drawable.ic_location),
+                borderColor = if (locationSheetOpen) colorScheme.primary else Color.Transparent,
+                tint = colorScheme.secondary,
+                onClick = onClickLocation
+            )
+        }
+        if (notificationVisible) {
+            IconButton(
+                icon = ImageVector.vectorResource(id = R.drawable.ic_notifications),
+                tint = colorScheme.secondary,
+                borderColor = if (notificationsSheetOpened) colorScheme.primary else Color.Transparent,
+                badgeValue = unreadNotifications,
+                onClick = onClickNotification
+            )
+        }
+    }
 }
 
 
@@ -368,9 +388,9 @@ fun PreviewHeader() {
         HeaderProvider(
             screenTitle = "Заказа",
             isHomeScreen = false,
-            turnButtonVisible = true,
+            turnButtonVisible = false,
             enableMapIconButton = false,
-            enableNotificationButton = true,
+            enableNotificationButton = false,
             onBack = {},
             onChooseCity = {},
             content = {  }

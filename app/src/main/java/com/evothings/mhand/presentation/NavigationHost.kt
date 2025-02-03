@@ -27,6 +27,7 @@ import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.navigation.bottomBar.ui.model.WebPageScreen
 import com.evothings.mhand.presentation.feature.navigation.buildNavigation
 import com.evothings.mhand.presentation.feature.navigation.graph.shouldShowNavBar
+import com.evothings.mhand.presentation.feature.shared.screen.confirmCode.viewmodel.model.ConfirmCodeUseCase
 import com.evothings.mhand.presentation.feature.snackbar.model.SnackbarItem
 import com.evothings.mhand.presentation.feature.snackbar.ui.SnackCoupon
 import com.evothings.mhand.presentation.utils.sdkutil.tryOpenWebPage
@@ -55,7 +56,11 @@ fun NavigationHost(
                     currentRoute = currentRoute,
                     openScreen = { route -> navController.navigate(route) },
                     openWebPageScreen = { openWebPageScreen(context, it) },
-                    openPhoneConfirmationScreen = {}
+                    openPhoneConfirmationScreen = { phone ->
+                        navController.navigate(
+                            NavGraph.ConfirmationCode(phone, ConfirmCodeUseCase.COUPON.ordinal)
+                        )
+                    }
                 )
             }
         }

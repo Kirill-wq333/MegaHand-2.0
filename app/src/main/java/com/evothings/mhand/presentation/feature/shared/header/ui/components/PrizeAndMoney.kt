@@ -1,6 +1,7 @@
 package com.evothings.mhand.presentation.feature.shared.header.ui.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -41,14 +42,14 @@ fun PrizeAndMoney(
     ) {
         Row(
             modifier = Modifier
-                .padding(MaterialTheme.paddings.large)
+                .padding(MaterialTheme.paddings.large),
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_prize),
                 contentDescription = "prize",
                 tint = colorScheme.inverseSurface
             )
-            Spacer(modifier = Modifier.width(MaterialTheme.spacers.normal))
             Text(
                 text = "${money.splitHundreds()} ₽",
                 style = MegahandTypography.labelLarge

@@ -212,7 +212,7 @@ private fun CheckoutContent(
         turnButtonVisible = true,
         enableMapIconButton = false,
         enableCardBalance = false,
-        enableNotificationButton = true,
+        enableNotificationButton = false,
         onBack = callback::onBack
     ) { headerPadding ->
 

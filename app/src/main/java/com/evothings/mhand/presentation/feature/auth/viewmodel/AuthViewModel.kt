@@ -12,7 +12,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authInteractor: AuthInteractor,
-    private val snackbarItemHost: SnackbarItemHost
 ) : BaseViewModel<AuthContract.Event, AuthContract.State, AuthContract.Effect>() {
 
     override fun setInitialState(): AuthContract.State = AuthContract.State.Idle
@@ -34,7 +33,6 @@ class AuthViewModel @Inject constructor(
                             AuthContract.Effect.NavigateToSecureCode(phone)
                         }
                     }
-                    authIncorrectCodeSnackbar()
                 },
                 onFailure = {
                     setEffect {
@@ -44,15 +42,6 @@ class AuthViewModel @Inject constructor(
                 }
             )
         }
-    }
-
-    private fun authIncorrectCodeSnackbar(){
-        snackbarItemHost.setSnackbar(
-            SnackbarItem(
-                title = "Ты ввел неверный код 3 раза подряд",
-                subtitle = "Вход был временно заблокирован"
-            )
-        )
     }
 
 }
