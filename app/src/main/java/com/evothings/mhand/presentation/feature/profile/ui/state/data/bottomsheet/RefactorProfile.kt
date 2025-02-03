@@ -153,7 +153,7 @@ fun RefactorProfile(
                 TextAndTextField(
                     modifier = Modifier
                         .weight(.5f),
-                    text = stringResource(R.string.name),
+                    text = stringResource(R.string.surname),
                     visibleAttention = true,
                     visiblePrize = true,
                     colorPrize = colorScheme.inverseSurface,
@@ -181,7 +181,7 @@ fun RefactorProfile(
                 )
             }
             TextAndTextField(
-                text = stringResource(R.string.name),
+                text = stringResource(R.string.profile_email),
                 visibleAttention = false,
                 visiblePrize = true,
                 colorPrize = colorScheme.inverseSurface,

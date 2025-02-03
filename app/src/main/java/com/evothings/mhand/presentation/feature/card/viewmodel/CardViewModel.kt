@@ -45,8 +45,7 @@ class CardViewModel @Inject constructor(
     override fun setInitialState(): CardContract.State = CardContract.State.Loading
 
     override fun handleEvent(event: CardContract.Event) = when(event) {
-        is CardContract.Event.LoadData -> loadData(force = false, offlineMode = event.offlineMode)
-        is CardContract.Event.ReloadPage -> loadData(force = true, offlineMode = false)
+        is CardContract.Event.LoadData -> loadData(event.force, event.offlineMode)
         is CardContract.Event.ChangeFilter -> chooseFilter(event.filterIndex)
         is CardContract.Event.FinishOnboarding -> finishOnboarding()
         is CardContract.Event.NotifyLoyalitySystemAppear -> enableLoyalitySystemNotificationSnackbar()
@@ -68,12 +67,15 @@ class CardViewModel @Inject constructor(
                 return@launch
             }
 
-            val profileInfo = profileInteractor.getProfile(false).getOrNull() ?: return@launch
-            cardInteractor.getCardInfo(force, offlineMode, profileInfo.city).fold(
+            val profile = if (!offlineMode) {
+                profileInteractor.getProfile(false).getOrNull()
+            } else null
+
+            cardInteractor.getCardInfo(force, offlineMode, profile?.city.orEmpty()).fold(
                 onSuccess = { model ->
 
                     val transactions =
-                        cardInteractor.getRawTransactions(force).getOrDefault(listOf())
+                        cardInteractor.getRawTransactions(force, offlineMode).getOrDefault(listOf())
                     _initialTransactionsList.emit(transactions)
 
                     _currentlyChosenFilter.emit(CardFilterType.ALL)
@@ -82,9 +84,10 @@ class CardViewModel @Inject constructor(
                     _cardUiState.emit(
                         CardUiState(
                             card = model,
-                            cashback = profileInfo.cashback,
+                            cashback = (profile?.cashback ?: 0),
                             currentFilter = _currentlyChosenFilter.value,
-                            transactions = sortedTransactions
+                            transactions = sortedTransactions,
+                            offlineMode = offlineMode
                         )
                     )
 
@@ -93,8 +96,13 @@ class CardViewModel @Inject constructor(
                 onFailure = { error ->
                     updateState {
                         when (error) {
-                            is CardException.LoyalityNotAvailable ->
+                            is CardException.LoyalityNotAvailable -> {
                                 CardContract.State.LoyalityNotAvailable
+                            }
+                            is CardException.NoSuchCard -> {
+                                showSnackbarCardStorageEmpty()
+                                CardContract.State.NetworkError
+                            }
                             else -> CardContract.State.NetworkError
                         }
                     }
@@ -102,6 +110,15 @@ class CardViewModel @Inject constructor(
             )
 
         }
+    }
+
+    private fun showSnackbarCardStorageEmpty() {
+        snackbarItemHost.setSnackbar(
+            SnackbarItem(
+                title = "Оффлайн-режим недоступен",
+                subtitle = "В хранилище приложения нет вашей карты"
+            )
+        )
     }
 
     private fun finishOnboarding() {

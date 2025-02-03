@@ -13,7 +13,11 @@ class CardInteractor(private val repository: CardRepository) {
     suspend fun getCardInfo(forceOnline: Boolean, offlineMode: Boolean = false, city: String) =
         repository.getCardInfo(forceOnline, offlineMode, city)
 
-    suspend fun getRawTransactions(force: Boolean) = repository.getCardTransactions(force)
+    suspend fun getRawTransactions(force: Boolean, offlineMode: Boolean): Result<List<Transaction>> =
+        if (!offlineMode) {
+            repository.getCardTransactions(force)
+        } else Result.success(emptyList())
+
 
     fun sortTransactions(list: List<Transaction>): Map<String, List<Transaction>> {
         val operationDateFormat = DateTimeFormatter.ofPattern(DateFormat.FULL_DATE_PRECISE)

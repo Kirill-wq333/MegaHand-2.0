@@ -55,6 +55,7 @@ import com.evothings.mhand.presentation.feature.card.viewmodel.CardContract
 import com.evothings.mhand.presentation.feature.card.viewmodel.CardViewModel
 import com.evothings.mhand.presentation.feature.card.viewmodel.enumeration.CardFilterType
 import com.evothings.mhand.presentation.feature.home.ui.LoyalityCard
+import com.evothings.mhand.presentation.feature.onboarding.ui.screen.CardOnboardingScreen
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
@@ -99,11 +100,9 @@ fun CardScreen(
     val cardUiState by vm.cardUiState.collectAsState()
     val state by vm.state.collectAsStateWithLifecycle()
 
-    var offlineMode by remember { mutableStateOf(false) }
-
     LaunchedEffect(Unit) {
-        offlineMode = !Connectivity.hasInternetConnection(context)
-        vm.handleEvent(CardContract.Event.LoadData(offlineMode))
+        val isUserOffline = !Connectivity.hasInternetConnection(context)
+        vm.handleEvent(CardContract.Event.LoadData(false, isUserOffline))
     }
 
     LaunchedEffect(vm.effect) {
@@ -119,7 +118,10 @@ fun CardScreen(
         override fun chooseFilter(filterIndex: Int) =
             vm.handleEvent(CardContract.Event.ChangeFilter(filterIndex))
 
-        override fun refresh() = vm.handleEvent(CardContract.Event.ReloadPage)
+        override fun refresh() {
+            val isOffline = !Connectivity.hasInternetConnection(context)
+            vm.handleEvent(CardContract.Event.LoadData(force = true, offlineMode = isOffline))
+        }
 
         override fun notifyLoyalitySystem() {
             super.notifyLoyalitySystem()
@@ -127,6 +129,14 @@ fun CardScreen(
 
         override fun openProfileScreen() = openProfile()
     }
+
+    if (state is CardContract.State.OnboardingActive) {
+        CardOnboardingScreen(
+            onFinish = { vm.handleEvent(CardContract.Event.FinishOnboarding) }
+        )
+        return
+    }
+
     CardContent(
         state = state,
         uiState = cardUiState,

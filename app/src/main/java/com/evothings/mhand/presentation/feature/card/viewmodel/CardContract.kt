@@ -7,8 +7,7 @@ import com.evothings.mhand.core.viewmodel.ViewState
 object CardContract {
 
     sealed interface Event : ViewEvent {
-        data class LoadData(val offlineMode: Boolean) : Event
-        data object ReloadPage : Event
+        data class LoadData(val force: Boolean, val offlineMode: Boolean) : Event
         data object FinishOnboarding : Event
         data class ChangeFilter(val filterIndex: Int) : Event
         data object NotifyLoyalitySystemAppear : Event

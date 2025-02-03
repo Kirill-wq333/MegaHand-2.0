@@ -43,7 +43,6 @@ private fun PickerTextFieldPreview() {
                 .background(colorScheme.background),
             contentAlignment = Alignment.Center
         ) {
-
             var value by remember { mutableStateOf("") }
 
             DatePickerTextField(
@@ -56,7 +55,6 @@ private fun PickerTextFieldPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerTextField(
     modifier: Modifier = Modifier,
