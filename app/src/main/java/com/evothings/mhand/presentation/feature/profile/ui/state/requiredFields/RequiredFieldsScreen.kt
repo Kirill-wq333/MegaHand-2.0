@@ -54,6 +54,7 @@ import com.evothings.mhand.presentation.utils.date.DateValidator
 
 @Composable
 fun RequiredFieldsScreen(
+    modifier: Modifier = Modifier,
     model: Profile,
     onSave: (Profile) -> Unit
 ) {
@@ -87,7 +88,7 @@ fun RequiredFieldsScreen(
     var selectCityBottomSheetVisible by remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Column(

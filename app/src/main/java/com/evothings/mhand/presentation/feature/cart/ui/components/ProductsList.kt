@@ -74,12 +74,13 @@ fun LazyListScope.productsList(
 
 @Composable
 fun CartSelectionOptions(
+    modifier: Modifier = Modifier,
     selectAllChecked: Boolean,
     onCheckSelectAll: () -> Unit,
     onClear: () -> Unit
 ){
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = MaterialTheme.paddings.extraLarge),
         horizontalArrangement = Arrangement.SpaceBetween

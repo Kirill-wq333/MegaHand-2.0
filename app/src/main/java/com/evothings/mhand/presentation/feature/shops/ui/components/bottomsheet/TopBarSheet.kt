@@ -23,12 +23,13 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun TopBarSheet(
+    modifier: Modifier = Modifier,
     email: String,
     phone: String
 ) {
     Row(
-        modifier = Modifier
-            .padding(MaterialTheme.paddings.extraLarge)
+        modifier = modifier
+//            .padding(MaterialTheme.paddings.extraLarge)
     ) {
         Info(
             textHeading = email,

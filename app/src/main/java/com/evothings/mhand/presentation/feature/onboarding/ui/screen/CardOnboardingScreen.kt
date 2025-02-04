@@ -174,7 +174,6 @@ private fun TransactionsHistory(
             ),
     ) {
         HistoryBar(
-            modifier = Modifier,
             isFilterPickerExpanded = false,
             currentFilter = CardFilterType.YEAR,
             onExpand = {}

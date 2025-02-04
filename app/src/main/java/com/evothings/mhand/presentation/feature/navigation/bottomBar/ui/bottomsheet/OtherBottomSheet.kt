@@ -98,6 +98,7 @@ fun OtherBottomSheet(
 
 @Composable
 fun Other(
+    modifier: Modifier = Modifier,
     openAppScreen: (Screen) -> Unit,
     openHelpPage: () -> Unit,
     openVacanciesPage: () -> Unit,
@@ -108,6 +109,7 @@ fun Other(
     darkMode: Boolean
 ) {
     Content(
+        modifier = modifier,
         darkMode = darkMode,
         enableCouponButton = enableCouponButton,
         couponAmount = couponAmount,
@@ -121,6 +123,7 @@ fun Other(
 
 @Composable
 private fun Content(
+    modifier: Modifier = Modifier,
     darkMode: Boolean,
     enableCouponButton: Boolean,
     couponAmount: Int,
@@ -146,7 +149,7 @@ private fun Content(
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
         Column(
