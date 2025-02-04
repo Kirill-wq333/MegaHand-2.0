@@ -401,9 +401,7 @@ fun PreviewHeader() {
 
 @Preview
 @Composable
-fun Preview(
-    modifier: Modifier = Modifier
-) {
+fun Preview() {
   MegahandTheme { 
       Header(
           nameCategory = "Оаза",

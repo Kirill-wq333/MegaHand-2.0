@@ -27,11 +27,9 @@ import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.evothings.mhand.R
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,15 +45,15 @@ import coil.compose.AsyncImage
 import com.evothings.domain.feature.profile.model.Order
 import com.evothings.domain.feature.profile.model.OrderHistoryProduct
 import com.evothings.domain.util.Mock
-import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.feature.shared.button.icon.SmallIconButton
 import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
 import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.MegahandTheme
-import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.spacers
+//import androidx.compose.runtime.getValue
+//import androidx.compose.runtime.setValue
 
 @Composable
 fun OrderItem(
@@ -66,7 +64,7 @@ fun OrderItem(
     onClickPayOrder: () -> Unit
 ) {
 
-    var visibleTrackOrder by remember { mutableStateOf(false) }
+//    var visibleTrackOrder by remember { mutableStateOf(false) }
     val isExpanded = remember { mutableStateOf(false) }
 
     Box(

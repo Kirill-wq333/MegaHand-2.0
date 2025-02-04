@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.shops.ui.sheetShop
+package com.evothings.mhand.presentation.feature.shops.ui.components.bottomsheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,7 +23,6 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun TopBarSheet(
-    modifier: Modifier = Modifier,
     email: String,
     phone: String
 ) {

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -20,14 +19,11 @@ import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheet
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
-import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 
 @Composable
-fun MailingListSurveyBottomSheet(
-    modifier: Modifier = Modifier
-) {
+fun MailingListSurveyBottomSheet() {
     MhandModalBottomSheet(
         onDismissRequest = {}
     ) {
@@ -36,9 +32,7 @@ fun MailingListSurveyBottomSheet(
 }
 
 @Composable
-fun MailingListSurvey(
-    modifier: Modifier = Modifier
-) {
+fun MailingListSurvey() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,7 +53,6 @@ fun MailingListSurvey(
 
 @Composable
 private fun Action(
-    modifier: Modifier = Modifier,
     onRefuse: () -> Unit,
     onAgree: () -> Unit
 ) {

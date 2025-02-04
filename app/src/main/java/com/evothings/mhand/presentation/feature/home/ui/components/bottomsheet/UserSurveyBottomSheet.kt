@@ -33,7 +33,7 @@ fun UserSurveyBottomSheet(
     onSubmit: (Int) -> Unit,
 ) {
 
-    val userSurveyEntries = listOf<String>(
+    val userSurveyEntries = listOf(
         "Промо на лисовках",
         "Наружная реклама(щиты)",
         "Интернет",

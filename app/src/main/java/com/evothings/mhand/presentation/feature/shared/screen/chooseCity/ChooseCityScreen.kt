@@ -50,7 +50,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.evothings.domain.feature.home.model.City
 import com.evothings.mhand.presentation.feature.shared.button.Chip
-import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import kotlinx.coroutines.launch
 
 private data class ChooseCityUiState(

@@ -39,7 +39,7 @@ data class Tracker(
 private fun TrackOrder() {
 
     MegahandTheme {
-        Surface() {
+        Surface {
             TrackOrderBottomSheet()
         }
     }
@@ -47,7 +47,6 @@ private fun TrackOrder() {
 
 @Composable
 fun TrackOrderBottomSheet(
-    modifier: Modifier = Modifier
 ) {
     val track = listOf(
         Tracker(
@@ -78,7 +77,6 @@ fun TrackOrderBottomSheet(
 
 @Composable
 private fun TrackOrderList(
-    modifier: Modifier = Modifier,
     onCopy: () -> Unit,
     track: List<Tracker>
 ) {
@@ -111,7 +109,6 @@ private fun TrackOrderList(
 
 @Composable
 fun TrackOrder(
-    modifier: Modifier = Modifier,
     track: String,
     number: String,
     onCopy: () -> Unit

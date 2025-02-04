@@ -10,14 +10,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,7 +26,6 @@ import com.evothings.mhand.presentation.feature.shared.loyalityCard.Balance
 import com.evothings.mhand.presentation.feature.shared.loyalityCard.Cashback
 import com.evothings.mhand.presentation.feature.shared.radio.RadioButton
 import com.evothings.mhand.presentation.feature.shared.text.LabelTextField
-import com.evothings.mhand.presentation.feature.shared.text.MTextField
 import com.evothings.mhand.presentation.feature.shared.text.transform.rememberRubleVisualTransformation
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
@@ -38,7 +34,6 @@ import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun SystemLoyality(
-    modifier: Modifier = Modifier,
     balance: Int,
     cashback: Int,
     amount: String,
@@ -98,7 +93,6 @@ fun SystemLoyality(
 
 @Composable
 fun AmountAndSelectAll(
-    modifier: Modifier = Modifier,
     balance: Int,
     availableBalance: Double,
     amount: String,
@@ -182,7 +176,6 @@ fun HeadingAndPoints(
 
 @Composable
 fun Points(
-    modifier: Modifier = Modifier,
     isWithdraw: Boolean,
     onCheckWithdraw: (Boolean) -> Unit
 ) {

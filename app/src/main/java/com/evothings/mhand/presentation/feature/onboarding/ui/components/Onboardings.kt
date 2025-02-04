@@ -32,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.onboarding.model.CardAlignment
-import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
@@ -212,7 +211,6 @@ fun BottomSheetLikeIndicator(
 
 @Composable
 fun HeadingAndUnderHeading(
-    modifier: Modifier = Modifier,
     heading: String,
     underHeading: String,
     pageNumber: String

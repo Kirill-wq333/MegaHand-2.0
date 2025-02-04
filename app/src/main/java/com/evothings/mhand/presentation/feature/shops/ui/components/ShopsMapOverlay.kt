@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import com.evothings.domain.feature.shops.model.Shop
 import com.evothings.mhand.presentation.feature.shops.ui.components.bottomsheet.ShopCardsSlider
 import com.evothings.mhand.presentation.feature.shops.ui.components.bottomsheet.CalendarDiscountBottomSheet
-import com.evothings.mhand.presentation.feature.shops.ui.sheetShop.TopBarSheet
+import com.evothings.mhand.presentation.feature.shops.ui.components.bottomsheet.TopBarSheet
 import com.evothings.mhand.presentation.theme.spacers
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList

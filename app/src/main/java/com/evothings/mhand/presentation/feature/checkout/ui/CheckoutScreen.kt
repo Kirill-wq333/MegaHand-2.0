@@ -9,10 +9,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +26,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -39,13 +36,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -70,7 +64,6 @@ import com.evothings.mhand.presentation.feature.home.ui.components.preloadCompon
 import com.evothings.mhand.presentation.feature.payment.PaymentActivity
 import com.evothings.mhand.presentation.feature.payment.launcher.rememberPaymentActivityLauncher
 import com.evothings.mhand.presentation.feature.shared.button.Button
-import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.product.components.ProductPhoto
@@ -79,9 +72,7 @@ import com.evothings.mhand.presentation.feature.shared.text.saver.AnySaver
 import com.evothings.mhand.presentation.feature.shared.text.saver.BooleanSaver
 import com.evothings.mhand.presentation.feature.shared.text.saver.IntSaver
 import com.evothings.mhand.presentation.feature.shared.text.saver.StringSaver
-import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
-import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.openPrivacyPolicyPage
 
@@ -105,7 +96,6 @@ private interface CheckoutCallback {
 
 @Composable
 fun MakingAnOrderScreen(
-    modifier: Modifier = Modifier,
     vm: CheckoutViewModel,
     orderId: String,
     openProductInfoScreen: (Int) -> Unit,
@@ -249,7 +239,6 @@ private fun CheckoutContent(
 
 @Composable
 private fun Content(
-    modifier: Modifier = Modifier,
     uiState: CheckoutUiState,
     callback: CheckoutCallback,
     openAddressMap: (String) -> Unit,
@@ -535,7 +524,6 @@ private fun OrderProductsList(
 
 @Composable
 private fun CProduct(
-    modifier: Modifier = Modifier,
     model: Product,
     onClick: () -> Unit
 ) {
@@ -557,7 +545,6 @@ private fun CProduct(
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.extraMedium))
         Information(
-            modifier = Modifier,
             price = model.actualPrice,
             cashback = model.cashbackPoints,
             discount = model.oldPrice,

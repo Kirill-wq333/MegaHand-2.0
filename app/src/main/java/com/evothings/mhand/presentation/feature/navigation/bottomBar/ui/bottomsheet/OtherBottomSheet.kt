@@ -98,7 +98,6 @@ fun OtherBottomSheet(
 
 @Composable
 fun Other(
-    modifier: Modifier = Modifier,
     openAppScreen: (Screen) -> Unit,
     openHelpPage: () -> Unit,
     openVacanciesPage: () -> Unit,
@@ -182,14 +181,17 @@ private fun Content(
                     )
                 }
             }
+
+            if (enableCouponButton) {
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-            BottomFillMaxSizeItem(
-                text = stringResource(R.string.gather_coupon_title, couponAmount),
-                backgroundColor = colorScheme.primary,
-                onClick = { couponBottomSheetVisible = true },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+                BottomFillMaxSizeItem(
+                    text = stringResource(R.string.gather_coupon_title, couponAmount),
+                    backgroundColor = colorScheme.primary,
+                    onClick = { couponBottomSheetVisible = true },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
             ThemeSwitch(
                 context = context,

@@ -59,7 +59,6 @@ private object EmptyNewsCallback : NewsCallback
 
 @Composable
 fun NewsScreen(
-    modifier: Modifier = Modifier,
     vm: NewsViewModel,
     openArticle: (id: String) -> Unit,
     openMainScreen: () -> Unit
@@ -108,7 +107,6 @@ fun NewsScreen(
 
 @Composable
 private fun NewsContent(
-    modifier: Modifier = Modifier,
     uiState: NewsUiState,
     state: NewsContract.State,
     callback: NewsCallback = EmptyNewsCallback,
@@ -217,7 +215,7 @@ private fun Content(
 }
 
 @Preview(showSystemUi = true, fontScale = 1.65f)
-@Preview(showSystemUi = true,)
+@Preview(showSystemUi = true)
 @Composable
 private fun PreviewNewsScreen() {
     MegahandTheme {

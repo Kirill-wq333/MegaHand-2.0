@@ -279,7 +279,6 @@ private fun Content(
 
 @Composable
 fun OfflineMode(
-    modifier: Modifier = Modifier,
     onReload: () -> Unit
 ) {
     Column(

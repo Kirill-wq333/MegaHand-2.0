@@ -66,7 +66,7 @@ fun LazyListScope.productsList(
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
             thickness = 1.dp,
-            color = MaterialTheme.colorScheme.secondary.copy(0.05f)
+            color = colorScheme.secondary.copy(0.05f)
         )
     }
 
@@ -74,7 +74,6 @@ fun LazyListScope.productsList(
 
 @Composable
 fun CartSelectionOptions(
-    modifier: Modifier = Modifier,
     selectAllChecked: Boolean,
     onCheckSelectAll: () -> Unit,
     onClear: () -> Unit

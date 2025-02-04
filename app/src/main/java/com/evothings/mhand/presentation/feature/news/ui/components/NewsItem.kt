@@ -32,7 +32,6 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun NewsItem(
-    modifier: Modifier = Modifier,
     imageLink: String,
     publicationDate: String,
     information: String,

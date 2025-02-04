@@ -27,7 +27,7 @@ fun OrdersHistoryContent(
     onClickPayOrder: (paymentLink: String?) -> Unit
 ) {
 
-    LazyColumn() {
+    LazyColumn {
 
         item {
             SearchField(

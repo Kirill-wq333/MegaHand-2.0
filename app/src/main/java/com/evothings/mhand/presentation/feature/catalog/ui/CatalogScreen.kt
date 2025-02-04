@@ -21,7 +21,7 @@ import com.evothings.domain.feature.catalog.model.FilterValue
 import com.evothings.domain.feature.catalog.model.ProductCategory
 import com.evothings.domain.feature.catalog.model.SearchHint
 import com.evothings.domain.feature.product.model.Product
-import com.evothings.mhand.presentation.feature.Category.components.categories.CategoriesGrid
+import com.evothings.mhand.presentation.feature.catalog.ui.components.categories.CategoriesGrid
 import com.evothings.mhand.presentation.feature.catalog.ui.components.AllClothesScreen
 import com.evothings.mhand.presentation.feature.catalog.ui.components.SearchBar
 import com.evothings.mhand.presentation.feature.catalog.ui.components.SearchResultContent

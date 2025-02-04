@@ -12,15 +12,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -46,6 +45,7 @@ import com.evothings.mhand.presentation.feature.catalog.viewmodel.CatalogContrac
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Chip
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
+import com.evothings.mhand.presentation.feature.shared.loading.LoadingIndicator
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.product.ProductItem
 import com.evothings.mhand.presentation.feature.shared.product.callback.ProductCardCallback
@@ -223,7 +223,6 @@ private fun Content(
 
 @Composable
 fun FilterAndSorting(
-    modifier: Modifier = Modifier,
     onClickFilter: () -> Unit,
     prodCount: Int
 ) {
@@ -291,6 +290,7 @@ fun Products(
     LazyVerticalGrid(
         modifier = Modifier
             .height(gridHeight),
+        state = gridState,
         columns = GridCells.Fixed(2),
         userScrollEnabled = false,
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.normal),
@@ -307,6 +307,17 @@ fun Products(
                     model = i,
                     callback = callback
                 )
+            }
+        }
+
+        if (isLoading.value) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LoadingIndicator()
+                }
             }
         }
     }

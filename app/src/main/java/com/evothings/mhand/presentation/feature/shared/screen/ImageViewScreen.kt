@@ -37,8 +37,9 @@ import com.evothings.mhand.presentation.theme.MegahandTheme
 private fun ImageViewScreenPreview() {
     MegahandTheme {
         ImageViewScreen(
+            onBack = {},
             imageLink = "https://thumbs.dreamstime.com/z/blonde-woman-flowered-garden-beautiful-vertical-portrait-spring-wearing-big-white-hat-55489822.jpg"
-        ) {}
+        )
     }
 }
 

@@ -33,7 +33,7 @@ fun NotificationsTray(
             .fillMaxWidth()
             .background(
                 color = colorScheme.onSecondary,
-                shape = shapes.large.copy( // Reset top corners
+                shape = shapes.large.copy(
                     topStart = CornerSize(0.dp),
                     topEnd = CornerSize(0.dp)
                 )
@@ -45,7 +45,7 @@ fun NotificationsTray(
         if (list.isEmpty()) {
             item {
                 Text(
-                    modifier = Modifier.padding(top = 44.dp, bottom = 110.dp),
+                    modifier = Modifier.padding(top = 110.dp, bottom = 110.dp),
                     text = stringResource(R.string.no_notifications_yet),
                     style = typography.headlineMedium,
                     color = colorScheme.secondary.copy(0.4f),

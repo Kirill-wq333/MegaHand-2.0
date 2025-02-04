@@ -1,7 +1,6 @@
 package com.evothings.mhand.presentation.feature.profile.ui.state.requiredFields
 
 import android.util.Patterns
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +32,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.domain.feature.profile.model.Profile
 import com.evothings.mhand.R
@@ -48,7 +45,6 @@ import com.evothings.mhand.presentation.feature.shared.text.MTextField
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
 import com.evothings.mhand.presentation.feature.shared.text.transform.TextMasks
 import com.evothings.mhand.presentation.feature.shared.text.transform.rememberMaskVisualTransformation
-import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
@@ -58,7 +54,6 @@ import com.evothings.mhand.presentation.utils.date.DateValidator
 
 @Composable
 fun RequiredFieldsScreen(
-    modifier: Modifier = Modifier,
     model: Profile,
     onSave: (Profile) -> Unit
 ) {

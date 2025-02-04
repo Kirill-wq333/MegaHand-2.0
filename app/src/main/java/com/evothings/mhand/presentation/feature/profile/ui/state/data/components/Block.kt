@@ -32,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
@@ -163,7 +162,6 @@ fun Block(
 
 @Composable
 fun BlockCashback(
-    modifier: Modifier = Modifier,
     cashback: Int
 ) {
     Block(
@@ -236,11 +234,6 @@ private fun DiscountBlockItem(
     text: Int,
     isEnabled: Boolean = true
 ) {
-    val color =
-        if (isEnabled)
-            MaterialTheme.colorScheme.inverseSurface
-        else
-            MaterialTheme.colorScheme.secondary.copy(0.1f)
 
     Column(
         modifier = modifier
@@ -260,7 +253,7 @@ private fun DiscountBlockItem(
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.tiny))
         Text(
             text = "$text%",
-            color = colorScheme.secondary.copy( alpha = if (isEnabled) 1.0f else 0.2f),
+            color = colorScheme.secondary.copy( alpha = if (isEnabled) 1.0f else 0.1f),
             style = MegahandTypography.bodyLarge,
         )
     }

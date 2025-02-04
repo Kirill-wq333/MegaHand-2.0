@@ -1,6 +1,8 @@
 package com.evothings.mhand.presentation.feature.profile.ui.state.ordersHistory
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
@@ -25,14 +28,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.evothings.domain.feature.profile.model.Order
 import com.evothings.domain.feature.profile.model.OrderHistoryProduct
+import com.evothings.domain.util.Mock
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
@@ -42,13 +46,18 @@ import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Preview
 @Composable
 private fun IssueARefundPreview() {
     MegahandTheme {
         Surface {
-            IssueARefundScreen()
+            IssueARefundScreen(
+                model = Order(
+                    products = Mock.demoHistoryProducts
+                )
+            )
         }
     }
 }
@@ -56,13 +65,14 @@ private fun IssueARefundPreview() {
 
 @Composable
 fun IssueARefundScreen(
-    modifier: Modifier = Modifier
+    model: Order,
 ) {
     MhandModalBottomSheet(
         onDismissRequest = {}
     ) {
         IssueARefund(
-            modifier = Modifier.modalBottomSheetPadding()
+            modifier = Modifier.modalBottomSheetPadding(),
+            products = model.products
         )
     }
 }
@@ -71,14 +81,17 @@ fun IssueARefundScreen(
 @Composable
 fun IssueARefund(
     modifier: Modifier = Modifier,
+    products: List<OrderHistoryProduct>
 ) {
-    val reason = listOf<String>(
+    val reason = listOf(
         "Товар не подошел",
         "Ошибка с размером",
         "Другое"
     )
 
     var card by remember { mutableStateOf("") }
+
+    var enabled by remember { mutableStateOf(false) }
 
     val chosenIndex = remember { mutableIntStateOf(0) }
 
@@ -94,7 +107,7 @@ fun IssueARefund(
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
         Text(
-            text = "235252352",
+            text = "№235252352",
             color = colorScheme.secondary.copy(.6f),
             style = MegahandTypography.bodyLarge
         )
@@ -105,19 +118,19 @@ fun IssueARefund(
             style = MegahandTypography.bodyLarge
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        repeat(reason.size){
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
             ) {
-                ReasonForReturn(
-                    text = reason[it],
-                    chosen = it == chosenIndex.intValue,
-                    onClick = { chosenIndex.intValue = it }
-                )
+                repeat(reason.size) {
+                    ReasonForReturn(
+                        text = reason[it],
+                        chosen = it == chosenIndex.intValue,
+                        onClick = { chosenIndex.intValue = it }
+                    )
+                }
             }
-        }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         Text(
             text = stringResource(R.string.order_product),
@@ -128,11 +141,12 @@ fun IssueARefund(
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium)
         ) {
-            items(4) { item ->
+            items(products) { i ->
                 ProductPhoto(
                     modifier = Modifier.size(100.dp),
-                    link = "",
-                    onClick = {}
+                    link = i.photo,
+                    enabled = enabled,
+                    onClick = { enabled = !enabled }
                 )
             }
         }
@@ -148,7 +162,7 @@ fun IssueARefund(
                 .height(100.dp),
             placeholder = "Номер карты",
             value = card,
-            onValueChange = {},
+            onValueChange = { card = it },
             alignment = Alignment.TopStart
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
@@ -168,8 +182,14 @@ fun IssueARefund(
 private fun ProductPhoto(
     modifier: Modifier,
     link: String?,
+    enabled: Boolean,
     onClick: () -> Unit
 ) {
+
+    val borderColor =
+        if(enabled) colorScheme.primary
+            else colorScheme.secondary.copy(.05f)
+
     AsyncImage(
         model = link,
         placeholder = painterResource(id = R.drawable.image_placeholder),
@@ -177,7 +197,11 @@ private fun ProductPhoto(
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .clip(MaterialTheme.shapes.small)
+            .border(
+                width = 1.dp,
+                color = borderColor,
+                shape = MegahandShapes.large
+            )
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
@@ -188,7 +212,6 @@ private fun ProductPhoto(
 
 @Composable
 fun ReasonForReturn(
-    modifier: Modifier = Modifier,
     chosen: Boolean,
     text: String,
     onClick: () -> Unit
@@ -201,6 +224,10 @@ fun ReasonForReturn(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .background(
+                color = colorScheme.secondary.copy(.05f),
+                shape = MegahandShapes.large
+            )
             .clickable(
                 onClick = onClick
             )

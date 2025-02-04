@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
@@ -45,7 +44,6 @@ import java.util.Locale
 
 @Composable
 fun CalendarDiscountBottomSheet(
-    modifier: Modifier = Modifier,
     days: PersistentList<DiscountDay>,
     onDismissRequest: () -> Unit
 ) {
@@ -60,7 +58,6 @@ fun CalendarDiscountBottomSheet(
 
 @Composable
 private fun CalendarDiscount(
-    modifier: Modifier = Modifier,
     days: PersistentList<DiscountDay>,
 ) {
     val monthName = remember {
@@ -155,16 +152,6 @@ fun DiscountWeek(
     hasAddition: Boolean
 
 ) {
-
-    val isDarkTheme = (colorScheme.secondary != ColorTokens.Graphite)
-
-    val backgroundAlpha = remember(isToday, isDarkTheme) {
-        when {
-            isToday && isDarkTheme -> 0.2f
-            isToday -> 1.0f
-            else -> 0.05f
-        }
-    }
 
     val dayOfWeekAlpha = remember(isToday) { if (isToday) 1.0f else 0.4f }
 

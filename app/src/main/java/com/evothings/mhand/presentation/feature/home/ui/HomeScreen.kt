@@ -11,7 +11,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,9 +29,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -124,7 +123,6 @@ private object EmptyHomeScreenCallback : HomeScreenCallback {
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     vm: HomeViewModel,
     openStoriesScreen: (storyIndex: Int) -> Unit,
     openProductInfoScreen: (Int) -> Unit,
@@ -227,6 +225,7 @@ fun HomeScreen(
     )
 }
 
+@Suppress("UNUSED_EXPRESSION")
 @Composable
 private fun HomeContent(
     state: HomeContract.State,
@@ -375,7 +374,7 @@ fun BrandsList(brand: List<Brand>) {
             .padding(MaterialTheme.paddings.extraLarge),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.medium),
     ) {
-        items(brand) { it ->
+        items(brand) {
             BrandsItem(brands = it.photoLink)
         }
     }

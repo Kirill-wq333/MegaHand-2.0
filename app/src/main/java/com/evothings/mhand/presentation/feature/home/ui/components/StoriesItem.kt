@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,13 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.evothings.mhand.R
@@ -39,7 +33,6 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun StoriesItem(
-    modifier: Modifier = Modifier,
     storiesImage: Int,
     textStories: String
 ) {
@@ -83,7 +76,6 @@ private fun Content(
     textStories: String,
     onClickStory: () -> Unit
 ){
-    val placeholder = painterResource(id = R.drawable.image_placeholder)
 
     Box(
         modifier = Modifier

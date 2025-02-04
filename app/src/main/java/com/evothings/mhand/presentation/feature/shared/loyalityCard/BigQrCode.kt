@@ -30,7 +30,6 @@ import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 
 @Composable
 fun BigQrcode(
-    modifier: Modifier = Modifier,
     qrCodeLink: String?,
     onClose: () -> Unit
 ) {

@@ -154,7 +154,7 @@ private fun Content(
         Button(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.coupon_form_button),
-            backgroundColor = MaterialTheme.colorScheme.primary,
+            backgroundColor = colorScheme.primary,
             textColor = ColorTokens.Graphite,
             isEnabled = isFilled,
             onClick = {
@@ -275,7 +275,6 @@ fun NumberPhoneTextField(
 
 @Composable
 private fun TextItem(
-    modifier: Modifier = Modifier,
     text: String,
     style: TextStyle,
     color: Color,

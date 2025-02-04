@@ -24,7 +24,6 @@ import com.evothings.mhand.presentation.theme.values.MegahandShapes
 
 @Composable
 fun CategoryItemOnboarding(
-    modifier: Modifier = Modifier,
     title: String,
     image: Int,
     onClick: () -> Unit
@@ -39,7 +38,6 @@ fun CategoryItemOnboarding(
 
 @Composable
 fun CategoryItem(
-    modifier: Modifier = Modifier,
     image: String,
     title: String,
     onClick: () -> Unit

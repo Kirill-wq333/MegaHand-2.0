@@ -146,7 +146,7 @@ fun OutOfStockCart(
     onTrash: () -> Unit
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
             .clickable { onClick() }
@@ -232,12 +232,12 @@ private fun Action(
 ) {
     var isFavouriteLocal by rememberSaveable(isFavorite, BooleanSaver) { mutableStateOf(isFavorite) }
     val heartBorderColor =
-        if (isFavouriteLocal) MaterialTheme.colorScheme.primary else Color.Transparent
+        if (isFavouriteLocal) colorScheme.primary else Color.Transparent
 
     Row(modifier) {
         IconButton(
             icon = ImageVector.vectorResource(id = R.drawable.ic_heart),
-            tint = MaterialTheme.colorScheme.secondary,
+            tint = colorScheme.secondary,
             borderColor = heartBorderColor,
             backgroundColor = Color.Transparent,
             onClick = { isFavouriteLocal = !isFavouriteLocal; onFavorite() }
@@ -245,7 +245,7 @@ private fun Action(
         Spacer(modifier = Modifier.width(MaterialTheme.spacers.small))
         IconButton(
             icon = ImageVector.vectorResource(id = R.drawable.ic_trash),
-            tint = MaterialTheme.colorScheme.secondary,
+            tint = colorScheme.secondary,
             borderColor = Color.Transparent,
             backgroundColor = Color.Transparent,
             onClick = onTrash

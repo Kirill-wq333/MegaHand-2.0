@@ -49,7 +49,6 @@ import com.evothings.mhand.presentation.feature.profile.ui.state.data.bottomshee
 import com.evothings.mhand.presentation.feature.profile.ui.state.data.bottomsheet.RefactorProfile
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
-import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
 import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.paddings
@@ -132,7 +131,7 @@ fun ProfileDataScreen(
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                Row() {
+                Row {
                     Button(
                         text = stringResource(R.string.logout),
                         textColor = colorScheme.secondary,

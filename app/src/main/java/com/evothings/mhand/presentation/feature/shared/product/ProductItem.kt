@@ -91,7 +91,7 @@ fun InStockProductItem(
             .width(180.dp),
         contentAlignment = Alignment.TopStart
     ){
-        Column() {
+        Column {
             PhotoSlider(
                 modifier = Modifier
                     .fillMaxWidth()

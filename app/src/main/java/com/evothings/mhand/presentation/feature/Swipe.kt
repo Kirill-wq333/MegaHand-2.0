@@ -42,7 +42,7 @@ fun SwipeToDeleteLeftRightList() {
 
 @Composable
 fun SwipeToDeleteLeftRightItem(item: String, onDelete: (String) -> Unit) {
-    var offsetX by remember { mutableStateOf(0f) }
+    var offsetX by remember { mutableFloatStateOf(0f) }
     var swipeDirection by remember { mutableStateOf(SwipeDirection.None) }
     val animatedOffsetX by animateDpAsState(
         targetValue = when (swipeDirection) {

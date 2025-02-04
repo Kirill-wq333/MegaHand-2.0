@@ -43,7 +43,7 @@ fun EmptyListScreen(
             Text(
                 text = stringResource(R.string.empty_screen_title),
                 style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.secondary
+                color = colorScheme.secondary
             )
             Spacer(
                 modifier = Modifier
@@ -53,14 +53,14 @@ fun EmptyListScreen(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.secondary
+                color = colorScheme.secondary
             )
         }
 
         Button(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.open_catalog_button),
-            backgroundColor = MaterialTheme.colorScheme.primary,
+            backgroundColor = colorScheme.primary,
             textColor = colorScheme.secondary,
             onClick = onClickOpenCatalog
         )

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,12 +20,10 @@ import androidx.compose.ui.unit.dp
 import com.evothings.domain.feature.checkout.model.PickupPoint
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
-import com.evothings.mhand.presentation.feature.shared.chooseCity.ChooseCityModal
 import com.evothings.mhand.presentation.feature.shared.map.PlacemarkMap
 import com.evothings.mhand.presentation.feature.shared.modifier.modalBottomSheetPadding
 import com.evothings.mhand.presentation.feature.shared.screen.chooseCity.ChooseCityScreen
 import com.evothings.mhand.presentation.feature.shared.text.TrailingButtonTextField
-import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.maps.findNearestPointIndex
 import com.evothings.mhand.presentation.utils.maps.toGeoPoint

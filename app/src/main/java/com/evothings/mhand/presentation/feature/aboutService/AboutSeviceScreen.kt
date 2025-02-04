@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,12 +35,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.navigation.graph.NavGraph
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
-import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -61,7 +58,6 @@ private fun AboutServicePreview() {
 
 @Composable
 fun AboutServiceScreen(
-    modifier: Modifier = Modifier,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -156,9 +152,7 @@ private fun Heading(
 }
 
 @Composable
-fun Evidence(
-    modifier: Modifier = Modifier
-) {
+fun Evidence() {
     val context = LocalContext.current
 
     val textParts: List<AnnotatedString> = remember {
@@ -199,9 +193,7 @@ fun Evidence(
 }
 
 @Composable
-fun Footer(
-    modifier: Modifier = Modifier
-) {
+fun Footer() {
         Image(
             painter = painterResource(R.drawable.about_service_footer_image),
             contentDescription = null,

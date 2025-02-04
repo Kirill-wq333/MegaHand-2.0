@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -50,7 +47,6 @@ import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.feature.shared.text.util.toAnnotateString
 import com.evothings.mhand.presentation.theme.MegahandTheme
-import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.theme.values.MegahandShapes
@@ -71,7 +67,6 @@ private interface ArticleCallback {
 
 @Composable
 fun ArticleScreen(
-    modifier: Modifier = Modifier,
     vm: ArticleViewModel,
     id: String,
     openAnotherArticle: (id: String) -> Unit,
@@ -162,7 +157,6 @@ private fun ArticleContent(
 
 @Composable
 private fun ArticlesContent(
-    modifier: Modifier = Modifier,
     uiState: ArticleUiState,
     callback: ArticleCallback
 ) {

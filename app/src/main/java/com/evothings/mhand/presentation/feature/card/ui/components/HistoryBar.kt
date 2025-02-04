@@ -27,7 +27,6 @@ import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
 fun HistoryBar(
-    modifier: Modifier = Modifier,
     isFilterPickerExpanded: Boolean,
     currentFilter: CardFilterType,
     onExpand: () -> Unit,

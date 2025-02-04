@@ -100,7 +100,6 @@ fun CheckCityLayout(
                 }
             }
         } else {
-            // если разрешения нет, то запрашиваем
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
             } else {
@@ -238,7 +237,7 @@ private fun getCityName(location: Location, context: Context): String {
     val geocoder = Geocoder(context, Locale.getDefault())
     val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
 
-    return if (addresses != null && addresses.isNotEmpty()) {
+    return if (!addresses.isNullOrEmpty()) {
         val address = addresses[0]
         address.locality ?: "Неизвестно"
     } else {

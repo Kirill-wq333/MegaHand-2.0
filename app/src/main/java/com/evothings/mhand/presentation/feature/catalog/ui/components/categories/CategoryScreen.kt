@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation.feature.Category.components.categories
+package com.evothings.mhand.presentation.feature.catalog.ui.components.categories
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.evothings.domain.feature.catalog.model.ProductCategory
-import com.evothings.mhand.presentation.feature.catalog.ui.components.categories.CategoryItem
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable

@@ -9,18 +9,14 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -36,24 +32,18 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.evothings.domain.feature.catalog.model.FilterValue
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.shared.bottomsheet.MhandModalBottomSheet
 import com.evothings.mhand.presentation.feature.shared.button.Button
-import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
 import com.evothings.mhand.presentation.feature.shared.checkbox.CheckboxChecker
 import com.evothings.mhand.presentation.feature.shared.radio.RadioChecker
-import com.evothings.mhand.presentation.feature.shared.text.saver.BooleanSaver
-import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -184,7 +174,6 @@ private fun FilterAndSortContent(
 
 @Composable
 fun TextAndCheckBoxs(
-    modifier: Modifier = Modifier,
     selected: List<Int>,
     entries: List<FilterValue>,
     enableRadio: Boolean,
@@ -224,7 +213,6 @@ fun TextAndCheckBoxs(
 
 @Composable
 private fun CardItem(
-    modifier: Modifier = Modifier,
     text: String,
     isExpanded: Boolean,
     onExpandChange: (Boolean) -> Unit,
@@ -268,7 +256,7 @@ fun Item(
     isExpanded: Boolean,
     onExpand: () -> Unit
 ){
-    val iconTint = MaterialTheme.colorScheme.secondary.copy(
+    val iconTint = colorScheme.secondary.copy(
         alpha = if (isExpanded) 1.0f else 0.4f
     )
     val background =
@@ -317,7 +305,6 @@ fun Item(
 
 @Composable
 fun TextAndCheckBox(
-    modifier: Modifier = Modifier,
     text: String,
     visibleChecker: Boolean,
     isChecked: Boolean,

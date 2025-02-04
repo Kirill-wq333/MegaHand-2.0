@@ -71,7 +71,7 @@ fun ServerErrorScreen(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.reload_page),
                 backgroundColor = Color.Transparent,
-                borderColor = MaterialTheme.colorScheme.secondary.copy(0.15f),
+                borderColor = colorScheme.secondary.copy(0.15f),
                 onClick = onRefresh
             )
         }

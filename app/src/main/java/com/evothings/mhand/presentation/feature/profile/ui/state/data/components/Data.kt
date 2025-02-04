@@ -25,9 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.evothings.mhand.R
-import com.evothings.mhand.presentation.feature.profile.ui.state.requiredFields.TextAndTextField
 import com.evothings.mhand.presentation.feature.shared.button.icon.IconButton
-import com.evothings.mhand.presentation.feature.shared.text.LabelTextField
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.spacers
 

@@ -1,12 +1,6 @@
 package com.evothings.mhand.presentation.feature.checkout.ui.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,26 +9,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.evothings.domain.feature.address.model.Address
 import com.evothings.domain.feature.checkout.model.DeliveryOption
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.checkout.ui.components.delivery.CDEKViewBox
 import com.evothings.mhand.presentation.feature.checkout.ui.components.delivery.CourierDelivery
-import com.evothings.mhand.presentation.feature.shared.button.icon.SmallIconButton
-import com.evothings.mhand.presentation.feature.shared.checkbox.Checkbox
 import com.evothings.mhand.presentation.feature.shared.radio.RadioButton
-import com.evothings.mhand.presentation.feature.shared.radio.RadioChecker
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -88,7 +72,6 @@ fun ReceiptMethodAndAddress(
 
 @Composable
 fun ReceiptMethod(
-    modifier: Modifier = Modifier,
     currentOption: DeliveryOption,
     onSelect: (DeliveryOption) -> Unit
 ) {

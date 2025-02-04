@@ -1,11 +1,8 @@
 package com.evothings.mhand.presentation.feature.product.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,7 +10,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,14 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.product.model.Product
 import com.evothings.mhand.R
@@ -39,12 +29,10 @@ import com.evothings.mhand.presentation.feature.product.ui.components.Parameters
 import com.evothings.mhand.presentation.feature.product.ui.components.SliderPhoto
 import com.evothings.mhand.presentation.feature.product.viewmodel.ProductContract
 import com.evothings.mhand.presentation.feature.product.viewmodel.ProductViewModel
-import com.evothings.mhand.presentation.feature.shared.header.ui.Header
 import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
 import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
-import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
@@ -58,7 +46,6 @@ interface ProductInfoCallback {
 
 @Composable
 fun ProductInfoScreen(
-    modifier: Modifier = Modifier,
     id: Int,
     vm: ProductViewModel,
     onBack: () -> Unit
@@ -93,7 +80,6 @@ fun ProductInfoScreen(
 
 @Composable
 private fun ProductInfoContent(
-    modifier: Modifier = Modifier,
     state: ProductContract.State,
     product: Product,
     callback: ProductInfoCallback
