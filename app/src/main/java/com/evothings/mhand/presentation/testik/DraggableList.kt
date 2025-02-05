@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation
+package com.evothings.mhand.presentation.testik
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateOffsetAsState
@@ -11,8 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.gestures.*
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.zIndex
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
@@ -95,6 +98,7 @@ fun DraggableItem(
     itemPositions: MutableMap<Int, Offset>,
     animatedOffset: State<Offset>
 ) {
+    var itemPosition = remember { mutableStateOf(Offset.Zero) }
     val isDragging = draggingItemId.value == item.id
     val zIndex = if (isDragging) 1f else 0f
     val itemHeight = 72.dp  // Предполагаемая высота элемента
@@ -107,6 +111,10 @@ fun DraggableItem(
             .fillMaxWidth()
             .padding(8.dp)
             .zIndex(zIndex)
+            .offset { (IntOffset(0,itemOffsetY.toInt())) }
+            .onGloballyPositioned { layoutCoordinates ->
+                itemPosition.value = layoutCoordinates.positionInRoot()
+            }
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { offset ->
@@ -148,7 +156,7 @@ fun DraggableItem(
                                 // Пересчитываем позиции после небольшой задержки
                                 delay(10) // Задержка для обновления макета
                                 items.forEachIndexed { i, item ->
-                                    itemPositions[item.id] = Offset(0f, (i * itemHeightPx).toFloat())
+                                    itemPositions[item.id] = Offset(0f, (i * itemHeightPx))
                                 }
                             }
 
@@ -176,7 +184,7 @@ fun DraggableItem(
     }
 
     SideEffect {
-        itemPositions[item.id] = Offset(0f, (index * itemHeightPx).toFloat())
+        itemPositions[item.id] = Offset(0f, (index * itemHeightPx))
     }
 }
 

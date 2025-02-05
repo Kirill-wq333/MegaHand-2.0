@@ -1,4 +1,4 @@
-package com.evothings.mhand.presentation
+package com.evothings.mhand.presentation.testik
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
