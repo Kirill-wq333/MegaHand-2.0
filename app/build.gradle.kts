@@ -159,4 +159,6 @@ dependencies {
 
     implementation(libs.play.services.location)
 
+    implementation(libs.github.glide) // Замените на последнюю версию
+    kapt(libs.compiler)
 }
