@@ -20,7 +20,7 @@ class CardInteractor(private val repository: CardRepository) {
 
 
     fun sortTransactions(list: List<Transaction>): Map<String, List<Transaction>> {
-        val operationDateFormat = DateTimeFormatter.ofPattern(DateFormat.FULL_DATE_PRECISE)
+        val operationDateFormat = DateTimeFormatter.ofPattern(DateFormat.ISO_8601)
         val sortFullDateFormat = DateTimeFormatter.ofPattern(DateFormat.FULL_DATE)
         val sortFormat = DateTimeFormatter.ofPattern(DateFormat.DAY_MONTH)
         val timeFormat = DateTimeFormatter.ofPattern(DateFormat.CLOCK)
