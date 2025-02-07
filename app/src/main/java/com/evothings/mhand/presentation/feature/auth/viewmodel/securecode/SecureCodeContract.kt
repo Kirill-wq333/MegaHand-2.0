@@ -11,6 +11,7 @@ object SecureCodeContract {
         data class CheckSecureCode(val code: String, val phone: String = "") : Event
         data class SendConfirmCodeToReset(val phone: String) : Event
         data object DisableConfirmErrorState : Event
+        data class SetLockTimer(val timer: Int) : Event
     }
 
     sealed interface State : ViewState {

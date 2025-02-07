@@ -1,5 +1,6 @@
 package com.evothings.mhand.presentation.feature.auth.viewmodel.securecode
 
+import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
 import com.evothings.domain.feature.settings.interactor.AppSettingsInteractor
 import com.evothings.domain.feature.auth.interactor.AuthInteractor
@@ -25,7 +26,8 @@ class SecureCodeViewModel @Inject constructor(
     private val profileInteractor: ProfileInteractor,
     private val cardInteractor: CardInteractor,
     private val appSettingsInteractor: AppSettingsInteractor,
-    private val snackbarItemHost: SnackbarItemHost
+    private val snackbarItemHost: SnackbarItemHost,
+    private val sharedPreferences: SharedPreferences
 ) : BaseViewModel<SecureCodeContract.Event, SecureCodeContract.State, SecureCodeContract.Effect>() {
 
     private val _errorState = MutableStateFlow(false)
@@ -46,6 +48,7 @@ class SecureCodeViewModel @Inject constructor(
         is SecureCodeContract.Event.CheckSecureCode -> confirmSecureCode(event.code, event.phone)
         is SecureCodeContract.Event.SendConfirmCodeToReset -> sendConfirmCodeToReset(event.phone)
         is SecureCodeContract.Event.DisableConfirmErrorState -> disableErrorState()
+        is SecureCodeContract.Event.SetLockTimer -> watchFailAttemptsCount()
     }
 
     init {

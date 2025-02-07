@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import coil.compose.LocalImageLoader
+import com.evothings.mhand.presentation.theme.MegahandTheme
 
 @Suppress("UNUSED_EXPRESSION")
 @Composable
@@ -39,10 +40,10 @@ fun GlideGifImage(gifUrl: String, contentDescription: String) {
 
 @Preview
 @Composable
-fun MyScreen() {
+fun Glide() {
     Surface {
         GlideGifImage(
-            gifUrl = "https://steamuserimages-a.akamaihd.net/ugc/2458480429364924457/2782F597092BEACF3F5841B27083608140969939/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false", // Замените на URL вашей GIF
+            gifUrl = "https://i.pinimg.com/originals/b1/35/e4/b135e4c395dc5e1f5df5e36c9453f8d1.gif", // Замените на URL вашей GIF
             contentDescription = "Animated GIF" // Описание для доступности
         )
     }
@@ -53,15 +54,16 @@ fun GifImage(gifUrl: String, contentDescription: String) {
     AsyncImage(
         model = gifUrl,
         contentDescription = contentDescription,
-        imageLoader = LocalImageLoader.current,
     )
 }
 
 @Preview
 @Composable
-fun MyScreens() {
-    GifImage(
-        gifUrl = "https://steamuserimages-a.akamaihd.net/ugc/2458480429364924457/2782F597092BEACF3F5841B27083608140969939/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false", // Замените на URL вашей GIF
-        contentDescription = "Animated GIF" // Описание для доступности
-    )
+fun Coin() {
+    MegahandTheme {
+        GifImage(
+            gifUrl = "https://steamuserimages-a.akamaihd.net/ugc/2458480429364924457/2782F597092BEACF3F5841B27083608140969939/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false", // Замените на URL вашей GIF
+            contentDescription = "Animated GIF" // Описание для доступности
+        )
+    }
 }
