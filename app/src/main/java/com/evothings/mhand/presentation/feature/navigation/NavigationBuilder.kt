@@ -283,7 +283,8 @@ fun NavGraphBuilder.buildNavigation(
                 onBack = { navController.popBackStack() },
                 openProductInfoScreen = { id -> navController.navigate(NavGraph.ProductInfo(id)) },
                 openAddressMap = { city -> navController.navigate(NavGraph.AddressMap(city)) },
-                openProfile = { navController.navigate(NavGraph.BottomNav.Profile) }
+                openProfile = { navController.navigate(NavGraph.BottomNav.Profile) },
+                openCheckoutScreen = { orderId -> navController.navigate(NavGraph.BottomNav.ShoppingCart.Checkout(orderId))}
             )
         }
     }

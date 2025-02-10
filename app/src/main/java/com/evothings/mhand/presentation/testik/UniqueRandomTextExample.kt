@@ -1,15 +1,21 @@
 package com.evothings.mhand.presentation.testik
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.bumptech.glide.Glide
 import android.widget.ImageView
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.material3.Surface
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
-import coil.compose.LocalImageLoader
+import androidx.compose.ui.input.pointer.pointerInput
 import com.evothings.mhand.presentation.theme.MegahandTheme
 
 @Suppress("UNUSED_EXPRESSION")
@@ -36,6 +42,66 @@ fun GlideGifImage(gifUrl: String, contentDescription: String) {
         },
         modifier = Modifier
     )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HoverTooltipExample() {
+    val (isHovered, setIsHovered) = remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        TooltipBox(
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            tooltip = {
+                // Плашка (подсказка)
+                Surface(
+                    modifier = Modifier.padding(8.dp),
+                    shape = MaterialTheme.shapes.medium,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shadowElevation = 4.dp
+                ) {
+                    Text(
+                        text = "Это подсказка!",
+                        modifier = Modifier.padding(8.dp),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            },
+            state = rememberTooltipState()
+        ) {
+            // Кнопка, на которую наводим
+            Button(
+                onClick = { /* Действие при клике */ },
+                modifier = Modifier
+                    .pointerInput(isHovered) {
+                        detectTapGestures(
+                            onLongPress = {
+                                setIsHovered(true)
+                            },
+                            onPress = { _ ->
+                                try {
+                                    awaitRelease() // Ждем, пока палец будет отпущен
+                                } finally {
+                                    setIsHovered(false)
+                                }
+                            }
+                        )
+                    }
+            ) {
+                Text("Наведи на меня")
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun HoverTooltipExamplePreview() {
+    HoverTooltipExample()
 }
 
 @Preview

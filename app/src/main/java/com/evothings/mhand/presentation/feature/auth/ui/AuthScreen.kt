@@ -119,7 +119,7 @@ private fun Content(
     callback: AuthCallback
 ) {
 
-    var phone by rememberSaveable { mutableStateOf("") }
+    var phone by rememberSaveable { mutableStateOf("7") }
     var refCode by rememberSaveable { mutableStateOf("") }
 
     var agreementIsChecked by rememberSaveable { mutableStateOf(false) }

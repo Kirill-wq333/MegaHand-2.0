@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,6 +30,7 @@ fun ReceiptMethodAndAddress(
     deliveryOption: DeliveryOption,
     addresses: List<Address>,
     selected: Int,
+    selectedAddress: String,
     saveNewAddress: Boolean,
     onSelectAddress: (Int) -> Unit,
     onAddressListChanged: () -> Unit,
@@ -63,6 +65,15 @@ fun ReceiptMethodAndAddress(
                 onCheckSaveAddress = onCheckSaveAddress
             )
         } else {
+            Text(
+                text = selectedAddress,
+                style = typography.headlineMedium,
+                color = colorScheme.secondary
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(MaterialTheme.spacers.extraLarge)
+            )
             CDEKViewBox(
                 onClick = onClick
             )

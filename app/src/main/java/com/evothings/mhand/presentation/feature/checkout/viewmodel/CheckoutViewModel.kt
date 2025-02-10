@@ -1,5 +1,6 @@
 package com.evothings.mhand.presentation.feature.checkout.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.evothings.domain.feature.address.interactor.AddressInteractor
 import com.evothings.domain.feature.address.model.Address
@@ -68,6 +69,7 @@ class CheckoutViewModel @Inject constructor(
                 },
                 onFailure = {
                     setEffect { CheckoutContract.Effect.ShowToast("Error: ${it.message}") }
+                    Log.d("ERROR", "loadCheckoutInfo: $it")
                     setState(CheckoutContract.State.ServerError)
                 }
             )

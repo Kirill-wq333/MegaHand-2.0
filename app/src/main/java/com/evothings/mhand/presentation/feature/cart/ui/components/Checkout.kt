@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
@@ -20,7 +19,6 @@ import com.evothings.mhand.presentation.feature.shared.product.components.price.
 import com.evothings.mhand.presentation.feature.shared.text.util.NumberSeparator
 import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.MegahandTypography
-import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
@@ -37,10 +35,6 @@ fun Checkout(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(
-                    vertical = MaterialTheme.paddings.giant,
-                    horizontal = MaterialTheme.paddings.extraGiant
-                )
         ) {
             CheckoutItem(
                 value = "${total.splitHundreds(NumberSeparator.SPACE)} ₽",
