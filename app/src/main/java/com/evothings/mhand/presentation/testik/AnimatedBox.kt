@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
@@ -35,8 +36,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun AnimatedButton() {
     var buttonState by remember { mutableStateOf(ButtonState.NORMAL) }
+
     val offsetX = remember { Animatable(0f) }
+    val offsetY = remember { Animatable(0f) }
     val textOffsetX = remember { Animatable(0f) }
+    val textOffsetY = remember { Animatable(0f) }
+
     val animatedColor = animateColorAsState(
         targetValue = when (buttonState) {
             ButtonState.NORMAL -> Color(0xFF3498db)
@@ -58,10 +63,20 @@ fun AnimatedButton() {
                         targetValue = -500f,
                         animationSpec = tween(durationMillis = 1500)
                     )
+                    offsetY.animateTo(
+                        targetValue = -700f,
+                        animationSpec = tween(durationMillis = 1500)
+                    )
+
                     textOffsetX.animateTo(
-                        targetValue = 230f, // Смещение текста влево
+                        targetValue = 230f,
                         animationSpec = tween(durationMillis = 1000)
                     )
+                    textOffsetY.animateTo(
+                        targetValue = -400f,
+                        animationSpec = tween(durationMillis = 1000)
+                    )
+
                     kotlinx.coroutines.delay(1500)
                     buttonState = ButtonState.NORMAL
                 }
@@ -70,15 +85,24 @@ fun AnimatedButton() {
             ButtonState.NORMAL -> {
                 launch {
                     offsetX.animateTo(
-                        targetValue = 0f,
+                        targetValue = 500f,
                         animationSpec = tween(durationMillis = 1500)
                     )
-                    textOffsetX.animateTo(
-                        targetValue = 0f, // Возвращаем текст на место
-                        animationSpec = tween(durationMillis = 700)
+                    offsetY.animateTo(
+                        targetValue = 700f,
+                        animationSpec = tween(durationMillis = 1500)
                     )
 
-                    kotlinx.coroutines.delay(1500) //задержка чтобы показать смену цвета и положение кнопки
+                    textOffsetX.animateTo(
+                        targetValue = -230f,
+                        animationSpec = tween(durationMillis = 1000)
+                    )
+                    textOffsetY.animateTo(
+                        targetValue = 400f,
+                        animationSpec = tween(durationMillis = 1000)
+                    )
+
+                    kotlinx.coroutines.delay(1500)
                     buttonState = ButtonState.PRESSED
                 }
             }
@@ -87,7 +111,7 @@ fun AnimatedButton() {
 
     Box(
         modifier = Modifier
-            .offset { IntOffset(offsetX.value.toInt(), 0) }
+            .offset { IntOffset(offsetX.value.toInt(), offsetY.value.toInt()) }
             .clip(RectangleShape)
             .background(animatedColor.value)
             .clickable {
@@ -103,7 +127,7 @@ fun AnimatedButton() {
         Text(
             text = text,
             style = TextStyle(color = Color.White, fontSize = 18.sp),
-            modifier = Modifier.offset { IntOffset(textOffsetX.value.toInt(), 0) }
+            modifier = Modifier.offset { IntOffset(textOffsetX.value.toInt(), textOffsetY.value.toInt()) }
         )
     }
 }
