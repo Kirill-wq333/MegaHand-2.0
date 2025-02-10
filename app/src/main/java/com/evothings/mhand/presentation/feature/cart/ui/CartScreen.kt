@@ -1,7 +1,6 @@
 package com.evothings.mhand.presentation.feature.cart.ui
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,7 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.product.model.Product
 import com.evothings.domain.util.Mock
@@ -42,7 +40,6 @@ import com.evothings.mhand.presentation.feature.cart.viewmodel.CartViewModel
 import com.evothings.mhand.presentation.feature.onboarding.ui.screen.CartHeading
 import com.evothings.mhand.presentation.feature.onboarding.ui.screen.CartOnboardingScreen
 import com.evothings.mhand.presentation.feature.shared.button.Button
-import com.evothings.mhand.presentation.feature.shared.header.ui.HeaderProvider
 import com.evothings.mhand.presentation.feature.shared.loading.LoadingScreen
 import com.evothings.mhand.presentation.feature.shared.pullToRefresh.PullRefreshLayout
 import com.evothings.mhand.presentation.feature.shared.screen.EmptyListScreen
@@ -159,7 +156,6 @@ fun CartScreen(
 
 @Composable
 private fun CartContent(
-    modifier: Modifier = Modifier,
     state: CartContract.State,
     uiState: CartUiState,
     callback: CartCallback
@@ -211,7 +207,6 @@ private fun CartContent(
 
 @Composable
 private fun Content(
-    modifier: Modifier = Modifier,
     products: List<Product>,
     total: Double,
     discount: Double,
@@ -243,7 +238,6 @@ private fun Content(
         contentPadding = PaddingValues(horizontal = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         productsList(
             products = products,
             selectionList = selectionList,
@@ -328,7 +322,7 @@ fun CartCheckout(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.proceed_checkout_button),
             isEnabled = enableCheckoutButton,
-            backgroundColor = MaterialTheme.colorScheme.primary,
+            backgroundColor = colorScheme.primary,
             textColor = ColorTokens.Graphite,
             onClick = onClickCheckout
         )
