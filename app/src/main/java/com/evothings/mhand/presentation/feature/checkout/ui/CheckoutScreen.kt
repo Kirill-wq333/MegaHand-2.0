@@ -11,6 +11,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -73,6 +74,7 @@ import com.evothings.mhand.presentation.feature.shared.text.saver.BooleanSaver
 import com.evothings.mhand.presentation.feature.shared.text.saver.IntSaver
 import com.evothings.mhand.presentation.feature.shared.text.saver.StringSaver
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
+import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 import com.evothings.mhand.presentation.utils.sdkutil.openPrivacyPolicyPage
 
@@ -134,6 +136,7 @@ fun MakingAnOrderScreen(
                     intent.putExtra(PaymentActivity.PAYMENT_LINK_EXTRA, effect.paymentLink)
                     paymentActivityLauncher.launch(intent)
                 }
+                is CheckoutContract.Effect.OpenCheckoutScreen -> openCheckoutScreen(effect.toString())
             }
         }
     }
@@ -397,69 +400,76 @@ private fun Content(
 
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
 
-        Checkout(
-            productsCount = uiState.orderItems.size,
-            total = uiState.total,
-            discount = uiState.discount,
-            deliveryCost = uiState.deliveryCost,
-            pointsDiscount = uiState.pointsDiscount,
-            cashbackPoints = uiState.cashbackPoints,
-            summary = uiState.summary
-        )
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    horizontal = MaterialTheme.spacers.extraLarge
-                )
+                    vertical = MaterialTheme.paddings.giant,
+                    horizontal = MaterialTheme.paddings.extraGiant
+                ),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.extraLarge)
         ) {
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.make_order_button),
-                backgroundColor = colorScheme.primary,
-                isEnabled = enableCheckoutButton,
-                textColor = ColorTokens.Graphite,
-                onClick = {
-                    val address = if (selectedDeliveryOption == DeliveryOption.COURIER) {
-                        if (uiState.addresses.isEmpty()) {
-                            with(newAddress) {
-                                "${city.trim()}, ${street.trim()}, $house, $flat"
-                            }
-                        } else {
-                            uiState.addresses[selectedAddress].fullAddress
-                        }
-                    } else ""
-
-                    if (saveNewAddress) {
-                        callback.saveAddress(newAddress)
-                    }
-
-                    callback.onCheckout(
-                        CheckoutResult(
-                            name = name,
-                            surname = surname,
-                            email = email,
-                            phone = phone,
-                            saveInProfile = saveInProfileCheckboxState,
-                            address = address,
-                            deliveryOption = selectedDeliveryOption,
-                            pickupPoint = selectedPickupPoint,
-                            withdrawAmount = withdrawAmount.toIntOrNull() ?: 0,
-                            withdrawPoints = withdrawCashbackPoints
-                        )
-                    )
-
-                }
+            Checkout(
+                productsCount = uiState.orderItems.size,
+                total = uiState.total,
+                discount = uiState.discount,
+                deliveryCost = uiState.deliveryCost,
+                pointsDiscount = uiState.pointsDiscount,
+                cashbackPoints = uiState.cashbackPoints,
+                summary = uiState.summary
             )
-            Spacer(
+
+            Column(
                 modifier = Modifier
-                    .height(MaterialTheme.spacers.medium)
-            )
-            PrivacyPolicyText(
-                buttonLabel = stringResource(id = R.string.make_order_button),
-                onClick = callback::openPrivacyPolicy
-            )
+                    .fillMaxWidth()
+            ) {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.make_order_button),
+                    backgroundColor = colorScheme.primary,
+                    isEnabled = enableCheckoutButton,
+                    textColor = ColorTokens.Graphite,
+                    onClick = {
+                        val address = if (selectedDeliveryOption == DeliveryOption.COURIER) {
+                            if (uiState.addresses.isEmpty()) {
+                                with(newAddress) {
+                                    "${city.trim()}, ${street.trim()}, $house, $flat"
+                                }
+                            } else {
+                                uiState.addresses[selectedAddress].fullAddress
+                            }
+                        } else ""
+
+                        if (saveNewAddress) {
+                            callback.saveAddress(newAddress)
+                        }
+
+                        callback.onCheckout(
+                            CheckoutResult(
+                                name = name,
+                                surname = surname,
+                                email = email,
+                                phone = phone,
+                                saveInProfile = saveInProfileCheckboxState,
+                                address = address,
+                                deliveryOption = selectedDeliveryOption,
+                                pickupPoint = selectedPickupPoint,
+                                withdrawAmount = withdrawAmount.toIntOrNull() ?: 0,
+                                withdrawPoints = withdrawCashbackPoints
+                            )
+                        )
+
+                    }
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(MaterialTheme.spacers.medium)
+                )
+                PrivacyPolicyText(
+                    buttonLabel = stringResource(id = R.string.make_order_button),
+                    onClick = callback::openPrivacyPolicy
+                )
+            }
         }
 
     }
@@ -474,7 +484,7 @@ private fun Content(
                 modifier = Modifier
                     .background(color = ColorTokens.Graphite),
                 pickupPoints = uiState.pickupPoints,
-                onClose = { showCDEKMap = false; callback::openCheckoutScreen },
+                onClose = { showCDEKMap = false; callback.openCheckoutScreen() },
                 pickupCity = uiState.pickupCity,
                 selectedPickupPoint = selectedPickupPoint,
                 onChangePickupCity = callback::onChangePickupCity,
