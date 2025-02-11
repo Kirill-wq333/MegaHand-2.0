@@ -52,8 +52,7 @@ fun SnackCoupon(
 
     Snackbar(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(MaterialTheme.spacers.medium),
+            .fillMaxWidth(),
         containerColor = backgroundColor,
         contentColor = Color.White,
         shape = RoundedCornerShape(8.dp)
@@ -65,6 +64,7 @@ fun SnackCoupon(
         ) {
             Column(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(MaterialTheme.paddings.extraLarge),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally

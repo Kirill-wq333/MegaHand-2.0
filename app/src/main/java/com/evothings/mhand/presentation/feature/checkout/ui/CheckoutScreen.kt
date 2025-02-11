@@ -136,7 +136,6 @@ fun MakingAnOrderScreen(
                     intent.putExtra(PaymentActivity.PAYMENT_LINK_EXTRA, effect.paymentLink)
                     paymentActivityLauncher.launch(intent)
                 }
-                is CheckoutContract.Effect.OpenCheckoutScreen -> openCheckoutScreen(effect.toString())
             }
         }
     }

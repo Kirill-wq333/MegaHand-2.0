@@ -281,7 +281,12 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             profileInteractor.deleteAccount()
             updateState { ProfileContract.State.Loading }
-            setEffect { ProfileContract.Effect.ShowToast("Ваш аккаунт успешно удален") }
+            snackbarItemHost.setSnackbar(
+                SnackbarItem(
+                    title = "Твой аккаунт был удалён",
+                    subtitle = "Верим, что ты к нам ещё вернешься"
+                )
+            )
         }
     }
 
