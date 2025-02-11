@@ -105,7 +105,7 @@ fun MakingAnOrderScreen(
     openAddressMap: (String) -> Unit,
     openProfile: () -> Unit,
     onBack: () -> Unit,
-    openCheckoutScreen: (String) -> Unit
+    openCheckoutScreen: () -> Unit
 ){
 
     val context = LocalContext.current
