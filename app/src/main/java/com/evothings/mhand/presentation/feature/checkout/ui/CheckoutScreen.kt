@@ -93,7 +93,6 @@ private interface CheckoutCallback {
     fun onChangePickupCity(city: String)
     fun openAddressMap(city: String)
     fun updateAddressesList()
-    fun openCheckoutScreen()
 }
 
 
@@ -105,7 +104,6 @@ fun MakingAnOrderScreen(
     openAddressMap: (String) -> Unit,
     openProfile: () -> Unit,
     onBack: () -> Unit,
-    openCheckoutScreen: () -> Unit
 ){
 
     val context = LocalContext.current
@@ -185,9 +183,6 @@ fun MakingAnOrderScreen(
         override fun onClickProduct(id: Int) =
             openProductInfoScreen(id)
 
-        override fun openCheckoutScreen() {
-            openCheckoutScreen()
-        }
     }
 
     CheckoutContent(
@@ -483,7 +478,7 @@ private fun Content(
                 modifier = Modifier
                     .background(color = ColorTokens.Graphite),
                 pickupPoints = uiState.pickupPoints,
-                onClose = { showCDEKMap = false; callback.openCheckoutScreen() },
+                onClose = { showCDEKMap = false },
                 pickupCity = uiState.pickupCity,
                 selectedPickupPoint = selectedPickupPoint,
                 onChangePickupCity = callback::onChangePickupCity,

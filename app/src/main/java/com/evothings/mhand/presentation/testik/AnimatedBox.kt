@@ -27,6 +27,58 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun AnimatedBoxes() {
+    val boxCount = 3
+    val boxSize = remember { List(boxCount) { Animatable(100f) } }
+    val boxOffsetX = remember { List(boxCount) { Animatable(0f) } }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Button(onClick = {
+            coroutineScope.launch {
+                for (i in 0 until boxCount) {
+                    launch {
+                        boxSize[i].animateTo(
+                            targetValue = 200f,
+                            animationSpec = tween(durationMillis = 1500)
+                        )
+                        boxOffsetX[i].animateTo(
+                            targetValue = -300f,
+                            animationSpec = tween(durationMillis = 1500)
+                        )
+                    }
+                }
+            }
+        }) {
+            Text("Start Animation")
+        }
+
+        for (i in 0 until boxCount) {
+            Box(
+                modifier = Modifier
+                    .offset { IntOffset(boxOffsetX[i].value.toInt(), 0) }
+                    .size(boxSize[i].value.dp)
+                    .background(Color.Blue)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun AnimatedBoxPreviews() {
+    AnimatedBoxes()
+}
 
 @Composable
 fun AnimatedButton() {
@@ -113,7 +165,7 @@ fun AnimatedButton() {
                 if (buttonState == ButtonState.NORMAL) {
                     buttonState = ButtonState.PRESSED
 
-                }else if (buttonState == ButtonState.PRESSED){
+                } else if (buttonState == ButtonState.PRESSED) {
                     buttonState = ButtonState.NORMAL
                 }
             },
