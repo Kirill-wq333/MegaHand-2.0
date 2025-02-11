@@ -80,9 +80,8 @@ fun SnackCoupon(
                     color = textColor,
                     style = MegahandTypography.bodyMedium
                 )
-                Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
             }
-
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -93,7 +92,6 @@ fun SnackCoupon(
                         shape = MaterialTheme.shapes.large
                     ),
             )
-
         }
     }
 }
