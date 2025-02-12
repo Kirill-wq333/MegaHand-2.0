@@ -88,7 +88,7 @@ class PushNotificationService : FirebaseMessagingService() {
         CoroutineScope(Dispatchers.IO).launch {
             notificationRepository.writeToCache(
                 Notification(
-                    type = message.data.get("type")?.resolveNotificationType() ?: NotificationType.INFOFMATION,
+                    type = message.data.get("type")?.resolveNotificationType() ?: NotificationType.INFORMATION,
                     title = message.data.get("title") ?: "No title",
                     description = message.data.get("body") ?: "No title",
                     arrivalTime = getCurrentTime(),
@@ -100,9 +100,9 @@ class PushNotificationService : FirebaseMessagingService() {
 
     private fun String.resolveNotificationType(): NotificationType = when(this) {
         "UPDATE" -> NotificationType.NEW_VERSION
-        "INFO" -> NotificationType.INFOFMATION
+        "INFO" -> NotificationType.INFORMATION
         "ALERT" -> NotificationType.ALERT
-        else -> NotificationType.INFOFMATION
+        else -> NotificationType.INFORMATION
     }
 
     private fun getCurrentTime(): String {

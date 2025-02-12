@@ -200,21 +200,21 @@ private fun NotificationIcon(
         when(type) {
             NotificationType.NEW_VERSION -> R.drawable.ic_sparkles
             NotificationType.ALERT -> R.drawable.ic_attention
-            NotificationType.INFOFMATION -> R.drawable.ic_news
+            NotificationType.INFORMATION -> R.drawable.ic_news
         }
     }
 
     val iconTint =
         when(type) {
             NotificationType.ALERT -> colorScheme.error
-            NotificationType.INFOFMATION -> colorScheme.secondary
+            NotificationType.INFORMATION -> colorScheme.secondary
             NotificationType.NEW_VERSION -> ColorTokens.Graphite
         }
 
     val backgroundColor =
         when(type) {
             NotificationType.ALERT -> colorScheme.error.copy(alpha = 0.1f)
-            NotificationType.INFOFMATION -> colorScheme.secondary.copy(alpha = 0.1f)
+            NotificationType.INFORMATION -> colorScheme.secondary.copy(alpha = 0.1f)
             NotificationType.NEW_VERSION -> ColorTokens.Sunflower
         }
 
