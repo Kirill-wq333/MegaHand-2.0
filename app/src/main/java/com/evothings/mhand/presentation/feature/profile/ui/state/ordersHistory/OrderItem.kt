@@ -52,8 +52,6 @@ import com.evothings.mhand.presentation.feature.shared.text.util.splitHundreds
 import com.evothings.mhand.presentation.theme.MegahandTheme
 import com.evothings.mhand.presentation.theme.colorScheme.ColorTokens
 import com.evothings.mhand.presentation.theme.spacers
-//import androidx.compose.runtime.getValue
-//import androidx.compose.runtime.setValue
 
 @Composable
 fun OrderItem(
@@ -64,7 +62,6 @@ fun OrderItem(
     onClickPayOrder: () -> Unit
 ) {
 
-//    var visibleTrackOrder by remember { mutableStateOf(false) }
     val isExpanded = remember { mutableStateOf(false) }
 
     Box(
@@ -100,8 +97,8 @@ fun OrderItem(
                 OrderInfo(
                     orderDate = model.orderDate,
                     cost = model.cost,
-                    track = model.track,
-                    onCopyTrack = { model.track?.let(onCopyTrack) }
+                    trackNumbers = model.trackNumbers,
+                    onCopyTrack = onCopyTrack
                 )
             }
 
@@ -133,13 +130,6 @@ fun OrderItem(
 
         }
     }
-//    if (visibleTrackOrder) {
-//        MhandModalBottomSheet(
-//            onDismissRequest = { visibleTrackOrder = false }
-//        ) {
-//
-//        }
-//    }
 }
 
 @Composable
@@ -312,9 +302,12 @@ private fun ProductPhoto(
 private fun OrderInfo(
     orderDate: String,
     cost: Int,
-    track: String?,
-    onCopyTrack: () -> Unit
+    trackNumbers: List<String>,
+    onCopyTrack: (String) -> Unit
 ) {
+    val trackNumberIsEmptyOrInvalid = remember {
+        trackNumbers.isEmpty() || trackNumbers.any { false }
+    }
 
     Column {
         Column(
@@ -328,12 +321,22 @@ private fun OrderInfo(
                 title = stringResource(R.string.order_cost),
                 subtitle = "${cost.splitHundreds(NumberSeparator.SPACE)} ₽"
             )
-            OrderInfoItem(
-                title = stringResource(R.string.order_track),
-                enableCopy = (track != null),
-                subtitle = track ?: stringResource(R.string.order_no_track_status),
-                onCopy = onCopyTrack
-            )
+            if (trackNumberIsEmptyOrInvalid) {
+                Text(
+                    text = stringResource(R.string.order_no_track_status),
+                    fontSize = 15.sp,
+                    style = typography.bodyLarge,
+                    color = colorScheme.secondary
+                )
+            } else {
+                trackNumbers.forEach { track ->
+                    OrderInfoItem(
+                        title = stringResource(R.string.order_track),
+                        subtitle = track,
+                        onCopy = { onCopyTrack(track) }
+                    )
+                }
+            }
         }
         Spacer(
             modifier = Modifier
@@ -354,7 +357,6 @@ private fun OrderInfo(
 private fun OrderInfoItem(
     title: String,
     subtitle: String,
-    enableCopy: Boolean = false,
     onCopy: () -> Unit = {}
 ) {
 
@@ -375,18 +377,16 @@ private fun OrderInfoItem(
                 style = typography.bodyLarge,
                 color = colorScheme.secondary
             )
-            if (enableCopy) {
-                Spacer(
-                    modifier = Modifier
-                        .width(MaterialTheme.spacers.tiny)
-                )
-                SmallIconButton(
-                    icon = ImageVector.vectorResource(id = R.drawable.ic_copy),
-                    iconPadding = 0.dp,
-                    tint = colorScheme.secondary,
-                    onClick = onCopy
-                )
-            }
+            Spacer(
+                modifier = Modifier
+                    .width(MaterialTheme.spacers.tiny)
+            )
+            SmallIconButton(
+                icon = ImageVector.vectorResource(id = R.drawable.ic_copy),
+                iconPadding = 0.dp,
+                tint = colorScheme.secondary,
+                onClick = onCopy
+            )
         }
     }
 }

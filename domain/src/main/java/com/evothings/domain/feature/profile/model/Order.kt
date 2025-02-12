@@ -10,7 +10,7 @@ data class Order(
     val cost: Int = 0,
     val status: Status = Status.CREATED,
     val statusDisplay: String = "",
-    val track: String? = null,
+    val trackNumbers: List<String> = listOf(),
     val paymentUrl: String? = null,
     val products: List<OrderHistoryProduct> = emptyList()
 ) {
