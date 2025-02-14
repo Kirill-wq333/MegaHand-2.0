@@ -5,7 +5,7 @@ object NetworkConfig {
 
     const val MHAND_BASE_URL = "https://mhand.ru/api/v2/"
     const val BASE_URL = "https://dev.avtovozina.ru/api/v2/"
-    const val NEW_BASE_URL = "http://mhand.ru/api/"
+    const val NEW_BASE_URL = "http://92.53.97.86/api/"
 
     object Routes {
 
@@ -22,7 +22,6 @@ object NetworkConfig {
                 const val set = "${NEW_BASE_URL}profile-login-code/set-login-code/"
                 const val loginBy = "${NEW_BASE_URL}authentication/login-by-code/"
             }
-
         }
 
         object Header {
@@ -77,6 +76,7 @@ object NetworkConfig {
             const val getInfo = "${NEW_BASE_URL}basket/get-info/"
             const val calculateCheckout = "${NEW_BASE_URL}basket/calculate-price/"
             const val add = "${NEW_BASE_URL}basket/add/"
+            const val flush = "${NEW_BASE_URL}basket/flush/"
             const val remove = "${NEW_BASE_URL}basket/remove/"
         }
 
@@ -96,7 +96,6 @@ object NetworkConfig {
             const val updateUserPhone = "${NEW_BASE_URL}profile-phone/request-update-number/"
             const val confirmChangedPhone = "${NEW_BASE_URL}profile-phone/confirm-update-number/"
         }
-
         object Address {
             const val root = "${NEW_BASE_URL}profile-address/"
         }

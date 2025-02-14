@@ -65,7 +65,7 @@ fun ProductList(
             key = products.itemKey { product -> product.id },
             contentType = products.itemContentType { product -> product::class.simpleName }
         ) {  index ->
-            val item = products.get(index)
+            val item = products[index]
 
             item?.let { product ->
                 CatalogProductItem(

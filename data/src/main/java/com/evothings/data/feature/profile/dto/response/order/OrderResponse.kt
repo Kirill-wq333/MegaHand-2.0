@@ -13,6 +13,6 @@ data class OrderResponse(
     @SerializedName("payment_url")
     val paymentLink: String?,
     @SerializedName("track_number")
-    val track: String,
+    val track: List<String>,
     val items: Array<OrderItem>
 )

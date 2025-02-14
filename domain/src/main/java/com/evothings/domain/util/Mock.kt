@@ -404,7 +404,7 @@ object Mock {
         cost = 20004,
         status = Order.Status.PAYMENT_TIME_EXPIRED,
         statusDisplay = "Завершен",
-        track = "472838476238746",
+        trackNumbers = listOf("472838476238746", "23534634633636"),
         products = demoHistoryProducts,
         orderId = "984717231"
     )
@@ -416,7 +416,7 @@ object Mock {
             orderDate = "21.09.2024",
             cost = 20004,
             status = Order.Status.COMPLETED,
-            track = "095817242",
+            trackNumbers = listOf("095817242", "23534634633636"),
             orderId = "98471723",
             statusDisplay = "Завершен",
             products = listOf(demoHistoryProducts.shuffled().first())
@@ -426,7 +426,7 @@ object Mock {
             orderDate = "11.09.2024",
             cost = 19053,
             status = Order.Status.CANCELED,
-            track = "4372151111",
+            trackNumbers = listOf("4372151111", "23534634633636"),
             orderId = "10958712",
             statusDisplay = "Отменен",
             products = listOf(demoHistoryProducts.shuffled().first())
@@ -436,7 +436,7 @@ object Mock {
             orderDate = "09.09.2024",
             cost = 481,
             status = Order.Status.DELIVERY,
-            track = "472838476238746",
+            trackNumbers = listOf("472838476238746", "23534634633636"),
             orderId = "49018375",
             statusDisplay = "В доставке",
             products = listOf(demoHistoryProducts.shuffled().first())
@@ -446,7 +446,7 @@ object Mock {
             orderDate = "12.07.2024",
             cost = 1985,
             status = Order.Status.CREATED,
-            track = null,
+            trackNumbers = listOf(),
             orderId = "1059381",
             statusDisplay = "Создан",
             products = listOf(demoHistoryProducts.shuffled().first())
