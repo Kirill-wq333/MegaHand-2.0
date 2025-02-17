@@ -41,7 +41,7 @@ androidx-lifecycle-viewModel = { group = "androidx.lifecycle", name = "lifecycle
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "ui" }
-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version = "1.7.2" }
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version = "1.7.8" }
 compose-runtime-liveData = { group = "androidx.compose.runtime", name = "runtime-livedata", version = "1.5.4" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }

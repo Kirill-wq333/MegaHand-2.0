@@ -6,6 +6,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -35,25 +36,27 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AnimatedBoxes() {
-    val boxCount = 3
+    val boxCount = 4
     val boxSize = remember { List(boxCount) { Animatable(100f) } }
     val boxOffsetX = remember { List(boxCount) { Animatable(0f) } }
+    val boxesSize = remember { Animatable(160f) }
 
     val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Button(onClick = {
             coroutineScope.launch {
                 for (i in 0 until boxCount) {
                     launch {
                         boxSize[i].animateTo(
-                            targetValue = 200f,
+                            targetValue = boxesSize.value,
                             animationSpec = tween(durationMillis = 1500)
                         )
                         boxOffsetX[i].animateTo(
-                            targetValue = -300f,
+                            targetValue = -100f + i * 20f + i * 200f - i + 80,
                             animationSpec = tween(durationMillis = 1500)
                         )
                     }

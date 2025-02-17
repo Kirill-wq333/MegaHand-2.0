@@ -76,7 +76,6 @@ object NetworkConfig {
             const val getInfo = "${NEW_BASE_URL}basket/get-info/"
             const val calculateCheckout = "${NEW_BASE_URL}basket/calculate-price/"
             const val add = "${NEW_BASE_URL}basket/add/"
-            const val flush = "${NEW_BASE_URL}basket/flush/"
             const val remove = "${NEW_BASE_URL}basket/remove/"
         }
 
