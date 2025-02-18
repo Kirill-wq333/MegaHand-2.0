@@ -39,7 +39,6 @@ fun NewsItem(
     onClick: () -> Unit
 ) {
     Column {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -87,11 +86,5 @@ fun NewsItem(
                     .clip(shape = MegahandShapes.extraLarge)
             )
         }
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-        HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = colorScheme.secondary.copy(.05f))
-        )
     }
 }

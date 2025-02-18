@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -50,10 +51,13 @@ fun LazyListScope.productsList(
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
     }
 
-    items(
+    itemsIndexed(
         items = products,
-        key = { it.id }
-    ) { product ->
+        key = { index, product ->
+            product.id
+            index
+        }
+    ) { index, product ->
         Cart(
             model = product,
             isSelected = (product.id in selectionList),
@@ -62,12 +66,14 @@ fun LazyListScope.productsList(
             toggleFavourite = { callback.toggleFavourite(product.id) },
             removeFromCart = { callback.removeFromCart(product.id) }
         )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-        HorizontalDivider(
-            modifier = Modifier.fillMaxWidth(),
-            thickness = 1.dp,
-            color = colorScheme.secondary.copy(0.05f)
-        )
+        if (index < products.size - 1) {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp,
+                color = colorScheme.secondary.copy(0.05f)
+            )
+        }
     }
 
 }

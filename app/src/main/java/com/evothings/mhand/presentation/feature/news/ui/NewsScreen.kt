@@ -5,10 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
@@ -20,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evothings.domain.feature.news.model.NewsArticle
 import com.evothings.domain.feature.news.model.NewsCategory
@@ -198,10 +202,14 @@ private fun Content(
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         }
 
-        items(
+        itemsIndexed(
             items = articles,
-            key = { it.id }
-        ) { news ->
+            key = { index, item ->
+                item.id
+                index
+            }
+        ) { index, news ->
+            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
             NewsItem(
                 imageLink = news.previewImageLink,
                 publicationDate = news.publishingDate,
@@ -209,6 +217,15 @@ private fun Content(
                 category = news.categories,
                 onClick = { callback.openArticle(news.id) }
             )
+            if (index < articles.size - 1) {
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    thickness = 1.dp,
+                    color = colorScheme.secondary.copy(0.05f)
+                )
+            }
         }
 
     }
