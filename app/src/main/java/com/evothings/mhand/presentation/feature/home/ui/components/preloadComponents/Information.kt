@@ -3,7 +3,9 @@ package com.evothings.mhand.presentation.feature.home.ui.components.preloadCompo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.evothings.mhand.presentation.theme.MegahandTypography
+import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
 
 @Composable
@@ -26,7 +29,11 @@ fun Information(
     size: String,
     showSizeAndCondition: Boolean
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = MaterialTheme.paddings.large)
+    ) {
         Price(
             price = price,
             cashback = cashback,
@@ -45,6 +52,7 @@ fun Information(
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.tiny))
         Text(
             text = title,
+            maxLines = 2,
             color = colorScheme.secondary.copy(0.6f),
             style = MegahandTypography.bodyLarge,
         )

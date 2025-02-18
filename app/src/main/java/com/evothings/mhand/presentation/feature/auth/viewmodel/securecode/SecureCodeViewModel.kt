@@ -27,7 +27,7 @@ class SecureCodeViewModel @Inject constructor(
     private val cardInteractor: CardInteractor,
     private val appSettingsInteractor: AppSettingsInteractor,
     private val snackbarItemHost: SnackbarItemHost,
-    private val sharedPreferences: SharedPreferences
+//    private val sharedPreferences: SharedPreferences
 ) : BaseViewModel<SecureCodeContract.Event, SecureCodeContract.State, SecureCodeContract.Effect>() {
 
     private val _errorState = MutableStateFlow(false)

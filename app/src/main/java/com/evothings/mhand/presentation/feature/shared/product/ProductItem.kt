@@ -91,7 +91,9 @@ fun InStockProductItem(
             .width(180.dp),
         contentAlignment = Alignment.TopStart
     ){
-        Column {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
             PhotoSlider(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,7 +111,7 @@ fun InStockProductItem(
                 price = model.actualPrice,
                 cashback = model.cashbackPoints,
                 size = model.size,
-                title = model.title
+                title = model.title + "\n"
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
             Buttons(
@@ -155,6 +157,7 @@ fun OutOfStockProductItem(
         )
         Text(
             text = model.title + "\n",
+            maxLines = 3,
             color = colorScheme.secondary.copy(0.6f),
             style = MegahandTypography.bodyLarge,
             modifier = Modifier

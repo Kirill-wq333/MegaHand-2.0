@@ -309,8 +309,8 @@ private fun Content(
             .verticalScroll(scrollState)
     ) {
         StoriesLists(list = uiState.stories, onClick = callback::onClickStory)
-        Spacer(modifier = Modifier.height(MaterialTheme.paddings.extraLarge))
         if (uiState.showCard) {
+        Spacer(modifier = Modifier.height(MaterialTheme.paddings.extraLarge))
             LoyalityCard(
                 cashback = uiState.cashback,
                 openProfile = { NavGraph.BottomNav.Profile },
@@ -319,8 +319,8 @@ private fun Content(
                 showQR = { showQrCodeView = true },
             )
         }
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
         if (couponBannerVisible) {
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
             CouponBanner(
                 banner = uiState.couponAmount,
                 onClose = { couponBannerVisible = false },
@@ -331,8 +331,8 @@ private fun Content(
             )
         }
         NewProduct(products = uiState.newProducts, callback = callback)
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
         if (couponBannerVisible) {
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
             CouponBanner(
                 banner = uiState.couponAmount,
                 onClose = { couponBannerVisible = false },
@@ -341,8 +341,8 @@ private fun Content(
                     couponBannerVisible = false
                 },
             )
-        }
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+        }
         BrandsList(brand = uiState.brands)
     }
 
