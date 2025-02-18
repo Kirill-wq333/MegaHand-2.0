@@ -204,9 +204,8 @@ private fun Content(
 
         itemsIndexed(
             items = articles,
-            key = { index, item ->
+            key = { _, item ->
                 item.id
-                index
             }
         ) { index, news ->
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))

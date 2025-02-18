@@ -263,21 +263,21 @@ private fun Content(
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
+                Column {
+                    Text(
+                        text = stringResource(R.string.can_i_return_the_product),
+                        color = colorScheme.secondary.copy(.4f),
+                        style = MegahandTypography.bodyLarge
+                    )
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
+                    Text(
+                        text = stringResource(R.string.how_the_delivery_takes_place),
+                        color = colorScheme.secondary.copy(.4f),
+                        style = MegahandTypography.bodyLarge                )
+                }
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
                 if (isAuthorized) {
-                    Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-                    Column {
-                        Text(
-                            text = stringResource(R.string.can_i_return_the_product),
-                            color = colorScheme.secondary.copy(.4f),
-                            style = MegahandTypography.bodyLarge
-                        )
-                        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-                        Text(
-                            text = stringResource(R.string.how_the_delivery_takes_place),
-                            color = colorScheme.secondary.copy(.4f),
-                            style = MegahandTypography.bodyLarge                )
-                    }
-                    Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
                     CartCheckout(
                         productsCount = selectionList.size,
                         total = total,
@@ -290,20 +290,6 @@ private fun Content(
                         }
                     )
                 }else{
-                    Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
-                    Column {
-                        Text(
-                            text = stringResource(R.string.can_i_return_the_product),
-                            color = colorScheme.secondary.copy(.4f),
-                            style = MegahandTypography.bodyLarge
-                        )
-                        Spacer(modifier = Modifier.height(MaterialTheme.spacers.medium))
-                        Text(
-                            text = stringResource(R.string.how_the_delivery_takes_place),
-                            color = colorScheme.secondary.copy(.4f),
-                            style = MegahandTypography.bodyLarge                )
-                    }
-                    Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
                     AuthorizationRequired(
                         onClickLogin = callback::openAuthScreen
                     )
