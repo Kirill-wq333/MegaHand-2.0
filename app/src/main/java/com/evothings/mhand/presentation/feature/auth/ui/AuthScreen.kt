@@ -126,8 +126,8 @@ private fun Content(
 
     val isButtonEnabled by remember {
         derivedStateOf {
-            agreementIsChecked = phone.length == 11
-            phone.length == 11
+            agreementIsChecked = phone.length == 10
+            phone.length == 10
         }
     }
 
