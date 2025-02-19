@@ -19,7 +19,7 @@ android {
     defaultConfig {
         applicationId = "com.evothings.mhand"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 202409013
         versionName = "3.0"
 
