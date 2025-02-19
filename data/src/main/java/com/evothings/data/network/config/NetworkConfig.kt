@@ -25,7 +25,7 @@ object NetworkConfig {
         }
 
         object Header {
-            const val cities = "${MHAND_BASE_URL}cities"
+            const val cities = "${MHAND_BASE_URL}cities/"
         }
 
         object Splash {
