@@ -467,7 +467,7 @@ fun NewProduct(
             userScrollEnabled = false,
             contentPadding =
             PaddingValues(
-                horizontal = MaterialTheme.spacers.medium,
+                horizontal = MaterialTheme.spacers.small,
                 vertical = MaterialTheme.spacers.large,
             ),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.normal),

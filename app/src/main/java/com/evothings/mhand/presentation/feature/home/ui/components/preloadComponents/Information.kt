@@ -49,14 +49,14 @@ fun Information(
                 enabled = (discount > 0)
             )
         }
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.tiny))
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
         Text(
             text = title,
             maxLines = 2,
             color = colorScheme.secondary.copy(0.6f),
             style = MegahandTypography.bodyLarge,
         )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacers.small))
+        Spacer(modifier = Modifier.height(MaterialTheme.spacers.normal))
         if (showSizeAndCondition) {
             SizeAndStars(estimation = condition, textSize = size)
         }

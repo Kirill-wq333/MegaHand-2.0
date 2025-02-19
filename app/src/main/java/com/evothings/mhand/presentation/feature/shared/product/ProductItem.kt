@@ -93,26 +93,30 @@ fun InStockProductItem(
     ){
         Column(
             modifier = Modifier.fillMaxWidth()
+                .height(365.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            PhotoSlider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp),
-                product = model.photos
-            )
-            Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
-            Information(
-                discount = discount,
-                discountPercent = model.discount,
-                isDiscountPercent = model.isPercentDiscount,
-                showSizeAndCondition = showSizeAndCondition,
-                condition = model.condition,
-                keepOldPrice = keepOldPrice,
-                price = model.actualPrice,
-                cashback = model.cashbackPoints,
-                size = model.size,
-                title = model.title + "\n"
-            )
+            Column {
+                PhotoSlider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp),
+                    product = model.photos
+                )
+                Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
+                Information(
+                    discount = discount,
+                    discountPercent = model.discount,
+                    isDiscountPercent = model.isPercentDiscount,
+                    showSizeAndCondition = showSizeAndCondition,
+                    condition = model.condition,
+                    keepOldPrice = keepOldPrice,
+                    price = model.actualPrice,
+                    cashback = model.cashbackPoints,
+                    size = model.size,
+                    title = model.title + "\n"
+                )
+            }
             Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraMedium))
             Buttons(
                 isInCart = model.isInCart,
