@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.evothings.domain.feature.home.model.Brand
 import com.evothings.domain.feature.product.model.Product
 import com.evothings.mhand.R
 import com.evothings.mhand.presentation.feature.product.ui.components.BrandProduct
@@ -36,6 +37,11 @@ import com.evothings.mhand.presentation.feature.shared.screen.ServerErrorScreen
 import com.evothings.mhand.presentation.theme.MegahandTypography
 import com.evothings.mhand.presentation.theme.paddings
 import com.evothings.mhand.presentation.theme.spacers
+
+data class ProductInfoUiState(
+    val product: Product,
+    val brand: Brand
+)
 
 interface ProductInfoCallback {
     fun onBack()
@@ -53,6 +59,7 @@ fun ProductInfoScreen(
 
     val state by vm.state.collectAsStateWithLifecycle()
     val product by vm.product.collectAsState()
+    val brand by vm.brand.collectAsState()
 
     LaunchedEffect(Unit, id) {
         vm.handleEvent(ProductContract.Event.LoadProduct(id))
@@ -72,7 +79,10 @@ fun ProductInfoScreen(
     }
     ProductInfoContent(
         state = state,
-        product = product,
+        uiState = ProductInfoUiState(
+            product = product,
+            brand = brand,
+        ),
         callback = callback
     )
 }
@@ -81,7 +91,7 @@ fun ProductInfoScreen(
 @Composable
 private fun ProductInfoContent(
     state: ProductContract.State,
-    product: Product,
+    uiState: ProductInfoUiState,
     callback: ProductInfoCallback
 ) {
     HeaderProvider(
@@ -99,8 +109,9 @@ private fun ProductInfoContent(
                 is ProductContract.State.Loaded ->
                     PullRefreshLayout(onRefresh = callback::reload) {
                         ProductContent(
-                            product = product,
-                            callback = callback
+                            product = uiState.product,
+                            callback = callback,
+                            brand = uiState.brand
                         )
                     }
 
@@ -116,6 +127,7 @@ private fun ProductInfoContent(
 @Composable
 private fun ProductContent(
     product: Product,
+    brand: Brand,
     callback: ProductInfoCallback
 ) {
         Content(
@@ -129,7 +141,8 @@ private fun ProductContent(
             onBuy = callback::addToCart,
             onFavorite = callback::toggleFavourite,
             isFavourite = product.isFavourite,
-            isInCart = product.isInCart
+            isInCart = product.isInCart,
+            brand = brand
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
 }
@@ -138,6 +151,7 @@ private fun ProductContent(
 @Composable
 private fun Content(
     model: Product,
+    brand: Brand,
     oldPrice: Double,
     discount: Double,
     discountPercent: Boolean,
@@ -171,7 +185,6 @@ private fun Content(
             color = model.color,
             quality = model.condition,
             properties = model.properties,
-            inStock = inStock
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.large))
         Text(
@@ -187,7 +200,7 @@ private fun Content(
         BrandProduct(
             modifier = Modifier
                 .padding(start = MaterialTheme.paddings.extraGiant),
-            brand = "https://s3-alpha-sig.figma.com/img/997c/f6cf/1ca7984783573f3aa9869d9638c2aeef?Expires=1737331200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UO~tqmhTxGO5NmiQbKeNZVHi1tl~YR4X1EevQZDX4jLkrRtBgggr91p5eAnLDVsjer-J3Qt~ASPcQNgel~rGgTc8WfCCWr9DuAAwjJmbDYJdMzpwG-NPkPTHgmzWX9~aYOW47QtvasQre5328BGe74pL2fEJPRNNRsl6-taMakIuWcokkpyBibI9aBydQwXfhCfk9eLMJLvIKFZDJjeaMuXXWjJ6vbqBRxjAWJDci8TUEfGWpaoH-d8rSmkQ~EkVWVjqV8A2vfR~YMmQsGDGMPtouSjIoaLRmE3tOd4wkYi1jnPL4YXm6g4tzKD1gMs1tG2wzSmmiIbaA9Ju~GG8LA__"
+            brand = brand.toString()
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacers.extraLarge))
         OrderSheet(

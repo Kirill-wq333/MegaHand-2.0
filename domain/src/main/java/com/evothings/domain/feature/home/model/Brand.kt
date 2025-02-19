@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Brand(
-    val id: Int,
-    val photoLink: String,
-    val name: String
+    val id: Int = -1,
+    val photoLink: String = "",
+    val name: String = ""
 )

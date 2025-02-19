@@ -1,6 +1,7 @@
 package com.evothings.mhand.presentation.feature.product.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.evothings.domain.feature.home.model.Brand
 import com.evothings.domain.feature.product.interactor.ProductInteractor
 import com.evothings.domain.feature.product.model.Product
 import com.evothings.mhand.core.viewmodel.BaseViewModel
@@ -17,6 +18,9 @@ class ProductViewModel @Inject constructor(
 
     private val _product: MutableStateFlow<Product> = MutableStateFlow(Product())
     val product = _product.asStateFlow()
+
+    private val _brand: MutableStateFlow<Brand> = MutableStateFlow(Brand())
+    val brand = _brand.asStateFlow()
 
     override fun setInitialState(): ProductContract.State = ProductContract.State.Loading
 

@@ -28,7 +28,6 @@ fun ParametersProduct(
     color: String,
     quality: String,
     properties: List<ProductProperty>,
-    inStock: Boolean
 ) {
     val mergedProperties = remember {
         val staticProperties = listOf(
@@ -45,22 +44,11 @@ fun ParametersProduct(
             .padding(horizontal = MaterialTheme.paddings.extraGiant),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.small)
     ) {
-        if (inStock) {
-            repeat(mergedProperties.size) { i ->
-                val propertyItem = remember { mergedProperties[i] }
-                ParametersProductItem(
-                    text = propertyItem.name,
-                    secondText = propertyItem.value
-                )
-            }
-
-        } else {
-            Text(
-                text = stringResource(id = R.string.out_of_stock),
-                style = typography.headlineMedium,
-                fontSize = 24.sp,
-                color = colorScheme.secondary
-
+        repeat(mergedProperties.size) { i ->
+            val propertyItem = remember { mergedProperties[i] }
+            ParametersProductItem(
+                text = propertyItem.name,
+                secondText = propertyItem.value
             )
         }
     }
