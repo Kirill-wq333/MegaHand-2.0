@@ -5,7 +5,7 @@ object NetworkConfig {
 
     const val MHAND_BASE_URL = "https://mhand.ru/api/v2/"
     const val BASE_URL = "https://dev.avtovozina.ru/api/v2/"
-    const val NEW_BASE_URL = "http://92.53.97.86/api/"
+    const val NEW_BASE_URL = "https://mhand.ru/api/"
 
     object Routes {
 
