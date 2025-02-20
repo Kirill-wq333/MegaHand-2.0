@@ -190,7 +190,7 @@ private fun InputFields(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
             visualTransformation = rememberMaskVisualTransformation(mask = TextMasks.phone),
             errorText = "Заполните поле",
-            maxLength = 11,
+            maxLength = 10,
             onValueChange = onChangePhone
         )
         InviteCodeInput(
