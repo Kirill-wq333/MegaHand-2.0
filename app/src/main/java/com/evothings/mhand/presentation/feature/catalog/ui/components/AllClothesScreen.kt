@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
@@ -72,7 +74,6 @@ fun AllClothesScreen(
         initialGridScrollPosition = uiState.gridScrollPosition,
         openFilterBottomSheet = { filterBottomSheetExpanded = true },
         callback = callback,
-        gridScrollPosition = uiState.gridScrollPosition
     )
 
 
@@ -101,10 +102,9 @@ private fun ClothesContent(
     selectedSubcategory: ProductCategory?,
     openFilterBottomSheet: () -> Unit,
     callback: CatalogCallback,
-    gridScrollPosition: Int
 ){
     val screenTitle = remember(state) {
-        if (state is CatalogContract.State.SubcategoryProducts) state.category.title else ""
+        if (state is CatalogContract.State.SubcategoryProducts) state.category.title else "Вся одежда"
     }
 
     HeaderProvider(
@@ -132,16 +132,14 @@ private fun ClothesContent(
                             prodCount = productsCount,
                             onClickFilter = openFilterBottomSheet,
                             onClickSubcategory = callback::selectSubcategory,
-                            callback = callback,
-                            products = products,
-                            gridScrollPosition = gridScrollPosition,
-
                         )
                     }
                 }
             ) { scaffoldPadding ->
                 Box(
-                    modifier = Modifier.padding(scaffoldPadding),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(scaffoldPadding),
                     contentAlignment = Alignment.Center
                 ) {
                     when (state) {
@@ -175,17 +173,15 @@ private fun ClothesContent(
 @Composable
 private fun Content(
     subcategories: List<ProductCategory>?,
-    products: LazyPagingItems<Product>,
     prodCount: Int,
-    gridScrollPosition: Int,
     onClickFilter: () -> Unit,
     selectedName: String,
     onClickSubcategory: (ProductCategory) -> Unit,
-    callback: CatalogCallback
 ) {
 
     Column(
         modifier = Modifier
+            .fillMaxWidth()
             .padding(horizontal = MaterialTheme.paddings.extraLarge),
         horizontalAlignment = Alignment.Start,
     ) {
@@ -207,16 +203,6 @@ private fun Content(
         FilterAndSorting(
             onClickFilter = onClickFilter,
             prodCount = prodCount
-        )
-        Spacer(
-            modifier = Modifier
-                .height(MaterialTheme.spacers.medium)
-        )
-        ProductList(
-            products = products,
-            initialScrollPosition = gridScrollPosition,
-            callback = callback,
-            onChangeScrollPosition = callback::updatePagingGridScrollPosition
         )
     }
 }
@@ -278,27 +264,15 @@ fun Products(
         }
     }
 
-    val gridHeight = remember {
-        val verticalPadding = 18 * 2
-        val spacing = 9 * 2
-        val productCardHeight = 400
-
-        (verticalPadding + spacing + productCardHeight * 2).dp
-    }
-
-
     LazyVerticalGrid(
-        modifier = Modifier
-            .height(gridHeight),
+        modifier = Modifier.fillMaxSize(),
         state = gridState,
         columns = GridCells.Fixed(2),
-        userScrollEnabled = false,
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.normal),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacers.extraLarge),
     ) {
         items(
             count = products.itemCount,
-            key = products.itemKey { product -> product.id },
             contentType = products.itemContentType { product -> product::class.simpleName }
         ) { index ->
             val item = products[index]
